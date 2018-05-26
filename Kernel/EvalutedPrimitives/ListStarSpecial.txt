@@ -1,0 +1,6 @@
+﻿;list*-special
+($define! list*
+($lambda (head . tail)
+($if (null? tail)
+head
+(cons head (apply list* tail)))))

@@ -1,13 +1,14 @@
 ﻿using System;
 using static System.Console;
+using System.Linq;
 namespace Kernel
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             while (true)
-                ReadLine();
+                WriteLine(Environment.Ground["read"].Evaluate().ToString());
         }
     }
 }
