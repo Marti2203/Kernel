@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel", "Kernel\Kernel.csproj", "{83FF2FB9-A8D3-4636-B179-5B2BB65D48F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Tests", "Kernel.Tests\Kernel.Tests.csproj", "{0DDD06BA-A11E-4C9C-9473-92584CC4614A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{83FF2FB9-A8D3-4636-B179-5B2BB65D48F9}.Debug|x86.Build.0 = Debug|x86
 		{83FF2FB9-A8D3-4636-B179-5B2BB65D48F9}.Release|x86.ActiveCfg = Release|x86
 		{83FF2FB9-A8D3-4636-B179-5B2BB65D48F9}.Release|x86.Build.0 = Release|x86
+		{0DDD06BA-A11E-4C9C-9473-92584CC4614A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0DDD06BA-A11E-4C9C-9473-92584CC4614A}.Debug|x86.Build.0 = Debug|Any CPU
+		{0DDD06BA-A11E-4C9C-9473-92584CC4614A}.Release|x86.ActiveCfg = Release|Any CPU
+		{0DDD06BA-A11E-4C9C-9473-92584CC4614A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,13 +1,12 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Numerics;
+using Kernel.Arithmetic;
 namespace Kernel.Tests.Arithmetic
 {
-    [TestFixture()]
+    [TestFixture]
+    [TestOf(typeof(Integer))]
     public class IntegerTests
     {
-        [Test()]
-        public void TestCase()
-        {
-        }
     }
 }
