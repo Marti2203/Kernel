@@ -4,37 +4,10 @@ namespace Kernel
     public abstract class Object : IEquatable<Object>
     {
         /// <summary>
-        /// Evaluate the specified input.
-        /// </summary>
-        /// <returns>The evaluate.</returns>
-        /// <param name="input">Input.</param>
-        public virtual Object Evaluate(params Object[] input)
-        {
-            if (InputCount != input.Length)
-                throw new InvalidOperationException("Unequal required and given argument lengths");
-
-            return this;
-        }
-        /// <summary>
         /// Gets a value indicating whether this <see cref="T:Kernel.Object"/> is mutable.
         /// </summary>
         /// <value><c>true</c> if mutable; otherwise, <c>false</c>.</value>
         public bool Mutable { get; protected set; }
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Kernel.Object"/> is evaluated.
-        /// </summary>
-        /// <value><c>true</c> if evaluated; otherwise, <c>false</c>.</value>
-        public virtual bool Evaluated => true;
-        /// <summary>
-        /// Gets the input count.
-        /// </summary>
-        /// <value>The input count.</value>
-        public virtual int InputCount => 0;
-        /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Object"/>.
-        /// </summary>
-        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Object"/>.</returns>
-        new public abstract string ToString();
 
         /// <summary>
         /// Determines whether the specified <see cref="Kernel.Object"/> is equal to the current <see cref="T:Kernel.Object"/>.

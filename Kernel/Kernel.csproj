@@ -30,15 +30,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.5.0-rc1\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="DeepCopy">
       <HintPath>..\packages\DeepCopy.1.0.3\lib\netstandard2.0\DeepCopy.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -48,7 +48,6 @@
     <Compile Include="Arithmetic\Real.cs" />
     <Compile Include="Arithmetic\Rational.cs" />
     <Compile Include="Arithmetic\Integer.cs" />
-    <Compile Include="Primitives.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Arithmetic\Number.cs" />
     <Compile Include="Combiners\Combiner.cs" />
@@ -58,20 +57,27 @@
     <Compile Include="BaseTypes\Environment.cs" />
     <Compile Include="BaseTypes\Ignore.cs" />
     <Compile Include="BaseTypes\Inert.cs" />
-    <Compile Include="BaseTypes\List.cs" />
     <Compile Include="BaseTypes\Null.cs" />
     <Compile Include="BaseTypes\Pair.cs" />
     <Compile Include="BaseTypes\String.cs" />
     <Compile Include="BaseTypes\Symbol.cs" />
-    <Compile Include="BaseTypes\TailContext.cs" />
     <Compile Include="BaseTypes\Object.cs" />
     <Compile Include="EvalutedPrimitives\EvaluatedPrimitives.cs" />
+    <Compile Include="Primitives\CarFamily.cs">
+      <DependentUpon>CarFamily.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Primitives\Primitives.cs" />
+    <Compile Include="Primitives\PrimitiveMethodConnector.cs">
+      <DependentUpon>PrimitiveMethodConnector.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Primitives\PrimitiveAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arithmetic\" />
     <Folder Include="Combiners\" />
     <Folder Include="BaseTypes\" />
     <Folder Include="EvalutedPrimitives\" />
+    <Folder Include="Primitives\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -83,8 +89,19 @@
     <None Include="EvalutedPrimitives\VauCore.k" />
     <None Include="EvalutedPrimitives\VauSpecial.k" />
     <None Include="EvalutedPrimitives\LambdaCore.k" />
-    <None Include="EvalutedPrimitives\ApplyCore.txt" />
+    <None Include="EvalutedPrimitives\ApplyCore.k" />
     <None Include="EvalutedPrimitives\CondCore.k" />
+    <None Include="EvalutedPrimitives\CondSpecial.k" />
+    <None Include="EvalutedPrimitives\GetListMetrics.k" />
+    <None Include="Primitives\CarFamily.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CarFamily.cs</LastGenOutput>
+    </None>
+    <None Include="Primitives\PrimitiveMethodConnector.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PrimitiveMethodConnector.cs</LastGenOutput>
+    </None>
+    <None Include="EvalutedPrimitives\Map.k" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

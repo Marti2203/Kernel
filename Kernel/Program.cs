@@ -1,6 +1,6 @@
 ﻿using System;
 using static System.Console;
-using System.Linq;
+using static Kernel.Primitives.Primitives;
 namespace Kernel
 {
     class Program
@@ -8,7 +8,13 @@ namespace Kernel
         public static void Main()
         {
             while (true)
-                WriteLine(Environment.Ground["read"].Evaluate().ToString());
+            {
+                // Hack no need for cast if you know what you want
+                Object input = Get("read").Invoke();
+                WriteLine($"{input.ToString()} {input.GetType()}");
+                Object result = Environment.Ground.Evaluate(input);
+                WriteLine(result);
+            }
         }
     }
 }

@@ -4,11 +4,18 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using static System.Globalization.NumberStyles;
 using System.Text;
+using System.Numerics;
 using Kernel.Arithmetic;
 namespace Kernel
 {
     public static class Parser
     {
+
+        static readonly string digits = "0123456789abcdef";
+        static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, c => digits.IndexOf(c));
+        static BigInteger ParseBigInteger(string value, int baseOfValue)
+        => value.Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
+
         //Todo Add Exactness and Inexactness. May be important
         static readonly IDictionary<string, Object> constants = new Dictionary<string, Object>
         {
@@ -19,16 +26,16 @@ namespace Kernel
             { "()", Null.Instance},
         };
         static readonly string[] illegalLexemes = { ",", "`", "'", ",@" };
-        static readonly Regex IntegerPattern = new Regex(@"^(#[bodx])?([+-]?\d+)$");
+        static readonly Regex IntegerPattern = new Regex(@"^(#[bodx])?([+-])?(\d+)$");
         static readonly Regex RationalPattern = new Regex(@"^([+-]?\d*)/(\d+)$");
         static readonly Regex RealPattern = new Regex(@"^[+-]?\d+$");
         static readonly Regex ComplexPattern = new Regex(@"^([+-]?\d+(?:\.\d*|e\d+)?)([+-]\d+(?:\.\d*|e\d+)?)i$");
         static readonly Regex PairPattern = new Regex(@"\(([^()\s]+)\s+\.\s+([^()\s]+)\)$");
         static readonly Regex StringPattern = new Regex(@"""(.*)""$");
         static readonly Regex CharacterPattern = new Regex(@"#\\(.*)$");
-        static readonly Regex SchemyPattern = new Regex(@"^(""(?:[\\].|[^\\""])*""|;.*|[^\s('"",;)]*)(.*)");
         internal static Object ParseToken(string input)
         {
+            //TODO Refactor
             if (illegalLexemes.Contains(input))
                 throw new ArgumentException("Illegal Lexeme");
 
@@ -48,17 +55,21 @@ namespace Kernel
                         case 'o':
                             @base = 8;
                             break;
+                        case 'd':
+                            @base = 10;
+                            break;
                         case 'x':
                             @base = 16;
                             break;
                     }
-                return new Integer(Convert.ToInt64(input, @base));
+                return new Integer(ParseBigInteger(match.Groups[3].Value.ToLower(),@base) * 
+                                   ( match.Groups[2].Success && match.Groups[2].Value[0]  == '-' ? -1 : 1));
             }
 
             match = RationalPattern.Match(input);
             if (match.Success)
-                return new Rational(long.Parse(match.Groups[2].Value),
-                                               long.Parse(match.Groups[3].Value));
+                return new Rational(BigInteger.Parse(match.Groups[1].Value),
+                                               BigInteger.Parse(match.Groups[2].Value));
 
             match = RealPattern.Match(input);
             if (match.Success)
@@ -66,8 +77,8 @@ namespace Kernel
 
             match = ComplexPattern.Match(input);
             if (match.Success)
-                return new Complex(decimal.Parse(match.Groups[2].Value, Any),
-                                              decimal.Parse(match.Groups[3].Value, Any));
+                return new Arithmetic.Complex(decimal.Parse(match.Groups[1].Value, Any),
+                                              decimal.Parse(match.Groups[2].Value, Any));
 
             match = PairPattern.Match(input);
             if (match.Success)
@@ -84,7 +95,7 @@ namespace Kernel
         //Todo Parse may be better and Pairs are not complete
         public static Object Parse(string input)
         {
-            Stack<List> lists = new Stack<List>();
+            Stack<Pair> lists = new Stack<Pair>();
             bool inString = false;
 
             StringBuilder buffer = new StringBuilder();
@@ -94,7 +105,7 @@ namespace Kernel
                 {
                     case '(':
                         if (inString) goto default;
-                        lists.Push(new List());
+                        lists.Push(new Pair());
                         break;
                     case ')':
                         if (inString)
@@ -107,7 +118,7 @@ namespace Kernel
                         buffer.Clear();
 
                         if (lists.Count == 1) return lists.Pop();
-                        List temp = lists.Pop();
+                        Pair temp = lists.Pop();
                         lists.Peek().Append(temp);
                         break;
                     case '"':
@@ -133,7 +144,7 @@ namespace Kernel
                         if (inString) goto default;
                         if (buffer.Length != 0)
                         {
-                            if (lists.Count == 0)  return ParseToken(buffer.ToString());
+                            if (lists.Count == 0) return ParseToken(buffer.ToString());
                             lists.Peek().Append(ParseToken(buffer.ToString()));
                             buffer.Clear();
                         }
@@ -144,7 +155,7 @@ namespace Kernel
                             i++;
                         break;
                     case '.':
-                        if (inString || buffer.Length!=0 || input[i+1] != ' ' || input[i+1] != ')') goto default;
+                        if (inString || buffer.Length != 0 || input[i + 1] != ' ' || input[i + 1] != ')') goto default;
                         break;
                     default:
                         buffer.Append(input[i]);
@@ -154,11 +165,12 @@ namespace Kernel
             if (lists.Count != 0)
                 throw new ArgumentException($"{nameof(input)} has no closing parenthesis");
             if (buffer.Length == 0)
-            throw new InvalidOperationException("Wtf?!");
+                throw new InvalidOperationException("Wtf?!");
             return ParseToken(buffer.ToString());
         }
 
 
+        static readonly Regex SchemyPattern = new Regex(@"^(""(?:[\\].|[^\\""])*""|;.*|[^\s('"",;)]*)(.*)");
         public static void ParseExperimental(string line)
         {
             Match res = SchemyPattern.Match(line);

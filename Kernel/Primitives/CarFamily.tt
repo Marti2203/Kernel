@@ -1,0 +1,47 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs"#>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using Kernel;
+
+public static class CarFamily
+{
+<#=Recurse("Ca",4)#>
+<#=Recurse("Cd",4)#>
+}
+<#+
+
+public string TypeCheck(string functionWhole, string functionSub)
+=> String.Join(System.Environment.NewLine,"if(!(p."+functionSub+" is Pair))"
+,$"\tthrow new System.ArgumentException(\""+functionWhole+"r's " + functionSub + " has not received a proper argument \");"
+,"p = p."+functionSub+" as Pair;"
+,""
+,""
+);
+
+public string Recurse(string start,int level = 1)
+{
+start:
+if(level == 0) 
+{
+return string.Join(System.Environment.NewLine
+    ,$"[Primitive(\"{start}r\",1)]"
+    ,"[TypeAssertion(typeof(Pair),0)]"
+    ,"public static Object "+start +"r(Pair p)"
+    ,"{"
+    ,""
+    , start
+        .Where(c=>c == 'a' || c == 'd')
+        .Select(c => c == 'a' ? TypeCheck(start,"Car") : TypeCheck(start,"Cdr"))
+        .Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
+    ,"return p;"
+    ,"}","");
+}
+Write(Recurse(start+"a",level - 1));
+Write(Recurse(start+"d",level - 1));
+level = 0;
+goto start;
+}
+#>

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Numerics;
 namespace Kernel.Arithmetic
 {
     /// <summary>
@@ -9,19 +9,25 @@ namespace Kernel.Arithmetic
         /// <summary>
         /// The numerator.
         /// </summary>
-        public readonly long numerator;
+        public readonly BigInteger numerator;
 
         /// <summary>
         /// The denominator.
         /// </summary>
-        public readonly long denominator;
+        public readonly BigInteger denominator;
+
+        public Rational(BigInteger numerator)
+        {
+            this.numerator = numerator;
+            denominator = BigInteger.One;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Kernel.Arithmetic.Rational"/> class.
         /// </summary>
         /// <param name="numerator">Numerator.</param>
         /// <param name="denominator">Denominator.</param>
-        public Rational(long numerator, long denominator = 1)
+        public Rational(BigInteger numerator, BigInteger denominator)
         {
             this.numerator = numerator;
             this.denominator = denominator;
@@ -32,8 +38,5 @@ namespace Kernel.Arithmetic
         /// </summary>
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Arithmetic.Rational"/>.</returns>
         public override string ToString() => $"{numerator}/{denominator}";
-
-        public static implicit operator Real(Rational rational) 
-        => new Real((rational.numerator * 1.0M) / rational.denominator);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kernel.Combiners;
+using static Kernel.Primitives.Primitives;
 namespace Kernel
 {
     public sealed class Environment : Object
@@ -11,10 +13,7 @@ namespace Kernel
 
         public bool IsStandard;
 
-        Environment()
-        {
-
-        }
+        Environment() {}
 
         public Environment(Environment parent)
         {
@@ -25,10 +24,13 @@ namespace Kernel
         {
             Parents = parents;
         }
+
         public Object this[string name]
         {
             get
             {
+                if (Has(name))
+                    return Get(name);
                 HashSet<Environment> traversed = new HashSet<Environment>();
                 Stack<Environment> environments = new Stack<Environment>();
                 environments.Push(this);
@@ -43,15 +45,17 @@ namespace Kernel
                         foreach (Environment environment in current.Parents)
                             environments.Push(environment);
                 }
-                if(!Primitives.Has(name))
-                throw new NoBindingException("No Binding for " + name);
-                return Primitives.Get(name);
+                if (!Has(name))
+                    throw new NoBindingException("No Binding for " + name);
+                return Get(name);
             }
         }
         public Object this[Symbol name]
         {
             get
             {
+                if (Has(name.ToString()))
+                    return Get(name.ToString());
                 HashSet<Environment> traversed = new HashSet<Environment>();
                 Stack<Environment> environments = new Stack<Environment>();
                 environments.Push(this);
@@ -68,15 +72,28 @@ namespace Kernel
                 }
                 throw new NoBindingException("No Binding for " + name);
             }
-            set
-            {
-                bindings[name.ToString()] = value;
-            }
+            set => bindings[name.ToString()] = value;
         }
 
-        public override string ToString()
+        public Object Evaluate(Object obj)
         {
-            throw new NotImplementedException();
+            if (obj is Symbol s)
+                return this[s];
+            if (obj is Pair p)
+            {
+                object car = Evaluate(p.Car);
+                if (car is Operative o)
+                    return o.Invoke(p.Cdr, this);
+                if (car is Applicative ap)
+                {
+                    if (p.Cdr is Pair l)
+                        throw new NotImplementedException("Not yet");
+                        //return new Pair(ap.combiner, l.EvaluateAll());
+                    throw new ArgumentException("Applicatives require a list");
+                }
+                throw new ArgumentException("Car must be either an applicative or operative");
+            }
+            return obj;
         }
     }
 }

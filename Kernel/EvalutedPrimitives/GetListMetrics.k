@@ -1,0 +1,18 @@
+﻿;get-list-metrics-core
+($define! get-list-metrics
+($lambda (ls)
+($define! aux
+($lambda (kth k nth n)
+($if (>=? k n)
+($if (pair? (cdr nth))
+(aux ls 0 (cdr nth) (+ n 1))
+(list (+ n 1)
+($if (null? (cdr nth)) 1 0)
+(+ n 1)
+0))
+($if (eq? kth nth)
+(list n 0 k (- n k))
+(aux (cdr kth) (+ k 1) nth n)))))
+($if (pair? ls)
+(aux ls 0 ls 0)
+(list 0 ($if (null? ls) 1 0) 0 0))))

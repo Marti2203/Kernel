@@ -4,7 +4,6 @@ namespace Kernel
 {
     public sealed class Symbol : Object
     {
-
         static Dictionary<string, Symbol> cache = new Dictionary<string, Symbol>();
 
         readonly string data;
@@ -23,9 +22,6 @@ namespace Kernel
             this.data = data;
         }
 
-        public override Object Evaluate(params Object[] input) => Environment.Current[data];
-
         public override string ToString() => data;
-        public override bool Evaluated => false;
     }
 }

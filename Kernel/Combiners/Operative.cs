@@ -1,65 +1,67 @@
 ﻿using System;
+using static Kernel.Primitives.Primitives;
 namespace Kernel.Combiners
 {
     public sealed class Operative : Combiner
     {
-        Func<Environment, Object[], Object> operation;
-        readonly int inputCount;
-        readonly bool variadic;
-
-        readonly bool compound;
-        readonly Environment @static;
-        readonly Object formals;
-        readonly Object eformal;
-        readonly Object expr;
-
-        public override int InputCount => inputCount;
+        readonly IOperative underlyingOperative;
 
         public Operative(Func<Environment, Object[], Object> operation, int inputCount, bool variadic = false)
+            : base(inputCount, variadic)
         {
-			compound = false;
-            this.operation = operation;
-            this.inputCount = inputCount;
-            this.variadic = variadic;
+            underlyingOperative = new PrimitiveOperative(operation);
         }
 
-        public Operative(Environment env,Object formals,Object eformal,Object expr)
+        public Operative(Environment env, Object formals, Object eformal, Object expr)
+            :base(-1,true)
         {
-            compound = true;
-            @static = env;
-            this.formals = formals;
-            this.eformal = eformal;
-            this.expr = expr;
+            underlyingOperative = new CompoundOperative(env, formals, eformal, expr);
         }
 
+        interface IOperative { Object Action(Object[] objects); }
 
-        public override bool Evaluated => false;
-
-        public override Object Evaluate(params Object[] input)
+        class CompoundOperative : IOperative
         {
-            if (!variadic) base.Evaluate(input);
-            else if (input.Length < inputCount) throw new InvalidOperationException("Not enough arguments for operative");
+            readonly Environment @static;
+            readonly Object formals;
+            readonly Object eformal;
+            readonly Object expr;
 
-            if (compound)
+            public CompoundOperative(Environment @static, Object formals, Object eformal, Object expr)
             {
-                if (!(input[1] is Environment env))
+                this.@static = @static;
+                this.formals = formals;
+                this.eformal = eformal;
+                this.expr = expr;
+            }
+            public Object Action(Object[] objects)
+            {
+                if (!(objects[1] is Environment env))
                     throw new ArgumentException("Second argument must be an environment");
 
                 Environment local = new Environment(@static);
-                Primitives.Match(local,formals,input[0]);
+                Match(local, formals, objects[0]);
                 if (eformal is Symbol s)
-                    local[s] = input[1];
-                return local.Evaluate(expr as TailContext);
+                    local[s] = objects[1];
+                if(IsTailContext(expr))
+                return local.Evaluate(expr);
+                throw new InvalidOperationException("WTF?!");
             }
-            return operation(Environment.Current, input);
         }
 
-        public override string ToString()
+        class PrimitiveOperative : IOperative
         {
-            throw new NotImplementedException();
+            readonly Func<Environment, Object[], Object> operation;
+            public PrimitiveOperative(Func<Environment, Object[], Object> operation)
+            {
+                this.operation = operation;
+            }
+
+            public Object Action(Object[] objects) => operation(Environment.Current, objects);
         }
 
-        //Todo implementation dependent, may not be good
-        public bool Equals(Operative other) => operation != other.operation;
+        protected override Object Action(Object[] objects) => underlyingOperative.Action(objects);
+
+        public bool Equals(Operative other) => underlyingOperative == other.underlyingOperative;
     }
 }

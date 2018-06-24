@@ -1,21 +1,24 @@
-﻿using System;
+﻿using System.Numerics;
 namespace Kernel.Arithmetic
 {
     /// <summary>
-    /// Integer.
+    /// Integer class
     /// </summary>
     public sealed class Integer : Number
     {
         /// <summary>
         /// The data.
         /// </summary>
-        public readonly long data;
+        public readonly BigInteger data;
+
+        public static BigInteger Zero => BigInteger.Zero;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Kernel.Arithmetic.Integer"/> class.
         /// </summary>
         /// <param name="value">Value.</param>
-        public Integer(long value)
+        public Integer(BigInteger value)
         {
             data = value;
         }
@@ -72,6 +75,68 @@ namespace Kernel.Arithmetic
         public static Integer operator %(Integer l, Integer r)
         => new Integer(l.data % r.data);
 
+        /// <summary>
+        /// Determines whether one specified <see cref="Kernel.Arithmetic.Integer"/> is greater than another specfied <see cref="Kernel.Arithmetic.Integer"/>.
+        /// </summary>
+        /// <param name="l">The first <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <param name="r">The second <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <returns><c>true</c> if <c>l</c> is greater than <c>r</c>; otherwise, <c>false</c>.</returns>
+        public static bool operator >(Integer l, Integer r) => l.data > r.data;
+
+        /// <summary>
+        /// Determines whether one specified <see cref="Kernel.Arithmetic.Integer"/> is lower than another specfied <see cref="Kernel.Arithmetic.Integer"/>.
+        /// </summary>
+        /// <param name="l">The first <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <param name="r">The second <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <returns><c>true</c> if <c>l</c> is lower than <c>r</c>; otherwise, <c>false</c>.</returns>
+        public static bool operator <(Integer l, Integer r) => l.data < r.data;
+
+        /// <summary>
+        /// Determines whether one specified <see cref="Kernel.Arithmetic.Integer"/> is greater than or equal to another
+        /// specfied <see cref="Kernel.Arithmetic.Integer"/>
+        /// </summary>
+        /// <param name="l">The first <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <param name="r">The second <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <returns><c>true</c> if <c>l</c> is greater than or equal to <c>r</c>; otherwise, <c>false</c>.</returns>
+        public static bool operator >=(Integer l, Integer r) => l.data >= r.data;
+       
+        /// <summary>
+        /// Determines whether one specified <see cref="Kernel.Arithmetic.Integer"/> is lower than or equal to another
+        /// specfied <see cref="Kernel.Arithmetic.Integer"/>.
+        /// </summary>
+        /// <param name="l">The first <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <param name="r">The second <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <returns><c>true</c> if <c>l</c> is lower than or equal to <c>r</c>; otherwise, <c>false</c>.</returns>
+        public static bool operator <=(Integer l, Integer r) => l.data <= r.data;
+
+        /// <summary>
+        /// Determines whether a specified instance of <see cref="Kernel.Arithmetic.Integer"/> is equal to another
+        /// specified <see cref="Kernel.Arithmetic.Integer"/>.
+        /// </summary>
+        /// <param name="l">The first <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <param name="r">The second <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <returns><c>true</c> if <c>l</c> and <c>r</c> are equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(Integer l, Integer r) => l.data == r.data;
+
+        /// <summary>
+        /// Determines whether a specified instance of <see cref="Kernel.Arithmetic.Integer"/> is not equal to another
+        /// specified <see cref="Kernel.Arithmetic.Integer"/>.
+        /// </summary>
+        /// <param name="l">The first <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <param name="r">The second <see cref="Kernel.Arithmetic.Integer"/> to compare.</param>
+        /// <returns><c>true</c> if <c>l</c> and <c>r</c> are not equal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(Integer l, Integer r) => l.data != r.data;
+
+        public override int GetHashCode() => data.GetHashCode();
+
+        public override bool Equals(object obj) => obj is Integer a && a.data == this.data;
+
         public static implicit operator Rational(Integer @int) => new Rational(@int.data);
+        public static implicit operator BigInteger(Integer @int) => @int.data;
+        public static implicit operator Integer(int number) => new Integer(number);
+        public static implicit operator int(Integer @int)
+        => @int.data > int.MaxValue ?
+                throw new System.InvalidCastException("Value is bigger than max size")
+            : (int)@int.data;
     }
 }
