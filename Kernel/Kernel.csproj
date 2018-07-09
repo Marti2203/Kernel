@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Kernel</RootNamespace>
     <AssemblyName>Kernel</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,53 +31,61 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="mscorlib" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
     <Reference Include="DeepCopy">
       <HintPath>..\packages\DeepCopy.1.0.3\lib\netstandard2.0\DeepCopy.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.ValueTuple">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Dissassembly">
+      <HintPath>..\..\Dissassembly\Dissassembly\bin\Debug\Dissassembly.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NoBindingException.cs" />
-    <Compile Include="Arithmetic\Complex.cs" />
-    <Compile Include="Arithmetic\Real.cs" />
-    <Compile Include="Arithmetic\Rational.cs" />
-    <Compile Include="Arithmetic\Integer.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="Arithmetic\Number.cs" />
-    <Compile Include="Combiners\Combiner.cs" />
-    <Compile Include="Combiners\Applicative.cs" />
-    <Compile Include="Combiners\Operative.cs" />
-    <Compile Include="BaseTypes\Boolean.cs" />
-    <Compile Include="BaseTypes\Environment.cs" />
-    <Compile Include="BaseTypes\Ignore.cs" />
-    <Compile Include="BaseTypes\Inert.cs" />
-    <Compile Include="BaseTypes\Null.cs" />
-    <Compile Include="BaseTypes\Pair.cs" />
-    <Compile Include="BaseTypes\String.cs" />
-    <Compile Include="BaseTypes\Symbol.cs" />
-    <Compile Include="BaseTypes\Object.cs" />
     <Compile Include="EvalutedPrimitives\EvaluatedPrimitives.cs" />
     <Compile Include="Primitives\CarFamily.cs">
       <DependentUpon>CarFamily.tt</DependentUpon>
     </Compile>
     <Compile Include="Primitives\Primitives.cs" />
-    <Compile Include="Primitives\PrimitiveMethodConnector.cs">
-      <DependentUpon>PrimitiveMethodConnector.tt</DependentUpon>
-    </Compile>
     <Compile Include="Primitives\PrimitiveAttributes.cs" />
+    <Compile Include="Arithmetic\Complex.cs" />
+    <Compile Include="Arithmetic\Integer.cs" />
+    <Compile Include="Arithmetic\Number.cs" />
+    <Compile Include="Arithmetic\Rational.cs" />
+    <Compile Include="Arithmetic\Real.cs" />
+    <Compile Include="BaseTypes\Boolean.cs" />
+    <Compile Include="BaseTypes\Environment.cs" />
+    <Compile Include="BaseTypes\Ignore.cs" />
+    <Compile Include="BaseTypes\Inert.cs" />
+    <Compile Include="BaseTypes\Null.cs" />
+    <Compile Include="BaseTypes\Object.cs" />
+    <Compile Include="BaseTypes\Pair.cs" />
+    <Compile Include="BaseTypes\String.cs" />
+    <Compile Include="BaseTypes\Symbol.cs" />
+    <Compile Include="Combiners\Applicative.cs" />
+    <Compile Include="Combiners\Combiner.cs" />
+    <Compile Include="Combiners\Operative.cs" />
+    <Compile Include="Utilities\MethodInfoExtender.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Arithmetic\" />
-    <Folder Include="Combiners\" />
-    <Folder Include="BaseTypes\" />
     <Folder Include="EvalutedPrimitives\" />
     <Folder Include="Primitives\" />
+    <Folder Include="Arithmetic\" />
+    <Folder Include="BaseTypes\" />
+    <Folder Include="Combiners\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -96,10 +104,6 @@
     <None Include="Primitives\CarFamily.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CarFamily.cs</LastGenOutput>
-    </None>
-    <None Include="Primitives\PrimitiveMethodConnector.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PrimitiveMethodConnector.cs</LastGenOutput>
     </None>
     <None Include="EvalutedPrimitives\Map.k" />
   </ItemGroup>

@@ -5,7 +5,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 using Kernel;
-
+using Kernel.Primitives;
 public static class CarFamily
 {
 <#=Recurse("Ca",4)#>
@@ -28,7 +28,7 @@ if(level == 0)
 {
 return string.Join(System.Environment.NewLine
     ,$"[Primitive(\"{start}r\",1)]"
-    ,"[TypeAssertion(typeof(Pair),0)]"
+    ,"[TypeAssertion(0,typeof(Pair))]"
     ,"public static Object "+start +"r(Pair p)"
     ,"{"
     ,""

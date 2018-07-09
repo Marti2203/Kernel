@@ -57,7 +57,7 @@ namespace Kernel.Combiners
                 this.operation = operation;
             }
 
-            public Object Action(Object[] objects) => operation(Environment.Current, objects);
+            public Object Action(Object[] objects) => operation.DynamicInvoke(Environment.Current, objects) as Object;
         }
 
         protected override Object Action(Object[] objects) => underlyingOperative.Action(objects);

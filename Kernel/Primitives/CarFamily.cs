@@ -1,9 +1,9 @@
 ﻿using Kernel;
-
+using Kernel.Primitives;
 public static class CarFamily
 {
 [Primitive("Caaaaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaaaar(Pair p)
 {
 
@@ -31,7 +31,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caaaadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaaadr(Pair p)
 {
 
@@ -59,7 +59,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caaaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaaar(Pair p)
 {
 
@@ -83,7 +83,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caaadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaadar(Pair p)
 {
 
@@ -111,7 +111,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caaaddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaaddr(Pair p)
 {
 
@@ -139,7 +139,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caaadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaadr(Pair p)
 {
 
@@ -163,7 +163,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaar(Pair p)
 {
 
@@ -183,7 +183,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caadaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caadaar(Pair p)
 {
 
@@ -211,7 +211,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caadadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caadadr(Pair p)
 {
 
@@ -239,7 +239,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caadar(Pair p)
 {
 
@@ -263,7 +263,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caaddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaddar(Pair p)
 {
 
@@ -291,7 +291,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caadddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caadddr(Pair p)
 {
 
@@ -319,7 +319,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caaddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caaddr(Pair p)
 {
 
@@ -343,7 +343,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caadr(Pair p)
 {
 
@@ -363,7 +363,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caar(Pair p)
 {
 
@@ -379,7 +379,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cadaaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadaaar(Pair p)
 {
 
@@ -407,7 +407,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cadaadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadaadr(Pair p)
 {
 
@@ -435,7 +435,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cadaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadaar(Pair p)
 {
 
@@ -459,7 +459,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cadadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadadar(Pair p)
 {
 
@@ -487,7 +487,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cadaddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadaddr(Pair p)
 {
 
@@ -515,7 +515,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cadadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadadr(Pair p)
 {
 
@@ -539,7 +539,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadar(Pair p)
 {
 
@@ -559,7 +559,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caddaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caddaar(Pair p)
 {
 
@@ -587,7 +587,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caddadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caddadr(Pair p)
 {
 
@@ -615,7 +615,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caddar(Pair p)
 {
 
@@ -639,7 +639,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cadddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadddar(Pair p)
 {
 
@@ -667,7 +667,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Caddddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caddddr(Pair p)
 {
 
@@ -695,7 +695,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cadddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadddr(Pair p)
 {
 
@@ -719,7 +719,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Caddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Caddr(Pair p)
 {
 
@@ -739,7 +739,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cadr(Pair p)
 {
 
@@ -755,7 +755,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Car",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Car(Pair p)
 {
 
@@ -768,7 +768,7 @@ return p;
 }
 
 [Primitive("Cdaaaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaaaar(Pair p)
 {
 
@@ -796,7 +796,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdaaadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaaadr(Pair p)
 {
 
@@ -824,7 +824,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdaaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaaar(Pair p)
 {
 
@@ -848,7 +848,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdaadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaadar(Pair p)
 {
 
@@ -876,7 +876,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdaaddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaaddr(Pair p)
 {
 
@@ -904,7 +904,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdaadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaadr(Pair p)
 {
 
@@ -928,7 +928,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaar(Pair p)
 {
 
@@ -948,7 +948,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdadaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadaar(Pair p)
 {
 
@@ -976,7 +976,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdadadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadadr(Pair p)
 {
 
@@ -1004,7 +1004,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadar(Pair p)
 {
 
@@ -1028,7 +1028,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdaddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaddar(Pair p)
 {
 
@@ -1056,7 +1056,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdadddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadddr(Pair p)
 {
 
@@ -1084,7 +1084,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdaddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaddr(Pair p)
 {
 
@@ -1108,7 +1108,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadr(Pair p)
 {
 
@@ -1128,7 +1128,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdar(Pair p)
 {
 
@@ -1144,7 +1144,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cddaaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddaaar(Pair p)
 {
 
@@ -1172,7 +1172,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cddaadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddaadr(Pair p)
 {
 
@@ -1200,7 +1200,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cddaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddaar(Pair p)
 {
 
@@ -1224,7 +1224,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cddadar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddadar(Pair p)
 {
 
@@ -1252,7 +1252,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cddaddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddaddr(Pair p)
 {
 
@@ -1280,7 +1280,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cddadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddadr(Pair p)
 {
 
@@ -1304,7 +1304,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddar(Pair p)
 {
 
@@ -1324,7 +1324,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdddaar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddaar(Pair p)
 {
 
@@ -1352,7 +1352,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdddadr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddadr(Pair p)
 {
 
@@ -1380,7 +1380,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddar(Pair p)
 {
 
@@ -1404,7 +1404,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cddddar",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddddar(Pair p)
 {
 
@@ -1432,7 +1432,7 @@ p = p.Car as Pair;
 return p;
 }
 [Primitive("Cdddddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddddr(Pair p)
 {
 
@@ -1460,7 +1460,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cddddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddddr(Pair p)
 {
 
@@ -1484,7 +1484,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddr(Pair p)
 {
 
@@ -1504,7 +1504,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cddr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cddr(Pair p)
 {
 
@@ -1520,7 +1520,7 @@ p = p.Cdr as Pair;
 return p;
 }
 [Primitive("Cdr",1)]
-[TypeAssertion(typeof(Pair),0)]
+[TypeAssertion(0,typeof(Pair))]
 public static Object Cdr(Pair p)
 {
 

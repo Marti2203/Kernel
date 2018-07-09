@@ -12,7 +12,7 @@ namespace Kernel.Combiners
         public Object Invoke(params Object[] objects)
         {
             if (objects.Length < InputCount || (!variadic && objects.Length != InputCount))
-                throw new System.InvalidOperationException("Not enough arguments for combiner");
+                throw new InvalidOperationException("Not enough arguments for combiner");
             return Action(objects);
         }
         protected Combiner(int inputCount = 0 ,bool variadic = false)
