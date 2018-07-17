@@ -5,13 +5,10 @@ using System.Linq;
 using System.Reflection;
 using Kernel.Combiners;
 using Kernel.Arithmetic;
-using System.Text;
-using System.Reflection.Emit;
 using System.Linq.Expressions;
 using System.Linq.Dynamic;
 using Kernel.Utilities;
 using static System.Linq.Expressions.Expression;
-
 namespace Kernel.Primitives
 {
 	public static class Primitives
@@ -26,80 +23,114 @@ namespace Kernel.Primitives
 		static Primitives ()
 		{
 			functions = new Dictionary<string, Combiner> ();
-			//AddPredicateApplicatives ();
+			AddPredicateApplicatives ();
 			AddApplicatives ();
+			AddCarFamily ();
 			//AddOperatives ();
-			//AddCarFamily ();
 		}
 
 		static void AddApplicatives ()
 		{
 			foreach (MethodInfo method in typeof (Applicatives)
 					 .GetMethods ()
-					 .Where (method => method.ReturnType.IsOrIsSubclassOf (typeof (Object)))) {
-
-				PrimitiveAttribute primitiveInformation = method
-					.GetCustomAttribute<PrimitiveAttribute> ();
-				IEnumerable<AssertionAttribute> assertions = method
-					.GetCustomAttributes<AssertionAttribute> ();
-
-				Expression [] parameters = new Expression [0];
-
-				if (assertions.Any (x => x is TypeCompilanceAssertionAttribute)) {
-					TypeCompilanceAssertionAttribute assertion = assertions.First (x => x is TypeCompilanceAssertionAttribute)
-																 as TypeCompilanceAssertionAttribute;
-
-					MethodInfo Cast = typeof (Enumerable).GetMethod ("Cast").MakeGenericMethod (assertion.type);
-					MethodInfo ToArray = typeof (Enumerable).GetMethod ("ToArray").MakeGenericMethod (assertion.type);
-					parameters = new [] { Call (null, ToArray, Call (null, Cast, AssertionAttribute.Array)) };
-				} else {
-					IEnumerable<TypeAssertionAttribute> typeAssertions = method.GetCustomAttributes<TypeAssertionAttribute> ();
-					parameters = primitiveInformation.InputCount == 0 ? new Expression [0] : primitiveInformation
-													 .Parameters
-													 .Select ((expression, index) => {
-														 TypeAssertionAttribute assertion = typeAssertions.FirstOrDefault (x => x.index == index);
-														 return assertion == null ? expression : TypeAs (expression, assertion.type);
-													 }).ToArray ();
-				}
-
-
-				Expression Throw (AssertionAttribute assertion)
-				{
-
-					Console.WriteLine (primitiveInformation.PrimitiveName);
-					Console.WriteLine ($"The assertion is {assertion}");
-					return IfThen (assertion.Expression,
-							 Expression.Throw (Constant (new ArgumentException
-														(assertion.errorMessage))));
-				}
-				var function = Lambda (Block (assertions
-											  .Select (Throw)
-											  .Concat (new Expression [] { Call (null, method, parameters) }))
-						, true, AssertionAttribute.Array);
-				Applicative app = new Applicative (function.Compile () as Func<Object [], Object>
-										 , primitiveInformation.InputCount
-										 , primitiveInformation.Variadic);
+					 .Where ((MethodInfo method) => method.ReturnType.IsOrIsSubclassOf (typeof (Object)))) {
+				PrimitiveAttribute primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute> ();
+				Applicative app = new Applicative (CreatePipingMethod (method) as Func<Pair, Object>
+							, primitiveInformation.InputCount
+							, primitiveInformation.Variadic);
 				functions.Add (primitiveInformation.PrimitiveName, app);
 			}
 		}
 
-		static void AddOperatives ()
+
+		static Delegate CreatePipingMethod (MethodInfo method)
 		{
-			foreach (MethodInfo method in typeof (Operatives)
-					.GetMethods ()
-					 .Where (method => method.ReturnType.IsSubclassOf (typeof (Object))
-							 || method.ReturnType == typeof (Object))) {
-				PrimitiveAttribute function = method.GetCustomAttribute<PrimitiveAttribute> ();
-				Operative op = new Operative ((Func<Environment, Object [], Object>)method
-											 .CreateDelegate (typeof (Func<Environment, Object [], Object>))
-										 , function.InputCount
-										 , function.Variadic);
-				functions.Add (function.PrimitiveName, op);
+			PrimitiveAttribute primitiveInformation = method
+				.GetCustomAttribute<PrimitiveAttribute> ();
+			IEnumerable<AssertionAttribute> assertions = method
+				.GetCustomAttributes<AssertionAttribute> ();
+
+			Expression [] parameters = new Expression [0];
+
+			if (primitiveInformation.InputCount != 0) {
+				IEnumerable<TypeAssertionAttribute> typeAssertions = method.GetCustomAttributes<TypeAssertionAttribute> ();
+				parameters = primitiveInformation
+					.Parameters
+					.Select ((expression, index) => {
+						TypeAssertionAttribute assertion = typeAssertions.FirstOrDefault (x => x.Index == index);
+						return assertion == null ? expression : TypeAs (expression, assertion.Type);
+					})
+					.ToArray ();
 			}
+			if (primitiveInformation.Variadic) {
+				Expression restOfArguments = AssertionAttribute.Array;
+				var typeCompilance = assertions.FirstOrDefault (x => x is TypeCompilanceAssertionAttribute)
+											   as TypeCompilanceAssertionAttribute;
+				if (parameters.Any ()) {
+					if (typeCompilance == null)
+						restOfArguments = ChainEnumerable<Object> (new [] { "Skip", "ToArray" },
+																				  AssertionAttribute.Array,
+																				  Constant (parameters.Count ()));
+					else restOfArguments = ChainEnumerable (typeCompilance.Type,
+															new [] { "Cast", "Skip", "ToArray" },
+															AssertionAttribute.Array,
+															Constant (parameters.Count ()));
+				} else if (typeCompilance != null) {
+					restOfArguments = ChainEnumerable (typeCompilance.Type,
+													   new [] { "Cast", "ToArray" },
+													  AssertionAttribute.Array);
+				}
+				parameters = parameters.Concat (new [] { restOfArguments }).ToArray ();
+			}
+			Expression [] callFunction = { Call (null, method, parameters) };
+
+			return Lambda (Block (assertions
+										.Select (x => Throw (x.Expression, x.ErrorMessage))
+										  .Concat (callFunction))
+					, true, AssertionAttribute.Array)
+				.Compile ();
 		}
 
-		public static bool IsTailContext (Object obj)
-		=> ((obj is Pair p) && (p.Car is Combiner) /* p.Cdr is Pair? */);
+		static MethodInfo EnumerableGeneric (Type t, string name) => typeof (Enumerable).GetMethod (name).MakeGenericMethod (t);
+
+		static Expression CallEnumerable (Type type, string name, params Expression [] arguments)
+		=> Call (null, EnumerableGeneric (type, name), arguments);
+
+		static Expression ChainEnumerable (Type type, string [] methods, params Expression [] arguments)
+		{
+			Expression current = CallEnumerable (type, methods [0], arguments);
+			for (int i = 1; i < methods.Length; i++)
+				current = CallEnumerable (type, methods [i], current);
+			return current;
+		}
+
+		static MethodInfo EnumerableGeneric<T> (string name) => EnumerableGeneric (typeof (T), name);
+
+		static Expression CallEnumerable<T> (string name, params Expression [] arguments)
+		=> CallEnumerable (typeof (T), name, arguments);
+
+		static Expression ChainEnumerable<T> (string [] methods, params Expression [] arguments)
+		=> ChainEnumerable (typeof (T), methods, arguments);
+
+		static Expression Throw (Expression check, string errorMessage)
+		=> IfThen (check, Expression.Throw (Constant (new ArgumentException (errorMessage))));
+
+		static void AddOperatives ()
+		{
+			//foreach (MethodInfo method in typeof(Operatives)
+			//        .GetMethods()
+			//         .Where(method => method.ReturnType.IsSubclassOf(typeof(Object))
+			//                || method.ReturnType == typeof(Object)))
+			//{
+			//    PrimitiveAttribute function = method.GetCustomAttribute<PrimitiveAttribute>();
+			//    Operative op = new Operative((Func<Pair, Object>)method
+			//                                 .CreateDelegate(typeof(Func<Pair, Object>))
+			//                             , function.InputCount
+			//                             , function.Variadic);
+			//    functions.Add(function.PrimitiveName, op);
+			//}
+		}
+
 
 		static void AddPredicateApplicatives ()
 		{
@@ -110,18 +141,35 @@ namespace Kernel.Primitives
 				functions.Add (t.Name.ToLower () + "?", typeof (PredicateApplicative<>)
 						 .MakeGenericType (t)
 						 .GetProperty ("Instance")
-						 .GetValue (null) as Combiner);
+							  .GetValue (null) as Combiner);
 		}
 
 		static void AddCarFamily ()
 		{
 			foreach (MethodInfo method in typeof (CarFamily)
 					 .GetMethods ()
-					 .Where (method => method.ReturnType == typeof (Object)))
-				functions.Add (method.Name.ToLower (),
-						 new Applicative ((Func<Object [], Object>)method.CreateDelegate (typeof (Func<Object [], Object>))
-										 , 1));
+					 .Where (method => method.ReturnType == typeof (Object))) {
+				Expression firstArgument = Property (AssertionAttribute.Array, "Item", Constant (0));
+
+				Expression pairCheck = Throw (Not (TypeIs (firstArgument, typeof (Pair))), "Argument is not a pair");
+				Expression call = Call (null, method, TypeAs (firstArgument, typeof (Pair)));
+
+
+				var function = Lambda (Block (pairCheck, call), true, AssertionAttribute.Array);
+				Applicative app = new Applicative (function.Compile () as Func<Pair, Object>
+										 , 1
+										 , false);
+				functions.Add (method.Name.ToLower (), app);
+			}
+
 		}
+
+
+		public static bool IsTailContext (Object obj)
+		=> ((obj is Pair p) && (p.Car is Combiner) /* p.Cdr is Pair? */);
+
+		public static Object Evaluate (Object @object, Environment environment)
+		=> environment.Evaluate (@object);
 
 		public static bool IsFormalParameterTree (Object @object) => IsFormalParameterTree (@object, true);
 
@@ -189,7 +237,7 @@ namespace Kernel.Primitives
 				{
 					int braces = 0;
 					bool inString = false;
-					for (int i = 0; i < representation.Length; i++) {
+					for (int i = 0; i < representation.Count (); i++) {
 						switch (representation [i]) {
 						case '(':
 							if (!inString) braces++;
@@ -205,7 +253,7 @@ namespace Kernel.Primitives
 							break;
 						}
 					}
-					return braces == 0 && !inString && representation.Trim ().Length != 0;
+					return braces == 0 && !inString && representation.Trim ().Count () != 0;
 				}
 
 				string input = Console.ReadLine ();
@@ -224,6 +272,7 @@ namespace Kernel.Primitives
 				p.Car = obj;
 				return Inert.Instance;
 			}
+
 
 			[Primitive ("set-cdr", 2)]
 			[TypeAssertion (0, typeof (Pair))]
@@ -259,9 +308,9 @@ namespace Kernel.Primitives
 			=> new Environment (environments);
 
 			[Primitive ("equal?", 0, true)]
-			public static Boolean Equal (params Object [] objects)
+			public static Boolean Equal (Pair objects)
 			{
-				if (objects.Length == 0) return Boolean.True;
+				if (objects.Count () == 0) return Boolean.True;
 				if (objects.All (obj => obj.GetType () == objects [0].GetType () && obj.Equals (objects [0]))) return Boolean.True;
 				return Boolean.False;
 			}
@@ -275,34 +324,34 @@ namespace Kernel.Primitives
 			public static Combiner Unwrap (Applicative app) => app.combiner;
 
 
-			[Primitive ("list", 1, true)]
-			public static Object List (params Object [] objects)
+			[Primitive ("list", 0, true)]
+			public static Object List (Pair objects)
 			{
-				if (objects.Length == 1) return objects [0];
+				if (objects.Count () == 1) return objects [0];
 				Pair head = new Pair (objects [0], Null.Instance);
 				Pair tail = head;
-				for (int i = 1; i < objects.Length; i++) {
+				for (int i = 1; i < objects.Count (); i++) {
 					tail.Cdr = new Pair (objects [i], Null.Instance);
 					tail = tail.Cdr as Pair;
 				}
 				return head;
 			}
 
-			[Primitive ("list*", 1, true)]
-			public static Object ListStar (params Object [] objects)
+			[Primitive ("list*", 0, true)]
+			public static Object ListStar (Pair objects)
 			{
-				if (objects.Length == 1) return objects [0];
+				if (objects.Count () == 1) return objects [0];
 				Pair head = new Pair (objects [0], Null.Instance);
 				Pair tail = head;
-				for (int i = 1; i < objects.Length - 1; i++) {
+				for (int i = 1; i < objects.Count () - 1; i++) {
 					tail.Cdr = new Pair (objects [i], Null.Instance);
 					tail = tail.Cdr as Pair;
 				}
-				tail.Cdr = objects [objects.Length - 1];
+				tail.Cdr = objects [objects.Count () - 1];
 				return head;
 			}
 
-			[Primitive ("apply", 2, true)]
+			[Primitive ("apply", 3, false)]
 			[TypeAssertion (0, typeof (Applicative))]
 			[TypeAssertion (1, typeof (Pair))]
 			[TypeAssertion (2, typeof (Environment))]
@@ -343,12 +392,12 @@ namespace Kernel.Primitives
 					cycleLength = visits.Count (v => v.Value == 2);
 					pairs = acyclicLength + cycleLength;
 				}
-				Pair result = List (
+				Pair result = List (new Pair (
 					new Integer (pairs),
 					new Integer (nilCount),
 					new Integer (acyclicLength),
 					new Integer (cycleLength)
-				) as Pair;
+				)) as Pair;
 				if (obj.Mutable)
 					immutableMetricsCache.Add (obj, result);
 				return result;
@@ -391,26 +440,27 @@ namespace Kernel.Primitives
 
 			[Primitive ("map", 1, true)]
 			[TypeAssertion (0, typeof (Applicative))]
+			[TypeCompilanceAssertion (typeof (Pair), 1)]
 			public static Object Map (Applicative app, Pair [] lists)
 			{
 				//TODO WHAT THE FUCK DO WE DO WITH CYCLIC LISTS?!!!?!?!
 				if (lists.Length == 0)
 					throw new InvalidOperationException ("Lists list must not be empty");
 				Integer starterLength = ListMetrics.Pairs (GetListMetrics (lists [0]));
-				if (lists.Length > 1 && !lists.All (l => ListMetrics.Pairs (GetListMetrics (l)) == starterLength))
+				if (lists.Count () > 1 && !lists.All (l => ListMetrics.Pairs (GetListMetrics (l)) == starterLength))
 					throw new InvalidOperationException ("A list does not have the same length as the others");
 
 				Pair result = new Pair ();
 				while (lists [0] != null) {
-					result.Append (app.combiner.Invoke (lists.Select (x => x.Car).ToArray ()));
+					result.Append (app.combiner.Invoke (new Pair (lists.Select (x => x.Car).ToArray ())));
 					lists = lists.Select (x => x.Cdr as Pair).ToArray ();
 				}
 				return result;
 			}
 
 			[Primitive ("eq?", 0, true)]
-			public static Boolean Eq (Object [] objects)
-			=> (Boolean)(objects.Length == 0 || objects.All (obj => obj.Equals (objects [0])));
+			public static Boolean Eq (Pair objects)
+			=> (Boolean)(objects.Count () == 0 || objects.All (obj => obj.Equals (objects [0])));
 		}
 
 		static class Operatives
@@ -418,7 +468,7 @@ namespace Kernel.Primitives
 			[Primitive ("$lambda", 2)]
 			[TypeAssertion (0, typeof (Environment))]
 #pragma warning disable RECS0154 // Parameter is never used
-			public static Combiner Lambda (Environment env, Object formals, Object [] objects)
+			public static Combiner Lambda (Environment env, Object formals, Pair objects)
 #pragma warning restore RECS0154 // Parameter is never used
 			=> Applicatives.Wrap (Vau (Environment.Current, formals, Ignore.Instance, objects));
 
@@ -446,7 +496,7 @@ namespace Kernel.Primitives
 			[PredicateAssertion (0, nameof (IsFormalParameterTree))]
 			[TypeAssertion (2, typeof (Symbol))]
 			[TypeAssertion (1, typeof (Symbol), typeof (Ignore))]
-			public static Operative Vau (Environment env, Object formals, Object eformal, params Object [] expr)
+			public static Operative Vau (Environment env, Object formals, Object eformal, Pair expr)
 			{
 				if ((formals is Symbol && formals == eformal)
 					|| (formals is Pair p && eformal is Symbol && p.Contains (eformal)))
@@ -455,26 +505,26 @@ namespace Kernel.Primitives
 				return new Operative (Environment.Current.Copy () as Environment,
 									 Applicatives.CopyEvaluationStructureImmutable (formals),
 									 eformal,
-									 expr.Length == 1 ?
+									  expr.Count () == 1 ?
 									 Applicatives.CopyEvaluationStructureImmutable (expr [0])
 									 : Applicatives.CopyEvaluationStructureImmutable (Sequence (env, expr)));
 
 			}
 
 			[Primitive ("$sequence", 0, true)]
-			public static Object Sequence (Environment env, params Object [] objects)
+			public static Object Sequence (Environment env, Pair objects)
 			{
-				if (objects.Length == 0) return Inert.Instance;
-				for (int i = 0; i < objects.Length - 1; i++)
+				if (objects.Count () == 0) return Inert.Instance;
+				for (int i = 0; i < objects.Count () - 1; i++)
 					env.Evaluate (objects [i]);
-				if (IsTailContext (objects [objects.Length - 1]))
-					return env.Evaluate (objects [objects.Length - 1]);
+				if (IsTailContext (objects [objects.Count () - 1]))
+					return env.Evaluate (objects [objects.Count () - 1]);
 				throw new InvalidProgramException ("WTF!?");
 			}
 
 			[Primitive ("$cond", 0, true)]
 			[TypeCompilanceAssertion (typeof (Pair))]
-			public static Object Cond (Environment env, params Pair [] objects)
+			public static Object Cond (Environment env, Pair [] objects)
 			{
 				foreach (Pair p in objects) {
 					Object test = env.Evaluate (p.Car);
@@ -482,7 +532,7 @@ namespace Kernel.Primitives
 						throw new ArgumentException ($"Test in {p.Car} is not a boolean.");
 
 					if (condition)
-						return Sequence (env, p.Cdr);
+						return Sequence (env, p.Cdr as Pair);
 				}
 				return Inert.Instance;
 			}

@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Linq.Expressions;
 using static System.Linq.Expressions.Expression;
-using static System.Linq.Dynamic.DynamicExpression;
+using System.Reflection;
+
 namespace Kernel.Primitives
 {
 	[AttributeUsage (AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
@@ -49,20 +50,16 @@ namespace Kernel.Primitives
 			this.variadic = variadic;
 		}
 
-		public string Invocation => string.Join (", ", Enumerable
-												 .Range (0, InputCount)
-												 .Select (x => $"a[{x}]"));
-		// Experimental
 		public Expression [] Parameters => Enumerable
 			.Range (0, InputCount)
-			.Select<int, Expression> (x => ArrayAccess (AssertionAttribute.Array, Constant (x)))
+			.Select<int, Expression> (x => Property (AssertionAttribute.Array, "Item", Constant (x)))
 			.ToArray ();
 	}
 
 	[AttributeUsage (AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
 	abstract class AssertionAttribute : Attribute
 	{
-		public readonly string errorMessage;
+		readonly string errorMessage;
 
 		protected AssertionAttribute (string errorMessage)
 		{
@@ -71,14 +68,16 @@ namespace Kernel.Primitives
 
 		public static readonly string ArrayName = "a";
 		public abstract Expression Expression { get; }
-		public static readonly ParameterExpression Array = Parameter (typeof (Object []), ArrayName);
+		public static readonly ParameterExpression Array = Parameter (typeof (Pair), ArrayName);
+
+		public string ErrorMessage => errorMessage;
 	}
 
 
 	[AttributeUsage (AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
 	abstract class IndexAssertionAttribute : AssertionAttribute
 	{
-		public readonly int index;
+		readonly int index;
 		protected IndexAssertionAttribute (int index, string condition, string errorMessage)
 			: base (errorMessage)
 		{
@@ -96,13 +95,15 @@ namespace Kernel.Primitives
 
 		public override Expression Expression => Not (expression);
 
-		public static Expression ElementAt (int index) => ArrayAccess (Array, Constant (index));
+		public static Expression ElementAt (int index) => Property (Array, "Item", Constant (index));
+
+		public int Index => index;
 	}
 
 	[AttributeUsage (AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
 	class TypeAssertionAttribute : IndexAssertionAttribute
 	{
-		public readonly Type type;
+		readonly Type type;
 
 		public TypeAssertionAttribute (int index, Type type)
 			: base (TypeIs (ElementAt (index), type), $"{index} Argument is not a {type}", index)
@@ -116,7 +117,7 @@ namespace Kernel.Primitives
 		{
 			this.type = typeof (Object);
 		}
-
+		public Type Type => type;
 
 	}
 
@@ -147,7 +148,7 @@ namespace Kernel.Primitives
 			: base (And
 					(
 					 TypeIs (ElementAt (index), typeof (Arithmetic.Integer)),
-					 GreaterThan (TypeAs (ElementAt (index), typeof (int)), Constant (0))
+						GreaterThan (Property (TypeAs (ElementAt (index), typeof (int?)), "Value"), Constant (0))
 					)
 				  , $"{index} Argument is a negative integer", index)
 		{
@@ -157,11 +158,13 @@ namespace Kernel.Primitives
 	[AttributeUsage (AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
 	class TypeCompilanceAssertionAttribute : AssertionAttribute
 	{
-		public readonly Type type;
+		readonly Type type;
+		readonly int skip;
 
-		public TypeCompilanceAssertionAttribute (Type type)
+		public TypeCompilanceAssertionAttribute (Type type, int skip = 0)
 			: base ($"All arguments must be {type.Name}")
 		{
+			this.skip = skip;
 			this.type = type;
 		}
 
@@ -171,11 +174,28 @@ namespace Kernel.Primitives
 			return Lambda (TypeIs (x, type), x);
 		}
 
-		public override Expression Expression => Call (null,
-													   typeof (Enumerable).GetMethod ("All").MakeGenericMethod (typeof (Object)),
-													   Array,
-													   TypePredicate ());
+		public override Expression Expression {
+			get {
+				MethodInfo All = typeof (Enumerable).GetMethod (nameof (All)).MakeGenericMethod (typeof (Object));
+				MethodInfo SkipFn = typeof (Enumerable).GetMethod ("Skip").MakeGenericMethod (typeof (Object));
+				MethodInfo ToArray = typeof (Enumerable).GetMethod (nameof (ToArray)).MakeGenericMethod (typeof (Object));
+				if (skip == 0)
+					return Call (null, All, Array, TypePredicate ());
 
+				return Call (null,
+							All,
+							Call (null,
+								 ToArray,
+								 Call (null,
+									  SkipFn,
+									  Array,
+									  Constant (skip))),
+							TypePredicate ());
+
+			}
+		}
+		public Type Type => type;
+		public int Skip => skip;
 	}
 
 

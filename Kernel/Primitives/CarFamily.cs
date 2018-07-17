@@ -2,8 +2,66 @@
 using Kernel.Primitives;
 public static class CarFamily
 {
-[Primitive("Caaaaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caaaaaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caaaaadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caaaaar(Pair p)
 {
 
@@ -30,8 +88,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caaaadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caaaadar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caaaaddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caaaadr(Pair p)
 {
 
@@ -58,8 +174,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caaaar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caaaar(Pair p)
 {
 
@@ -82,8 +196,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caaadar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caaadaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caaadadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caaadar(Pair p)
 {
 
@@ -110,8 +282,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caaaddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caaaddar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caaadddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caaaddr(Pair p)
 {
 
@@ -138,8 +368,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caaadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caaadr(Pair p)
 {
 
@@ -162,8 +390,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caaar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caaar(Pair p)
 {
 
@@ -182,8 +408,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caadaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caadaaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caadaadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caadaar(Pair p)
 {
 
@@ -210,8 +494,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caadadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caadadar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caadaddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caadadr(Pair p)
 {
 
@@ -238,8 +580,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caadar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caadar(Pair p)
 {
 
@@ -262,8 +602,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caaddar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caaddaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caaddadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caaddar(Pair p)
 {
 
@@ -290,8 +688,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caadddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caadddar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caadddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caaddddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caaddddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caadddr(Pair p)
 {
 
@@ -318,8 +774,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caaddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caaddr(Pair p)
 {
 
@@ -342,8 +796,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caadr(Pair p)
 {
 
@@ -362,8 +814,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caar(Pair p)
 {
 
@@ -378,8 +828,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cadaaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cadaaaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cadaaadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cadaaar(Pair p)
 {
 
@@ -406,8 +914,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cadaadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cadaadar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cadaaddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cadaadr(Pair p)
 {
 
@@ -434,8 +1000,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cadaar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cadaar(Pair p)
 {
 
@@ -458,8 +1022,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cadadar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cadadaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cadadadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cadadar(Pair p)
 {
 
@@ -486,8 +1108,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cadaddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cadaddar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cadadddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cadaddr(Pair p)
 {
 
@@ -514,8 +1194,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cadadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cadadr(Pair p)
 {
 
@@ -538,8 +1216,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cadar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cadar(Pair p)
 {
 
@@ -558,8 +1234,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caddaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caddaaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caddaadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caddaar(Pair p)
 {
 
@@ -586,8 +1320,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caddadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caddadar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Caddaddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caddadr(Pair p)
 {
 
@@ -614,8 +1406,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caddar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caddar(Pair p)
 {
 
@@ -638,8 +1428,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cadddar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cadddaar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cadddadr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cadddar(Pair p)
 {
 
@@ -666,8 +1514,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Caddddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Caddddar(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Caddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Caddddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cadddddr(Pair p)
+{
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cadddddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cadddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Caddddr(Pair p)
 {
 
@@ -694,8 +1600,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cadddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cadddr(Pair p)
 {
 
@@ -718,8 +1622,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Caddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Caddr(Pair p)
 {
 
@@ -738,8 +1640,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cadr(Pair p)
 {
 
@@ -754,8 +1654,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Car",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Car(Pair p)
 {
 
@@ -767,8 +1665,66 @@ p = p.Car as Pair;
 return p;
 }
 
-[Primitive("Cdaaaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdaaaaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdaaaadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdaaaar(Pair p)
 {
 
@@ -795,8 +1751,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdaaadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdaaadar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdaaaddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdaaadr(Pair p)
 {
 
@@ -823,8 +1837,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdaaar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaaar(Pair p)
 {
 
@@ -847,8 +1859,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdaadar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdaadaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdaadadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdaadar(Pair p)
 {
 
@@ -875,8 +1945,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdaaddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdaaddar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdaadddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdaaddr(Pair p)
 {
 
@@ -903,8 +2031,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdaadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaadr(Pair p)
 {
 
@@ -927,8 +2053,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdaar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaar(Pair p)
 {
 
@@ -947,8 +2071,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdadaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdadaaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdadaadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdadaar(Pair p)
 {
 
@@ -975,8 +2157,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdadadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdadadar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdadaddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdadadr(Pair p)
 {
 
@@ -1003,8 +2243,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdadar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadar(Pair p)
 {
 
@@ -1027,8 +2265,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdaddar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdaddaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdaddadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdaddar(Pair p)
 {
 
@@ -1055,8 +2351,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdadddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdadddar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdadddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdadddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdaddddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdaddddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdaddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdadddr(Pair p)
 {
 
@@ -1083,8 +2437,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdaddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdaddr(Pair p)
 {
 
@@ -1107,8 +2459,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdadr(Pair p)
 {
 
@@ -1127,8 +2477,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdar(Pair p)
 {
 
@@ -1143,8 +2491,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cddaaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cddaaaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cddaaadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cddaaar(Pair p)
 {
 
@@ -1171,8 +2577,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cddaadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cddaadar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cddaaddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cddaadr(Pair p)
 {
 
@@ -1199,8 +2663,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cddaar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cddaar(Pair p)
 {
 
@@ -1223,8 +2685,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cddadar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cddadaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddadaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cddadadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddadadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cddadar(Pair p)
 {
 
@@ -1251,8 +2771,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cddaddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cddaddar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddaddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddaddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cddadddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddadddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddadddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cddaddr(Pair p)
 {
 
@@ -1279,8 +2857,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cddadr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cddadr(Pair p)
 {
 
@@ -1303,8 +2879,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cddar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cddar(Pair p)
 {
 
@@ -1323,8 +2897,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdddaar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdddaaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddaaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdddaadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddaadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdddaar(Pair p)
 {
 
@@ -1351,8 +2983,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdddadr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdddadar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddadar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddadar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cdddaddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddaddr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddaddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdddadr(Pair p)
 {
 
@@ -1379,8 +3069,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdddar",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddar(Pair p)
 {
 
@@ -1403,8 +3091,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cddddar",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cddddaar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddaar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddddaar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cddddadr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cddddadr's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddadr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cddddar(Pair p)
 {
 
@@ -1431,8 +3177,66 @@ p = p.Car as Pair;
 
 return p;
 }
-[Primitive("Cdddddr",1)]
-[TypeAssertion(0,typeof(Pair))]
+public static Object Cdddddar(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cdddddar's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Car is Pair))
+	throw new System.ArgumentException("Cdddddar's Car has not received a proper argument ");
+p = p.Car as Pair;
+
+
+return p;
+}
+public static Object Cddddddr(Pair p)
+{
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+if(!(p.Cdr is Pair))
+	throw new System.ArgumentException("Cddddddr's Cdr has not received a proper argument ");
+p = p.Cdr as Pair;
+
+
+return p;
+}
 public static Object Cdddddr(Pair p)
 {
 
@@ -1459,8 +3263,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cddddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cddddr(Pair p)
 {
 
@@ -1483,8 +3285,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdddr(Pair p)
 {
 
@@ -1503,8 +3303,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cddr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cddr(Pair p)
 {
 
@@ -1519,8 +3317,6 @@ p = p.Cdr as Pair;
 
 return p;
 }
-[Primitive("Cdr",1)]
-[TypeAssertion(0,typeof(Pair))]
 public static Object Cdr(Pair p)
 {
 

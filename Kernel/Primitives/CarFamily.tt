@@ -8,8 +8,8 @@ using Kernel;
 using Kernel.Primitives;
 public static class CarFamily
 {
-<#=Recurse("Ca",4)#>
-<#=Recurse("Cd",4)#>
+<#=Recurse("Ca",5)#>
+<#=Recurse("Cd",5)#>
 }
 <#+
 
@@ -27,8 +27,6 @@ start:
 if(level == 0) 
 {
 return string.Join(System.Environment.NewLine
-    ,$"[Primitive(\"{start}r\",1)]"
-    ,"[TypeAssertion(0,typeof(Pair))]"
     ,"public static Object "+start +"r(Pair p)"
     ,"{"
     ,""

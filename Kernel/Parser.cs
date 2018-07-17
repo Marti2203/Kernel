@@ -12,7 +12,7 @@ namespace Kernel
     {
 
         static readonly string digits = "0123456789abcdef";
-        static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, c => digits.IndexOf(c));
+        static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, digits.IndexOf);
         static BigInteger ParseBigInteger(string value, int baseOfValue)
         => value.Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
 
@@ -28,7 +28,7 @@ namespace Kernel
         static readonly string[] illegalLexemes = { ",", "`", "'", ",@" };
         static readonly Regex IntegerPattern = new Regex(@"^(#[bodx])?([+-])?(\d+)$");
         static readonly Regex RationalPattern = new Regex(@"^([+-]?\d*)/(\d+)$");
-        static readonly Regex RealPattern = new Regex(@"^[+-]?\d+$");
+        static readonly Regex RealPattern = new Regex(@"^[+-]?\d*\.\d+$");
         static readonly Regex ComplexPattern = new Regex(@"^([+-]?\d+(?:\.\d*|e\d+)?)([+-]\d+(?:\.\d*|e\d+)?)i$");
         static readonly Regex PairPattern = new Regex(@"\(([^()\s]+)\s+\.\s+([^()\s]+)\)$");
         static readonly Regex StringPattern = new Regex(@"""(.*)""$");
@@ -62,8 +62,8 @@ namespace Kernel
                             @base = 16;
                             break;
                     }
-                return new Integer(ParseBigInteger(match.Groups[3].Value.ToLower(),@base) * 
-                                   ( match.Groups[2].Success && match.Groups[2].Value[0]  == '-' ? -1 : 1));
+                return new Integer(ParseBigInteger(match.Groups[3].Value.ToLower(), @base) *
+                                   (match.Groups[2].Success && match.Groups[2].Value[0] == '-' ? -1 : 1));
             }
 
             match = RationalPattern.Match(input);

@@ -3,12 +3,13 @@ namespace Kernel.Combiners
 {
 	public sealed class Applicative : Combiner
 	{
-		readonly Func<Object [], Object> application;
+		readonly Func<Pair, Object> application;
 
-		public Applicative (Func<Object [], Object> application, int inputCount, bool variadic = false)
+		public Applicative (Func<Pair, Object> application, int inputCount, bool variadic = false)
 			: base (inputCount, variadic)
 		{
 			this.application = application;
+			this.combiner = new Operative ((Pair pair, Environment env) => application (pair), inputCount, variadic);
 		}
 
 		public Applicative (Combiner combiner)
@@ -19,19 +20,17 @@ namespace Kernel.Combiners
 
 		public readonly Combiner combiner;
 
-		protected override Object Action (params Object [] objects)
-		{
-			return application.Invoke (objects) as Object;
-		}
+		protected override Object Action (Pair objects) => application.Invoke (objects) as Object;
+
 		public bool Equals (Applicative other) => application == other.application;
 	}
 
 	public static class PredicateApplicative<T>
 	{
 		public static Applicative Instance => new Applicative (Validate, 1);
-		static Object Validate (Object [] objects)
+		static Object Validate (Pair objects)
 		{
-			return (Boolean)(typeof (T) == objects [0].GetType ());
+			return (Boolean)(typeof (T) == objects.Car.GetType ());
 		}
 	}
 }
