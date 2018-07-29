@@ -1,27 +1,18 @@
-﻿using System;
-using System.Linq;
+﻿using System.Diagnostics;
 namespace Kernel.Combiners
 {
+	[DebuggerDisplay("{Name}")]
 	public abstract class Combiner : Object
 	{
-		public int InputCount => inputCount;
+		public string Name => name;
+		readonly string name;
 
-		readonly int inputCount;
+		public abstract Object Invoke(Object @object);
 
-		protected readonly bool variadic;
-		protected abstract Object Action (Pair objects);
-		public Object Invoke (Pair objects)
+		public Object Invoke() => Invoke(Null.Instance);
+		protected Combiner(string name = "Undefined")
 		{
-			int size = objects.Count ();
-			if (size < InputCount || (!variadic && size != InputCount))
-				throw new InvalidOperationException ("Not enough arguments for combiner");
-			return Action (objects);
-		}
-		public Object Invoke () => Invoke (new Pair ());
-		protected Combiner (int inputCount = 0, bool variadic = false)
-		{
-			this.inputCount = inputCount;
-			this.variadic = variadic;
+			this.name = name;
 		}
 	}
 }

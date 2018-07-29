@@ -3,16 +3,16 @@ namespace Kernel.Combiners
 {
 	public sealed class Applicative : Combiner
 	{
-		readonly Func<Pair, Object> application;
-
-		public Applicative (Func<Pair, Object> application, int inputCount, bool variadic = false)
-			: base (inputCount, variadic)
+		public Applicative(Func<Object, Object> application, string name = "Undefined")
+			: base(name)
 		{
-			this.application = application;
-			this.combiner = new Operative ((Pair pair, Environment env) => application (pair), inputCount, variadic);
+			combiner = new Operative((@object, env) =>
+			{
+				return application(@object);
+			}, name);
 		}
 
-		public Applicative (Combiner combiner)
+		public Applicative(Combiner combiner)
 		{
 			this.combiner = combiner;
 			Mutable = combiner.Mutable;
@@ -20,17 +20,24 @@ namespace Kernel.Combiners
 
 		public readonly Combiner combiner;
 
-		protected override Object Action (Pair objects) => application.Invoke (objects) as Object;
+		public override Object Invoke(Object @object)
+		{
+			if (combiner is Applicative)
+				return combiner.Invoke(@object);
+			if (combiner is Operative)
+				return combiner.Invoke(new Pair(@object, Environment.Current));
+			throw new InvalidOperationException("A different combiner?!");
+		}
+		public bool Equals(Applicative other) => combiner == other.combiner;
 
-		public bool Equals (Applicative other) => application == other.application;
+		public override string ToString() => Name ?? combiner.Name;
 	}
 
 	public static class PredicateApplicative<T>
 	{
-		public static Applicative Instance => new Applicative (Validate, 1);
-		static Object Validate (Pair objects)
-		{
-			return (Boolean)(typeof (T) == objects.Car.GetType ());
-		}
+		public static Applicative Instance => new Applicative(Validate, Name);
+		static string Name => typeof(T).Name.ToLower() + "?";
+		static Object Validate(Object @object)
+		=> (Boolean)(typeof(T) == @object.GetType());
 	}
 }

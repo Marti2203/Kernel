@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arithmetic\" />
+    <Folder Include="Primitives\" />
+    <Folder Include="Primitives\Applicatives\" />
+    <Folder Include="Primitives\Operatives\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kernel\Kernel.csproj">

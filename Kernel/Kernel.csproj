@@ -78,6 +78,8 @@
     <Compile Include="Combiners\Combiner.cs" />
     <Compile Include="Combiners\Operative.cs" />
     <Compile Include="Utilities\MethodInfoExtender.cs" />
+    <Compile Include="Utilities\MethodCallUtilities.cs" />
+    <Compile Include="Primitives\DynamicConnections.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />

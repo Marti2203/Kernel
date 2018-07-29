@@ -8,173 +8,203 @@ namespace Kernel
 	public sealed class Pair : Object, IEnumerable<Object>
 	{
 		Object car, cdr;
-		public Object Car {
+		public Object Car
+		{
 			get => car;
-			set {
+			set
+			{
 				if (!Mutable && value is Pair && value.Mutable)
-					throw new InvalidOperationException ("Mutable pair cannot be part of immutable pair");
+					throw new InvalidOperationException("Mutable pair cannot be part of immutable pair");
 				car = value;
 			}
 		}
-		public Object Cdr {
+		public Object Cdr
+		{
 			get => cdr;
-			set {
+			set
+			{
 				if (!Mutable && value is Pair && value.Mutable)
-					throw new InvalidOperationException ("Mutable pair cannot be part of immutable pair");
+					throw new InvalidOperationException("Mutable pair cannot be part of immutable pair");
 				cdr = value;
 			}
 		}
 
-		public Pair () : this (Null.Instance, Null.Instance)
+		public Pair() : this(Null.Instance, Null.Instance)
 		{
 
 		}
 
-		public Pair (Object car, Object cdr, bool mutable = true)
+		public Pair(Object car, Object cdr, bool mutable = true)
 		{
 			this.car = car;
 			this.cdr = cdr;
 			Mutable = mutable;
 		}
 
-		public Pair (params Object [] objects)
+		public Pair(params Object[] objects) : this(objects as IEnumerable<Object>)
 		{
-			car = Null.Instance;
-			foreach (Object obj in objects)
-				Append (obj);
+
 		}
 
-		public override string ToString ()
+		public Pair(IEnumerable<Object> objects)
 		{
-			//if (IsCyclic)
-			//	throw new NotImplementedException ();
-			//if (Cdr is Null) return $"({Car.ToString ()})";
-			//if (Cdr is Pair p) return ToStringList ();
+			Mutable = true;
+			car = Null.Instance;
+			foreach (Object obj in objects)
+				Append(obj);
+		}
+
+		public override string ToString()
+		{
+			if (IsCyclic)
+				throw new NotImplementedException();
+			if (Cdr is Null) return $"({Car.ToString()})";
+			if (Cdr is Pair p) return ToStringList();
 			return $"({Car} . {Cdr})";
 		}
 
-		string ToStringList ()
+		string ToStringList()
 		{
 
-			StringBuilder result = new StringBuilder ();
+			StringBuilder result = new StringBuilder();
 
-			result.Append ('(');
+			result.Append('(');
 
 			Pair temp = this;
-			do {
-				result.Append (temp.Car.ToString ());
-				result.Append (' ');
+			do
+			{
+				result.Append(temp.Car.ToString());
+				result.Append(' ');
 				if (temp.Cdr is Pair p)
 					temp = p;
-				else {
-					if (temp.Cdr is Null)
-						result.Length--;
-					else
-						result.Append (temp.Cdr.ToString ());
+				else
+				{
+					if (temp.Cdr != Null.Instance)
+					{
+						result.Append('.');
+						result.Append(' ');
+						result.Append(temp.Cdr.ToString());
+					}
+					else result.Length--;
 					break;
 				}
 			}
 			while (temp != null);
 
-			result.Append (')');
-			return result.ToString ();
+			result.Append(')');
+			return result.ToString();
 		}
 
 
-		public bool Equals (Pair other)
+		public bool Equals(Pair other)
 		=> (Car == other.Car && Cdr == other.Cdr)
-		|| (ToString () == other.ToString ())
-		|| Equals (other as Object);
+		|| (ToString() == other.ToString())
+		|| Equals(other as Object);
 
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="T:Kernel.Pair"/> is cyclic.
 		/// </summary>
 		/// <value><c>true</c> if is cyclic; otherwise, <c>false</c>.</value>
-		public bool IsCyclic => Contains (this);
+		public bool IsCyclic => Contains(this);
 
 
-		public bool Contains (Object o)
+		public bool Contains(Object o)
 		=> Car == o
 		|| Cdr == o
-		|| (Car is Pair pCar && pCar.Contains (o))
-		|| (Cdr is Pair pCdr && pCdr.Contains (o));
+		|| (Car is Pair pCar && pCar.Contains(o))
+		|| (Cdr is Pair pCdr && pCdr.Contains(o));
 
 		//Todo Will Fuck up with circular lists
-		public Pair EvaluateAll (Environment environment)
+		public Pair EvaluateAll(Environment environment)
 		{
 			if (IsCyclic)
-				throw new NotImplementedException ();
-			Pair resultHead;
-			Pair resultTail;
-			resultHead = resultTail = new Pair (environment.Evaluate (Car), Null.Instance);
+				throw new NotImplementedException();
+			Pair resultHead, resultTail;
+			resultHead = resultTail = new Pair(environment.Evaluate(Car), Null.Instance);
 			Pair list = Cdr as Pair;
-			while (list != null) {
-				resultTail.Cdr = new Pair (environment.Evaluate (list.Car), Null.Instance);
+			while (list != null)
+			{
+				Object resultCar = environment.Evaluate(list.Car);
+
+				resultTail.Cdr = new Pair(resultCar, Null.Instance);
 				resultTail = resultTail.Cdr as Pair;
 				list = list.Cdr as Pair;
 			}
 			return resultHead;
 		}
 
-		public void Append (Object input)
+		public void Append(Object input)
 		{
-			if (Car is Null) {
+			if (Car is Null)
+			{
 				Car = input;
 				return;
 			}
 			Pair current = this;
 			while (!(current.Cdr is Null) && current.Cdr is Pair p)
 				current = p;
-			current.Cdr = new Pair (input, Null.Instance);
+			current.Cdr = new Pair(input, Null.Instance);
 		}
 
-		public IEnumerator<Object> GetEnumerator () => new PairEnumerator (this);
+		public IEnumerator<Object> GetEnumerator() => new PairEnumerator(this);
 
 		class PairEnumerator : IEnumerator<Object>
 		{
-			public Pair Start { get; set; }
-			private Pair CurrentPair { get; set; }
+			Pair CurrentPair { get; set; }
+			Pair Start;
+			bool firstMove;
 
-			public Object Current => CurrentPair;
+			public Object Current => CurrentPair.Car;
 
-			object IEnumerator.Current => CurrentPair;
+			object IEnumerator.Current => CurrentPair.Car;
 
-			public void Dispose ()
+			public void Dispose()
 			{
 				CurrentPair = null;
 				Start = null;
 			}
 
-			public bool MoveNext ()
+			// TODO Possible Rework
+			public bool MoveNext()
 			{
-				CurrentPair = CurrentPair.Cdr as Pair;
+				if (firstMove)
+				{
+					CurrentPair = CurrentPair.Cdr as Pair;
+				}
+				else firstMove = true;
+
 				return CurrentPair != null;
 			}
 
-			public void Reset ()
+			public void Reset()
 			{
 				CurrentPair = Start;
 			}
 
-			public PairEnumerator (Pair start)
+			public PairEnumerator(Pair start)
 			{
 				CurrentPair = Start = start;
 			}
 		}
 
-		IEnumerator IEnumerable.GetEnumerator () => new PairEnumerator (this);
+		IEnumerator IEnumerable.GetEnumerator() => new PairEnumerator(this);
 
 
-		public Object this [int index] {
-			get {
+		public Object this[int index]
+		{
+			get
+			{
+				if (index < 0)
+					throw new IndexOutOfRangeException(nameof(index));
 				Pair CurrentPair = this;
-				while (index != 0) {
+				while (index != 0)
+				{
 					if (CurrentPair == null)
-						throw new ArgumentException ("List not deep enough");
+						throw new ArgumentException("List not deep enough");
 					CurrentPair = CurrentPair.Cdr as Pair;
 					index--;
 				}
-				return CurrentPair;
+				return CurrentPair.Car;
 			}
 		}
 	}
