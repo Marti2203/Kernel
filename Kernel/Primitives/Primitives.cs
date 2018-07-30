@@ -1,4 +1,4 @@
-﻿#define FastCopyEs
+﻿#define FastCopyES
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,9 +79,9 @@ namespace Kernel.Primitives
 
 		}
 
-
-		public static bool IsTailContext(Object obj)
-		=> (obj is Pair p && p.Car is Combiner && p.Cdr is Pair);
+#warning This must be reworked
+        public static bool IsTailContext(Object obj)
+        => true; //(obj is Pair p && p.Car is Combiner);
 
 		public static Object Evaluate(Object @object, Environment environment)
 		=> environment.Evaluate(@object);
@@ -188,17 +188,17 @@ namespace Kernel.Primitives
 				return Parser.Parse(input.Trim());
 			}
 
-			[Primitive("set-car", 2)]
+			[Primitive("set-car!", 2)]
 			[TypeAssertion(0, typeof(Pair))]
 			[MutabilityAssertion(0)]
 			public static Inert SetCar(Pair p, Object obj)
 			{
-				p.Car = obj;
+                p.Car = obj;
 				return Inert.Instance;
 			}
 
 
-			[Primitive("set-cdr", 2)]
+			[Primitive("set-cdr!", 2)]
 			[TypeAssertion(0, typeof(Pair))]
 			[MutabilityAssertion(0)]
 			public static Inert SetCdr(Pair p, Object obj)
@@ -411,8 +411,8 @@ namespace Kernel.Primitives
 
 			[Primitive("$if", 4)]
 			[TypeAssertion(0, typeof(Environment))]
-			[PredicateAssertion(1, nameof(IsTailContext))]
 			[PredicateAssertion(2, nameof(IsTailContext))]
+			[PredicateAssertion(3, nameof(IsTailContext))]
 			public static Object If(Environment env, Object testInput, Object consequent, Object alternative)
 			{
 				Object test = env.Evaluate(testInput);

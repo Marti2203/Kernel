@@ -33,9 +33,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
-    <Reference Include="DeepCopy">
-      <HintPath>..\packages\DeepCopy.1.0.3\lib\netstandard2.0\DeepCopy.dll</HintPath>
-    </Reference>
     <Reference Include="System.ValueTuple">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -47,6 +44,9 @@
     </Reference>
     <Reference Include="Dissassembly">
       <HintPath>..\..\Dissassembly\Dissassembly\bin\Debug\Dissassembly.dll</HintPath>
+    </Reference>
+    <Reference Include="NClone">
+      <HintPath>..\packages\NClone.1.1.1\lib\net45\NClone.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

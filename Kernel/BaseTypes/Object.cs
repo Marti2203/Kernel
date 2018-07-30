@@ -26,6 +26,6 @@ namespace Kernel
             return true;
         }
 
-        public Object Copy() => DeepCopy.DeepCopier.Copy(this);
+        public Object Copy() => NClone.Clone.ObjectGraph(this);
     }
 }

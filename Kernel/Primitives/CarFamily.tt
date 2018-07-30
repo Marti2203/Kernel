@@ -14,10 +14,9 @@ public static class CarFamily
 <#+
 
 public string TypeCheck(string functionWhole, string functionSub)
-=> String.Join(System.Environment.NewLine,"\t\tif(!(p."+functionSub+" is Pair))"
+=> String.Join(System.Environment.NewLine,"\n\t\tif(!(p."+functionSub+" is Pair))"
 ,$"\t\t\tthrow new System.ArgumentException(\""+functionWhole+"r's " + functionSub + " has not received a proper argument \");"
 ,"\t\tp = p."+functionSub+" as Pair;"
-,""
 ,""
 );
 
@@ -28,13 +27,11 @@ if(level == 0)
 {
 return string.Join(System.Environment.NewLine
     ,"\tpublic static Object "+start +"r(Pair p)"
-    ,"\t{"
-    ,""
-    , start
-        .Where(c=>c == 'a' || c == 'd')
+    ,"\t{" +start
+        .Substring(1,start.Length - 2)
         .Select(c => c == 'a' ? TypeCheck(start,"Car") : TypeCheck(start,"Cdr"))
         .Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
-    ,"\t\treturn p;"
+    ,"\t\treturn p."+ (start[1] == 'a' ? "Car" : "Cdr") + ";"
     ,"\t}","");
 }
 Write(Recurse(start+"a",level - 1));
