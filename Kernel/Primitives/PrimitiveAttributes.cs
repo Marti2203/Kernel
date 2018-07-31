@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
-using System.Reflection;
 
 namespace Kernel.Primitives
 {
@@ -69,7 +68,7 @@ namespace Kernel.Primitives
 
 		public abstract Expression Expression { get; }
 		public static readonly ParameterExpression Input = Parameter(typeof(Object), "@object");
-        public static readonly UnaryExpression InputCasted = TypeAs(Input, typeof(List));
+		public static readonly UnaryExpression InputCasted = TypeAs(Input, typeof(List));
 
 
 		public string ErrorMessage => errorMessage;
@@ -145,8 +144,8 @@ namespace Kernel.Primitives
 			: base(And
 					(
 					 TypeIs(ElementAt(index), typeof(Arithmetic.Integer)),
-                       GreaterThanOrEqual(PropertyOrField(TypeAs(ElementAt(index),typeof(Arithmetic.Integer)),"data"),
-                                          Constant(Arithmetic.Integer.Zero))
+					   GreaterThanOrEqual(PropertyOrField(TypeAs(ElementAt(index), typeof(Arithmetic.Integer)), "data"),
+										  Constant(Arithmetic.Integer.Zero))
 					)
 				  , $"{index} Argument is a negative integer", index)
 		{

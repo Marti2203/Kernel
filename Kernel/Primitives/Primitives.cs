@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Kernel.Combiners;
 using Kernel.Arithmetic;
-using System.Linq.Dynamic;
 using static Kernel.Primitives.DynamicConnections;
 using Kernel.Utilities;
 namespace Kernel.Primitives
@@ -46,8 +45,8 @@ namespace Kernel.Primitives
 		static void AddOperatives()
 		{
 			foreach (MethodInfo method in typeof(Operatives)
-		 .GetMethods()
-		 .Where((MethodInfo method) => method.ReturnType.IsOrIsSubclassOf(typeof(Object))))
+					 .GetMethods()
+					 .Where((MethodInfo method) => method.ReturnType.IsOrIsSubclassOf(typeof(Object))))
 			{
 				PrimitiveAttribute primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute>();
 				Operative app = new Operative(CreatePipeFunction(method), primitiveInformation.PrimitiveName);
@@ -62,7 +61,7 @@ namespace Kernel.Primitives
 			foreach (Type t in typeof(Object)
 					 .Assembly
 					 .GetTypes()
-					 .Where(t => t.IsSubclassOf(typeof(Object))))
+					 .Where(t => t.IsSubclassOf(typeof(Object)) && !t.IsAbstract))
 				functions.Add(t.Name.ToLower() + "?", typeof(PredicateApplicative<>)
 							  .MakeGenericType(t)
 							  .GetProperty("Instance")
@@ -71,17 +70,21 @@ namespace Kernel.Primitives
 
 		static void AddCarFamily() // Optimised version of Add(Applicatives|Operatives) for the car methods
 		{
-			foreach (MethodInfo method in typeof(CarFamily).GetMethods().Where((method) => method.ReturnType == typeof(Object)))
+			foreach (MethodInfo method in typeof(CarFamily)
+					 .GetMethods()
+					 .Where((MethodInfo method) => method.ReturnType.IsOrIsSubclassOf(typeof(Object))))
 			{
-				Applicative app = new Applicative(CreateCarFamilyConnection(method), method.Name.ToLower());
-				functions.Add(method.Name.ToLower(), app);
+				PrimitiveAttribute primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute>();
+				var pipedMethod = CreatePipeFunction(method);
+				Applicative app = new Applicative(pipedMethod, primitiveInformation.PrimitiveName);
+				functions.Add(primitiveInformation.PrimitiveName, app);
 			}
 
 		}
 
 #warning This must be reworked
-        public static bool IsTailContext(Object obj)
-        => true; //(obj is Pair p && p.Car is Combiner);
+		public static bool IsTailContext(Object obj)
+		=> true; //(obj is Pair p && p.Car is Combiner);
 
 		public static Object Evaluate(Object @object, Environment environment)
 		=> environment.Evaluate(@object);
@@ -152,19 +155,19 @@ namespace Kernel.Primitives
 			[Primitive("cons", 2)]
 			public static Object Cons(Object car, Object cdr) => new Pair { Car = car, Cdr = cdr };
 
-            [Primitive("display", 1)]
-            public static Inert Display(Object input)
-            {
-                Console.WriteLine(input);
-                return Inert.Instance;
-            }
+			[Primitive("display", 1)]
+			public static Inert Display(Object input)
+			{
+				Console.WriteLine(input);
+				return Inert.Instance;
+			}
 
-            [Primitive("exit")]
-            public static Inert Exit()
-            {
-                System.Environment.Exit(0);
-                return Inert.Instance;
-            }
+			[Primitive("exit")]
+			public static Inert Exit()
+			{
+				System.Environment.Exit(0);
+				return Inert.Instance;
+			}
 
 			[Primitive("read")]
 			public static Object Read()
@@ -207,7 +210,7 @@ namespace Kernel.Primitives
 			[MutabilityAssertion(0)]
 			public static Inert SetCar(Pair p, Object obj)
 			{
-                p.Car = obj;
+				p.Car = obj;
 				return Inert.Instance;
 			}
 
@@ -229,7 +232,7 @@ namespace Kernel.Primitives
 
 				// HACK Why bother with creating a new one?
 #if FastCopyES
-                if (!p.Mutable) return p; 
+				if (!p.Mutable) return p;
 #endif
 				return new Pair(CopyEvaluationStructureImmutable(p.Car),
 								CopyEvaluationStructureImmutable(p.Cdr), false);
@@ -263,9 +266,9 @@ namespace Kernel.Primitives
 
 
 			[Primitive("list", 0, true)]
-            public static Object List(List objects)
+			public static Object List(List objects)
 			{
-                if (!objects.Any()) return Null.Instance;
+				if (!objects.Any()) return Null.Instance;
 				if (objects.Count() == 1) return objects[0];
 				Pair head = new Pair(objects[0]);
 				Pair tail = head;
@@ -278,9 +281,9 @@ namespace Kernel.Primitives
 			}
 
 			[Primitive("list*", 0, true)]
-            public static Object ListStar(List objects)
+			public static Object ListStar(List objects)
 			{
-                if (!objects.Any()) return Null.Instance;
+				if (!objects.Any()) return Null.Instance;
 				if (objects.Count() == 1) return objects[0];
 				Pair head = new Pair(objects[0], Null.Instance);
 				Pair tail = head;
@@ -330,7 +333,11 @@ namespace Kernel.Primitives
 						visits.Add(p, 1);
 						if (p.Cdr is Pair pNew)
 							p = pNew;
-						else if (p.Cdr is Null) { nilCount++; break; }
+						else
+						{
+							if (p.Cdr is Null) nilCount++;
+							break;
+						}
 					}
 					acyclicLength = visits.Count(v => v.Value == 1);
 					cycleLength = visits.Count(v => v.Value == 2);
@@ -386,7 +393,7 @@ namespace Kernel.Primitives
 			[Primitive("map", 1, true)]
 			[TypeAssertion(0, typeof(Applicative))]
 			[TypeCompilanceAssertion(typeof(Pair), 1)]
-            public static Object Map(Applicative app, Pair[] lists)
+			public static Object Map(Applicative app, Pair[] lists)
 			{
 				// TODO WHAT THE FUCK DO WE DO WITH CYCLIC LISTS?!!!?!?!
 				// Rework
@@ -401,16 +408,16 @@ namespace Kernel.Primitives
 				while (lists[0] != null)
 				{
 					if (app.combiner is Operative o)
-                        result.Append(o.Invoke(new Pair(lists.Select(pair => pair.Car)),Environment.Current));
-                    if (app.combiner is Applicative ap)
-                        result.Append(ap.Invoke(new Pair(lists.Select(pair => pair.Car))));
+						result.Append(o.Invoke(new Pair(lists.Select(pair => pair.Car)), Environment.Current));
+					if (app.combiner is Applicative ap)
+						result.Append(ap.Invoke(new Pair(lists.Select(pair => pair.Car))));
 					lists = lists.Select(x => x.Cdr as Pair).ToArray();
 				}
 				return result;
 			}
 
 			[Primitive("eq?", 0, true)]
-            public static Boolean Eq(List objects)
+			public static Boolean Eq(List objects)
 			=> (Boolean)(!objects.Any() || objects.All(obj => obj.Equals(objects[0])));
 
 			[Primitive("get-current-environment", 0)]

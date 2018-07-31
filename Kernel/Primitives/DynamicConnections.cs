@@ -1,5 +1,5 @@
-﻿#define DebugMethods
-#define DebugCallMethods
+﻿//#define DebugMethods
+//#define DebugCallMethods
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace Kernel.Primitives
 			var typeCompilance = method.GetCustomAttribute<TypeCompilanceAssertionAttribute>();
 			var typeAssertions = method.GetCustomAttributes<TypeAssertionAttribute>();
 
-            var list = Parameter(typeof(List), "list");
+			var list = Parameter(typeof(List), "list");
 			var assignment = Assign(list, AssertionAttribute.InputCasted);
 			var methodCallParameters = GenerateMethodCallParameters(typeAssertions,
 																	primitiveInformation,
@@ -74,8 +74,6 @@ namespace Kernel.Primitives
 							 methodCall);
 
 #if DebugMethods
-			if (method.Name == "List")
-			{
 				Console.WriteLine($"Name: {method.Name}");
 				Console.WriteLine($"Body Expressions");
 				var expressions = body
@@ -83,7 +81,6 @@ namespace Kernel.Primitives
 					.SelectMany(expression => expression is BlockExpression block ? block.Expressions.ToArray() : new[] { expression });
 				Console.WriteLine(string.Join("\n", expressions));
 				Console.WriteLine();
-			}
 #endif
 
 			var result = Lambda(body, true, AssertionAttribute.Input).Compile();
@@ -132,19 +129,16 @@ namespace Kernel.Primitives
 			return methodCallParameters;
 		}
 
-		public static Func<Object, Object> CreateCarFamilyConnection(MethodInfo method)
+	}
+	public static class PredicateApplicative<T>
+	{
+		public static Combiners.Applicative Instance => new Combiners.Applicative(Validate, Name);
+		static string Name => typeof(T).Name.ToLower() + "?";
+		static Boolean Validate(Object @object)
 		{
-            var list = Parameter(typeof(List), "list");
-			var assignment = Assign(list, AssertionAttribute.InputCasted);
-			var firstArgument = Property(list, "Item", Constant(0));
-			var pairCheck = Throw(Not(TypeIs(firstArgument, typeof(Pair))), "Argument is not a pair");
-			var call = Call(null, method, TypeAs(firstArgument, typeof(Pair)));
-
-			var result = Lambda(Block(new[] { list }, assignment, pairCheck, call),
-						  true,
-						  AssertionAttribute.Input)
-				.Compile();
-			return result as Func<Object, Object>;
+			List list = @object as List;
+			if (!list.Any()) return Boolean.False;
+			return (Boolean)list.All(x => x is T);
 		}
 	}
 }

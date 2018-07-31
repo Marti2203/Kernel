@@ -33,11 +33,4 @@ namespace Kernel.Combiners
 		public override string ToString() => Name ?? combiner.Name;
 	}
 
-	public static class PredicateApplicative<T>
-	{
-		public static Applicative Instance => new Applicative(Validate, Name);
-		static string Name => typeof(T).Name.ToLower() + "?";
-		static Object Validate(Object @object)
-		=> (Boolean)(typeof(T) == @object.GetType());
-	}
 }
