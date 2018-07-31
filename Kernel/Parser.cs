@@ -12,6 +12,13 @@ namespace Kernel
 	{
 
 		static readonly string digits = "0123456789abcdef";
+		static readonly Dictionary<char, char> escaped = new Dictionary<char, char>{
+			{ 'n', '\n' },
+			{ 't', '\t' },
+			{ 'b', '\b' },
+			{ 'r', '\r' },
+			{ '0', '\0' },
+		};
 		static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, digits.IndexOf);
 		static BigInteger ParseBigInteger(string value, int baseOfValue)
 		=> value.Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
@@ -31,7 +38,6 @@ namespace Kernel
 		static readonly Regex RealPattern = new Regex(@"^[+-]?\d*\.\d+$");
 		static readonly Regex ComplexPattern = new Regex(@"^([+-]?\d+(?:\.\d*|e\d+)?)([+-]\d+(?:\.\d*|e\d+)?)i$");
 		static readonly Regex PairPattern = new Regex(@"\(([^()\s]+)\s+\.\s+([^()\s]+)\)$");
-		static readonly Regex StringPattern = new Regex(@"""(.*)""$");
 		static readonly Regex CharacterPattern = new Regex(@"#\\(.*)$");
 		internal static Object ParseToken(string input)
 		{
@@ -85,10 +91,6 @@ namespace Kernel
 				return new Pair(ParseToken(match.Groups[1].Value),
 								ParseToken(match.Groups[2].Value));
 
-			match = StringPattern.Match(input);
-			if (match.Success)
-				return new String(match.Groups[1].Value);
-
 			return Symbol.Get(input);
 		}
 
@@ -99,7 +101,6 @@ namespace Kernel
 				return constants[input];
 
 			Stack<Pair> lists = new Stack<Pair>();
-			bool inString = false;
 
 			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < input.Length; i++)
@@ -107,12 +108,20 @@ namespace Kernel
 				switch (input[i])
 				{
 					case '(':
-						if (inString) goto default;
-						lists.Push(new Pair());
+						while (char.IsWhiteSpace(input[i + 1])) i++;
+						if (input[i + 1] == ')')
+						{
+							if (lists.Count == 0)
+								return Null.Instance;
+							lists.Peek().Append(Null.Instance);
+							i++;
+						}
+						else
+						{
+							lists.Push(new Pair());
+						}
 						break;
 					case ')':
-						if (inString)
-							goto default;
 						if (lists.Count == 0)
 							throw new ArgumentException("No opening parenthesis");
 						if (buffer.Length != 0)
@@ -125,26 +134,23 @@ namespace Kernel
 						lists.Peek().Append(temp);
 						break;
 					case '"':
-						Object result = null;
-						if (inString)
-							result = new String(buffer.ToString());
-						else if (buffer.Length != 0)
-							result = ParseToken(buffer.ToString());
-						buffer.Clear();
-
+						while (input[++i] != '"')
+							if (input[i] == '\\')
+							{
+								if (escaped.ContainsKey(input[++i]))
+									buffer.Append(escaped[input[i]]);
+								else throw new InvalidOperationException($"No such escaped character \\{input[i]}");
+							}
+							else buffer.Append(input[i]);
+						String result = new String(buffer.ToString());
 						if (lists.Count == 0) return result;
-
 						lists.Peek().Append(result);
-
-						inString = !inString;
+						buffer.Clear();
 						break;
 					case '\\':
-						if (inString)
-							i++;
-						else buffer.Append(input[i]);
+						buffer.Append(input[i]);
 						break;
 					case ' ':
-						if (inString) goto default;
 						if (buffer.Length != 0)
 						{
 							if (lists.Count == 0) return ParseToken(buffer.ToString());
@@ -153,12 +159,11 @@ namespace Kernel
 						}
 						break;
 					case ';':
-						if (inString) goto default;
 						while (i < input.Length && input[i] != '\n')
 							i++;
 						break;
 					case '.':
-						if (inString || buffer.Length != 0 || input[i + 1] != ' ' || input[i + 1] != ')') goto default;
+						if (buffer.Length != 0 || input[i + 1] != ' ' || input[i + 1] != ')') goto default;
 						break;
 					default:
 						buffer.Append(input[i]);
