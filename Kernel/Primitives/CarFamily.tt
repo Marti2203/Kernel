@@ -26,6 +26,8 @@ start:
 if(level == 0) 
 {
 return string.Join(System.Environment.NewLine
+    ,$"\t[Primitive(\"{start.ToLower()}r\",1)]"
+    ,$"\t[TypeAssertion(0, typeof(Pair))]"
     ,"\tpublic static Object "+start +"r(Pair p)"
     ,"\t{" +start
         .Substring(1,start.Length - 2)
