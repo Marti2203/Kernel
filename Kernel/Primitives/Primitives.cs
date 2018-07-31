@@ -152,6 +152,13 @@ namespace Kernel.Primitives
 			[Primitive("cons", 2)]
 			public static Object Cons(Object car, Object cdr) => new Pair { Car = car, Cdr = cdr };
 
+            [Primitive("display", 1)]
+            public static Inert Display(Object input)
+            {
+                Console.WriteLine(input);
+                return Inert.Instance;
+            }
+
 			[Primitive("read")]
 			public static Object Read()
 			{
@@ -232,7 +239,7 @@ namespace Kernel.Primitives
 			=> new Environment(environments);
 
 			[Primitive("equal?", 0, true)]
-			public static Boolean Equal(Pair objects)
+			public static Boolean Equal(List objects)
 			{
 				if (!objects.Any()) return Boolean.True;
 				if (objects.All(obj => obj.GetType() == objects[0].GetType() && obj.Equals(objects[0]))) return Boolean.True;
@@ -249,7 +256,7 @@ namespace Kernel.Primitives
 
 
 			[Primitive("list", 0, true)]
-			public static Object List(Pair objects)
+            public static Object List(List objects)
 			{
 				if (objects.Count() == 1) return objects[0];
 				Pair head = new Pair(objects[0], Null.Instance);
@@ -263,7 +270,7 @@ namespace Kernel.Primitives
 			}
 
 			[Primitive("list*", 0, true)]
-			public static Object ListStar(Pair objects)
+            public static Object ListStar(List objects)
 			{
 				if (objects.Count() == 1) return objects[0];
 				Pair head = new Pair(objects[0], Null.Instance);
@@ -281,7 +288,7 @@ namespace Kernel.Primitives
 			[TypeAssertion(0, typeof(Applicative))]
 			[TypeAssertion(1, typeof(Pair))]
 			[TypeAssertion(2, typeof(Environment))]
-#warning This function may get an environment, what do i do??
+#warning This function may not get an environment, what do i do??
 			public static Object Apply(Applicative a, Pair p, Environment e) => e.Evaluate(new Pair(a.combiner, p));
 
 			public static class ListMetrics
@@ -370,7 +377,7 @@ namespace Kernel.Primitives
 			[Primitive("map", 1, true)]
 			[TypeAssertion(0, typeof(Applicative))]
 			[TypeCompilanceAssertion(typeof(Pair), 1)]
-			public static Object Map(Applicative app, Pair[] lists)
+            public static Object Map(Applicative app, Pair[] lists)
 			{
 				// TODO WHAT THE FUCK DO WE DO WITH CYCLIC LISTS?!!!?!?!
 				// Rework
@@ -385,14 +392,16 @@ namespace Kernel.Primitives
 				while (lists[0] != null)
 				{
 					if (app.combiner is Operative o)
-						result.Append(o.Invoke(new Pair(lists.Select(x => x.Car))));
+                        result.Append(o.Invoke(new Pair(lists.Select(pair => pair.Car)),Environment.Current));
+                    if (app.combiner is Applicative ap)
+                        result.Append(ap.Invoke(new Pair(lists.Select(pair => pair.Car))));
 					lists = lists.Select(x => x.Cdr as Pair).ToArray();
 				}
 				return result;
 			}
 
 			[Primitive("eq?", 0, true)]
-			public static Boolean Eq(Pair objects)
+            public static Boolean Eq(List objects)
 			=> (Boolean)(!objects.Any() || objects.All(obj => obj.Equals(objects[0])));
 
 			[Primitive("get-current-environment", 0)]

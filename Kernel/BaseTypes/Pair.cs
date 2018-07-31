@@ -5,7 +5,7 @@ using System.Text;
 using Kernel.Combiners;
 namespace Kernel
 {
-	public sealed class Pair : Object, IEnumerable<Object>
+    public sealed class Pair : List
 	{
 		Object car, cdr;
 		public Object Car
@@ -105,7 +105,7 @@ namespace Kernel
 		/// Gets a value indicating whether this <see cref="T:Kernel.Pair"/> is cyclic.
 		/// </summary>
 		/// <value><c>true</c> if is cyclic; otherwise, <c>false</c>.</value>
-		public bool IsCyclic => Contains(this);
+        public override bool IsCyclic => Contains(this);
 
 
 		public bool Contains(Object o)
@@ -115,7 +115,7 @@ namespace Kernel
 		|| (Cdr is Pair pCdr && pCdr.Contains(o));
 
 		//Todo Will Fuck up with circular lists
-		public Pair EvaluateAll(Environment environment)
+        public override Object EvaluateAll(Environment environment)
 		{
 			if (IsCyclic)
 				throw new NotImplementedException();
@@ -146,7 +146,7 @@ namespace Kernel
 			current.Cdr = new Pair(input, Null.Instance);
 		}
 
-		public IEnumerator<Object> GetEnumerator() => new PairEnumerator(this);
+        public override IEnumerator<Object> GetEnumerator() => new PairEnumerator(this);
 
 		class PairEnumerator : IEnumerator<Object>
 		{
@@ -187,10 +187,7 @@ namespace Kernel
 			}
 		}
 
-		IEnumerator IEnumerable.GetEnumerator() => new PairEnumerator(this);
-
-
-		public Object this[int index]
+        public override Object this[int index]
 		{
 			get
 			{

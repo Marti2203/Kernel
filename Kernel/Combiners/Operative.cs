@@ -83,7 +83,7 @@ namespace Kernel.Combiners
 			throw new ArgumentException("Argument is not a Pair or Cdr is not an Environment");
 		}
 
-		public Object Invoke(Pair pair, Environment environment) => underlyingOperative.Action(pair, environment);
+        public Object Invoke(Object @object, Environment environment) => underlyingOperative.Action(@object, environment);
 
 		public bool Equals(Operative other) => underlyingOperative == other.underlyingOperative;
 

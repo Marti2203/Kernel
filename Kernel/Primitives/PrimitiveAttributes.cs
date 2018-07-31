@@ -69,7 +69,7 @@ namespace Kernel.Primitives
 
 		public abstract Expression Expression { get; }
 		public static readonly ParameterExpression Input = Parameter(typeof(Object), "@object");
-		public static readonly UnaryExpression InputCasted = TypeAs(Input, typeof(Pair));
+        public static readonly UnaryExpression InputCasted = TypeAs(Input, typeof(List));
 
 
 		public string ErrorMessage => errorMessage;
@@ -145,7 +145,8 @@ namespace Kernel.Primitives
 			: base(And
 					(
 					 TypeIs(ElementAt(index), typeof(Arithmetic.Integer)),
-						GreaterThan(Property(TypeAs(ElementAt(index), typeof(int?)), "Value"), Constant(0))
+                       GreaterThanOrEqual(PropertyOrField(TypeAs(ElementAt(index),typeof(Arithmetic.Integer)),"data"),
+                                          Constant(Arithmetic.Integer.Zero))
 					)
 				  , $"{index} Argument is a negative integer", index)
 		{

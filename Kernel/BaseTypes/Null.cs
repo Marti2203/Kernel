@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace Kernel
 {
-	public sealed class Null : Object, IEnumerable<Object>
+	public sealed class Null : List
 	{
 		public static readonly Null Instance = new Null();
 
@@ -11,27 +11,31 @@ namespace Kernel
 		{
 		}
 
-		public IEnumerator<Object> GetEnumerator() => new NullEnumerator();
+        public override bool IsCyclic => false;
 
-		public override string ToString() => "()";
+        public override Object EvaluateAll(Environment environment) => this;
 
-		IEnumerator IEnumerable.GetEnumerator() => new NullEnumerator();
+        public override Object this[int index] => throw new InvalidOperationException("Empty list cannot be indexed");
 
-		class NullEnumerator : IEnumerator<Object>
-		{
-			public Object Current => throw new InvalidOperationException("Wtf?");
+        public override IEnumerator<Object> GetEnumerator() => new NullEnumerator();
 
-			object IEnumerator.Current => throw new InvalidOperationException("Wtf");
+        public override string ToString() => "()";
 
-			public void Dispose()
-			{
-			}
+        class NullEnumerator : IEnumerator<Object>
+        {
+            public Object Current => throw new InvalidOperationException("Empty list cannot be enumerated.");
 
-			public bool MoveNext() => false;
+            object IEnumerator.Current => throw new InvalidOperationException("Empty list cannot be enumerated.");
 
-			public void Reset()
-			{
-			}
-		}
+            public void Dispose()
+            {
+            }
+
+            public bool MoveNext() => false;
+
+            public void Reset()
+            {
+            }
+        }
 	}
 }

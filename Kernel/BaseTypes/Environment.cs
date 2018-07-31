@@ -71,7 +71,7 @@ namespace Kernel
 				}
 				if (car is Applicative ap)
 				{
-					if (p.Cdr is Pair l)
+                    if (p.Cdr is List l)
 					{
 #if FastEvaluate
 						return Evaluate(ap.combiner, l.EvaluateAll(this));
@@ -87,7 +87,7 @@ namespace Kernel
 		}
 
 #if FastEvaluate
-		Object Evaluate(Combiner combiner, Pair list)
+        Object Evaluate(Combiner combiner, Object list)
 		{
 			if (combiner is Operative o)
 				return o.Invoke(list, this);

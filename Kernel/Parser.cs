@@ -168,7 +168,7 @@ namespace Kernel
 			if (lists.Count != 0)
 				throw new ArgumentException($"{nameof(input)} has no closing parenthesis");
 			if (buffer.Length == 0)
-				throw new InvalidOperationException("Wtf?!");
+				throw new InvalidOperationException("Buffer is empty. How did this happen?!");
 			return ParseToken(buffer.ToString());
 		}
 

@@ -1,5 +1,5 @@
-﻿//#define DebugMethods
-//#define DebugCallMethods
+﻿#define DebugMethods
+#define DebugCallMethods
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -56,25 +56,25 @@ namespace Kernel.Primitives
 			var typeCompilance = method.GetCustomAttribute<TypeCompilanceAssertionAttribute>();
 			var typeAssertions = method.GetCustomAttributes<TypeAssertionAttribute>();
 
-			var pair = Parameter(typeof(Pair), "pair");
-			var assignment = Assign(pair, AssertionAttribute.InputCasted);
+            var list = Parameter(typeof(List), "list");
+			var assignment = Assign(list, AssertionAttribute.InputCasted);
 			var methodCallParameters = GenerateMethodCallParameters(typeAssertions,
 																	primitiveInformation,
 																	typeCompilance,
-																	pair);
+																	list);
 
 			Expression methodCall = Call(null, method, methodCallParameters);
 
 
 			Expression countCheck = GenerateCountCheck(primitiveInformation);
-			var body = Block(new[] { pair },
+			var body = Block(new[] { list },
 							 assignment,
 							 countCheck,
 							 Block(assertions.Select(x => Throw(x.Expression, x.ErrorMessage))),
 							 methodCall);
 
 #if DebugMethods
-			if (method.Name == "Map")
+			if (method.Name == "List")
 			{
 				Console.WriteLine($"Name: {method.Name}");
 				Console.WriteLine($"Body Expressions");
@@ -134,13 +134,13 @@ namespace Kernel.Primitives
 
 		public static Func<Object, Object> CreateCarFamilyConnection(MethodInfo method)
 		{
-			var pair = Parameter(typeof(Pair), "pair");
-			var assignment = Assign(pair, AssertionAttribute.InputCasted);
-			var firstArgument = Property(pair, "Item", Constant(0));
+            var list = Parameter(typeof(List), "list");
+			var assignment = Assign(list, AssertionAttribute.InputCasted);
+			var firstArgument = Property(list, "Item", Constant(0));
 			var pairCheck = Throw(Not(TypeIs(firstArgument, typeof(Pair))), "Argument is not a pair");
 			var call = Call(null, method, TypeAs(firstArgument, typeof(Pair)));
 
-			var result = Lambda(Block(new[] { pair }, assignment, pairCheck, call),
+			var result = Lambda(Block(new[] { list }, assignment, pairCheck, call),
 						  true,
 						  AssertionAttribute.Input)
 				.Compile();

@@ -80,6 +80,7 @@
     <Compile Include="Utilities\MethodInfoExtender.cs" />
     <Compile Include="Utilities\MethodCallUtilities.cs" />
     <Compile Include="Primitives\DynamicConnections.cs" />
+    <Compile Include="BaseTypes\List.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />
