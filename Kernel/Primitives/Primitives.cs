@@ -159,6 +159,13 @@ namespace Kernel.Primitives
                 return Inert.Instance;
             }
 
+            [Primitive("exit")]
+            public static Inert Exit()
+            {
+                System.Environment.Exit(0);
+                return Inert.Instance;
+            }
+
 			[Primitive("read")]
 			public static Object Read()
 			{
@@ -258,8 +265,9 @@ namespace Kernel.Primitives
 			[Primitive("list", 0, true)]
             public static Object List(List objects)
 			{
+                if (!objects.Any()) return Null.Instance;
 				if (objects.Count() == 1) return objects[0];
-				Pair head = new Pair(objects[0], Null.Instance);
+				Pair head = new Pair(objects[0]);
 				Pair tail = head;
 				for (int i = 1; i < objects.Count(); i++)
 				{
@@ -272,6 +280,7 @@ namespace Kernel.Primitives
 			[Primitive("list*", 0, true)]
             public static Object ListStar(List objects)
 			{
+                if (!objects.Any()) return Null.Instance;
 				if (objects.Count() == 1) return objects[0];
 				Pair head = new Pair(objects[0], Null.Instance);
 				Pair tail = head;
