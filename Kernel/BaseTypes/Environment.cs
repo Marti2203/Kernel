@@ -50,7 +50,11 @@ namespace Kernel
 					throw new NoBindingException("No Binding for " + name);
 				return Get(name);
 			}
-			set => bindings[name] = value;
+            set {
+                if (Has(name))
+                    throw new InvalidOperationException("Cannot replace primitive");
+                bindings[name] = value;
+            }
 		}
 		public Object this[Symbol name]
 		{

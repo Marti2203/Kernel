@@ -115,7 +115,7 @@ namespace Kernel.Primitives
 					else restOfParameters = CallEnumerable<Object>("ToArray",
 																   CallEnumerable<Object>("Skip",
 																						  input,
-																						  Constant(typeCompilance.Skip)));
+                                                                                          Constant(methodCallParameters.Count())));
 				}
 				else if (typeCompilance != null)
 				{
@@ -137,7 +137,7 @@ namespace Kernel.Primitives
 		static Boolean Validate(Object @object)
 		{
 			List list = @object as List;
-			if (!list.Any()) return Boolean.False;
+            if (!list.Any()) return Boolean.True;
 			return (Boolean)list.All(x => x is T);
 		}
 	}
