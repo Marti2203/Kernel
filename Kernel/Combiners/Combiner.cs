@@ -14,5 +14,6 @@ namespace Kernel.Combiners
 		{
 			this.name = name;
 		}
+
 	}
 }

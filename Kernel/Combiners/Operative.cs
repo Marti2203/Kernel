@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Diagnostics;
-using System.Collections.Generic;
 using static Kernel.Primitives.Primitives;
+using System.Linq;
 namespace Kernel.Combiners
 {
 	[DebuggerDisplay("{Name}")]
@@ -16,6 +15,7 @@ namespace Kernel.Combiners
 			underlyingOperative = new PrimitiveOperative(operation);
 		}
 
+		// This is Used only by the Add Operatives Method
 		internal Operative(Func<Object, Object> operation, string name = "Undefined")
 			: this((@object, environment) => operation(new Pair(environment, @object)), name)
 		{
@@ -28,11 +28,12 @@ namespace Kernel.Combiners
 			underlyingOperative = new CompoundOperative(env, formals, eformal, expr);
 		}
 
-#warning Have to Implement equality and hash code methods for the underlying operatives
 		interface IOperative
 		{
 			Object Action(Object @object, Environment environment);
 		}
+
+		#region Underlying Operatives
 
 		class CompoundOperative : IOperative
 		{
@@ -56,9 +57,8 @@ namespace Kernel.Combiners
 					local[s] = dynamicEnvironment;
 				if (IsTailContext(expr))
 					return local.Evaluate(expr);
-				throw new ArgumentException("Expression is not a tail context");
+				return Operatives.Sequence(local, (expr as List).ToArray());
 			}
-
 		}
 
 		class PrimitiveOperative : IOperative
@@ -73,8 +73,9 @@ namespace Kernel.Combiners
 			{
 				return operation(@object, environment);
 			}
-
 		}
+
+		#endregion
 
 		public override Object Invoke(Object @object)
 		{
@@ -83,10 +84,12 @@ namespace Kernel.Combiners
 			throw new ArgumentException("Argument is not a Pair or Cdr is not an Environment");
 		}
 
-        public Object Invoke(Object @object, Environment environment) => underlyingOperative.Action(@object, environment);
-
-		public bool Equals(Operative other) => underlyingOperative == other.underlyingOperative;
+		public Object Invoke(Object @object, Environment environment) => underlyingOperative.Action(@object, environment);
 
 		public override string ToString() => Name;
+
+		public override bool Equals(Object other)
+		=> (ReferenceEquals(this, other))
+		|| (other is Operative operative && underlyingOperative == operative.underlyingOperative);
 	}
 }
