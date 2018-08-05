@@ -1,36 +1,78 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Kernel.Arithmetic
 {
-    /// <summary>
-    /// Complex number, consisting of a real and imaginary part.
-    /// Highest number in hierarchy
-    /// </summary>
-    public sealed class Complex : Number
-    {
-        /// <summary>
-        /// The real part.
-        /// </summary>
-        public readonly decimal real;
-        /// <summary>
-        /// The imaginary part.
-        /// </summary>
-        public readonly decimal imaginary;
+	/// <summary>
+	/// Complex number, consisting of a real and imaginary part.
+	/// Highest number in hierarchy
+	/// </summary>
+	public sealed class Complex : Number
+	{
+		static readonly Dictionary<Tuple<decimal, decimal>, Complex> cache = new Dictionary<Tuple<decimal, decimal>, Complex>();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Kernel.Arithmetic.Complex"/> class.
-        /// </summary>
-        /// <param name="real">Real part.</param>
-        /// <param name="imaginary">Imaginary part.</param>
-        public Complex(decimal real,decimal imaginary)
-        {
-            this.real = real;
-            this.imaginary = imaginary;
-        }
+		public override NumberHierarchy Priority => NumberHierarchy.Complex;
 
-        /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Arithmetic.Complex"/>.
-        /// </summary>
-        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Arithmetic.Complex"/>.</returns>
-        public override string ToString() => $"{real}{ (imaginary > 0 ? "+" : "") }{imaginary}i";
-    }
+		public readonly decimal real;
+		public readonly decimal imaginary;
+
+		Complex(decimal real, decimal imaginary)
+		{
+			this.real = real;
+			this.imaginary = imaginary;
+		}
+
+		public static Complex Get(decimal real, decimal imaginary)
+		{
+			var key = Tuple.Create(real, imaginary);
+			if (cache.ContainsKey(key)) return cache[key];
+			cache.Add(key, new Complex(real, imaginary));
+			return cache[key];
+		}
+
+		public override string ToString()
+		=> imaginary == 0 ? real.ToString() : $"{real}{ (imaginary > 0 ? "+" : "-") }{imaginary}i";
+
+		public override bool Equals(Object other)
+		{
+			if (!(other is Number n)) return false;
+			if (n.Exact != Exact) return false;
+			Complex complex = (Complex)other;
+			return real == complex.real && imaginary == complex.imaginary;
+		}
+
+		protected override Number Add(Number num)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override Number Subtract(Number num)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override Number SubtractFrom(Number num)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override Number Multiply(Number num)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override Number Divide(Number num)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override Number DivideBy(Number num)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override Number Negate()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

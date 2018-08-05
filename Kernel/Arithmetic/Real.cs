@@ -1,66 +1,50 @@
-﻿using System;
+﻿using System.Collections.Generic;
 namespace Kernel.Arithmetic
 {
-    /// <summary>
-    /// Real.
-    /// </summary>
-    public sealed class Real : Number
-    {
-        /// <summary>
-        /// The data.
-        /// </summary>
-        public readonly decimal data;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Kernel.Arithmetic.Real"/> class.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public Real(decimal value)
-        {
-            data = value;
-        }
+	public sealed class Real : Number
+	{
+		static readonly Dictionary<decimal, Real> cache = new Dictionary<decimal, Real>();
 
-        /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Arithmetic.Real"/>.
-        /// </summary>
-        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Arithmetic.Real"/>.</returns>
-        public override string ToString() => data.ToString();
+		public override NumberHierarchy Priority => NumberHierarchy.Real;
 
-        /// <summary>
-        /// Adds a <see cref="Kernel.Arithmetic.Real"/> to a <see cref="Kernel.Arithmetic.Real"/>, yielding a new <see cref="T:Kernel.Arithmetic.Real"/>.
-        /// </summary>
-        /// <param name="l">The first <see cref="Kernel.Arithmetic.Real"/> to add.</param>
-        /// <param name="r">The second <see cref="Kernel.Arithmetic.Real"/> to add.</param>
-        /// <returns>The <see cref="T:Kernel.Arithmetic.Real"/> that is the sum of the values of <c>l</c> and <c>r</c>.</returns>
-        public static Real operator +(Real l, Real r)
-        => new Real(l.data + r.data);
+		public readonly decimal data;
 
-        /// <summary>
-        /// Subtracts a <see cref="Kernel.Arithmetic.Real"/> from a <see cref="Kernel.Arithmetic.Real"/>, yielding a new <see cref="T:Kernel.Arithmetic.Real"/>.
-        /// </summary>
-        /// <param name="l">The <see cref="Kernel.Arithmetic.Real"/> to subtract from (the minuend).</param>
-        /// <param name="r">The <see cref="Kernel.Arithmetic.Real"/> to subtract (the subtrahend).</param>
-        /// <returns>The <see cref="T:Kernel.Arithmetic.Real"/> that is the <c>l</c> minus <c>r</c>.</returns>
-        public static Real operator -(Real l, Real r)
-        => new Real(l.data - r.data);
+		Real(decimal value)
+		{
+			data = value;
+		}
 
-        /// <summary>
-        /// Computes the product of <c>l</c> and <c>r</c>, yielding a new <see cref="T:Kernel.Arithmetic.Real"/>.
-        /// </summary>
-        /// <param name="l">The <see cref="Kernel.Arithmetic.Real"/> to multiply.</param>
-        /// <param name="r">The <see cref="Kernel.Arithmetic.Real"/> to multiply.</param>
-        /// <returns>The <see cref="T:Kernel.Arithmetic.Real"/> that is the <c>l</c> * <c>r</c>.</returns>
-        public static Real operator *(Real l, Real r)
-        => new Real(l.data * r.data);
+		public static Real Get(decimal value)
+		{
+			if (cache.ContainsKey(value)) return cache[value];
+			cache.Add(value, new Real(value));
+			return cache[value];
+		}
 
-        /// <summary>
-        /// Computes the division of <c>l</c> and <c>r</c>, yielding a new <see cref="T:Kernel.Arithmetic.Real"/>.
-        /// </summary>
-        /// <param name="l">The <see cref="Kernel.Arithmetic.Real"/> to divide (the divident).</param>
-        /// <param name="r">The <see cref="Kernel.Arithmetic.Real"/> to divide (the divisor).</param>
-        /// <returns>The <see cref="T:Kernel.Arithmetic.Real"/> that is the <c>l</c> / <c>r</c>.</returns>
-        public static Real operator /(Real l, Real r)
-        => new Real(l.data / r.data);
+		public override string ToString() => data.ToString();
 
-    }
+		public override bool Equals(Object other)
+		{
+			if (!(other is Number n)) return false;
+			if (n.Exact != Exact) return false;
+			if (n.Priority > Priority) return n.Equals(this);
+			Real real = (n as Real);
+			return real.data == data;
+		}
+
+		protected override Number Add(Number num) => Get(data + ((Real)num).data);
+
+		protected override Number Subtract(Number num) => Get(data - ((Real)num).data);
+
+		protected override Number SubtractFrom(Number num) => Get(((Real)num).data - data);
+
+		protected override Number Multiply(Number num) => Get(((Real)num).data * data);
+
+		protected override Number Divide(Number num) => Get(((Real)num).data / data);
+
+		protected override Number DivideBy(Number num) => Get(data / ((Real)num).data);
+
+		protected override Number Negate() => Get(-data);
+	}
 }

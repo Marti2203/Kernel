@@ -11,7 +11,6 @@ namespace Kernel
 	public static class Parser
 	{
 
-		static readonly string digits = "0123456789abcdef";
 		static readonly Dictionary<char, char> escaped = new Dictionary<char, char>{
 			{ 'n', '\n' },
 			{ 't', '\t' },
@@ -19,9 +18,6 @@ namespace Kernel
 			{ 'r', '\r' },
 			{ '0', '\0' },
 		};
-		static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, digits.IndexOf);
-		static BigInteger ParseBigInteger(string value, int baseOfValue)
-		=> value.Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
 
 		//Todo Add Exactness and Inexactness. Is important
 		static readonly IDictionary<string, Object> constants = new Dictionary<string, Object>
@@ -39,11 +35,9 @@ namespace Kernel
 		static readonly Regex ComplexPattern = new Regex(@"^([+-]?\d+(?:\.\d*|e\d+)?)([+-]\d+(?:\.\d*|e\d+)?)i$");
 		static readonly Regex PairPattern = new Regex(@"\(([^()\s]+)\s+\.\s+([^()\s]+)\)$");
 		static readonly Regex CharacterPattern = new Regex(@"#\\(.*)$");
+		static readonly Regex CommentRegex = new Regex($@"/;.*{System.Environment.NewLine}/");
 		internal static Object ParseToken(string input)
 		{
-			//TODO Refactor
-			if (illegalLexemes.Contains(input))
-				throw new ArgumentException("Illegal Lexeme");
 
 			if (constants.ContainsKey(input))
 				return constants[input];
@@ -68,22 +62,21 @@ namespace Kernel
 							@base = 16;
 							break;
 					}
-				return new Integer(ParseBigInteger(match.Groups[3].Value.ToLower(), @base) *
-								   (match.Groups[2].Success && match.Groups[2].Value[0] == '-' ? -1 : 1));
+				return Arithmetic.Integer.Get((match.Groups[2].Success ? match.Groups[2].Value : "")
+								   + match.Groups[3].Value.ToLower(), @base);
 			}
 
 			match = RationalPattern.Match(input);
 			if (match.Success)
-				return new Rational(BigInteger.Parse(match.Groups[1].Value),
-											   BigInteger.Parse(match.Groups[2].Value));
+				return new Rational(match.Groups[1].Value, match.Groups[2].Value);
 
 			match = RealPattern.Match(input);
 			if (match.Success)
-				return new Real(decimal.Parse(input, Any));
+				return Real.Get(decimal.Parse(input, Any));
 
 			match = ComplexPattern.Match(input);
 			if (match.Success)
-				return new Arithmetic.Complex(decimal.Parse(match.Groups[1].Value, Any),
+				return Arithmetic.Complex.Get(decimal.Parse(match.Groups[1].Value, Any),
 											  decimal.Parse(match.Groups[2].Value, Any));
 
 			match = PairPattern.Match(input);
@@ -97,6 +90,10 @@ namespace Kernel
 		//Todo Parse may be better and Pairs are not complete
 		public static Object Parse(string input)
 		{
+			//TODO Refactor
+			if (illegalLexemes.Any(character => input.Contains(character)))
+				throw new ArgumentException("Illegal Lexeme in input. Kernel does and will not");
+
 			if (constants.ContainsKey(input))
 				return constants[input];
 
@@ -177,11 +174,5 @@ namespace Kernel
 			return ParseToken(buffer.ToString());
 		}
 
-
-		static readonly Regex SchemyPattern = new Regex(@"^(""(?:[\\].|[^\\""])*""|;.*|[^\s('"",;)]*)(.*)");
-		public static void ParseExperimental(string line)
-		{
-			Match res = SchemyPattern.Match(line);
-		}
 	}
 }
