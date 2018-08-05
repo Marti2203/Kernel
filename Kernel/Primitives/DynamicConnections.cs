@@ -74,6 +74,8 @@ namespace Kernel.Primitives
 							 methodCall);
 
 #if DebugMethods
+			// if (method.Name == "MakeEnvironment")
+			//{
 				Console.WriteLine($"Name: {method.Name}");
 				Console.WriteLine($"Body Expressions");
 				var expressions = body
@@ -81,6 +83,7 @@ namespace Kernel.Primitives
 					.SelectMany(expression => expression is BlockExpression block ? block.Expressions.ToArray() : new[] { expression });
 				Console.WriteLine(string.Join("\n", expressions));
 				Console.WriteLine();
+			//}
 #endif
 
 			var result = Lambda(body, true, AssertionAttribute.Input).Compile();
@@ -92,6 +95,9 @@ namespace Kernel.Primitives
 																	TypeCompilanceAssertionAttribute typeCompilance,
 																	ParameterExpression input)
 		{
+			if (typeAssertions.Count() > primitiveInformation.InputCount)
+				throw new InvalidOperationException("Input cannot be less than type assertions");
+
 			var methodCallParameters = Enumerable.Empty<Expression>();
 			if (primitiveInformation.InputCount != 0)
 			{
@@ -115,7 +121,7 @@ namespace Kernel.Primitives
 					else restOfParameters = CallEnumerable<Object>("ToArray",
 																   CallEnumerable<Object>("Skip",
 																						  input,
-                                                                                          Constant(methodCallParameters.Count())));
+																						  Constant(methodCallParameters.Count())));
 				}
 				else if (typeCompilance != null)
 				{
@@ -137,7 +143,7 @@ namespace Kernel.Primitives
 		static Boolean Validate(Object @object)
 		{
 			List list = @object as List;
-            if (!list.Any()) return Boolean.True;
+			if (!list.Any()) return Boolean.True;
 			return (Boolean)list.All(x => x is T);
 		}
 	}

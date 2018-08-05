@@ -144,7 +144,7 @@ namespace Kernel.Primitives
 			: base(And
 					(
 					 TypeIs(ElementAt(index), typeof(Arithmetic.Integer)),
-					   GreaterThanOrEqual(PropertyOrField(TypeAs(ElementAt(index), typeof(Arithmetic.Integer)), "data"),
+					   GreaterThanOrEqual(TypeAs(ElementAt(index), typeof(Arithmetic.Integer)),
 										  Constant(Arithmetic.Integer.Zero))
 					)
 				  , $"{index} Argument is a negative integer", index)
@@ -176,7 +176,7 @@ namespace Kernel.Primitives
 			get
 			{
 				if (skip == 0)
-					return CallEnumerable<Object>("All", InputCasted, TypePredicate());
+					return Not(CallEnumerable<Object>("All", InputCasted, TypePredicate()));
 
 				return Not(CallEnumerable<Object>("All",
 						   CallEnumerable<Object>("ToArray",
