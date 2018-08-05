@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using Kernel.Combiners;
 using static Kernel.Primitives.Primitives;
+using System.Linq;
 namespace Kernel
 {
 	public sealed class Environment : Object
 	{
 		public static readonly Environment Ground = new Environment();
 		public static Environment Current = Ground;
-		public readonly IEnumerable<Environment> Parents;
+		public readonly IEnumerable<Environment> Parents = Enumerable.Empty<Environment>();
 		readonly IDictionary<string, Object> bindings = new Dictionary<string, Object>();
 
 		public bool IsStandard;
@@ -23,7 +24,7 @@ namespace Kernel
 
 		public Environment(IEnumerable<Environment> parents)
 		{
-			Parents = parents;
+			Parents = parents.Select(env => env.Copy() as Environment);
 		}
 
 		public Object this[string name]
@@ -40,8 +41,7 @@ namespace Kernel
 				{
 					Environment current = environments.Pop();
 					if (current.bindings.ContainsKey(name))
-						return bindings[name];
-					if (current.Parents == null) continue;
+						return current.bindings[name];
 					if (traversed.Add(current))
 						foreach (Environment environment in current.Parents)
 							environments.Push(environment);
@@ -50,11 +50,12 @@ namespace Kernel
 					throw new NoBindingException("No Binding for " + name);
 				return Get(name);
 			}
-            set {
-                if (Has(name))
-                    throw new InvalidOperationException("Cannot replace primitive");
-                bindings[name] = value;
-            }
+			set
+			{
+				if (Has(name))
+					throw new InvalidOperationException("Cannot replace primitive");
+				bindings[name] = value;
+			}
 		}
 		public Object this[Symbol name]
 		{
@@ -75,7 +76,7 @@ namespace Kernel
 				}
 				if (car is Applicative ap)
 				{
-                    if (p.Cdr is List l)
+					if (p.Cdr is List l)
 					{
 #if FastEvaluate
 						return Evaluate(ap.combiner, l.EvaluateAll(this));
@@ -91,7 +92,7 @@ namespace Kernel
 		}
 
 #if FastEvaluate
-        Object Evaluate(Combiner combiner, Object list)
+		Object Evaluate(Combiner combiner, Object list)
 		{
 			if (combiner is Operative o)
 				return o.Invoke(list, this);
@@ -101,7 +102,13 @@ namespace Kernel
 
 			throw new InvalidOperationException("There is another combiner and I do not know of it?!");
 		}
-#endif
 
+		public override bool Equals(Object other)
+		{
+			if (!(other is Environment env)) return false;
+			return ReferenceEquals(this, env);
+		}
+#endif
+		public override string ToString() => "Environment";
 	}
 }

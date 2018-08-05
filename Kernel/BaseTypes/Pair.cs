@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Kernel.Combiners;
+using System.Linq;
 namespace Kernel
 {
 	public sealed class Pair : List
@@ -56,7 +56,7 @@ namespace Kernel
 		public override string ToString()
 		{
 			if (IsCyclic)
-				throw new NotImplementedException();
+				throw new NotImplementedException("Not yet");
 			if (Cdr is Null) return $"({Car.ToString()})";
 			if (Cdr is Pair p) return ToStringList();
 			return $"({Car} . {Cdr})";
@@ -64,8 +64,9 @@ namespace Kernel
 
 		string ToStringList()
 		{
-
-			StringBuilder result = new StringBuilder();
+			if (IsCyclic)
+				throw new NotImplementedException("Not yet");
+			StringBuilder result = new StringBuilder(200);
 
 			result.Append('(');
 
@@ -95,11 +96,6 @@ namespace Kernel
 		}
 
 
-		public bool Equals(Pair other)
-		=> (Car == other.Car && Cdr == other.Cdr)
-		|| (ToString() == other.ToString())
-		|| Equals(other as Object);
-
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="T:Kernel.Pair"/> is cyclic.
 		/// </summary>
@@ -118,18 +114,7 @@ namespace Kernel
 		{
 			if (IsCyclic)
 				throw new NotImplementedException();
-			Pair resultHead, resultTail;
-			resultHead = resultTail = new Pair(environment.Evaluate(Car), Null.Instance);
-			Pair list = Cdr as Pair;
-			while (list != null)
-			{
-				Object resultCar = environment.Evaluate(list.Car);
-
-				resultTail.Cdr = new Pair(resultCar, Null.Instance);
-				resultTail = resultTail.Cdr as Pair;
-				list = list.Cdr as Pair;
-			}
-			return resultHead;
+			return new Pair(this.Select(environment.Evaluate));
 		}
 
 		public void Append(Object input)
@@ -146,6 +131,25 @@ namespace Kernel
 		}
 
 		public override IEnumerator<Object> GetEnumerator() => new PairEnumerator(this);
+
+#warning This needs to be checked
+		public override bool Equals(Object other)
+		{
+			if (!(other is Pair p)) return false;
+
+			if (IsCyclic ^ p.IsCyclic) return false;
+			if (IsCyclic && p.IsCyclic) return CyclicEquality(p);
+			return (Car.Equals(p.Car) && Cdr.Equals(p.Cdr));
+			//			public bool Equals(Pair other)
+			//=> (Car == other.Car && Cdr == other.Cdr)
+			//|| (ToString() == other.ToString())
+			//|| Equals(other as Object);
+		}
+
+		bool CyclicEquality(Pair p)
+		{
+			throw new NotImplementedException("Not yet");
+		}
 
 		class PairEnumerator : IEnumerator<Object>
 		{
@@ -186,22 +190,6 @@ namespace Kernel
 			}
 		}
 
-		public override Object this[int index]
-		{
-			get
-			{
-				if (index < 0)
-					throw new IndexOutOfRangeException(nameof(index));
-				Pair CurrentPair = this;
-				while (index != 0)
-				{
-					if (CurrentPair == null)
-						throw new ArgumentException("List not deep enough");
-					CurrentPair = CurrentPair.Cdr as Pair;
-					index--;
-				}
-				return CurrentPair.Car;
-			}
-		}
+		public override Object this[int index] => this.ElementAt(index);
 	}
 }

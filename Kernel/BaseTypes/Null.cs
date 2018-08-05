@@ -11,31 +11,33 @@ namespace Kernel
 		{
 		}
 
-        public override bool IsCyclic => false;
+		public override bool IsCyclic => false;
 
-        public override Object EvaluateAll(Environment environment) => this;
+		public override Object EvaluateAll(Environment environment) => this;
 
-        public override Object this[int index] => throw new InvalidOperationException("Empty list cannot be indexed");
+		public override Object this[int index] => throw new InvalidOperationException("Empty list cannot be indexed");
 
-        public override IEnumerator<Object> GetEnumerator() => new NullEnumerator();
+		public override IEnumerator<Object> GetEnumerator() => new NullEnumerator();
 
-        public override string ToString() => "()";
+		public override string ToString() => "()";
 
-        class NullEnumerator : IEnumerator<Object>
-        {
-            public Object Current => throw new InvalidOperationException("Empty list cannot be enumerated.");
+		public override bool Equals(Object other) => other is Null;
 
-            object IEnumerator.Current => throw new InvalidOperationException("Empty list cannot be enumerated.");
+		class NullEnumerator : IEnumerator<Object>
+		{
+			public Object Current => throw new InvalidOperationException("Empty list cannot be enumerated.");
 
-            public void Dispose()
-            {
-            }
+			object IEnumerator.Current => throw new InvalidOperationException("Empty list cannot be enumerated.");
 
-            public bool MoveNext() => false;
+			public void Dispose()
+			{
+			}
 
-            public void Reset()
-            {
-            }
-        }
+			public bool MoveNext() => false;
+
+			public void Reset()
+			{
+			}
+		}
 	}
 }
