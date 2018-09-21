@@ -10,10 +10,14 @@ namespace Kernel.Arithmetic
 
 		public readonly decimal data;
 
+		public static readonly Real PositiveInfinity = Get(0);
+
 		Real(decimal value)
 		{
 			data = value;
 		}
+
+		public static Real Get(string value) => Get(decimal.Parse(value));
 
 		public static Real Get(decimal value)
 		{

@@ -1,95 +1,100 @@
 ﻿using System;
 using System.Diagnostics;
 using static Kernel.Primitives.Primitives;
-using System.Linq;
 namespace Kernel.Combiners
 {
-	[DebuggerDisplay("{Name}")]
-	public sealed class Operative : Combiner
-	{
-		readonly IOperative underlyingOperative;
+    [DebuggerDisplay("{Name}")]
+    public sealed class Operative : Combiner
+    {
+        readonly IOperative underlyingOperative;
 
-		public Operative(Func<Object, Environment, Object> operation, string name = "Undefined")
-			: base(name)
-		{
-			underlyingOperative = new PrimitiveOperative(operation);
-		}
+        public Operative(Func<List, Environment, Object> operation, string name = "Undefined")
+            : base(name)
+        {
+            underlyingOperative = new PrimitiveOperative(operation);
+        }
 
-		// This is Used only by the Add Operatives Method
-		internal Operative(Func<Object, Object> operation, string name = "Undefined")
-			: this((@object, environment) => operation(new Pair(environment, @object)), name)
-		{
+        // This is Used only by the Add Operatives Method
+        internal Operative(Func<List, Object> operation, string name = "Undefined")
+            : this((@object, environment) => operation(new Pair(environment, @object)), name)
+        {
 
-		}
+        }
 
-		public Operative(Environment env, Object formals, Object eformal, Object expr)
-			: base("User Defined Operative")
-		{
-			underlyingOperative = new CompoundOperative(env, formals, eformal, expr);
-		}
+        public Operative(Environment @static, Object formals, Object eformal, List exprs)
+            : base("User Defined Operative")
+        {
+            underlyingOperative = new CompoundOperative(@static, formals, eformal, exprs);
+        }
 
-		interface IOperative
-		{
-			Object Action(Object @object, Environment environment);
-		}
+        interface IOperative
+        {
+            Object Action(List list, Environment environment);
+        }
 
-		#region Underlying Operatives
+        #region Underlying Operatives
 
-		class CompoundOperative : IOperative
-		{
-			readonly Environment @static;
-			readonly Object formals;
-			readonly Object eformal;
-			readonly Object expr;
+        class CompoundOperative : IOperative
+        {
+            readonly Environment @static;
+            readonly Object formals;
+            readonly Object eformal;
+            readonly List exprs;
 
-			public CompoundOperative(Environment @static, Object formals, Object eformal, Object expr)
-			{
-				this.@static = @static;
-				this.formals = formals;
-				this.eformal = eformal;
-				this.expr = expr;
-			}
-			public Object Action(Object @object, Environment dynamicEnvironment)
-			{
-				Environment local = new Environment(@static);
-				Match(local, formals, @object);
-				if (eformal is Symbol s)
-					local[s] = dynamicEnvironment;
-				if (IsTailContext(expr))
-					return local.Evaluate(expr);
-				return Operatives.Sequence(local, (expr as List).ToArray());
-			}
-		}
+            public CompoundOperative(Environment @static, Object formals, Object eformal, List exprs)
+            {
+                this.@static = @static;
+                this.formals = formals;
+                this.eformal = eformal;
+                this.exprs = exprs;
+            }
+            public Object Action(List list, Environment dynamicEnvironment)
+            {
+                Environment local = new Environment(@static);
+                Match(local, formals, list);
+                if (eformal is Symbol s)
+                    local[s] = dynamicEnvironment;
+                return Operatives.Sequence(local, exprs);
+            }
+        }
 
-		class PrimitiveOperative : IOperative
-		{
-			readonly Func<Object, Environment, Object> operation;
-			public PrimitiveOperative(Func<Object, Environment, Object> operation)
-			{
-				this.operation = operation;
-			}
+        class PrimitiveOperative : IOperative
+        {
+            readonly Func<List, Environment, Object> operation;
+            public PrimitiveOperative(Func<List, Environment, Object> operation)
+            {
+                this.operation = operation;
+            }
 
-			public Object Action(Object @object, Environment environment)
-			{
-				return operation(@object, environment);
-			}
-		}
+            public Object Action(List list, Environment environment)
+            {
+                return operation(list, environment);
+            }
+        }
 
-		#endregion
+        #endregion
 
-		public override Object Invoke(Object @object)
-		{
-			if (@object is Pair p && p.Cdr is Environment environment)
-				return underlyingOperative.Action(p.Car, environment);
-			throw new ArgumentException("Argument is not a Pair or Cdr is not an Environment");
-		}
+        public override Object Invoke(List list)
+        {
+            string message = "Argument is not a Pair";
+            if (list is Pair p)
+            {
+                if (p.Car is List l && p.Cdr is Environment environment)
+                    return underlyingOperative.Action(l, environment);
+                if (!(p.Car is List))
+                    message += " and Argument Car is not a List";
+                if (!(p.Cdr is Environment))
+                    message += " and Argument Cdr is not a List";
+            }
+            throw new ArgumentException(message);
+        }
 
-		public Object Invoke(Object @object, Environment environment) => underlyingOperative.Action(@object, environment);
+        public Object Invoke(List list, Environment environment) => underlyingOperative.Action(list, environment);
 
-		public override string ToString() => Name;
+        public override string ToString() => Name;
 
-		public override bool Equals(Object other)
-		=> (ReferenceEquals(this, other))
-		|| (other is Operative operative && underlyingOperative == operative.underlyingOperative);
-	}
+        public override bool Equals(Object other)
+        => (ReferenceEquals(this, other))
+        || (other is Operative operative && underlyingOperative == operative.underlyingOperative);
+    }
 }

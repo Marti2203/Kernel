@@ -1,5 +1,5 @@
 ﻿;apply-core
-($define! apply
+($define! apply-core
 ($lambda (appv arg . opt)
 (eval (cons (unwrap appv) arg)
 ($if (null? opt)

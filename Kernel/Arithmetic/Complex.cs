@@ -29,6 +29,9 @@ namespace Kernel.Arithmetic
 			return cache[key];
 		}
 
+		public static Complex Get(string real, string imaginary)
+		=> Get(decimal.Parse(real), decimal.Parse(imaginary));
+
 		public override string ToString()
 		=> imaginary == 0 ? real.ToString() : $"{real}{ (imaginary > 0 ? "+" : "-") }{imaginary}i";
 

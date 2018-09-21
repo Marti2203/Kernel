@@ -18,18 +18,11 @@ namespace Kernel.Arithmetic
 		static readonly Dictionary<int, Integer> smallStringCache = new Dictionary<int, Integer>();
 		public override NumberHierarchy Priority => NumberHierarchy.Integer;
 
-		/// <summary>
-		/// The data.
-		/// </summary>
 		public readonly BigInteger data;
 
 		public static Integer Zero => new Integer(BigInteger.Zero);
 		public static Integer One => new Integer(BigInteger.One);
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Kernel.Arithmetic.Integer"/> class.
-		/// </summary>
-		/// <param name="value">Value.</param>
 		Integer(BigInteger value)
 		{
 			data = value;

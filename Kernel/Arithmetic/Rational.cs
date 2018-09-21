@@ -37,13 +37,15 @@ namespace Kernel.Arithmetic
 
 		public Rational(BigInteger numerator, BigInteger denominator)
 		{
-			if (this.denominator == 0)
+			if (denominator == 0)
 				throw new System.ArgumentOutOfRangeException(nameof(denominator), "Denominator cannot be zero!");
 			this.numerator = numerator;
 			this.denominator = denominator;
 		}
 
 		public static Rational Get(string numerator, string denominator) => new Rational(numerator, denominator);
+
+		public static Rational Get(BigInteger numerator, BigInteger denominator) => new Rational(numerator, denominator);
 
 
 		/// <summary>

@@ -1,5 +1,5 @@
 ﻿;list*-special
-($define! list*
+($define! list*-special
 ($lambda (head . tail)
 ($if (null? tail)
 head

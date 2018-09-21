@@ -33,7 +33,7 @@ return string.Join(System.Environment.NewLine
         .Substring(1,start.Length - 2)
         .Select(c => c == 'a' ? TypeCheck(start,"Car") : TypeCheck(start,"Cdr"))
         .Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
-    ,"\t\treturn p."+ (start[1] == 'a' ? "Car" : "Cdr") + ";"
+    ,"\t\treturn p."+ (start[start.Length-1] == 'a' ? "Car" : "Cdr") + ";"
     ,"\t}","");
 }
 Write(Recurse(start+"a",level - 1));

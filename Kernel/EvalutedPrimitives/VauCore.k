@@ -1,5 +1,5 @@
 ﻿;$vau-core
-($define! $vau
+($define! $vau-core
 ((wrap ($vau ($vau) #ignore
 ($vau (formals eformal . body) env
 (eval (list $vau formals eformal

@@ -1,5 +1,4 @@
-﻿using System;
-namespace Kernel
+﻿namespace Kernel
 {
 	public sealed class Boolean : Object
 	{
@@ -16,7 +15,7 @@ namespace Kernel
 
 		public override bool Equals(Object other) => other == True || other == False;
 
-		public static explicit operator Boolean(bool data) => data ? True : False;
+		public static implicit operator Boolean(bool data) => data ? True : False;
 		public static implicit operator bool(Boolean data) => data.value;
 	}
 }

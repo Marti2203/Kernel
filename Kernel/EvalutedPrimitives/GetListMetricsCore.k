@@ -1,5 +1,5 @@
 ﻿;get-list-metrics-core
-($define! get-list-metrics
+($define! get-list-metrics-core
 ($lambda (ls)
 ($define! aux
 ($lambda (kth k nth n)

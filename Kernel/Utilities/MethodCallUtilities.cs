@@ -6,36 +6,31 @@ using System.Reflection;
 using static System.Linq.Expressions.Expression;
 namespace Kernel.Utilities
 {
-	public static class MethodCallUtilities
-	{
-		public static MethodInfo EnumerableGeneric(Type t, string name)
-		=> typeof(Enumerable)
-				.GetMethods()
-			.First(method => method.Name == name)
-			.MakeGenericMethod(t);
+    public static class MethodCallUtilities
+    {
+        public static MethodInfo Function(string name, int argumentCount)
+        {
+            var result = typeof(ListHelper)
+                .GetMethods()
+                .First(method => method.Name == name && method.GetParameters().Length == argumentCount);
+            if (result.IsGenericMethod)
+                return result.MakeGenericMethod(typeof(Object));
+            return result;
+        }
 
-		public static Expression CallEnumerable(Type type, string name, params Expression[] arguments)
-		=> Call(null, EnumerableGeneric(type, name), arguments);
+        public static Expression CallFunction(string name, params Expression[] arguments)
+        => Call(null, Function(name, arguments.Length), arguments);
 
-		public static Expression ChainEnumerable(Type type, string[] methods, params Expression[] arguments)
-		{
+        public static Expression ChainFunctions(string[] methods, params Expression[] arguments)
+        {
+            Expression currentValue = CallFunction(methods[0], arguments);
+            for (int i = 1; i < methods.Length; i++)
+                currentValue = CallFunction(methods[i], currentValue);
+            return currentValue;
+        }
 
-			Expression current = CallEnumerable(type, methods[0], arguments);
-			for (int i = 1; i < methods.Length; i++)
-				current = CallEnumerable(type, methods[i], current);
-			return current;
-		}
+        public static Expression Throw(Expression check, string errorMessage)
+        => IfThen(check, Expression.Throw(Constant(new ArgumentException(errorMessage))));
 
-		public static MethodInfo EnumerableGeneric<T>(string name) => EnumerableGeneric(typeof(T), name);
-
-		public static Expression CallEnumerable<T>(string name, params Expression[] arguments)
-		=> CallEnumerable(typeof(T), name, arguments);
-
-		public static Expression ChainEnumerable<T>(string[] methods, params Expression[] arguments)
-		=> ChainEnumerable(typeof(T), methods, arguments);
-
-		public static Expression Throw(Expression check, string errorMessage)
-		=> IfThen(check, Expression.Throw(Constant(new ArgumentException(errorMessage))));
-
-	}
+    }
 }
