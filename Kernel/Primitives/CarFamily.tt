@@ -14,11 +14,12 @@ public static class CarFamily
 <#+
 
 public string TypeCheck(string functionWhole, string functionSub)
-=> String.Join(System.Environment.NewLine,"\n\t\tif(!(p."+functionSub+" is Pair))"
-,$"\t\t\tthrow new System.ArgumentException(\""+functionWhole+"r's " + functionSub + " has not received a proper argument \");"
+=>String.Join(System.Environment.NewLine,"\n\t\tif(!(p."+functionSub+" is Pair))"
+,$"\t\t\tthrow new System.ArgumentException(\""+functionWhole+"r's " + functionSub + " function has not received a proper argument \");"
 ,"\t\tp = p."+functionSub+" as Pair;"
 ,""
 );
+
 
 public string Recurse(string start,int level = 1)
 {

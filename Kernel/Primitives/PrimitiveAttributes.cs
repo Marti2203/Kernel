@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
 namespace Kernel.Primitives
@@ -63,16 +64,18 @@ namespace Kernel.Primitives
 
         public static Expression ElementAt(int index) => Property(InputCasted, "Item", Constant(index));
 
+        public Expression Element => ElementAt(Index);
+
         public int Index { get; private set; }
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    class TypeAssertionAttribute : IndexAssertionAttribute
+    sealed class TypeAssertionAttribute : IndexAssertionAttribute
     {
         public Type Type { get; private set; }
 
         public TypeAssertionAttribute(int index, Type type)
-            : base(TypeIs(ElementAt(index), type), $"{index} Argument is not a {type}", index)
+            : base(ElementAtIs(index, type), $"{index} Argument is not a {type}", index)
         {
             Type = type;
         }
@@ -84,17 +87,27 @@ namespace Kernel.Primitives
         }
 
         static TypeBinaryExpression ElementAtIs(int index, Type type) => TypeIs(ElementAt(index), type);
+        TypeBinaryExpression ElementIs(Type type) => TypeIs(Element, type);
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     class PredicateAssertionAttribute : IndexAssertionAttribute
     {
-        public PredicateAssertionAttribute(int index, string predicate)
-            : base(StaticCallOnElementAt(predicate, index), $"{index} Argument is not valid by {predicate}", index) { }
+        public PredicateAssertionAttribute(int index, Type type, string methodName, bool negated = false)
+            : base(StaticCallOnElementAt(type.GetMethod(methodName, new[] { typeof(Object) }), index, negated), $"{index} Argument is not valid by {methodName}", index) { }
 
 
-        static MethodCallExpression StaticCallOnElementAt(string predicate, int index)
-        => Call(null, typeof(Primitives).GetMethod(predicate), ElementAt(index));
+        static Expression StaticCallOnElementAt(MethodInfo predicate, int index, bool negated = false)
+        {
+            var call = Call(null, predicate, ElementAt(index));
+            return negated ? (Not(call) as Expression) : call;
+        }
+
+        Expression StaticCallOnElement(MethodInfo predicate, bool negated = false)
+        {
+            var call = Call(null, predicate, Element);
+            return negated ? (Not(call) as Expression) : call;
+        }
     }
 
 
@@ -112,14 +125,14 @@ namespace Kernel.Primitives
         public NonNegativityAssertionAttribute(int index)
             : base(And
                     (
-                     ElementAtIs((index), typeof(Arithmetic.Integer)),
+                     ElementIsInteger(index),
                        GreaterThanOrEqual(TypeAs(ElementAt(index), typeof(Arithmetic.Integer)),
                                           Constant(Arithmetic.Integer.Zero))
                     )
                   , $"{index} Argument is a negative integer", index)
         {
         }
-        static TypeBinaryExpression ElementAtIs(int index, Type type) => TypeIs(ElementAt(index), type);
+        static TypeBinaryExpression ElementIsInteger(int index) => TypeIs(ElementAt(index), typeof(Arithmetic.Integer));
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]

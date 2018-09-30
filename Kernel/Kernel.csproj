@@ -125,6 +125,13 @@
     <None Include="EvalutedPrimitives\CombinerCore.k" />
     <None Include="EvalutedPrimitives\Length.k" />
     <None Include="EvalutedPrimitives\ListRefCore.k" />
+    <None Include="EvalutedPrimitives\AppendCore.k" />
+    <None Include="EvalutedPrimitives\ListNeighboursCore.k" />
+    <None Include="EvalutedPrimitives\MemberCore.k" />
+    <None Include="EvalutedPrimitives\FiniteListCore.k" />
+    <None Include="EvalutedPrimitives\CountableListCore.k" />
+    <None Include="EvalutedPrimitives\FilterCore.k" />
+    <None Include="EvalutedPrimitives\AssocCore.k" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

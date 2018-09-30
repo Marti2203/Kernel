@@ -9,6 +9,7 @@ namespace Kernel
     {
         public static void Main()
         {
+            int counter = 1;
             while (true)
             {
                 Write("Input: ");
@@ -32,7 +33,8 @@ namespace Kernel
                 {
                     WriteLine(binding.Message);
                 }
-                WriteLine($"Output: {result} { result.GetType()} ");
+                WriteLine($"Output: ${counter} = {result} { result.GetType()} ");
+                Environment.Ground[$"${counter++}"] = result;
             }
         }
     }

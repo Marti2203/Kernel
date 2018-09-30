@@ -1,15 +1,18 @@
 ﻿namespace Kernel
 {
-	public class String : Object
-	{
-		readonly string data;
-		public String(string data)
-		{
-			this.data = data;
-		}
+    public class String : Object
+    {
+        public string Data { get; private set; }
+        public String(string data)
+        {
+            this.Data = data;
+        }
 
-		public override bool Equals(Object other) => other is String @string && data == @string.data;
+        public static implicit operator String(string input) => new String(input);
+        public static implicit operator string(String @string) => @string.Data;
 
-		public override string ToString() => $"\"{data}\"";
-	}
+        public override bool Equals(Object other) => other is String @string && Data == @string.Data;
+
+        public override string ToString() => $"\"{Data}\"";
+    }
 }

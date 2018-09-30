@@ -6,7 +6,7 @@ atom : keywords
      | string 
      | number        
      | symbol     
-    ;
+     ;
 
 symbol: Identifier;
 
@@ -42,4 +42,4 @@ Identifier   : '+'
 COMMENT  :   ';' .*? ('\r'?'\n') -> skip;
 WHITESPACE : [ \t\r\n]+ -> skip;
 // RESERVED: [\[\]{}|]+  -> channel(RESERVED);
-// ILLEGAL : [’‘,]|',@'  -> channel(ILLEGAL);
+ILLEGAL : [’‘,]|',@';

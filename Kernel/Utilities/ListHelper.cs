@@ -6,10 +6,9 @@ namespace Kernel.Utilities
     {
         public static bool All<T>(this List list, Func<T, bool> predicate) where T : Object
         {
-            ISet<Pair> visitedPairs = new HashSet<Pair>();
             if (list is Null) return true;
-            Pair start, current;
-            start = current = list as Pair;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            Pair current = list as Pair;
             while (current != null && visitedPairs.Add(current))
             {
                 if (!predicate(current.Car as T))
@@ -21,8 +20,8 @@ namespace Kernel.Utilities
 
         public static bool Any<T>(this List list, Func<T, bool> predicate) where T : Object
         {
-            ISet<Pair> visitedPairs = new HashSet<Pair>();
             if (list is Null) return false;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
             Pair current = list as Pair;
             while (current != null && visitedPairs.Add(current))
             {
@@ -33,13 +32,43 @@ namespace Kernel.Utilities
             return false;
         }
 
-        public static bool Any<T>(this List list) => list is Null;
+        public static Object FirstOrNull<T>(this List list, Func<T, bool> predicate) where T : Object
+        {
+            if (list is Null) return Null.Instance;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            Pair current = list as Pair;
+            while (current != null && visitedPairs.Add(current))
+            {
+                if (predicate(current.Car as T))
+                    return current.Car;
+                current = current.Cdr as Pair;
+            }
+            return Null.Instance;
+        }
+
+        public static Object First<T>(this List list, Func<T, bool> predicate) where T : Object
+        {
+            if (list is Null) throw new ArgumentException("Null given.");
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            Pair current = list as Pair;
+            while (current != null && visitedPairs.Add(current))
+            {
+                if (predicate(current.Car as T))
+                    return current.Car;
+                current = current.Cdr as Pair;
+            }
+            throw new ArgumentException("List does not contain an element that passes the predicate");
+        }
+
+#pragma warning disable RECS0096 // Type parameter is never used
+        public static bool Any<T>(this List list) => !(list is Null);
+#pragma warning restore RECS0096 // Type parameter is never used
 
         public static int Count(this List list)
         {
-            if (list.IsCyclic) throw new ArgumentException("List cannot be cyclic. The Count is infinity");
-            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            if (list.IsCyclic) throw new ArgumentException("Cannot get count of cyclic lists");
             if (list is Null) return 0;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
             int count = 0;
             Pair current = list as Pair;
             while (current != null && visitedPairs.Add(current))
@@ -52,8 +81,9 @@ namespace Kernel.Utilities
 
         public static int Count<T>(this List list, Func<T, bool> predicate) where T : Object
         {
-            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            if (list.IsCyclic) throw new ArgumentException("Cannot get count of cyclic lists");
             if (list is Null) return 0;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
             int count = 0;
             Pair current = list as Pair;
             while (current != null && visitedPairs.Add(current))
@@ -67,15 +97,15 @@ namespace Kernel.Utilities
 
         public static Object Last(this List list)
         {
+            if (list is Null) throw new ArgumentException("Cannot find a last element in a null array");
+            if (list.IsCyclic) throw new ArgumentException("Cyclic list");
             ISet<Pair> visitedPairs = new HashSet<Pair>();
             Pair current = list as Pair;
-            while (visitedPairs.Add(current))
+            while (current != null && visitedPairs.Add(current))
             {
-                if (current.Cdr == Null.Instance)
-                    return current.Car;
                 current = current.Cdr as Pair;
             }
-            throw new ArgumentException("Cyclic list");
+            return current.Car;
         }
 
         public static List Select<T>(this List list, Func<T, Object> transform) where T : Object
@@ -89,7 +119,7 @@ namespace Kernel.Utilities
             {
                 transformations.Add(current, resultCurrent);
                 current = current.Cdr as Pair;
-                if (current != null)
+                if (current != null && !transformations.ContainsKey(current))
                     resultCurrent = resultCurrent.Append(transform(current.Car as T));
             }
             if (current != null)
@@ -121,10 +151,34 @@ namespace Kernel.Utilities
             }
         }
 
+        public static T ForEachReturnLast<T>(this List list, Action<T> action, int skip = 0) where T : Object
+        {
+            if (list is Null) throw new ArgumentException("Cannot traverse an empty list");
+            Pair current = list.Skip(skip) as Pair;
+            while (current.Cdr is Pair next)
+            {
+                action(current.Car as T);
+                current = next;
+            }
+            return current.Car as T;
+        }
+
+        //public static T Aggregate<T>(this List list, Func<T, T, T> aggregate) where T : Object
+        //{
+        //    if (list is Null) throw new InvalidOperationException("What do i doooo?!?!");
+        //    Pair pair = list as Pair;
+        //    HashSet<Pair> visitedPairs = new HashSet<Pair>();
+        //    T result = pair.Car as T;
+        //    pair = pair.Cdr as Pair;
+
+        //    while ()
+        //}
+
+
         public static T[] ToArray<T>(this List list) where T : Object
         {
             if (list is Null) return Array.Empty<T>();
-            HashSet<Pair> visitedPairs = new HashSet<Pair>();
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
             Pair current = list as Pair;
             List<T> elements = new List<T>();
             while (current != null && visitedPairs.Add(current))

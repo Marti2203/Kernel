@@ -92,7 +92,7 @@ namespace Kernel
         }
 
 #if FastEvaluate
-        Object Evaluate(Combiner combiner, List list)
+        public Object Evaluate(Combiner combiner, List list)
         {
             if (combiner is Operative o)
                 return o.Invoke(list, this);
@@ -103,11 +103,7 @@ namespace Kernel
             throw new InvalidOperationException("There is another combiner and I do not know of it?!");
         }
 
-        public override bool Equals(Object other)
-        {
-            if (!(other is Environment env)) return false;
-            return ReferenceEquals(this, env);
-        }
+        public override bool Equals(Object other) => ReferenceEquals(this, other);
 #endif
         public override string ToString() => "Environment";
     }

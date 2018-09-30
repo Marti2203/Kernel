@@ -1,17 +1,16 @@
-﻿using System;
-namespace Kernel
+﻿namespace Kernel
 {
-	public class Ignore : Object
-	{
-		public static readonly Ignore Instance = new Ignore();
+    public class Ignore : Object
+    {
+        public static readonly Ignore Instance = new Ignore();
 
-		Ignore()
-		{
-		}
+        Ignore()
+        {
+        }
 
-		public override bool Equals(Object other) => other is Inert;
+        public override bool Equals(Object other) => other is Inert;
 
-		public override string ToString() => "#ignore";
-	}
+        public override string ToString() => "#ignore";
+    }
 }
 

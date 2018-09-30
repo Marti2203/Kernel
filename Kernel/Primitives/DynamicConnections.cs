@@ -1,5 +1,5 @@
-﻿#define DebugMethods
-#define DebugCallMethods
+﻿//#define DebugMethods
+//#define DebugCallMethods
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -73,7 +73,7 @@ namespace Kernel.Primitives
                              methodCall);
 
 #if DebugMethods
-            if (method.Name == "Each")
+            if (method.Name == "PairTest")
             {
                 Console.WriteLine($"Name: {method.Name}");
                 Console.WriteLine($"Body Expressions");
@@ -127,7 +127,6 @@ namespace Kernel.Primitives
             List list = @object as List;
             if (list == null)
                 throw new ArgumentException("Validate accepts a list of objects", nameof(@object));
-            if (!list.Any<Object>()) return Boolean.True;
             return list.All<T>(x => x is T);
         }
     }
