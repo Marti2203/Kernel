@@ -48,20 +48,12 @@ namespace Kernel.Arithmetic
             return integer;
         }
 
-        public static Integer Get(long input)
-        {
-            Integer result;
-            if ((result = cache.Values.FirstOrDefault(v => v.data == input)) != null)
-                return result;
-            result = new Integer(input);
-            cache.Add(input.ToString(), result);
-            return result;
-        }
+        public static Integer Get(long input) => Get(new BigInteger(input));
 
         public static Integer Get(BigInteger input)
         {
             Integer result;
-            if ((result = cache.Values.FirstOrDefault(v => v.data == input)) != null)
+            if (!((result = cache.Values.FirstOrDefault(v => v.data == input)) is null))
                 return result;
             result = new Integer(input);
             cache.Add(input.ToString(), result);
@@ -70,17 +62,17 @@ namespace Kernel.Arithmetic
 
         public override string ToString() => data.ToString();
 
-        public static bool operator >(Integer l, Integer r) => l.data > r.data;
+        public static bool operator >(Integer l, Integer r) => !(r is null) && l.data > r.data;
 
-        public static bool operator <(Integer l, Integer r) => l.data < r.data;
+        public static bool operator <(Integer l, Integer r) => !(r is null) && l.data < r.data;
 
-        public static bool operator >=(Integer l, Integer r) => l.data >= r.data;
+        public static bool operator >=(Integer l, Integer r) => !(r is null) && l.data >= r.data;
 
-        public static bool operator <=(Integer l, Integer r) => l.data <= r.data;
+        public static bool operator <=(Integer l, Integer r) => !(r is null) && l.data <= r.data;
 
-        public static bool operator ==(Integer l, Integer r) => l.data == r.data;
+        public static bool operator ==(Integer l, Integer r) => !(r is null) && l.data == r.data;
 
-        public static bool operator !=(Integer l, Integer r) => l.data != r.data;
+        public static bool operator !=(Integer l, Integer r) => !(r is null) && l.data != r.data;
 
         public static Integer operator %(Integer l, Integer r) => l.data % r.data;
 

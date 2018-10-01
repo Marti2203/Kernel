@@ -188,5 +188,43 @@ namespace Kernel.Utilities
             }
             return elements.ToArray();
         }
+
+        public static List Filter<T>(this List list, Func<T, bool> predicate) where T : Object
+        {
+            if (list is Null) return Null.Instance;
+            Pair current = list as Pair;
+            HashSet<Pair> visitedPairs = new HashSet<Pair>();
+            while (current != null && !predicate(current.Car as T) && visitedPairs.Add(current))
+                current = current.Cdr as Pair;
+            if (current == null || visitedPairs.Contains(current))
+                return Null.Instance;
+            Pair resultStart, resultCurrent;
+            resultStart = resultCurrent = new Pair(current.Car);
+            Dictionary<Pair, Pair> successfulPairs = new Dictionary<Pair, Pair>{
+                { current,resultStart},
+                };
+            current = current.Cdr as Pair;
+            while (current != null && visitedPairs.Add(current))
+            {
+                if (predicate(current.Car as T))
+                {
+                    resultCurrent = resultCurrent.Append(current.Car);
+                    successfulPairs.Add(current, resultCurrent);
+                }
+                current = current.Cdr as Pair;
+            }
+            if (current != null)
+            {
+                Pair startOfCycle = current;
+                while (!successfulPairs.ContainsKey(current))
+                {
+                    current = current.Cdr as Pair;
+                    if (current == startOfCycle)
+                        break;
+                }
+                resultCurrent.Cdr = successfulPairs[current];
+            }
+            return resultStart;
+        }
     }
 }

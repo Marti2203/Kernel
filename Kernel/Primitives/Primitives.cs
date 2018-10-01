@@ -476,45 +476,9 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(Applicative))]
             [TypeAssertion(1, typeof(List))]
             public static List Filter(Applicative app, List list)
-            {
-                List result = Null.Instance;
-                if (list is Null) return Null.Instance;
-                Pair current = list as Pair;
-                Pair resultStart = null, resultCurrent = null;
-                HashSet<Pair> visitedPairs = new HashSet<Pair>();
-                Dictionary<Pair, Pair> positivePairs = new Dictionary<Pair, Pair>();
-                while (current != null && visitedPairs.Add(current))
-                {
-                    Object output = app.Invoke(current.Car);
-                    if (!(output is Boolean b))
-                        throw new ArgumentException("Did not receive a Boolean from invoking applicative");
-                    if (b)
-                    {
-                        if (resultStart == null)
-                        {
-                            result = resultStart = resultCurrent = new Pair(current.Car);
-                        }
-                        else
-                            resultCurrent = resultCurrent.Append(current.Car);
-                        positivePairs.Add(current, resultCurrent);
-                    }
-                    current = current.Cdr as Pair;
-                }
-                if (current != null)
-                {
-                    Pair startOfCycle = current;
-                    while (current != null && !positivePairs.ContainsKey(current))
-                    {
-                        current = current.Cdr as Pair;
-                        if (current == startOfCycle)
-                            break;
-                    }
-                    resultCurrent.Cdr = positivePairs[startOfCycle];
-
-                }
-
-                return result;
-            }
+            => list.Filter<Object>(obj =>
+                                   app.Invoke(obj) as Boolean
+                                   ?? throw new ArgumentException("Did not receive a Boolean from invoking applicative"));
 
             [Primitive("assoc", 2)]
             [TypeAssertion(1, typeof(Pair))]

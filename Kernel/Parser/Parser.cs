@@ -100,7 +100,7 @@ namespace Kernel.Parser
             public override Object VisitString([NotNull] KernelParser.StringContext context)
             {
                 string text = context.GetText();
-                return new String(text.Substring(1, text.Length - 2));
+                return String.Get(text.Substring(1, text.Length - 2));
             }
 
             public override Object VisitNumber([NotNull] KernelParser.NumberContext context)
