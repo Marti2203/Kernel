@@ -33,8 +33,11 @@ namespace Kernel
                 {
                     WriteLine(binding.Message);
                 }
-                WriteLine($"Output: ${counter} = {result} { result.GetType()} ");
-                Environment.Ground[$"${counter++}"] = result;
+                if (!(result is Inert))
+                {
+                    WriteLine($"Output: ${counter} = {result} { result.GetType()} ");
+                    Environment.Ground[$"${counter++}"] = result;
+                }
             }
         }
     }

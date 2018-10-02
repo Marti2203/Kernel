@@ -1,5 +1,5 @@
+//#define PrintNonStandart
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -66,69 +66,70 @@ namespace Kernel
         public override string ToString()
         {
             if (Cdr is Null) return $"({Car.ToString()})";
-            if (Cdr is Pair p) return ToStringList();
+            if (Cdr is Pair p) return ToStringList(Array.Empty<Pair>());
             return $"({Car} . {Cdr})";
         }
 
-        string ToStringList()
+        string ToStringList(Pair[] visitedCars, int depth = 0)
         {
-
-            object Transform(Pair p, Pair[] previous)
-            {
-                StringBuilder temp = new StringBuilder(20);
-                temp.Append('(');
-                return temp.Append(')').ToString();
-            }
-
             StringBuilder result = new StringBuilder(200);
 
             result.Append('(');
             HashSet<Pair> visitedPairs = new HashSet<Pair>();
-            Pair current = this;
-            while (current != null && visitedPairs.Add(current))
+            Pair mainTree = this;
+            while (mainTree != null && visitedPairs.Add(mainTree) && !visitedCars.Contains(mainTree))
             {
-                result.Append(current.Car is Pair pair ? Transform(pair, visitedPairs.ToArray()) : current.Car);
+                if (mainTree.Car is Pair pair)
+                {
+                    if (pair == this)
+                    {
+                        result.Append($"#{1 - visitedPairs.Count}#");
+                    }
+                    else
+                    {
+                        if (visitedCars.Contains(pair))
+                            result.Append($"#{1 - (depth + visitedPairs.Count + visitedCars.Length)}#");
+                        else
+                            result.Append(pair.ToStringList(visitedCars.Concat(new[] { this }).ToArray()
+                                                            , depth + visitedPairs.Count - 1));
+                    }
+                }
+                else
+                    result.Append(mainTree.Car);
                 result.Append(' ');
-                if (current.Cdr is Pair p)
-                    current = p;
+                if (mainTree.Cdr is Pair p)
+                    mainTree = p;
                 else
                 {
-                    if (current.Cdr != Null.Instance)
+                    if (mainTree.Cdr != Null.Instance)
                     {
-                        result.Append('.');
-                        result.Append(' ');
-                        result.Append(current.Cdr.ToString());
+                        result.Append('.')
+                              .Append(' ')
+                              .Append(mainTree.Cdr);
                     }
                     else result.Length--;
-                    current = null;
+                    mainTree = null;
                     break;
                 }
             }
-            if (current != null)
+            if (mainTree != null)
             {
-
-#if PrintNonStandart
-                Pair start = current;
-                do
+                if (visitedCars.Contains(mainTree))
                 {
-                    result.Append(current.Car).Append(' ');
-                    current = current.Cdr as Pair;
+#warning Extra or deficient one here, be careful
+                    result.Append($". #{-(visitedPairs.Count + depth)}#");
                 }
-                while (current != start);
-                result.Length--;
-                result.Append("...");
-#else
-
-                Pair start = current;
-                int counter = 0;
-                do
+                else
                 {
-                    counter++;
-                    current = current.Cdr as Pair;
+                    Pair start = mainTree;
+                    int counter = 0;
+                    while (mainTree.Cdr != start)
+                    {
+                        counter++;
+                        mainTree = mainTree.Cdr as Pair;
+                    }
+                    result.Append($". #{-counter}#");
                 }
-                while (current != start);
-                result.Append($". #-{counter}#");
-#endif
             }
 
             result.Append(')');
@@ -172,11 +173,11 @@ namespace Kernel
 
         public Pair Append(Object input)
         {
-            Pair current = this;
+            Pair current = this, result = new Pair(input, Null.Instance);
             while (!(current.Cdr is Null) && current.Cdr is Pair p)
                 current = p;
-            current.Cdr = new Pair(input, Null.Instance);
-            return current.Cdr as Pair;
+            current.Cdr = result;
+            return result;
         }
 
         public override bool Equals(Object other)

@@ -23,7 +23,7 @@ namespace Kernel
         public static implicit operator String(string input) => new String(input);
         public static implicit operator string(String @string) => @string.Data;
 
-        public override bool Equals(Object other) => other is String @string && Data == @string.Data;
+        public override bool Equals(Object other) => ReferenceEquals(this, other);
 
         public override string ToString() => $"\"{Data}\"";
     }
