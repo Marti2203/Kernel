@@ -163,16 +163,25 @@ namespace Kernel.Utilities
             return current.Car as T;
         }
 
-        //public static T Aggregate<T>(this List list, Func<T, T, T> aggregate) where T : Object
-        //{
-        //    if (list is Null) throw new InvalidOperationException("What do i doooo?!?!");
-        //    Pair pair = list as Pair;
-        //    HashSet<Pair> visitedPairs = new HashSet<Pair>();
-        //    T result = pair.Car as T;
-        //    pair = pair.Cdr as Pair;
-
-        //    while ()
-        //}
+        public static T Aggregate<T>(this List list, Func<T, T, T> aggregate, T initialSeed = null) where T : Object
+        {
+            if (list.IsCyclic) throw new ArgumentException("NOT FOR CYCLIC LISTS");
+            if (list is Null) return initialSeed;
+            Pair current = list as Pair;
+            HashSet<Pair> visitedPairs = new HashSet<Pair> { current };
+            if (initialSeed == null)
+            {
+                initialSeed = current.Car as T;
+                current = current.Cdr as Pair;
+            }
+            T result = initialSeed;
+            while (current != null && visitedPairs.Add(current))
+            {
+                result = aggregate(initialSeed, current.Car as T);
+                current = current.Cdr as Pair;
+            }
+            return result;
+        }
 
 
         public static T[] ToArray<T>(this List list) where T : Object

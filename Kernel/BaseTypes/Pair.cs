@@ -116,8 +116,8 @@ namespace Kernel
             {
                 if (visitedCars.Contains(mainTree))
                 {
-#warning Extra or deficient one here, be careful
-                    result.Append($". #{-(visitedPairs.Count + depth)}#");
+                    //May Diverge by 1 from Guile(I do not know why!)
+                    result.Append($". #{ 1 - (visitedPairs.Count + depth)}#");
                 }
                 else
                 {

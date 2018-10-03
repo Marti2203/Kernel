@@ -508,7 +508,11 @@ namespace Kernel.Primitives
                     throw new ArgumentException("Wrong call syntax. Cyclic list given but no cycle applicatives.");
                 if (!objects.IsCyclic && !cycleApplicatives.Any<Object>())
                     throw new ArgumentException("Wrong call syntax. Acyclic list given but extra argumens given.");
-                return Inert.Instance;
+                if (objects is Null)
+                    return Null.Instance;
+                if (objects.IsCyclic)
+                    return;
+                return objects.Aggregate((current, next) => binary.Invoke(current, next), identity);
             }
 
             //[Primitive("+", 0, true)]

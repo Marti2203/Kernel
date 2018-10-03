@@ -24,6 +24,11 @@ namespace Kernel
                 try
                 {
                     result = Environment.Ground.Evaluate(input);
+                    if (!(result is Inert))
+                    {
+                        WriteLine($"Output: ${counter} = {result} { result.GetType()} ");
+                        Environment.Ground[$"${counter++}"] = result;
+                    }
                 }
                 catch (ArgumentException argE)
                 {
@@ -32,11 +37,6 @@ namespace Kernel
                 catch (NoBindingException binding)
                 {
                     WriteLine(binding.Message);
-                }
-                if (!(result is Inert))
-                {
-                    WriteLine($"Output: ${counter} = {result} { result.GetType()} ");
-                    Environment.Ground[$"${counter++}"] = result;
                 }
             }
         }
