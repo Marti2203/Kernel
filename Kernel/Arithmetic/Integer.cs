@@ -36,7 +36,7 @@ namespace Kernel.Arithmetic
         {
             BigInteger result;
             if (input[0] == '-' || input[0] == '+')
-                result = ParseBigInteger(input.Substring(1), @base) * (input[0] == '-' ? -1 : 1);
+                result = ParseBigInteger((input = input.Substring(1)), @base) * (input[0] == '-' ? -1 : 1);
             else
                 result = ParseBigInteger(input, @base);
 
