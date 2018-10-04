@@ -29,13 +29,13 @@ if(level == 0)
 return string.Join(System.Environment.NewLine
     ,$"\t[Primitive(\"{start.ToLower()}r\",1)]"
     ,$"\t[TypeAssertion(0, typeof(Pair))]"
-    ,"\tpublic static Object "+start +"r(Pair p)"
+    ,"\tpublic static T "+start +"r<T>(Pair p) where T : Object"
     ,"\t{" +start
         .Substring(2)
         .Reverse()
         .Select(c => c == 'a' ? TypeCheck(start,"Car") : TypeCheck(start,"Cdr"))
         .Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
-    ,"\t\treturn p."+ (start[1] == 'a' ? "Car" : "Cdr") + ";"
+    ,"\t\treturn p."+ (start[1] == 'a' ? "Car" : "Cdr") + " as T;"
     ,"\t}","");
 }
 Write(Recurse(start+"a",level - 1));

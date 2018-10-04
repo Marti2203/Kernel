@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Kernel.Utilities
 {
     public static class ListHelper
@@ -66,7 +68,7 @@ namespace Kernel.Utilities
 
         public static int Count(this List list)
         {
-            if (list.IsCyclic) throw new ArgumentException("Cannot get count of cyclic lists");
+            if (list.ContainsCycle) throw new ArgumentException("Cannot get count of cyclic lists");
             if (list is Null) return 0;
             ISet<Pair> visitedPairs = new HashSet<Pair>();
             int count = 0;
@@ -81,7 +83,7 @@ namespace Kernel.Utilities
 
         public static int Count<T>(this List list, Func<T, bool> predicate) where T : Object
         {
-            if (list.IsCyclic) throw new ArgumentException("Cannot get count of cyclic lists");
+            if (list.ContainsCycle) throw new ArgumentException("Cannot get count of cyclic lists");
             if (list is Null) return 0;
             ISet<Pair> visitedPairs = new HashSet<Pair>();
             int count = 0;
@@ -98,7 +100,7 @@ namespace Kernel.Utilities
         public static Object Last(this List list)
         {
             if (list is Null) throw new ArgumentException("Cannot find a last element in a null array");
-            if (list.IsCyclic) throw new ArgumentException("Cyclic list");
+            if (list.ContainsCycle) throw new ArgumentException("Cannot find a last element in a cyclic list");
             ISet<Pair> visitedPairs = new HashSet<Pair>();
             Pair current = list as Pair;
             while (current != null && visitedPairs.Add(current))
@@ -135,9 +137,9 @@ namespace Kernel.Utilities
             {
                 current = current.Cdr as Pair;
             }
-            if (current == null)
+            if (current == null && count != -1)
                 throw new ArgumentOutOfRangeException(nameof(list), "List is too short for skip");
-            return current;
+            return current ?? Null.Instance as List;
         }
 
         public static void ForEach<T>(this List list, Action<T> action) where T : Object
@@ -163,24 +165,44 @@ namespace Kernel.Utilities
             return current.Car as T;
         }
 
-        public static T Aggregate<T>(this List list, Func<T, T, T> aggregate, T initialSeed = null) where T : Object
+        public static T AggregateAcyclic<T>(this List list, Func<T, T, T> aggregate, T initialSeed = null) where T : Object
         {
-            if (list.IsCyclic) throw new ArgumentException("NOT FOR CYCLIC LISTS");
+            if (list.ContainsCycle) throw new ArgumentException("Cannot aggregate a cyclic list with the acyclic method.", nameof(list));
             if (list is Null) return initialSeed;
             Pair current = list as Pair;
-            HashSet<Pair> visitedPairs = new HashSet<Pair> { current };
+            T result = initialSeed ?? current.Car as T;
             if (initialSeed == null)
-            {
-                initialSeed = current.Car as T;
                 current = current.Cdr as Pair;
-            }
-            T result = initialSeed;
-            while (current != null && visitedPairs.Add(current))
+            while (current != null)
             {
-                result = aggregate(initialSeed, current.Car as T);
+                result = aggregate(result, current.Car as T);
                 current = current.Cdr as Pair;
             }
             return result;
+        }
+
+        public static T AggregateCyclic<T>(this List list, Func<T, T, T> aggregate,
+                                               Func<T, T> precycle,
+                                               Func<T, T, T> incycle,
+                                               Func<T, T> postcycle,
+                                            T initialSeed = null) where T : Object
+        {
+            if (!list.ContainsCycle) throw new ArgumentException("Cannot aggregate an acyclic list with the cyclic list", nameof(list));
+            if (list is Null) return initialSeed;
+            Pair current = list as Pair;
+            T result = initialSeed ?? current.Car as T;
+            if (initialSeed == null)
+                current = current.Cdr as Pair;
+            HashSet<Pair> pairs = new HashSet<Pair>();
+            List<T> cycle = new List<T>();
+            while (pairs.Add(current)) current = current.Cdr as Pair;
+            while (pairs.Remove(current))
+            {
+                cycle.Add(current.Car as T);
+                current = current.Cdr as Pair;
+            }
+            return aggregate(pairs.Select(pair => pair.Car as T).Aggregate(initialSeed, aggregate),
+                      postcycle(cycle.Select(precycle).Aggregate(incycle)));
         }
 
 

@@ -5,6 +5,7 @@ using System.Reflection;
 using Kernel.Combiners;
 using Kernel.Arithmetic;
 using static Kernel.Primitives.DynamicConnections;
+using static CarFamily;
 using Kernel.Utilities;
 using System.Linq;
 namespace Kernel.Primitives
@@ -35,7 +36,7 @@ namespace Kernel.Primitives
         public static bool AllPairs(Object obj) => obj is Pair p && p.All<Object>(@object => @object is Pair);
 
         public static bool IsCyclic(Object obj)
-        => obj is List l && l.IsCyclic;
+        => obj is List l && l.ContainsCycle;
 
         public static Object Evaluate(Object @object, Environment environment)
         {
@@ -84,7 +85,7 @@ namespace Kernel.Primitives
             do
             {
                 p = pairs.Pop();
-                if (p.IsCyclic) throw new ArgumentException("Cannot accept a cyclic tree");
+                if (p.ContainsCycle) throw new ArgumentException("Cannot accept a cyclic tree");
                 if (p.Car is Pair pCar)
                     pairs.Push(pCar);
                 else
@@ -264,11 +265,11 @@ namespace Kernel.Primitives
             public static class ListMetrics
             {
                 public static Integer Pairs(List metric)
-                => metric is Null ? 0 : CarFamily.Car(metric as Pair) as Integer;
+                => metric is Null ? 0 : Car<Integer>(metric as Pair);
                 public static Boolean WithNull(List metric)
-                => metric is Null || ((CarFamily.Cdar(metric as Pair) as Integer) != 0);
+                => metric is Null || Cdar<Integer>(metric as Pair) != 0;
                 public static Boolean Cyclic(List metric)
-                => !(metric is Null) && ((CarFamily.Cdddar(metric as Pair) as Integer) != 0);
+                => !(metric is Null) && Cdddar<Integer>(metric as Pair) != 0;
             }
 
             static readonly Dictionary<Object, Pair> immutableMetricsCache = new Dictionary<Object, Pair>();
@@ -283,12 +284,9 @@ namespace Kernel.Primitives
                 int cycleLength = 0;
                 if (obj is Pair p)
                 {
-                    Dictionary<Pair, int> visits = new Dictionary<Pair, int>();
-                    while (p != null)
+                    HashSet<Pair> visitedPairs = new HashSet<Pair>();
+                    while (visitedPairs.Add(p))
                     {
-                        if (visits.TryGetValue(p, out int visitsCount) && visitsCount == 2)
-                            break;
-                        visits.Add(p, 1);
                         if (p.Cdr is Pair pNew)
                             p = pNew;
                         else
@@ -297,8 +295,12 @@ namespace Kernel.Primitives
                             break;
                         }
                     }
-                    acyclicLength = visits.Count(v => v.Value == 1) - 1;
-                    cycleLength = visits.Count(v => v.Value == 2);
+                    while (visitedPairs.Remove(p))
+                    {
+                        cycleLength++;
+                        p = p.Cdr as Pair;
+                    }
+                    acyclicLength = visitedPairs.Count;
                     pairs = acyclicLength + cycleLength;
                 }
                 Pair result = new Pair(
@@ -356,7 +358,7 @@ namespace Kernel.Primitives
                 if (!lists.Any<Object>()) throw new ArgumentException("Lists list must not be empty");
                 Integer starterLength = ListMetrics.Pairs(GetListMetrics(lists[0]));
 
-                if ((lists[0] as Pair).IsCyclic && lists.Any<List>(list => !list.IsCyclic))
+                if ((lists[0] as Pair).ContainsCycle && lists.Any<List>(list => !list.ContainsCycle))
                     throw new ArgumentException("A list is cyclic, so they must all be");
 
                 if (lists.Any<Object>(l => ListMetrics.Pairs(GetListMetrics(l)) != starterLength))
@@ -366,12 +368,12 @@ namespace Kernel.Primitives
 
                 Pair resultStart, resultCurrent;
 
-                resultStart = resultCurrent = new Pair(app.Invoke(lists.Select<Pair>(CarFamily.Car)));
+                resultStart = resultCurrent = new Pair(app.Invoke(lists.Select<Pair>(Car<Object>)));
 
                 while (visitedTuples.Add(lists))
                 {
-                    resultCurrent = resultCurrent.Append(app.Invoke(lists.Select<Pair>(CarFamily.Car)));
-                    lists = lists.Select<Pair>(CarFamily.Cdr);
+                    resultCurrent = resultCurrent.Append(app.Invoke(lists.Select<Pair>(Car<Object>)));
+                    lists = lists.Select<Pair>(Cdr<Pair>);
                 }
 
                 return resultStart;
@@ -418,7 +420,7 @@ namespace Kernel.Primitives
             {
                 if (!(@object is List l))
                     return Integer.Zero;
-                if (l.IsCyclic)
+                if (l.ContainsCycle)
                     return Real.PositiveInfinity;
                 return ListMetrics.Pairs(GetListMetrics(l));
             }
@@ -434,12 +436,12 @@ namespace Kernel.Primitives
             {
                 if (!lists.Any<Object>()) return Null.Instance;
                 Pair head, tail;
-                if ((lists[0] as List).IsCyclic)
+                if ((lists[0] as List).ContainsCycle)
                     throw new ArgumentException("Only last argument can be cyclic");
                 head = tail = new Pair(lists[0] as IEnumerable<Object>);
                 List last = lists.ForEachReturnLast<List>((list) =>
                 {
-                    if (list.IsCyclic)
+                    if (list.ContainsCycle)
                         throw new ArgumentException("Only last argument can be cyclic");
                     list.ForEach<Object>(obj => tail = tail.Append(obj));
                 }, 1);
@@ -456,7 +458,7 @@ namespace Kernel.Primitives
                 Pair current = list as Pair;
                 if (!(current.Cdr is Pair)) return Null.Instance;
 
-                Pair result = new Pair(new Pair(new[] { current.Car, CarFamily.Cdar(current) }));
+                Pair result = new Pair(new Pair(new[] { current.Car, Cdar<Object>(current) }));
                 HashSet<Pair> visitedPairs = new HashSet<Pair>
                 {
                     current
@@ -465,7 +467,7 @@ namespace Kernel.Primitives
                 current = current.Cdr as Pair;
                 while (current.Cdr is Pair && visitedPairs.Add(current))
                 {
-                    result.Append(new Pair(new[] { current.Car, CarFamily.Cdar(current) }));
+                    result.Append(new Pair(new[] { current.Car, Cdar<Object>(current) }));
                     current = current.Cdr as Pair;
                 }
                 return result;
@@ -493,7 +495,7 @@ namespace Kernel.Primitives
 
             [Primitive("finite-list?", 0, true)]
             public static Boolean FiniteList(List objects)
-            => !objects.Any<Object>(@object => @object is List list && list.IsCyclic);
+            => !objects.Any<Object>(@object => @object is List list && list.ContainsCycle);
 
             [Primitive("countable-list?", 0, true)]
             public static Boolean CountableList(List objects)
@@ -504,23 +506,35 @@ namespace Kernel.Primitives
             [TypeAssertion(1, typeof(Applicative))]
             public static Object Reduce(List objects, Applicative binary, Object identity, List cycleApplicatives)
             {
-                if (objects.IsCyclic && (cycleApplicatives.Count() != 3 || cycleApplicatives.All<Object>(obj => obj is Applicative)))
+                if (objects.ContainsCycle && !(cycleApplicatives.Count() == 3 && cycleApplicatives.All<Object>(obj => obj is Applicative)))
                     throw new ArgumentException("Wrong call syntax. Cyclic list given but no cycle applicatives.");
-                if (!objects.IsCyclic && !cycleApplicatives.Any<Object>())
+                if (!objects.ContainsCycle && cycleApplicatives.Any<Object>())
                     throw new ArgumentException("Wrong call syntax. Acyclic list given but extra argumens given.");
                 if (objects is Null)
                     return Null.Instance;
-                if (objects.IsCyclic)
-                    return;
-                return objects.Aggregate((current, next) => binary.Invoke(current, next), identity);
+                if (objects.ContainsCycle)
+                {
+                    return objects.AggregateCyclic((current, next) => binary.Invoke(current, next)
+                                            , (obj) => Car<Applicative>(cycleApplicatives as Pair).Invoke(obj)
+                                            , (current, next) => Cadr<Applicative>(cycleApplicatives as Pair).Invoke(current, next)
+                                            , (obj) => Caddr<Applicative>(cycleApplicatives as Pair).Invoke(obj)
+                                            , identity);
+                }
+
+                return objects.AggregateAcyclic((current, next) => binary.Invoke(current, next), identity);
             }
 
-            //[Primitive("+", 0, true)]
-            //[VariadicTypeAssertion(typeof(Number))]
-            //public static Number Add(List objects)
-            //{
-
-            //}
+            [Primitive("+", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Add(List numbers)
+            {
+                if (numbers.ContainsCycle)
+                    return numbers.AggregateCyclic<Number>((current, start) => current + start,
+                                                          (number) => number,
+                                                           (current, start) => current + start,
+                                                           (number) => number, Integer.Zero);
+                return numbers.AggregateAcyclic<Number>((current, start) => current + start, Integer.Zero);
+            }
 
             //[Primitive("-", 0, true)]
             //[VariadicTypeAssertion(typeof(Number))]
@@ -636,7 +650,7 @@ namespace Kernel.Primitives
                 Environment child = new Environment(environment);
                 bindings.ForEach<Object>(binding =>
                 {
-                    Object expression = CarFamily.Cadr(binding as Pair);
+                    Object expression = Cadr<Object>(binding as Pair);
                     Match(child, (binding as Pair).Car, Evaluate(expression, environment));
                 });
                 if (!objects.Any<Object>()) return Inert.Instance;
@@ -664,7 +678,7 @@ namespace Kernel.Primitives
                 Environment child = new Environment(environment);
                 bindings.ForEach<Object>(binding =>
                 {
-                    Object expression = CarFamily.Cadr(binding as Pair);
+                    Object expression = Cadr<Object>(binding as Pair);
                     Match(child, (binding as Pair).Car, Evaluate(expression, child));
                 });
                 if (!objects.Any<Object>()) return Inert.Instance;
@@ -761,7 +775,8 @@ namespace Kernel.Primitives
         {
             foreach (MethodInfo method in typeof(CarFamily)
                      .GetMethods()
-                     .Where((MethodInfo method) => method.ReturnType.IsOrIsSubclassOf(typeof(Object))))
+                     .Where((MethodInfo method) => method.ReturnType.IsOrIsSubclassOf(typeof(Object)))
+                     .Select((method) => method.MakeGenericMethod(typeof(Object))))
             {
                 PrimitiveAttribute primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute>();
                 var pipedMethod = CreatePipeFunction(method);

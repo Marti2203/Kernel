@@ -122,7 +122,7 @@ namespace Kernel
                 else
                 {
                     Pair start = mainTree;
-                    int counter = 0;
+                    int counter = 1;
                     while (mainTree.Cdr != start)
                     {
                         counter++;
@@ -136,13 +136,16 @@ namespace Kernel
             return result.ToString();
         }
 
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Kernel.Pair"/> is cyclic.
-        /// </summary>
-        /// <value><c>true</c> if is cyclic; otherwise, <c>false</c>.</value>
-        public override bool IsCyclic => Contains(this);
-
+        public override bool ContainsCycle
+        {
+            get
+            {
+                HashSet<Pair> visitedPairs = new HashSet<Pair>();
+                Pair current = this;
+                while (current != null && visitedPairs.Add(current)) current = current.Cdr as Pair;
+                return current == null;
+            }
+        }
 
         public bool Contains(Object o)
         {

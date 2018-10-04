@@ -9,7 +9,7 @@ namespace Kernel
 		{
 		}
 
-		public override bool IsCyclic => false;
+		public override bool ContainsCycle => false;
 
 		public override List EvaluateAll(Environment environment) => this;
 
