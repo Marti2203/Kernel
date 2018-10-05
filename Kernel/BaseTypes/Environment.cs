@@ -110,7 +110,6 @@ namespace Kernel
             return obj;
         }
 
-#if FastEvaluate
         public Object Evaluate(Combiner combiner, List list)
         {
             if (combiner is Operative o)
@@ -123,7 +122,7 @@ namespace Kernel
         }
 
         public override bool Equals(Object other) => ReferenceEquals(this, other);
-#endif
+
         public override string ToString() => "Environment";
     }
 }
