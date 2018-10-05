@@ -132,6 +132,7 @@
     <None Include="EvalutedPrimitives\CountableListCore.k" />
     <None Include="EvalutedPrimitives\FilterCore.k" />
     <None Include="EvalutedPrimitives\AssocCore.k" />
+    <None Include="EvalutedPrimitives\ReduceCore.k" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

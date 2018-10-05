@@ -136,6 +136,8 @@ namespace Kernel
             return result.ToString();
         }
 
+        public override bool IsCyclic => Contains(this);
+
         public override bool ContainsCycle
         {
             get
@@ -143,7 +145,7 @@ namespace Kernel
                 HashSet<Pair> visitedPairs = new HashSet<Pair>();
                 Pair current = this;
                 while (current != null && visitedPairs.Add(current)) current = current.Cdr as Pair;
-                return current == null;
+                return current != null;
             }
         }
 

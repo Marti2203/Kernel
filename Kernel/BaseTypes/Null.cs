@@ -1,23 +1,25 @@
 ﻿using System;
 namespace Kernel
 {
-	public sealed class Null : List
-	{
-		public static readonly Null Instance = new Null();
+    public sealed class Null : List
+    {
+        public static readonly Null Instance = new Null();
 
-		Null()
-		{
-		}
+        Null()
+        {
+        }
 
-		public override bool ContainsCycle => false;
+        public override bool IsCyclic => false;
 
-		public override List EvaluateAll(Environment environment) => this;
+        public override bool ContainsCycle => false;
 
-		public override Object this[int index] => throw new InvalidOperationException("Empty list cannot be indexed");
+        public override List EvaluateAll(Environment environment) => this;
 
-		public override string ToString() => "()";
+        public override Object this[int index] => throw new InvalidOperationException("Empty list cannot be indexed");
 
-		public override bool Equals(Object other) => other is Null;
+        public override string ToString() => "()";
 
-	}
+        public override bool Equals(Object other) => other is Null;
+
+    }
 }

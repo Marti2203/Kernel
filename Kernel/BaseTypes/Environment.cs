@@ -1,5 +1,4 @@
-﻿#define FastEvaluate
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Kernel.Combiners;
 using static Kernel.Primitives.Primitives;
@@ -57,11 +56,36 @@ namespace Kernel
                 bindings[name] = value;
             }
         }
+
         public Object this[Symbol name]
         {
             get => this[name.ToString()];
             set => bindings[name.ToString()] = value;
         }
+
+        public bool Contains(Symbol symbol)
+        {
+            string name = symbol;
+            if (Has(name))
+                return true;
+            HashSet<Environment> traversed = new HashSet<Environment>();
+            Stack<Environment> environments = new Stack<Environment>();
+            environments.Push(this);
+
+            while (environments.Count != 0)
+            {
+                Environment current = environments.Pop();
+                if (current.bindings.ContainsKey(name))
+                    return true;
+                if (traversed.Add(current))
+                    foreach (Environment environment in current.Parents)
+                        environments.Push(environment);
+            }
+            if (!Has(name))
+                return false;
+            return true;
+        }
+
 
         public Object Evaluate(Object obj)
         {
@@ -77,13 +101,8 @@ namespace Kernel
                 if (car is Applicative ap)
                 {
                     if (p.Cdr is List l)
-                    {
-#if FastEvaluate
                         return Evaluate(ap.combiner, l.EvaluateAll(this));
-#else
-						return Evaluate(new Pair(ap.combiner, l.EvaluateAll(this)));
-#endif
-                    }
+
                     throw new ArgumentException("Applicatives require a list");
                 }
                 throw new ArgumentException("Car must be either an applicative or operative");

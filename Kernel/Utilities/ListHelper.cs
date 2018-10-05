@@ -66,10 +66,16 @@ namespace Kernel.Utilities
         public static bool Any<T>(this List list) => !(list is Null);
 #pragma warning restore RECS0096 // Type parameter is never used
 
-        public static int Count(this List list)
+        public static int Count(this List list, bool throwOnCyclic = true)
         {
-            if (list.ContainsCycle) throw new ArgumentException("Cannot get count of cyclic lists");
             if (list is Null) return 0;
+            if (list.ContainsCycle)
+            {
+                if (throwOnCyclic)
+                    throw new ArgumentException("Cannot get count of cyclic lists");
+                return -1;
+            }
+
             ISet<Pair> visitedPairs = new HashSet<Pair>();
             int count = 0;
             Pair current = list as Pair;
@@ -80,22 +86,6 @@ namespace Kernel.Utilities
             }
             return count;
         }
-
-        public static int Count<T>(this List list, Func<T, bool> predicate) where T : Object
-        {
-            if (list.ContainsCycle) throw new ArgumentException("Cannot get count of cyclic lists");
-            if (list is Null) return 0;
-            ISet<Pair> visitedPairs = new HashSet<Pair>();
-            int count = 0;
-            Pair current = list as Pair;
-            while (current != null && visitedPairs.Add(current))
-            {
-                count += predicate(current.Car as T) ? 1 : 0;
-                current = current.Cdr as Pair;
-            }
-            return count;
-        }
-
 
         public static Object Last(this List list)
         {

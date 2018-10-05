@@ -35,7 +35,7 @@ namespace Kernel.Primitives
 
         public static bool AllPairs(Object obj) => obj is Pair p && p.All<Object>(@object => @object is Pair);
 
-        public static bool IsCyclic(Object obj)
+        public static bool ContainsCycle(Object obj)
         => obj is List l && l.ContainsCycle;
 
         public static Object Evaluate(Object @object, Environment environment)
@@ -232,10 +232,10 @@ namespace Kernel.Primitives
             public static Object List(List objects) => objects;
 
             [Primitive("list*", 0, true)]
-            [PredicateAssertion(0, typeof(Primitives), nameof(IsCyclic), true)]
+            [PredicateAssertion(0, typeof(Primitives), nameof(ContainsCycle), true)]
             public static Object ListStar(List objects)
             {
-                if (!objects.Any<Object>()) throw new ArgumentException("List* requires a nonempty acyclic list.");
+                if (objects is Null || objects.ContainsCycle) throw new ArgumentException("List* requires a nonempty acyclic list.");
                 if (objects.Count() == 1) return objects[0];
                 Pair head = new Pair(objects[0]);
                 Pair tail = head;
@@ -248,8 +248,8 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(Applicative))]
             public static Object Apply(Applicative a, Object p, List objects)
             {
-                int count = objects.Count();
-                if (count > 1)
+                int count = objects.Count(false);
+                if (count > 1 || count < 0)
                     throw new ArgumentException("Apply can except an additional environment only", nameof(objects));
                 if (count == 1)
                 {
@@ -506,8 +506,8 @@ namespace Kernel.Primitives
             [TypeAssertion(1, typeof(Applicative))]
             public static Object Reduce(List objects, Applicative binary, Object identity, List cycleApplicatives)
             {
-                if (objects.ContainsCycle && !(cycleApplicatives.Count() == 3 && cycleApplicatives.All<Object>(obj => obj is Applicative)))
-                    throw new ArgumentException("Wrong call syntax. Cyclic list given but no cycle applicatives.");
+                if (objects.ContainsCycle && !(cycleApplicatives.Count(false) == 3 && cycleApplicatives.All<Object>(obj => obj is Applicative)))
+                    throw new ArgumentException("Wrong call syntax. Cyclic list given but without cycle applicatives.");
                 if (!objects.ContainsCycle && cycleApplicatives.Any<Object>())
                     throw new ArgumentException("Wrong call syntax. Acyclic list given but extra argumens given.");
                 if (objects is Null)
@@ -524,42 +524,36 @@ namespace Kernel.Primitives
                 return objects.AggregateAcyclic((current, next) => binary.Invoke(current, next), identity);
             }
 
+            #region Numbers
+
             [Primitive("+", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]
             public static Number Add(List numbers)
-            {
-                if (numbers.ContainsCycle)
-                    return numbers.AggregateCyclic<Number>((current, start) => current + start,
-                                                          (number) => number,
-                                                           (current, start) => current + start,
-                                                           (number) => number, Integer.Zero);
-                return numbers.AggregateAcyclic<Number>((current, start) => current + start, Integer.Zero);
-            }
+            => AggregateNumbers(numbers, (current, start) => current + start, Integer.Zero);
 
-            //[Primitive("-", 0, true)]
-            //[VariadicTypeAssertion(typeof(Number))]
-            //public static Number Subtract(List objects)
-            //{
 
-            //}
-            //[Primitive("/", 0, true)]
-            //[VariadicTypeAssertion(typeof(Number))]
-            //public static Number Divide(List objects)
-            //{
+            [Primitive("-", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Subtract(List numbers)
+            => AggregateNumbers(numbers, (current, start) => current - start, Integer.Zero);
 
-            //}
-            //[Primitive("*", 0, true)]
-            //[VariadicTypeAssertion(typeof(Number))]
-            //public static Number Multiply(List objects)
-            //{
-
-            //}
+            [Primitive("*", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Multiply(List numbers)
+            => AggregateNumbers(numbers, (current, start) => current * start, Integer.One);
 
             [Primitive("even?", 1)]
             [TypeAssertion(0, typeof(Integer))]
             public static Boolean IsEven(Integer integer) => integer % 2 == 0;
 
-
+            static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
+            {
+                Func<Number, Number> identity = (x) => x;
+                if (numbers.ContainsCycle)
+                    return numbers.AggregateCyclic(action, identity, action, identity, seed);
+                return numbers.AggregateAcyclic(action, Integer.Zero);
+            }
+            #endregion
         }
 
         public static class Operatives
@@ -638,7 +632,7 @@ namespace Kernel.Primitives
             [Primitive("$let", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(IsCyclic))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
             public static Object Let(Environment environment, List bindings, List objects)
             {
@@ -660,7 +654,7 @@ namespace Kernel.Primitives
             [Primitive("$let*", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(IsCyclic))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
             public static Object LetStar(Environment environment, List bindings, List objects)
             => Let(environment, bindings, objects);
@@ -668,7 +662,7 @@ namespace Kernel.Primitives
             [Primitive("$letrec", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(IsCyclic))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
             public static Object LetRec(Environment environment, List bindings, List objects)
             {
@@ -688,7 +682,7 @@ namespace Kernel.Primitives
             [Primitive("$letrec*", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(IsCyclic))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
             public static Object LetRecStar(Environment environment, List bindings, List objects)
             => LetRec(environment, bindings, objects);
@@ -726,6 +720,11 @@ namespace Kernel.Primitives
                 });
                 return result ?? Evaluate(last, environment);
             }
+
+            [Primitive("$defined?", 1, true)]
+            [VariadicTypeAssertion(typeof(Symbol), 1)]
+            public static bool Defined(Environment environment, List symbols)
+            => symbols.All<Symbol>(environment.Contains);
 
         }
 

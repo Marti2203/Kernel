@@ -36,12 +36,12 @@ namespace Kernel.Arithmetic
         {
             BigInteger result;
             if (input[0] == '-' || input[0] == '+')
-                result = ParseBigInteger((input = input.Substring(1)), @base) * (input[0] == '-' ? -1 : 1);
+                result = ParseBigInteger(input.Substring(1), @base) * (input[0] == '-' ? -1 : 1);
             else
                 result = ParseBigInteger(input, @base);
 
-            if (cache.Values.Any(v => v.data == result))
-                return cache[input];
+            if (cache.TryGetValue(input, out Integer v))
+                return v;
 
             var integer = new Integer(result);
             cache.Add(integer.ToString(), integer);

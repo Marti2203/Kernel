@@ -23,7 +23,7 @@ namespace Kernel.Primitives
         static Expression GenerateCountCheck(PrimitiveAttribute primitive)
         {
             var realCount = Parameter(typeof(int), "realCount");
-            var count = CallFunction("Count", AssertionAttribute.InputCasted); // In case of Null sent
+            var count = CallFunction("Count", AssertionAttribute.InputCasted, Constant(false)); // In case of Null sent
             var expectedCount = Constant(primitive.InputCount);
             Expression predicate = null;
             if (primitive.InputCount != 0)
