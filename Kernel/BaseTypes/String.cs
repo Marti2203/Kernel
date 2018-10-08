@@ -20,7 +20,7 @@ namespace Kernel
             return instance;
         }
 
-        public static implicit operator String(string input) => new String(input);
+        public static implicit operator String(string input) => Get(input);
         public static implicit operator string(String @string) => @string.Data;
 
         public override bool Equals(Object other) => ReferenceEquals(this, other);
