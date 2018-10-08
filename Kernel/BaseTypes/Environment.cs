@@ -10,9 +10,9 @@ namespace Kernel
         public static readonly Environment Ground = new Environment();
         public static Environment Current = Ground;
         public readonly IEnumerable<Environment> Parents = Enumerable.Empty<Environment>();
-        readonly IDictionary<string, Object> bindings = new Dictionary<string, Object>();
+        readonly IDictionary<Symbol, Object> bindings = new Dictionary<Symbol, Object>();
 
-        public bool IsStandard;
+        public bool IsStandard => Parents.SequenceEqual(new[] { Ground });
 
         Environment() { }
 
@@ -26,29 +26,9 @@ namespace Kernel
             Parents = parents.Select(env => env.Copy() as Environment);
         }
 
-        public Object this[string name]
+        public Object this[Symbol name]
         {
-            get
-            {
-                if (Has(name))
-                    return Get(name);
-                HashSet<Environment> traversed = new HashSet<Environment>();
-                Stack<Environment> environments = new Stack<Environment>();
-                environments.Push(this);
-
-                while (environments.Count != 0)
-                {
-                    Environment current = environments.Pop();
-                    if (current.bindings.ContainsKey(name))
-                        return current.bindings[name];
-                    if (traversed.Add(current))
-                        foreach (Environment environment in current.Parents)
-                            environments.Push(environment);
-                }
-                if (!Has(name))
-                    throw new NoBindingException("No Binding for " + name);
-                return Get(name);
-            }
+            get => Find(name) ?? throw new NoBindingException($"No binding for {name}");
             set
             {
                 if (Has(name))
@@ -57,17 +37,16 @@ namespace Kernel
             }
         }
 
-        public Object this[Symbol name]
+        public Object this[string name]
         {
-            get => this[name.ToString()];
-            set => bindings[name.ToString()] = value;
+            get => this[Symbol.Get(name)];
+            set => bindings[Symbol.Get(name)] = value;
         }
 
-        public bool Contains(Symbol symbol)
+        public Object Find(Symbol symbol)
         {
-            string name = symbol;
-            if (Has(name))
-                return true;
+            //if (Has(name)) no return for now
+            //    return Get(name);
             HashSet<Environment> traversed = new HashSet<Environment>();
             Stack<Environment> environments = new Stack<Environment>();
             environments.Push(this);
@@ -75,16 +54,18 @@ namespace Kernel
             while (environments.Count != 0)
             {
                 Environment current = environments.Pop();
-                if (current.bindings.ContainsKey(name))
-                    return true;
+                if (current.bindings.ContainsKey(symbol))
+                    return current.bindings[symbol];
                 if (traversed.Add(current))
                     foreach (Environment environment in current.Parents)
                         environments.Push(environment);
             }
-            if (!Has(name))
-                return false;
-            return true;
+            if (Has(symbol))
+                return Get(symbol);
+            return null;
         }
+
+        public bool Contains(Symbol symbol) => Find(symbol) != null;
 
 
         public Object Evaluate(Object obj)
