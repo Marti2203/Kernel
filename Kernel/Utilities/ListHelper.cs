@@ -20,6 +20,21 @@ namespace Kernel.Utilities
             return true;
         }
 
+        public static bool All<T>(this List list, Func<T, int, bool> predicate) where T : Object
+        {
+            if (list is Null) return true;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            Pair current = list as Pair;
+            int index = 0;
+            while (current != null && visitedPairs.Add(current))
+            {
+                if (!predicate(current.Car as T, index++))
+                    return false;
+                current = current.Cdr as Pair;
+            }
+            return true;
+        }
+
         public static bool Any<T>(this List list, Func<T, bool> predicate) where T : Object
         {
             if (list is Null) return false;
@@ -28,6 +43,21 @@ namespace Kernel.Utilities
             while (current != null && visitedPairs.Add(current))
             {
                 if (predicate(current.Car as T))
+                    return true;
+                current = current.Cdr as Pair;
+            }
+            return false;
+        }
+
+        public static bool Any<T>(this List list, Func<T, int, bool> predicate) where T : Object
+        {
+            if (list is Null) return false;
+            ISet<Pair> visitedPairs = new HashSet<Pair>();
+            Pair current = list as Pair;
+            int index = 0;
+            while (current != null && visitedPairs.Add(current))
+            {
+                if (predicate(current.Car as T, index++))
                     return true;
                 current = current.Cdr as Pair;
             }
@@ -91,12 +121,10 @@ namespace Kernel.Utilities
         {
             if (list is Null) throw new ArgumentException("Cannot find a last element in a null array");
             if (list.ContainsCycle) throw new ArgumentException("Cannot find a last element in a cyclic list");
-            ISet<Pair> visitedPairs = new HashSet<Pair>();
             Pair current = list as Pair;
-            while (current != null && visitedPairs.Add(current))
-            {
-                current = current.Cdr as Pair;
-            }
+            while (current.Cdr is Pair p)
+                current = p;
+
             return current.Car;
         }
 
@@ -124,9 +152,8 @@ namespace Kernel.Utilities
             if (list is Null) throw new ArgumentOutOfRangeException(nameof(list), "Cannot skip on an empty list");
             Pair current = list as Pair;
             while (count-- != 0 && current != null)
-            {
                 current = current.Cdr as Pair;
-            }
+
             if (current == null && count != -1)
                 throw new ArgumentOutOfRangeException(nameof(list), "List is too short for skip");
             return current ?? Null.Instance as List;
@@ -143,10 +170,10 @@ namespace Kernel.Utilities
             }
         }
 
-        public static T ForEachReturnLast<T>(this List list, Action<T> action, int skip = 0) where T : Object
+        public static T ForEachReturnLast<T>(this List list, Action<T> action) where T : Object
         {
             if (list is Null) throw new ArgumentException("Cannot traverse an empty list");
-            Pair current = list.Skip(skip) as Pair;
+            Pair current = list as Pair;
             while (current.Cdr is Pair next)
             {
                 action(current.Car as T);

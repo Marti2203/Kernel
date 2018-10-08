@@ -83,6 +83,7 @@
     <Compile Include="Parser\KernelParser.cs" />
     <Compile Include="Parser\KernelVisitor.cs" />
     <Compile Include="Utilities\ListHelper.cs" />
+    <Compile Include="BaseTypes\Continuation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />
@@ -98,8 +99,8 @@
     <None Include="EvalutedPrimitives\SequenceCore.k" />
     <None Include="EvalutedPrimitives\CopyEsImmutableCore.k" />
     <None Include="EvalutedPrimitives\SequenceSpecial.k" />
-    <None Include="EvalutedPrimitives\ListStarCore.k" />
-    <None Include="EvalutedPrimitives\ListStarSpecial.k" />
+    <None Include="EvalutedPrimitives\List*Core.k" />
+    <None Include="EvalutedPrimitives\List*Special.k" />
     <None Include="EvalutedPrimitives\VauCore.k" />
     <None Include="EvalutedPrimitives\VauSpecial.k" />
     <None Include="EvalutedPrimitives\LambdaCore.k" />
@@ -124,15 +125,30 @@
     <None Include="EvalutedPrimitives\%24OrCore.k" />
     <None Include="EvalutedPrimitives\CombinerCore.k" />
     <None Include="EvalutedPrimitives\Length.k" />
-    <None Include="EvalutedPrimitives\ListRefCore.k" />
     <None Include="EvalutedPrimitives\AppendCore.k" />
-    <None Include="EvalutedPrimitives\ListNeighboursCore.k" />
     <None Include="EvalutedPrimitives\MemberCore.k" />
     <None Include="EvalutedPrimitives\FiniteListCore.k" />
     <None Include="EvalutedPrimitives\CountableListCore.k" />
     <None Include="EvalutedPrimitives\FilterCore.k" />
     <None Include="EvalutedPrimitives\AssocCore.k" />
     <None Include="EvalutedPrimitives\ReduceCore.k" />
+    <None Include="EvalutedPrimitives\CopyEsCore.k" />
+    <None Include="EvalutedPrimitives\AssqCore.k" />
+    <None Include="EvalutedPrimitives\AppendMutateCore.k" />
+    <None Include="EvalutedPrimitives\MemqCore.k" />
+    <None Include="EvalutedPrimitives\EqCore.k" />
+    <None Include="EvalutedPrimitives\EqualCore.k" />
+    <None Include="EvalutedPrimitives\BindsCore.k" />
+    <None Include="EvalutedPrimitives\BindingsToEnvironmentCore.k" />
+    <None Include="EvalutedPrimitives\SetCore.k" />
+    <None Include="EvalutedPrimitives\ProvideCore.k" />
+    <None Include="EvalutedPrimitives\ImportCore.k" />
+    <None Include="EvalutedPrimitives\LetRec*Core.k" />
+    <None Include="EvalutedPrimitives\Let*Core.k" />
+    <None Include="EvalutedPrimitives\LetRec*Core.k" />
+    <None Include="EvalutedPrimitives\LetRecCore.k" />
+    <None Include="EvalutedPrimitives\LetRedirectCore.k" />
+    <None Include="EvalutedPrimitives\LetSafeCore.k" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
