@@ -94,12 +94,15 @@ namespace Kernel.Arithmetic
 
         protected override Number Multiply(Number num) => Get((num as Integer).data * data);
 
-        protected override Number Divide(Number num) => Get((num as Integer).data / data);
+        protected override Number Divide(Number num)
+        => data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
+                                           : Get((num as Integer).data / data);
 
-        protected override Number DivideBy(Number num) => Get(data / (num as Integer).data);
+        protected override Number DivideBy(Number num)
+        => (num as Integer).data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
+                                           : Get(data / (num as Integer).data);
 
         protected override Number Negate() => Get(-data);
-
 
         public static implicit operator Rational(Integer @int) => new Rational(@int.data);
         public static implicit operator BigInteger(Integer @int) => @int.data;

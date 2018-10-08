@@ -4,7 +4,7 @@ namespace Kernel.Arithmetic
     /// <summary>
     /// Number.
     /// </summary>
-    public abstract class Number : Object
+    public abstract class Number : Object//, IEquatable<Number>
     {
         public abstract NumberHierarchy Priority { get; }
 
@@ -21,6 +21,11 @@ namespace Kernel.Arithmetic
         protected abstract Number Divide(Number num);
         protected abstract Number DivideBy(Number num);
         protected abstract Number Negate();
+        //protected abstract bool EqualsNumber(Number other);
+
+        //public bool Equals(Number other)
+        //=> Priority < other.Priority ? other.EqualsNumber(this) : EqualsNumber(other);
+
 
         public static Number operator -(Number l) => l.Negate();
 
