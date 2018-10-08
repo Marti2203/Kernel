@@ -149,6 +149,7 @@ namespace Kernel
             }
         }
 
+
         public bool Contains(Object o)
         {
             if (Car == o || Cdr == o) return true;
@@ -185,18 +186,40 @@ namespace Kernel
             return result;
         }
 
+        public Pair Tail
+        {
+            get
+            {
+                Pair current = this;
+                while (!(current.Cdr is Null) && current.Cdr is Pair p)
+                    current = p;
+                return current;
+            }
+        }
+
         public override bool Equals(Object other)
         {
-            if (!(other is Pair p)) return false;
+            if (!(other is Pair otherPair)) return false;
             Pair current = this;
             HashSet<Pair> visitedPairsThis = new HashSet<Pair>();
             HashSet<Pair> visitedPairsOther = new HashSet<Pair>();
-            while (current != null && p != null && (visitedPairsThis.Add(current) || visitedPairsOther.Add(p)))
+            while (current != null && otherPair != null && (visitedPairsThis.Add(current) || visitedPairsOther.Add(otherPair)))
             {
-                if (!Car.Equals(p.Car))
+                if (!Car.Equals(otherPair.Car))
                     return false;
-                current = current.Cdr as Pair;
-                p = p.Cdr as Pair;
+                if (current.Cdr is Pair next && otherPair.Cdr is Pair otherNext)
+                {
+                    current = next;
+                    otherPair = otherNext;
+                }
+                else
+                {
+                    if (!(current.Cdr is Pair || otherPair.Cdr is Pair))
+                    {
+                        return current.Cdr.Equals(otherPair.Cdr);
+                    }
+                    return false;
+                }
             }
             return true;
         }
