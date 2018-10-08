@@ -1,5 +1,4 @@
-﻿;cond-special
-($define! $cond-special
+﻿($define! $cond-special
 ($vau clauses env
 ($if (null? clauses)
 #inert

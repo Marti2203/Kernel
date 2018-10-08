@@ -1,5 +1,4 @@
-﻿;cond-core
-($define! $cond-core
+﻿($define! $cond-core
 ($vau clauses env
 ($define! aux
 ($lambda ((test . body) . clauses)

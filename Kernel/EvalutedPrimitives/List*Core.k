@@ -1,5 +1,4 @@
-﻿;list*-core
-($define! list*
+﻿($define! list-core*
 (wrap ($vau args #ignore
 ($sequence
 ($define! aux

@@ -50,23 +50,25 @@ namespace Kernel.Primitives
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     abstract class IndexAssertionAttribute : AssertionAttribute
     {
-
         protected readonly Expression expression;
 
-        protected IndexAssertionAttribute(Expression condition, string errorMessage, int index)
+        protected IndexAssertionAttribute(Expression condition, string errorMessage, int index, bool negated)
             : base(errorMessage)
         {
+            Negated = negated;
             Index = index;
             expression = condition;
         }
 
-        public override Expression Expression => Not(expression);
+        public override Expression Expression => Negated ? Not(expression) : expression;
 
         public static Expression ElementAt(int index) => Property(InputCasted, "Item", Constant(index));
 
         public Expression Element => ElementAt(Index);
 
         public int Index { get; private set; }
+
+        public bool Negated { get; private set; }
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
@@ -75,13 +77,13 @@ namespace Kernel.Primitives
         public Type Type { get; private set; }
 
         public TypeAssertionAttribute(int index, Type type)
-            : base(ElementAtIs(index, type), $"{index} Argument is not a {type}", index)
+            : base(ElementAtIs(index, type), $"{index} Argument is not a {type}", index, true)
         {
             Type = type;
         }
         public TypeAssertionAttribute(int index, Type type1, Type type2)
             : base(OrElse(ElementAtIs((index), type1), ElementAtIs((index), type2)),
-                   $"{index} Argument is not a {type1} or {type2}", index)
+                   $"{index} Argument is not a {type1} or {type2}", index, true)
         {
             Type = typeof(Object);
         }
@@ -93,29 +95,26 @@ namespace Kernel.Primitives
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     class PredicateAssertionAttribute : IndexAssertionAttribute
     {
-        public PredicateAssertionAttribute(int index, Type type, string methodName, bool negated = false)
-            : base(StaticCallOnElementAt(type.GetMethod(methodName, new[] { typeof(Object) }), index, negated), $"{index} Argument is not valid by {methodName}", index) { }
+        public PredicateAssertionAttribute(int index, Type type, string methodName, bool negated = true)
+            : base(StaticCallOnElementAt(type.GetMethod(methodName, new[] { typeof(Object) }), index)
+                   , $"{index} Argument is not valid by {methodName}", index, negated)
+        { }
 
 
-        static Expression StaticCallOnElementAt(MethodInfo predicate, int index, bool negated = false)
-        {
-            var call = Call(null, predicate, ElementAt(index));
-            return negated ? (Not(call) as Expression) : call;
-        }
+        static Expression StaticCallOnElementAt(MethodInfo predicate, int index)
+        => Call(null, predicate, ElementAt(index));
 
-        Expression StaticCallOnElement(MethodInfo predicate, bool negated = false)
-        {
-            var call = Call(null, predicate, Element);
-            return negated ? (Not(call) as Expression) : call;
-        }
+
+        Expression StaticCallOnElement(MethodInfo predicate)
+        => Call(null, predicate, Element);
     }
 
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     class MutabilityAssertionAttribute : IndexAssertionAttribute
     {
-        public MutabilityAssertionAttribute(int index)
-            : base(Property(ElementAt(index), "Mutable"), $"{index} Argument is not mutable", index) { }
+        public MutabilityAssertionAttribute(int index, bool required = true)
+            : base(Property(ElementAt(index), "Mutable"), $"{index} Argument is not mutable", index, !required) { }
     }
 
 
@@ -129,7 +128,7 @@ namespace Kernel.Primitives
                        GreaterThanOrEqual(TypeAs(ElementAt(index), typeof(Arithmetic.Integer)),
                                           Constant(Arithmetic.Integer.Zero))
                     )
-                  , $"{index} Argument is a negative integer", index)
+                  , $"{index} Argument is a negative integer", index, true)
         {
         }
         static TypeBinaryExpression ElementIsInteger(int index) => TypeIs(ElementAt(index), typeof(Arithmetic.Integer));
@@ -162,4 +161,5 @@ namespace Kernel.Primitives
         public Type Type { get; private set; }
         public int Skip { get; private set; }
     }
+
 }

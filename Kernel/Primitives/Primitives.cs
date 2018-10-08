@@ -33,7 +33,12 @@ namespace Kernel.Primitives
         public static bool ValidBindingList(Object obj)
         => obj is List l && l.All<Object>(element => element is Pair pair && IsFormalParameterTree(pair.Car) && !(pair.Cdr is Null));
 
+        public static bool UniqueBindingList(Object obj)
+        => obj is List bindings && bindings.Select<Pair>(Car<Object>).All<Object>(new HashSet<Object>().Add);
+
         public static bool AllPairs(Object obj) => obj is Pair p && p.All<Object>(@object => @object is Pair);
+
+        public static bool AllSymbols(Object obj) => obj is Pair p && p.All<Object>(@object => @object is Symbol);
 
         public static bool ContainsCycle(Object obj)
         => obj is List l && l.ContainsCycle;
@@ -112,12 +117,28 @@ namespace Kernel.Primitives
         public static class Applicatives
         {
 
-            [Primitive("for-each", 2)]
-            [TypeAssertion(0, typeof(List))]
-            [TypeAssertion(1, typeof(Applicative))]
-            public static Inert ForEach(List list, Applicative app)
+            [Primitive("for-each", 1, true)]
+            [TypeAssertion(0, typeof(Applicative))]
+            [VariadicTypeAssertion(typeof(List), 1)]
+            public static Inert ForEach(Applicative app, List lists)
             {
-                list.ForEach<Object>((obj) => app.Invoke(obj));
+                if (!lists.Any<Object>()) throw new ArgumentException("Lists list must not be empty");
+                Integer starterLength = ListMetrics.Pairs(GetListMetrics(lists[0]));
+
+                if ((lists[0] as Pair).ContainsCycle && lists.Any<List>(list => !list.ContainsCycle))
+                    throw new ArgumentException("A list is cyclic, so they must all be");
+
+                if (lists.Any<Object>(l => ListMetrics.Pairs(GetListMetrics(l)) != starterLength))
+                    throw new ArgumentException("A list does not have the same length as the others");
+
+                HashSet<List> visitedTuples = new HashSet<List>();
+
+                while (lists[0] != null && visitedTuples.Add(lists))
+                {
+                    app.Invoke(lists.Select<Pair>(Car<Object>));
+                    lists = lists.Select<Pair>(Cdr<Pair>);
+                }
+
                 return Inert.Instance;
             }
 
@@ -206,15 +227,6 @@ namespace Kernel.Primitives
                                 CopyEvaluationStructureImmutable(p.Cdr), false);
             }
 
-            [Primitive("copy-es", 1)]
-            public static Object CopyEvaluationStructure(Object obj)
-            {
-                if (!(obj is Pair p)) return obj;
-
-                return new Pair(CopyEvaluationStructure(p.Car),
-                                CopyEvaluationStructure(p.Cdr));
-            }
-
 
             [Primitive("eval", 2)]
             [TypeAssertion(1, typeof(Environment))]
@@ -222,7 +234,7 @@ namespace Kernel.Primitives
 
             [Primitive("wrap", 1)]
             [TypeAssertion(0, typeof(Combiner))]
-            public static Combiner Wrap(Combiner c) => new Applicative(c);
+            public static Applicative Wrap(Combiner c) => new Applicative(c);
 
             [Primitive("unwrap", 1)]
             [TypeAssertion(0, typeof(Applicative))]
@@ -239,7 +251,7 @@ namespace Kernel.Primitives
                 if (objects.Count() == 1) return objects[0];
                 Pair head = new Pair(objects[0]);
                 Pair tail = head;
-                Object lastElement = objects.ForEachReturnLast<Object>((obj) => tail = tail.Append(obj), 1);
+                Object lastElement = objects.Skip(1).ForEachReturnLast<Object>((obj) => tail = tail.Append(obj));
                 tail.Cdr = lastElement;
                 return head;
             }
@@ -370,7 +382,7 @@ namespace Kernel.Primitives
 
                 resultStart = resultCurrent = new Pair(app.Invoke(lists.Select<Pair>(Car<Object>)));
 
-                while (visitedTuples.Add(lists))
+                while (lists[0] != null && visitedTuples.Add(lists))
                 {
                     resultCurrent = resultCurrent.Append(app.Invoke(lists.Select<Pair>(Car<Object>)));
                     lists = lists.Select<Pair>(Cdr<Pair>);
@@ -438,14 +450,14 @@ namespace Kernel.Primitives
                 Pair head, tail;
                 if ((lists[0] as List).ContainsCycle)
                     throw new ArgumentException("Only last argument can be cyclic");
-                head = tail = new Pair(lists[0] as IEnumerable<Object>);
-                List last = lists.ForEachReturnLast<List>((list) =>
+                head = tail = lists[0].Copy() as Pair;
+                List last = lists.Skip(1).ForEachReturnLast<List>((list) =>
                 {
                     if (list.ContainsCycle)
                         throw new ArgumentException("Only last argument can be cyclic");
                     list.ForEach<Object>(obj => tail = tail.Append(obj));
-                }, 1);
-                tail.Cdr = last;
+                });
+                tail.Tail.Cdr = last;
                 return head;
             }
 
@@ -458,7 +470,7 @@ namespace Kernel.Primitives
                 Pair current = list as Pair;
                 if (!(current.Cdr is Pair)) return Null.Instance;
 
-                Pair result = new Pair(new Pair(new[] { current.Car, Cdar<Object>(current) }));
+                Pair result = new Pair(new Pair(current.Car, Cdar<Object>(current), Null.Instance));
                 HashSet<Pair> visitedPairs = new HashSet<Pair>
                 {
                     current
@@ -467,7 +479,7 @@ namespace Kernel.Primitives
                 current = current.Cdr as Pair;
                 while (current.Cdr is Pair && visitedPairs.Add(current))
                 {
-                    result.Append(new Pair(new[] { current.Car, Cdar<Object>(current) }));
+                    result.Append(new Pair(current.Car, Cdar<Object>(current), Null.Instance));
                     current = current.Cdr as Pair;
                 }
                 return result;
@@ -524,6 +536,51 @@ namespace Kernel.Primitives
                 return objects.AggregateAcyclic((current, next) => binary.Invoke(current, next), identity);
             }
 
+            [Primitive("append!", 0, true)]
+            [VariadicTypeAssertion(typeof(List))]
+            public static Inert AppendMutate(List lists)
+            {
+                if (lists is Null) throw new ArgumentException("Cannot append no lists");
+                if (lists.Any<Pair>(((first, i)
+                                     => lists.Any<Pair>(((second, j)
+                                                         => i != j
+                                                         && first != second
+                                                         && !first.ContainsCycle
+                                                         && !second.ContainsCycle
+                                                         && first.Tail == second.Tail)))))
+                    throw new ArgumentException("A list contains a tail pair that is in a different list");
+                if (lists[0] is Null || (lists[0] as List).ContainsCycle)
+                    throw new ArgumentException("First element must be an acyclic nonempty list");
+                Pair start = lists[0] as Pair;
+                Object last = lists.Skip(1).ForEachReturnLast<List>(pair =>
+               {
+                   if (pair.ContainsCycle)
+                       throw new ArgumentException("Cannot append an element that is cyclic and not last.");
+                   if (pair is Pair)
+                       start.Tail.Cdr = pair;
+               });
+                start.Tail.Cdr = last;
+                return Inert.Instance;
+            }
+
+            [Primitive("copy-es", 1)]
+            public static Object CopyEvaluationStructure(Object @object)
+            => @object is Pair pair ? new Pair(CopyEvaluationStructure(pair.Car), CopyEvaluationStructure(pair.Cdr)) : @object;
+
+            [Primitive("assq", 2)]
+            [TypeAssertion(1, typeof(List))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(AllPairs))]
+            public static Object Assq(Object @object, List pairs)
+            => pairs.FirstOrNull<Object>((obj) => ReferenceEquals(obj, @object));
+
+            [Primitive("memq", 2)]
+            [TypeAssertion(1, typeof(List))]
+            public static Boolean Memq(Object @object, List list)
+            => list.Any<Object>((obj) => ReferenceEquals(obj, @object));
+
+            [Primitive("make-kernel-standard-environment")]
+            public static Environment StandartEnvironment() => new Environment(Environment.Ground);
+
             #region Numbers
 
             [Primitive("+", 0, true)]
@@ -531,20 +588,34 @@ namespace Kernel.Primitives
             public static Number Add(List numbers)
             => AggregateNumbers(numbers, (current, start) => current + start, Integer.Zero);
 
-
-            [Primitive("-", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Number Subtract(List numbers)
-            => AggregateNumbers(numbers, (current, start) => current - start, Integer.Zero);
-
             [Primitive("*", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]
             public static Number Multiply(List numbers)
             => AggregateNumbers(numbers, (current, start) => current * start, Integer.One);
 
+            [Primitive("-", 1, true)]
+            [TypeAssertion(0, typeof(Number))]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Subtract(Number seed, List numbers)
+            => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current - start, seed)
+                          : -seed;
+
+
+            [Primitive("/", 1, true)]
+            [TypeAssertion(0, typeof(Number))]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Divide(Number seed, List numbers)
+            => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current / start, seed)
+                          : Integer.One / seed;
+
             [Primitive("even?", 1)]
             [TypeAssertion(0, typeof(Integer))]
             public static Boolean IsEven(Integer integer) => integer % 2 == 0;
+
+            [Primitive("=", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Boolean Equals(List numbers)
+            => Equal(numbers);
 
             static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
             {
@@ -553,6 +624,35 @@ namespace Kernel.Primitives
                     return numbers.AggregateCyclic(action, identity, action, identity, seed);
                 return numbers.AggregateAcyclic(action, Integer.Zero);
             }
+            #endregion
+
+            #region Continuations
+
+            [Primitive("call/cc", 1)]
+            [TypeAssertion(0, typeof(Combiner))]
+            public static Object CallWithCurrentContinuation(Combiner combiner)
+            => combiner.Invoke(Continuation.Base);
+
+            [Primitive("extend-continuation", 2, true)]
+            [TypeAssertion(0, typeof(Continuation))]
+            [TypeAssertion(1, typeof(Applicative))]
+            public static Object ExtendContinuation(Continuation continuation, Applicative a, List objects)
+            {
+                Continuation child = new Continuation(continuation);
+                Environment environment = MakeEnvironment(Null.Instance);
+                int count = objects.Count(false);
+                if (count > 1 || count < 0)
+                    throw new ArgumentException("Apply can except an additional environment only", nameof(objects));
+                if (count == 1)
+                {
+                    if (objects[0] is Environment e)
+                        environment = e;
+
+                    throw new ArgumentException("Extra argument has to be an environment.", nameof(objects));
+                }
+
+            }
+
             #endregion
         }
 
@@ -596,20 +696,15 @@ namespace Kernel.Primitives
 
             [Primitive("$lambda", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
-#pragma warning disable RECS0154 // Parameter is never used
-            public static Combiner Lambda(Environment env, Object formals, List exprs)
-#pragma warning restore RECS0154 // Parameter is never used
-            => Applicatives.Wrap(Vau(Environment.Current, formals, Ignore.Instance, exprs));
+            public static Applicative Lambda(Environment env, Object formals, List exprs)
+            => Applicatives.Wrap(Vau(env, formals, Ignore.Instance, exprs));
 
 
             [Primitive("$sequence", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
             public static Object Sequence(Environment env, List objects)
-            {
-                if (!objects.Any<Object>()) return Inert.Instance;
-                Object last = objects.ForEachReturnLast<Object>((obj) => Evaluate(obj, env));
-                return Evaluate(last, env);
-            }
+            => !objects.Any<Object>() ? Inert.Instance
+                           : Evaluate(objects.ForEachReturnLast<Object>((obj) => Evaluate(obj, env)), env);
 
             [Primitive("$cond", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
@@ -632,60 +727,89 @@ namespace Kernel.Primitives
             [Primitive("$let", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle), false)]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
-            public static Object Let(Environment environment, List bindings, List objects)
+            [PredicateAssertion(1, typeof(Primitives), nameof(UniqueBindingList))]
+            public static Object Let(Environment environment, List bindings, List body)
             {
-                HashSet<Object> bindingSet = new HashSet<Object>();
-                if (bindings.Select<Pair>(binding => binding.Car).All<Object>(bindingSet.Add))
-                {
-                    throw new ArgumentException("Duplicate bindings.");
-                }
                 Environment child = new Environment(environment);
-                bindings.ForEach<Object>(binding =>
+                bindings.ForEach<Pair>(binding =>
                 {
-                    Object expression = Cadr<Object>(binding as Pair);
-                    Match(child, (binding as Pair).Car, Evaluate(expression, environment));
+                    Object expression = Cadr<Object>(binding);
+                    Match(child, binding.Car, Evaluate(expression, environment));
                 });
-                if (!objects.Any<Object>()) return Inert.Instance;
-                return objects.Select<Object>((obj) => Evaluate(obj, environment)).Last();
+                return Sequence(child, body);
             }
 
             [Primitive("$let*", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle), false)]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
-            public static Object LetStar(Environment environment, List bindings, List objects)
-            => Let(environment, bindings, objects);
+            public static Object LetStar(Environment environment, List bindings, List body)
+            {
+                Environment child = new Environment(environment);
+                bindings.ForEach<Pair>(binding =>
+                {
+                    Object expression = Cadr<Object>(binding);
+                    Match(child, binding.Car, Evaluate(expression, child));
+                    child = new Environment(child);
+                });
+                return Sequence(child, body);
+            }
 
             [Primitive("$letrec", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle), false)]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
-            public static Object LetRec(Environment environment, List bindings, List objects)
+            [PredicateAssertion(1, typeof(Primitives), nameof(UniqueBindingList))]
+            public static Object LetRec(Environment environment, List bindings, List body)
             {
-                HashSet<Object> bindingSet = new HashSet<Object>();
-                if (bindings.Select<Pair>(binding => binding.Car).All<Object>(bindingSet.Add))
-                    throw new ArgumentException("Duplicate bindings.");
                 Environment child = new Environment(environment);
-                bindings.ForEach<Object>(binding =>
+                bindings.ForEach<Pair>(binding =>
                 {
-                    Object expression = Cadr<Object>(binding as Pair);
-                    Match(child, (binding as Pair).Car, Evaluate(expression, child));
+                    Object expression = Cadr<Object>(binding);
+                    Match(child, binding.Car, Evaluate(expression, child));
                 });
-                if (!objects.Any<Object>()) return Inert.Instance;
-                return objects.Select<Object>((obj) => Evaluate(obj, environment)).Last();
+                return Sequence(child, body);
             }
 
             [Primitive("$letrec*", 2, true)]
             [TypeAssertion(0, typeof(Environment))]
             [TypeAssertion(1, typeof(List))]
-            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle), false)]
             [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
-            public static Object LetRecStar(Environment environment, List bindings, List objects)
-            => LetRec(environment, bindings, objects);
+            public static Object LetRecStar(Environment environment, List bindings, List body)
+            {
+                Environment child = new Environment(environment);
+                bindings.ForEach<Pair>(binding =>
+                {
+                    Object expression = Cadr<Object>(binding);
+                    Match(child, binding.Car, Evaluate(expression, child));
+                    child = new Environment(child);
+                });
+                return Sequence(child, body);
+            }
+
+            [Primitive("$let-redirect", 3, true)]
+            [TypeAssertion(0, typeof(Environment))]
+            [TypeAssertion(2, typeof(List))]
+            [PredicateAssertion(2, typeof(Primitives), nameof(ContainsCycle), false)]
+            [PredicateAssertion(2, typeof(Primitives), nameof(ValidBindingList))]
+            public static Object LetRedirect(Environment environment, Object exp, List bindings, List body)
+            => (Evaluate(exp, environment) is Environment env) ?
+            Lambda(env, bindings.Select<Pair>(Car<Object>), body)
+                .Invoke(bindings.Select<Pair>((binding) => Evaluate(Cdar<Object>(binding), environment))) :
+                throw new ArgumentException("Expression did not evaluate to an environment");
+
+            [Primitive("$let-safe", 2, true)]
+            [TypeAssertion(0, typeof(Environment))]
+            [TypeAssertion(1, typeof(List))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle), false)]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ValidBindingList))]
+            public static Object LetSafe(Environment environment, List bindings, List body)
+            => LetRedirect(environment, Applicatives.StandartEnvironment(), bindings, body);
 
             [Primitive("$and?", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
@@ -722,9 +846,68 @@ namespace Kernel.Primitives
             }
 
             [Primitive("$defined?", 1, true)]
+            [TypeAssertion(0, typeof(Environment))]
             [VariadicTypeAssertion(typeof(Symbol), 1)]
-            public static bool Defined(Environment environment, List symbols)
+            public static Boolean Defined(Environment environment, List symbols)
             => symbols.All<Symbol>(environment.Contains);
+
+            [Primitive("$binds?", 2, true)]
+            [TypeAssertion(0, typeof(Environment))]
+            [VariadicTypeAssertion(typeof(Symbol), 2)]
+            public static Boolean Binds(Environment environment, Object expr, List symbols)
+            => environment.Evaluate(expr) is Environment e ? symbols.All<Symbol>(e.Contains) :
+                          throw new ArgumentException("Expr is not an argument");
+
+            [Primitive("$remote-eval", 3)]
+            [TypeAssertion(0, typeof(Environment))]
+            public static Object RemoteEval(Environment environment, Object exp1, Object exp2)
+            => Evaluate(exp2, environment) is Environment env ? Evaluate(exp1, env)
+                : throw new ArgumentException("Second argument did not evaluate to an environment");
+
+            [Primitive("$bindings->environment", 1, true)]
+            [TypeAssertion(0, typeof(Environment))]
+            public static Environment BindingsToEnvironment(Environment environment, List bindings)
+            => LetRedirect(environment,
+                           new Environment(Array.Empty<Environment>()),
+                           bindings,
+                           new Pair(Symbol.Get("get-current-environment"))) as Environment;
+
+            [Primitive("$set!", 4)]
+            [TypeAssertion(0, typeof(Environment))]
+            [PredicateAssertion(2, typeof(Primitives), nameof(IsFormalParameterTree))]
+            public static Inert Set(Environment environment, Object exp1, Object formals, Object exp2)
+            {
+                if (!(environment.Evaluate(exp1) is Environment env))
+                    throw new ArgumentException("First argument did not evaluate to an environment");
+                Object @object = environment.Evaluate(exp2);
+                Match(env, formals, @object);
+                return Inert.Instance;
+            }
+
+            [Primitive("$provide!", 2, true)]
+            [TypeAssertion(0, typeof(Environment))]
+            [TypeAssertion(1, typeof(List))]
+            [PredicateAssertion(1, typeof(Primitives), nameof(ContainsCycle), false)]
+            [PredicateAssertion(1, typeof(Primitives), nameof(AllSymbols))]
+            public static Inert Provide(Environment environment, List symbols, List body)
+            {
+                if (body.ContainsCycle)
+                    throw new ArgumentException("Body cannot be a cyclic list.");
+                Environment child = new Environment(environment);
+                body.ForEach<Object>((exp) => Evaluate(exp, child));
+                symbols.ForEach<Symbol>((symbol) => environment[symbol] = child[symbol]);
+                return Inert.Instance;
+            }
+
+            [Primitive("$import!", 2, true)]
+            [TypeAssertion(0, typeof(Environment))]
+            [VariadicTypeAssertion(typeof(Environment), 2)]
+            public static Inert Import(Environment environment, Object exp, List symbols)
+            {
+                if (!(Evaluate(exp, environment) is Environment env))
+                    throw new ArgumentException("First argument does not evaluate to an environment");
+                return Define(environment, symbols, RemoteEval(env, new Pair(symbols), exp));
+            }
 
         }
 

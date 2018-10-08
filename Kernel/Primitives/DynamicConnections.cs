@@ -73,7 +73,7 @@ namespace Kernel.Primitives
                              methodCall);
 
 #if DebugMethods
-            if (method.Name == "PairTest")
+            if (method.Name == "Let")
             {
                 Console.WriteLine($"Name: {method.Name}");
                 Console.WriteLine($"Body Expressions");

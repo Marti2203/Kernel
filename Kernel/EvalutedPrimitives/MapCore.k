@@ -1,5 +1,4 @@
-﻿;map-core
-($define! map-core
+﻿($define! map-core
 (wrap ($vau (appv . lss) env
 ($define! acc
 ($lambda (input (k1 k2) base-result head tail sum)
