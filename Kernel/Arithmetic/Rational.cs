@@ -97,5 +97,35 @@ namespace Kernel.Arithmetic
         {
             throw new System.NotImplementedException();
         }
+
+        protected override Boolean LessThan(Number num)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override Boolean BiggerThan(Number num)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override Boolean LessThanOrEqual(Number num)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override Boolean BiggerThanOrEqual(Number num)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override Boolean EqualsNumber(Number num)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override int Compare(Number num)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

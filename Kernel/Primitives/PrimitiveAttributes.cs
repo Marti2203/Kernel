@@ -10,17 +10,20 @@ namespace Kernel.Primitives
     sealed class PrimitiveAttribute : Attribute
     {
 
-        public string PrimitiveName { get; private set; }
+        public string PrimitiveName => primitiveName;
+        readonly string primitiveName;
 
-        public int InputCount { get; private set; }
+        public int InputCount => inputCount;
+        readonly int inputCount;
 
-        public bool Variadic { get; private set; }
+        public bool Variadic => variadic;
+        readonly bool variadic;
 
         public PrimitiveAttribute(string primitiveName, int inputCount = 0, bool variadic = false)
         {
-            PrimitiveName = primitiveName;
-            InputCount = inputCount;
-            Variadic = variadic;
+            this.primitiveName = primitiveName;
+            this.inputCount = inputCount;
+            this.variadic = variadic;
         }
 
         public Expression[] Parameters(ParameterExpression input) => Enumerable
@@ -34,7 +37,7 @@ namespace Kernel.Primitives
     {
         protected AssertionAttribute(string errorMessage)
         {
-            ErrorMessage = errorMessage;
+            this.errorMessage = errorMessage;
         }
 
         public abstract Expression Expression { get; }
@@ -43,7 +46,8 @@ namespace Kernel.Primitives
 
         public static readonly UnaryExpression InputCasted = TypeAs(Input, typeof(List));
 
-        public string ErrorMessage { get; private set; }
+        public string ErrorMessage => errorMessage;
+        readonly string errorMessage;
     }
 
 
@@ -55,8 +59,8 @@ namespace Kernel.Primitives
         protected IndexAssertionAttribute(Expression condition, string errorMessage, int index, bool negated)
             : base(errorMessage)
         {
-            Negated = negated;
-            Index = index;
+            this.negated = negated;
+            this.index = index;
             expression = condition;
         }
 
@@ -66,9 +70,11 @@ namespace Kernel.Primitives
 
         public Expression Element => ElementAt(Index);
 
-        public int Index { get; private set; }
+        public int Index => index;
+        readonly int index;
 
-        public bool Negated { get; private set; }
+        public bool Negated => negated;
+        readonly bool negated;
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
@@ -140,8 +146,8 @@ namespace Kernel.Primitives
         public VariadicTypeAssertion(Type type, int skip = 0)
             : base($"All { (skip > 0 ? $"after {skip}" : "")} arguments must be {type.Name}")
         {
-            Skip = skip;
-            Type = type;
+            this.skip = skip;
+            this.type = type;
         }
 
         public LambdaExpression TypePredicate()
@@ -158,8 +164,10 @@ namespace Kernel.Primitives
                 return Not(CallFunction("All", input, TypePredicate()));
             }
         }
-        public Type Type { get; private set; }
-        public int Skip { get; private set; }
+        public Type Type => type;
+        readonly Type type;
+        public int Skip => skip;
+        readonly int skip;
     }
 
 }

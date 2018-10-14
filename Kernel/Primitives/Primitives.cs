@@ -238,7 +238,7 @@ namespace Kernel.Primitives
 
             [Primitive("unwrap", 1)]
             [TypeAssertion(0, typeof(Applicative))]
-            public static Combiner Unwrap(Applicative app) => app.combiner;
+            public static Combiner Unwrap(Applicative app) => app.Combiner;
 
             [Primitive("list", 0, true)]
             public static Object List(List objects) => objects;
@@ -266,13 +266,13 @@ namespace Kernel.Primitives
                 if (count == 1)
                 {
                     if (objects[0] is Environment e)
-                        return Evaluate(new Pair(a.combiner, p), e);
+                        return Evaluate(new Pair(a.Combiner, p), e);
 
                     throw new ArgumentException("Extra argument has to be an environment.", nameof(objects));
                 }
 
                 List list = p is List l ? l : new Pair(p);
-                return Environment.Current.Evaluate(a.combiner, list);
+                return Environment.Current.Evaluate(a.Combiner, list);
             }
             public static class ListMetrics
             {
@@ -470,7 +470,7 @@ namespace Kernel.Primitives
                 Pair current = list as Pair;
                 if (!(current.Cdr is Pair)) return Null.Instance;
 
-                Pair result = new Pair(new Pair(current.Car, Cdar<Object>(current), Null.Instance));
+                Pair result = new Pair(new Pair(current.Car, Cadr<Object>(current), Null.Instance));
                 HashSet<Pair> visitedPairs = new HashSet<Pair>
                 {
                     current
@@ -595,7 +595,7 @@ namespace Kernel.Primitives
 
             [Primitive("-", 1, true)]
             [TypeAssertion(0, typeof(Number))]
-            [VariadicTypeAssertion(typeof(Number))]
+            [VariadicTypeAssertion(typeof(Number), 1)]
             public static Number Subtract(Number seed, List numbers)
             => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current - start, seed)
                           : -seed;
@@ -622,38 +622,68 @@ namespace Kernel.Primitives
                 Func<Number, Number> identity = (x) => x;
                 if (numbers.ContainsCycle)
                     return numbers.AggregateCyclic(action, identity, action, identity, seed);
-                return numbers.AggregateAcyclic(action, Integer.Zero);
+                return numbers.AggregateAcyclic(action, seed);
             }
             #endregion
 
-            #region Continuations
-
-            [Primitive("call/cc", 1)]
-            [TypeAssertion(0, typeof(Combiner))]
-            public static Object CallWithCurrentContinuation(Combiner combiner)
-            => combiner.Invoke(Continuation.Base);
-
-            [Primitive("extend-continuation", 2, true)]
-            [TypeAssertion(0, typeof(Continuation))]
-            [TypeAssertion(1, typeof(Applicative))]
-            public static Object ExtendContinuation(Continuation continuation, Applicative a, List objects)
+            [Primitive("make-encapsulation-type")]
+            public static List MakeEncapsulationType()
             {
-                Continuation child = new Continuation(continuation);
-                Environment environment = MakeEnvironment(Null.Instance);
-                int count = objects.Count(false);
-                if (count > 1 || count < 0)
-                    throw new ArgumentException("Apply can except an additional environment only", nameof(objects));
-                if (count == 1)
-                {
-                    if (objects[0] is Environment e)
-                        environment = e;
+                Guid guid = Guid.NewGuid();
 
-                    throw new ArgumentException("Extra argument has to be an environment.", nameof(objects));
+                Boolean SameEncapsulations(List input)
+                => input.All<Object>((obj) => obj is Encapsulation capsule && capsule.Identificator == guid);
+                Encapsulation Create(List input)
+                {
+                    if (input.Count(false) != 1)
+                        throw new ArgumentException("Applicative requires one argument.");
+                    return new Encapsulation(input[0], guid);
                 }
 
+                Object Open(List input)
+                {
+                    if (input.Count(false) != 1 || !(input[0] is Encapsulation capsule))
+                        throw new ArgumentException("Applicative requires one argument which is an encapsulation.");
+                    return capsule.Open(guid, "Encapsulation is not from the same type.");
+                }
+
+                Applicative e = new Applicative(Create);
+                Applicative p = new Applicative(SameEncapsulations);
+                Applicative d = new Applicative(Open);
+                return new Pair(e, p, d);
             }
 
-            #endregion
+            [Primitive("force", 1)]
+            public static Object Force(Object @object)
+            {
+                while (@object is Promise lazy)
+                    @object = (lazy.Evaluate());
+                return @object;
+            }
+
+            [Primitive("newline")]
+            public static Inert NewLine()
+            {
+                Console.WriteLine();
+                return Inert.Instance;
+            }
+
+            [Primitive("load", 1)]
+            [TypeAssertion(0, typeof(String))]
+            public static Inert Load(String fileName)
+            {
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(fileName))
+                {
+                    Operatives.Sequence(Environment.Current, Parser.Parser.Parse($"({reader.ReadToEnd()})") as List);
+                }
+                return Inert.Instance;
+            }
+
+            [Primitive("<=?", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Boolean LessOrEqual(List numbers)
+            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) <= Cadr<Number>(pair));
+
         }
 
         public static class Operatives
@@ -719,7 +749,11 @@ namespace Kernel.Primitives
                         throw new ArgumentException($"Test in {p.Car} is not a boolean.");
 
                     if (condition)
+                    {
                         result = Sequence(env, (p.Cdr as Pair));
+                        return true;
+                    }
+                    return false;
                 });
                 return result;
             }
@@ -814,36 +848,24 @@ namespace Kernel.Primitives
             [Primitive("$and?", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
             public static Object And(Environment environment, List objects)
-            {
-                Object result = null;
-                Object last = objects.ForEachReturnLast<Object>((obj) =>
+            => Evaluate(objects.FirstValidOrLast<Object>((obj) =>
                 {
                     Object temp = Evaluate(obj, environment);
                     if (!(temp is Boolean))
-                        throw new ArgumentException("Argument does not evaluate to a boolean");
-                    if (temp == Boolean.False)
-                        result = Boolean.False;
-
-                });
-                return result ?? Evaluate(last, environment);
-            }
+                        throw new ArgumentException($"Argument {obj} does not evaluate to a boolean");
+                    return temp == Boolean.False ? Boolean.False : null;
+                }), environment);
 
             [Primitive("$or?", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
             public static Object Or(Environment environment, List objects)
-            {
-                Object result = null;
-                Object last = objects.ForEachReturnLast<Object>((obj) =>
-                {
-                    Object temp = Evaluate(obj, environment);
-                    if (!(temp is Boolean))
-                        throw new ArgumentException("Argument does not evaluate to a boolean");
-                    if (temp == Boolean.True)
-                        result = Boolean.True;
-
-                });
-                return result ?? Evaluate(last, environment);
-            }
+            => Evaluate(objects.FirstValidOrLast<Object>((obj) =>
+               {
+                   Object temp = Evaluate(obj, environment);
+                   if (!(temp is Boolean))
+                       throw new ArgumentException($"Argument {obj} does not evaluate to a boolean");
+                   return temp == Boolean.True ? Boolean.True : null;
+               }), environment);
 
             [Primitive("$defined?", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
@@ -856,13 +878,13 @@ namespace Kernel.Primitives
             [VariadicTypeAssertion(typeof(Symbol), 2)]
             public static Boolean Binds(Environment environment, Object expr, List symbols)
             => environment.Evaluate(expr) is Environment e ? symbols.All<Symbol>(e.Contains) :
-                          throw new ArgumentException("Expr is not an argument");
+                          throw new ArgumentException($"{expr} does not evaluate to an environment");
 
             [Primitive("$remote-eval", 3)]
             [TypeAssertion(0, typeof(Environment))]
             public static Object RemoteEval(Environment environment, Object exp1, Object exp2)
             => Evaluate(exp2, environment) is Environment env ? Evaluate(exp1, env)
-                : throw new ArgumentException("Second argument did not evaluate to an environment");
+                : throw new ArgumentException($"{exp2} does not evaluate to an environment");
 
             [Primitive("$bindings->environment", 1, true)]
             [TypeAssertion(0, typeof(Environment))]
@@ -908,6 +930,11 @@ namespace Kernel.Primitives
                     throw new ArgumentException("First argument does not evaluate to an environment");
                 return Define(environment, symbols, RemoteEval(env, new Pair(symbols), exp));
             }
+
+            [Primitive("$lazy", 2)]
+            [TypeAssertion(0, typeof(Environment))]
+            public static Promise Lazy(Environment environment, Object exp)
+            => new Promise(environment, exp);
 
         }
 

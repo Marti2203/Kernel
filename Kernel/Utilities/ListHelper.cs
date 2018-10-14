@@ -170,6 +170,17 @@ namespace Kernel.Utilities
             }
         }
 
+        public static void ForEach<T>(this List list, Func<T, bool> action) where T : Object
+        {
+            if (list is Null) return;
+            Pair current = list as Pair;
+            while (current != null)
+            {
+                if (action(current.Car as T)) break;
+                current = current.Cdr as Pair;
+            }
+        }
+
         public static T ForEachReturnLast<T>(this List list, Action<T> action) where T : Object
         {
             if (list is Null) throw new ArgumentException("Cannot traverse an empty list");
@@ -177,6 +188,19 @@ namespace Kernel.Utilities
             while (current.Cdr is Pair next)
             {
                 action(current.Car as T);
+                current = next;
+            }
+            return current.Car as T;
+        }
+
+        public static T FirstValidOrLast<T>(this List list, Func<T, T> action) where T : Object
+        {
+            if (list is Null) throw new ArgumentException("Cannot traverse an empty list");
+            Pair current = list as Pair;
+            while (current.Cdr is Pair next)
+            {
+                T temp = action(current.Car as T);
+                if (temp != null) return temp;
                 current = next;
             }
             return current.Car as T;

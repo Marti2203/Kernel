@@ -5,10 +5,11 @@ namespace Kernel
     public class String : Object
     {
         static readonly Dictionary<string, WeakReference<String>> cache = new Dictionary<string, WeakReference<String>>();
-        public string Data { get; private set; }
+        public string Data => data;
+        readonly string data;
         String(string data)
         {
-            Data = data;
+            this.data = data;
         }
 
         public static String Get(string data)

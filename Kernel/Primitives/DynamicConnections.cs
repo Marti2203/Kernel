@@ -48,7 +48,7 @@ namespace Kernel.Primitives
                          Throw(predicate, "Not enough or too many arguments for combiner"));
         }
 
-        public static Func<Object, Object> CreatePipeFunction(MethodInfo method)
+        public static Func<List, Object> CreatePipeFunction(MethodInfo method)
         {
             var primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute>();
             var assertions = method.GetCustomAttributes<AssertionAttribute>();
@@ -86,7 +86,7 @@ namespace Kernel.Primitives
 #endif
 
             var result = Lambda(body, true, AssertionAttribute.Input).Compile();
-            return result as Func<Object, Object>;
+            return result as Func<List, Object>;
         }
 
         static IEnumerable<Expression> GenerateMethodCallParameters(IEnumerable<TypeAssertionAttribute> typeAssertions,

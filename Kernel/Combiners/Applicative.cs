@@ -3,7 +3,7 @@ namespace Kernel.Combiners
 {
     public sealed class Applicative : Combiner
     {
-        public Applicative(Func<Object, Object> application, string name = "Undefined")
+        public Applicative(Func<List, Object> application, string name = "Undefined")
             : base(name)
         {
             combiner = new Operative((@object, env) => application(@object), name);
@@ -12,25 +12,24 @@ namespace Kernel.Combiners
         public Applicative(Combiner combiner)
         {
             this.combiner = combiner;
-            Mutable = combiner.Mutable;
         }
 
-        public readonly Combiner combiner;
+        public Combiner Combiner => combiner;
+        readonly Combiner combiner;
 
         public override Object Invoke(List list)
         {
-            if (combiner is Applicative)
-                return combiner.Invoke(list);
-            if (combiner is Operative o)
-                return o.Invoke(list, Environment.Current);
-            throw new InvalidOperationException("A different combiner?!");
+            Applicative current = this;
+            while (current.combiner is Applicative next)
+                current = next;
+            return (current.combiner as Operative).Invoke(list, Environment.Current);
         }
-        public bool Equals(Applicative other) => combiner == other.combiner;
+        public bool Equals(Applicative other) => Combiner == other.Combiner;
 
-        public override string ToString() => Name ?? combiner.Name;
+        public override string ToString() => Name ?? Combiner.Name;
 
         public override bool Equals(Object other)
-        => ReferenceEquals(this, other) || (other is Applicative app && combiner == app.combiner);
+        => ReferenceEquals(this, other) || (other is Applicative app && Combiner == app.Combiner);
 
     }
 }

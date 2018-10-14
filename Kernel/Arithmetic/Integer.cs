@@ -104,10 +104,22 @@ namespace Kernel.Arithmetic
 
         protected override Number Negate() => Get(-data);
 
+        protected override Boolean LessThan(Number num) => data < (num as Integer).data;
+
+        protected override Boolean BiggerThan(Number num) => data > (num as Integer).data;
+
+        protected override Boolean LessThanOrEqual(Number num) => data <= (num as Integer).data;
+
+        protected override Boolean BiggerThanOrEqual(Number num) => data >= (num as Integer).data;
+
+        protected override Boolean EqualsNumber(Number num) => data == (num as Integer).data;
+
+        protected override int Compare(Number num) => (data - (num as Integer).data).Sign;
+
         public static implicit operator Rational(Integer @int) => new Rational(@int.data);
         public static implicit operator BigInteger(Integer @int) => @int.data;
         public static implicit operator Integer(BigInteger @int) => Get(@int);
-        public static implicit operator Integer(int number) => Get(number);
+        public static implicit operator Integer(long number) => Get(number);
         public static explicit operator int(Integer @int)
         => @int.data > int.MaxValue ?
                 throw new System.InvalidCastException("Value is bigger than max integer size")

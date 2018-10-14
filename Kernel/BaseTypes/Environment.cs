@@ -82,7 +82,7 @@ namespace Kernel
                 if (car is Applicative ap)
                 {
                     if (p.Cdr is List l)
-                        return Evaluate(ap.combiner, l.EvaluateAll(this));
+                        return Evaluate(ap.Combiner, l.EvaluateAll(this));
 
                     throw new ArgumentException("Applicatives require a list");
                 }
@@ -93,13 +93,13 @@ namespace Kernel
 
         public Object Evaluate(Combiner combiner, List list)
         {
-            if (combiner is Operative o)
-                return o.Invoke(list, this);
-
             if (combiner is Applicative ap)
-                return Evaluate(ap.combiner, list);
-
-            throw new InvalidOperationException("There is another combiner and I do not know of it?!");
+            {
+                while (ap.Combiner is Applicative innerAp)
+                    ap = innerAp;
+                return Evaluate(ap.Combiner, list);
+            }
+            return (combiner as Operative).Invoke(list, this);
         }
 
         public override bool Equals(Object other) => ReferenceEquals(this, other);

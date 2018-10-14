@@ -83,7 +83,8 @@
     <Compile Include="Parser\KernelParser.cs" />
     <Compile Include="Parser\KernelVisitor.cs" />
     <Compile Include="Utilities\ListHelper.cs" />
-    <Compile Include="BaseTypes\Continuation.cs" />
+    <Compile Include="BaseTypes\Encapsulation.cs" />
+    <Compile Include="BaseTypes\Promise.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />
