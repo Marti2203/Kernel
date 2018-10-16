@@ -612,10 +612,42 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(Integer))]
             public static Boolean IsEven(Integer integer) => integer % 2 == 0;
 
-            [Primitive("=", 0, true)]
+            //[Primitive("=?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean Equals(List numbers)
+            //=> Equal(numbers);
+
+            [Primitive("<=?", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean Equals(List numbers)
-            => Equal(numbers);
+            public static Boolean LessOrEqual(List numbers)
+            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) <= Cadr<Number>(pair));
+
+            [Primitive("<?", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Boolean Less(List numbers)
+            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) < Cadr<Number>(pair));
+
+            [Primitive(">?", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Boolean BiggerThan(List numbers)
+            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) > Cadr<Number>(pair));
+
+            [Primitive(">=?", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Boolean BiggerThanOrEqual(List numbers)
+            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) >= Cadr<Number>(pair));
+
+            [Primitive("max", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Max(List numbers)
+            => AggregateNumbers(numbers, (current, next) => current > next ? current : next, Real.NegativeInfinity);
+
+
+            [Primitive("min", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Number Min(List numbers)
+            => AggregateNumbers(numbers, (current, next) => current > next ? next : current, Real.PositiveInfinity);
+
 
             static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
             {
@@ -657,9 +689,13 @@ namespace Kernel.Primitives
             public static Object Force(Object @object)
             {
                 while (@object is Promise lazy)
-                    @object = (lazy.Evaluate());
+                    @object = lazy.Evaluate();
                 return @object;
             }
+
+            [Primitive("memoize", 1)]
+            public static Promise Memoize(Object value)
+            => new Promise(value);
 
             [Primitive("newline")]
             public static Inert NewLine()
@@ -672,6 +708,8 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(String))]
             public static Inert Load(String fileName)
             {
+                if (!System.IO.File.Exists(fileName))
+                    throw new ArgumentException($"File {fileName} does not exist in the working directory");
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(fileName))
                 {
                     Operatives.Sequence(Environment.Current, Parser.Parser.Parse($"({reader.ReadToEnd()})") as List);
@@ -679,10 +717,41 @@ namespace Kernel.Primitives
                 return Inert.Instance;
             }
 
-            [Primitive("<=?", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean LessOrEqual(List numbers)
-            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) <= Cadr<Number>(pair));
+
+            [Primitive("make-keyed-static-variable")]
+            public static Pair MakeKeyedStaticVariable()
+            {
+                Guid guid = Guid.NewGuid();
+                Applicative b = new Applicative((input) =>
+                {
+                    if (input.Count(false) != 2)
+                        throw new ArgumentException("Applicative requires two arguments");
+                    if (!(input[1] is Environment env))
+                        throw new ArgumentException("Second argument must be a environment");
+                    return new Environment(env, guid, input[0]);
+                });
+                Applicative a = new Applicative((input) =>
+                {
+                    if (input.Count(false) != 0)
+                        throw new ArgumentException("Applicative requires no arguments");
+                    Environment constructed;
+                    if ((constructed = Environment.Current
+                         .ImproperParents
+                         .FirstOrDefault(parent => parent.ID == guid)) != null)
+                        return constructed.Value;
+
+                    else throw new ArgumentException("Current environment has no parent that is generated from this static variable");
+                });
+                return new Pair(b, a);
+            }
+
+            [Primitive("symbol->string", 1)]
+            [TypeAssertion(0, typeof(Symbol))]
+            public static String SymbolToString(Symbol s) => String.Get(s.Data);
+
+            [Primitive("string->symbol", 1)]
+            [TypeAssertion(0, typeof(String))]
+            public static Symbol StringToSymbol(String s) => Symbol.Get(s.Data);
 
         }
 

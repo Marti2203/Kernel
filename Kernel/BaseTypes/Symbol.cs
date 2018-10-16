@@ -6,7 +6,8 @@ namespace Kernel
     {
         static Dictionary<string, Symbol> cache = new Dictionary<string, Symbol>();
 
-        public readonly string data;
+        public string Data => data;
+        readonly string data;
 
         public static Symbol Get(string data)
         {

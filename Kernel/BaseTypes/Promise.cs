@@ -7,6 +7,11 @@
         bool evaluated;
         readonly Object expression;
         readonly Environment environment;
+        public Promise(Object value)
+        {
+            this.result = value;
+            evaluated = true;
+        }
         public Promise(Environment environment, Object expression)
         {
             this.expression = expression;
@@ -14,6 +19,7 @@
         }
         public Object Evaluate()
         {
+            if (evaluated) return result;
             Object value = Primitives.Primitives.Evaluate(expression, environment);
             if (!evaluated)
             {

@@ -98,10 +98,6 @@ namespace Kernel.Arithmetic
             throw new NotImplementedException();
         }
 
-        protected override Boolean EqualsNumber(Number other)
-        {
-            throw new NotImplementedException();
-        }
 
         protected override int Compare(Number number)
         {

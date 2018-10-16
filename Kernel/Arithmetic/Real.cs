@@ -12,6 +12,8 @@ namespace Kernel.Arithmetic
 
         public static readonly Real PositiveInfinity = Get(double.PositiveInfinity);
 
+        public static readonly Real NegativeInfinity = Get(double.NegativeInfinity);
+
         Real(double value)
         {
             data = value;
@@ -67,11 +69,6 @@ namespace Kernel.Arithmetic
         }
 
         protected override Boolean BiggerThanOrEqual(Number num)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override Boolean EqualsNumber(Number num)
         {
             throw new System.NotImplementedException();
         }

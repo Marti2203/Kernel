@@ -36,12 +36,6 @@
     <Reference Include="NClone">
       <HintPath>..\packages\NClone.1.1.1\lib\net45\NClone.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="Antlr4.Runtime.Standard">
       <HintPath>..\packages\Antlr4.Runtime.Standard.4.7.1.1\lib\net35\Antlr4.Runtime.Standard.dll</HintPath>
     </Reference>
@@ -85,6 +79,7 @@
     <Compile Include="Utilities\ListHelper.cs" />
     <Compile Include="BaseTypes\Encapsulation.cs" />
     <Compile Include="BaseTypes\Promise.cs" />
+    <Compile Include="Arithmetic\InexactReal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />

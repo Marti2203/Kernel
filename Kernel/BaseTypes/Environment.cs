@@ -9,21 +9,33 @@ namespace Kernel
     {
         public static readonly Environment Ground = new Environment();
         public static Environment Current = Ground;
-        public readonly IEnumerable<Environment> Parents = Enumerable.Empty<Environment>();
+        public readonly IEnumerable<Environment> ProperParents = Enumerable.Empty<Environment>();
         readonly IDictionary<Symbol, Object> bindings = new Dictionary<Symbol, Object>();
 
-        public bool IsStandard => Parents.SequenceEqual(new[] { Ground });
+        public bool IsStandard => ProperParents.SequenceEqual(new[] { Ground });
 
         Environment() { }
 
         public Environment(Environment parent)
         {
-            Parents = new Environment[] { parent };
+            ProperParents = new Environment[] { parent };
+        }
+
+        internal Guid ID => id;
+        readonly Guid id;
+        internal Object Value => value;
+        readonly Object value;
+
+        internal Environment(Environment parent, Guid id, Object value)
+            : this(parent)
+        {
+            this.id = id;
+            this.value = value;
         }
 
         public Environment(IEnumerable<Environment> parents)
         {
-            Parents = parents.Select(env => env.Copy() as Environment);
+            ProperParents = parents;
         }
 
         public Object this[Symbol name]
@@ -45,8 +57,6 @@ namespace Kernel
 
         public Object Find(Symbol symbol)
         {
-            //if (Has(name)) no return for now
-            //    return Get(name);
             HashSet<Environment> traversed = new HashSet<Environment>();
             Stack<Environment> environments = new Stack<Environment>();
             environments.Push(this);
@@ -57,12 +67,31 @@ namespace Kernel
                 if (current.bindings.ContainsKey(symbol))
                     return current.bindings[symbol];
                 if (traversed.Add(current))
-                    foreach (Environment environment in current.Parents)
+                    foreach (Environment environment in current.ProperParents)
                         environments.Push(environment);
             }
-            if (Has(symbol))
+            if (this == Ground && Has(symbol))
                 return Get(symbol);
             return null;
+        }
+
+        public IEnumerable<Environment> ImproperParents
+        {
+            get
+            {
+                HashSet<Environment> traversed = new HashSet<Environment>();
+                Stack<Environment> environments = new Stack<Environment>();
+                environments.Push(this);
+
+                while (environments.Count != 0)
+                {
+                    Environment current = environments.Pop();
+                    if (traversed.Add(current))
+                        foreach (Environment environment in current.ProperParents)
+                            environments.Push(environment);
+                }
+                return traversed;
+            }
         }
 
         public bool Contains(Symbol symbol) => Find(symbol) != null;

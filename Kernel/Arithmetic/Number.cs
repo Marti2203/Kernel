@@ -25,11 +25,9 @@ namespace Kernel.Arithmetic
         protected abstract Boolean BiggerThan(Number num);
         protected abstract Boolean LessThanOrEqual(Number num);
         protected abstract Boolean BiggerThanOrEqual(Number num);
-        protected abstract Boolean EqualsNumber(Number num);
         protected abstract int Compare(Number num);
 
-        public bool Equals(Number other)
-        => Priority < other.Priority ? other.EqualsNumber(this) : EqualsNumber(other);
+        public bool Equals(Number other) => ReferenceEquals(this, other);
 
         public int CompareTo(Number other)
         {

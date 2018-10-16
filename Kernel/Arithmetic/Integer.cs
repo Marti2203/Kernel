@@ -112,7 +112,6 @@ namespace Kernel.Arithmetic
 
         protected override Boolean BiggerThanOrEqual(Number num) => data >= (num as Integer).data;
 
-        protected override Boolean EqualsNumber(Number num) => data == (num as Integer).data;
 
         protected override int Compare(Number num) => (data - (num as Integer).data).Sign;
 

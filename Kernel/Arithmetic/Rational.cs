@@ -118,10 +118,6 @@ namespace Kernel.Arithmetic
             throw new System.NotImplementedException();
         }
 
-        protected override Boolean EqualsNumber(Number num)
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override int Compare(Number num)
         {
