@@ -8,65 +8,75 @@ namespace Kernel.Arithmetic
     /// </summary>
     public sealed class Complex : Number
     {
-        static readonly Dictionary<Tuple<decimal, decimal>, Complex> cache = new Dictionary<Tuple<decimal, decimal>, Complex>();
+        static readonly Dictionary<(double, double), Complex> cache = new Dictionary<(double, double), Complex>();
 
         public override NumberHierarchy Priority => NumberHierarchy.Complex;
 
-        public readonly decimal real;
-        public readonly decimal imaginary;
+        public readonly double real;
+        public readonly double imaginary;
 
-        Complex(decimal real, decimal imaginary)
+        Complex(double real, double imaginary)
         {
             this.real = real;
             this.imaginary = imaginary;
         }
 
-        public static Complex Get(decimal real, decimal imaginary)
+        public static Complex Get(double real, double imaginary)
         {
-            var key = Tuple.Create(real, imaginary);
+            var key = (real, imaginary);
             if (cache.ContainsKey(key)) return cache[key];
             cache.Add(key, new Complex(real, imaginary));
             return cache[key];
         }
 
         public static Complex Get(string real, string imaginary)
-        => Get(decimal.Parse(real), decimal.Parse(imaginary));
+        => Get(double.Parse(real), double.Parse(imaginary));
 
         public override string ToString()
-        => imaginary == 0 ? real.ToString() : $"{real}{ (imaginary > 0 ? "+" : "-") }{imaginary}i";
+        => Math.Abs(imaginary) < double.Epsilon ? real.ToString() : $"{real}{ (imaginary > 0 ? "+" : "-") }{imaginary}i";
 
         public override bool Equals(Object other)
         {
             if (!(other is Number n)) return false;
             if (n.Exact != Exact) return false;
             Complex complex = (Complex)other;
-            return real == complex.real && imaginary == complex.imaginary;
+            return Math.Abs(real - complex.real) < double.Epsilon && Math.Abs(imaginary - complex.imaginary) < double.Epsilon;
         }
 
         protected override Number Add(Number num)
         {
-            throw new NotImplementedException();
+            Complex other = num as Complex;
+            return Get(real + other.real, imaginary + other.imaginary);
         }
 
         protected override Number Subtract(Number num)
         {
-            throw new NotImplementedException();
+            Complex other = num as Complex;
+            return Get(real - other.real, imaginary - other.imaginary);
         }
 
         protected override Number SubtractFrom(Number num)
         {
-            throw new NotImplementedException();
+            Complex other = num as Complex;
+            return Get(other.real - real, other.imaginary - imaginary);
         }
 
         protected override Number Multiply(Number num)
         {
-            throw new NotImplementedException();
+            Complex other = num as Complex;
+
+            return Get(other.real * real - other.imaginary * imaginary, other.real * imaginary + other.imaginary * real);
         }
 
         protected override Number Divide(Number num)
         {
-            throw new NotImplementedException();
+            Complex other = num as Complex;
+            Complex numerator = Multiply(Conjugate(other)) as Complex;
+            double denominator = other.real * other.real + other.imaginary + other.imaginary;
+            return Get(numerator.real / denominator, numerator.imaginary / denominator);
         }
+
+        public static Complex Conjugate(Complex number) => Get(number.real, -number.imaginary);
 
         protected override Number DivideBy(Number num)
         {
@@ -103,5 +113,6 @@ namespace Kernel.Arithmetic
         {
             throw new NotImplementedException();
         }
+
     }
 }

@@ -21,11 +21,16 @@ namespace Kernel.Arithmetic
                 primaryValue = lowerBound;
                 robustTag = true;
             }
+            else
+            {
+                primaryValue = (lowerBound + upperBound) / 2;
+            }
         }
 
         public static InexactReal Get(double lowerBound, double upperBound)
         {
             var range = (lowerBound, upperBound);
+            if (lowerBound > upperBound) return Undefined;
             if (cache.ContainsKey(range))
                 return cache[range];
             InexactReal result = new InexactReal(lowerBound, upperBound);

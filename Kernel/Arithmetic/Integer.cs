@@ -22,7 +22,8 @@ namespace Kernel.Arithmetic
         };
         public override NumberHierarchy Priority => NumberHierarchy.Integer;
 
-        public readonly BigInteger data;
+        public BigInteger Data => data;
+        readonly BigInteger data;
 
         public static Integer Zero => new Integer(BigInteger.Zero);
         public static Integer One => new Integer(BigInteger.One);
@@ -53,79 +54,77 @@ namespace Kernel.Arithmetic
         public static Integer Get(BigInteger input)
         {
             Integer result;
-            if (!((result = cache.Values.FirstOrDefault(v => v.data == input)) is null))
+            if (!((result = cache.Values.FirstOrDefault(v => v.Data == input)) is null))
                 return result;
             result = new Integer(input);
             cache.Add(input.ToString(), result);
             return result;
         }
 
-        public override string ToString() => data.ToString();
+        public override string ToString() => Data.ToString();
 
-        public static bool operator >(Integer l, Integer r) => !(r is null) && l.data > r.data;
+        public static bool operator >(Integer l, Integer r) => !(r is null) && l.Data > r.Data;
 
-        public static bool operator <(Integer l, Integer r) => !(r is null) && l.data < r.data;
+        public static bool operator <(Integer l, Integer r) => !(r is null) && l.Data < r.Data;
 
-        public static bool operator >=(Integer l, Integer r) => !(r is null) && l.data >= r.data;
+        public static bool operator >=(Integer l, Integer r) => !(r is null) && l.Data >= r.Data;
 
-        public static bool operator <=(Integer l, Integer r) => !(r is null) && l.data <= r.data;
+        public static bool operator <=(Integer l, Integer r) => !(r is null) && l.Data <= r.Data;
 
-        public static bool operator ==(Integer l, Integer r) => !(r is null) && l.data == r.data;
+        public static bool operator ==(Integer l, Integer r) => !(r is null) && l.Data == r.Data;
 
-        public static bool operator !=(Integer l, Integer r) => !(r is null) && l.data != r.data;
+        public static bool operator !=(Integer l, Integer r) => !(r is null) && l.Data != r.Data;
 
-        public static Integer operator %(Integer l, Integer r) => l.data % r.data;
+        public static Integer operator %(Integer l, Integer r) => l.Data % r.Data;
 
-        public override int GetHashCode() => data.GetHashCode();
+        public override int GetHashCode() => Data.GetHashCode();
 
         public override bool Equals(Object other)
         {
             if (!(other is Number n)) return false;
             if (n.Exact != Exact) return false;
             if (n.Priority > Priority) return n.Equals(this);
-            return (n as Integer).data == data;
+            return (n as Integer).Data == Data;
         }
 
-        protected override Number Add(Number num) => Get(data + (num as Integer).data);
+        protected override Number Add(Number num) => Get(Data + (num as Integer).Data);
 
-        protected override Number Subtract(Number num) => Get(data - (num as Integer).data);
+        protected override Number Subtract(Number num) => Get(Data - (num as Integer).Data);
 
-        protected override Number SubtractFrom(Number num) => Get((num as Integer).data - data);
+        protected override Number SubtractFrom(Number num) => Get((num as Integer).Data - Data);
 
-        protected override Number Multiply(Number num) => Get((num as Integer).data * data);
+        protected override Number Multiply(Number num) => Get((num as Integer).Data * Data);
 
         protected override Number Divide(Number num)
-        => data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
-                                           : Get((num as Integer).data / data);
+        => Data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
+                                           : Get((num as Integer).Data / Data);
 
         protected override Number DivideBy(Number num)
-        => (num as Integer).data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
-                                           : Get(data / (num as Integer).data);
+        => (num as Integer).Data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
+                                           : Get(Data / (num as Integer).Data);
 
-        protected override Number Negate() => Get(-data);
+        protected override Number Negate() => Get(-Data);
 
-        protected override Boolean LessThan(Number num) => data < (num as Integer).data;
+        protected override Boolean LessThan(Number num) => Data < (num as Integer).Data;
 
-        protected override Boolean BiggerThan(Number num) => data > (num as Integer).data;
+        protected override Boolean BiggerThan(Number num) => Data > (num as Integer).Data;
 
-        protected override Boolean LessThanOrEqual(Number num) => data <= (num as Integer).data;
+        protected override Boolean LessThanOrEqual(Number num) => Data <= (num as Integer).Data;
 
-        protected override Boolean BiggerThanOrEqual(Number num) => data >= (num as Integer).data;
+        protected override Boolean BiggerThanOrEqual(Number num) => Data >= (num as Integer).Data;
 
+        protected override int Compare(Number num) => (Data - (num as Integer).Data).Sign;
 
-        protected override int Compare(Number num) => (data - (num as Integer).data).Sign;
-
-        public static implicit operator Rational(Integer @int) => new Rational(@int.data);
-        public static implicit operator BigInteger(Integer @int) => @int.data;
+        public static implicit operator BigInteger(Integer @int) => @int.Data;
         public static implicit operator Integer(BigInteger @int) => Get(@int);
         public static implicit operator Integer(long number) => Get(number);
         public static explicit operator int(Integer @int)
-        => @int.data > int.MaxValue ?
+        => @int.Data > int.MaxValue ?
                 throw new System.InvalidCastException("Value is bigger than max integer size")
-                   : (int)@int.data;
+                   : (int)@int.Data;
         public static explicit operator long(Integer @int)
-        => @int.data > long.MaxValue ?
+        => @int.Data > long.MaxValue ?
         throw new System.InvalidCastException("Value is bigger than max long size")
-                   : (long)@int.data;
+                   : (long)@int.Data;
     }
 }

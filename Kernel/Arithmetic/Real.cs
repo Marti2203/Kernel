@@ -8,7 +8,8 @@ namespace Kernel.Arithmetic
 
         public override NumberHierarchy Priority => NumberHierarchy.Real;
 
-        public readonly double data;
+        public double Data => data;
+        readonly double data;
 
         public static readonly Real PositiveInfinity = Get(double.PositiveInfinity);
 
@@ -19,8 +20,6 @@ namespace Kernel.Arithmetic
             data = value;
         }
 
-        public static Real Get(string value) => Get(double.Parse(value));
-
         public static Real Get(double value)
         {
             if (cache.ContainsKey(value)) return cache[value];
@@ -28,54 +27,42 @@ namespace Kernel.Arithmetic
             return cache[value];
         }
 
-        public override string ToString() => data.ToString();
+        public override string ToString() => Data.ToString();
+
+        protected override Number Add(Number num) => Get(Data + (num as Real).Data);
+
+        protected override Number Subtract(Number num) => Get(Data - (num as Real).Data);
+
+        protected override Number SubtractFrom(Number num) => Get((num as Real).Data - Data);
+
+        protected override Number Multiply(Number num) => Get((num as Real).Data * Data);
+
+        protected override Number Divide(Number num) => Get((num as Real).Data / Data);
+
+        protected override Number DivideBy(Number num) => Get(Data / (num as Real).Data);
+
+        protected override Number Negate() => Get(-Data);
+
+        protected override Boolean LessThan(Number num) => Data < (num as Real).Data;
+
+        protected override Boolean BiggerThan(Number num) => Data > (num as Real).Data;
+
+        protected override Boolean LessThanOrEqual(Number num) => Data <= (num as Real).Data;
+
+        protected override Boolean BiggerThanOrEqual(Number num) => Data >= (num as Real).Data;
+
+        public static implicit operator Real(Rational rational) => Get((double)rational.Numerator / (double)rational.Denominator);
+        public static implicit operator Real(Integer integer) => Get((double)integer.Data);
+
+        protected override int Compare(Number num)
+        => ReferenceEquals(this, num) ? 0 : BiggerThan(num) ? 1 : -1;
 
         public override bool Equals(Object other)
         {
             if (!(other is Number n)) return false;
             if (n.Exact != Exact) return false;
             if (n.Priority > Priority) return n.Equals(this);
-            Real real = (n as Real);
-            return System.Math.Abs(real.data - data) < double.Epsilon;
-        }
-
-        protected override Number Add(Number num) => Get(data + (num as Real).data);
-
-        protected override Number Subtract(Number num) => Get(data - (num as Real).data);
-
-        protected override Number SubtractFrom(Number num) => Get((num as Real).data - data);
-
-        protected override Number Multiply(Number num) => Get((num as Real).data * data);
-
-        protected override Number Divide(Number num) => Get((num as Real).data / data);
-
-        protected override Number DivideBy(Number num) => Get(data / (num as Real).data);
-
-        protected override Number Negate() => Get(-data);
-
-        protected override Boolean LessThan(Number num)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override Boolean BiggerThan(Number num)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override Boolean LessThanOrEqual(Number num)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override Boolean BiggerThanOrEqual(Number num)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override int Compare(Number num)
-        {
-            throw new System.NotImplementedException();
+            return System.Math.Abs((n as Real).Data - Data) < double.Epsilon;
         }
     }
 }
