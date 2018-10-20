@@ -56,15 +56,6 @@ namespace Kernel.Arithmetic
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Kernel.Arithmetic.Rational"/>.</returns>
         public override string ToString() => $"{Numerator}{ (Denominator == 1 ? "" : "/" + Denominator) }";
 
-        public override bool Equals(Object other)
-        {
-            if (!(other is Number n)) return false;
-            if (n.Exact != Exact) return false;
-            if (n.Priority > Priority) return n.Equals(this);
-            Rational rat = (n as Rational);
-            return rat.Numerator == Numerator && rat.Denominator == Denominator;
-        }
-
         protected override Number Add(Number num)
         {
             if (ReferenceEquals(this, num)) return Get(Numerator * 2, Denominator);

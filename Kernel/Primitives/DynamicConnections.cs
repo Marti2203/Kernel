@@ -23,7 +23,7 @@ namespace Kernel.Primitives
         static Expression GenerateCountCheck(PrimitiveAttribute primitive)
         {
             var realCount = Parameter(typeof(int), "realCount");
-            var count = CallFunction("Count", AssertionAttribute.InputCasted, Constant(false)); // In case of Null sent
+            var count = CallFunction("Count", AssertionAttribute.InputCasted, Constant(false));
             var expectedCount = Constant(primitive.InputCount);
             Expression predicate = null;
             if (primitive.InputCount != 0)
@@ -59,7 +59,6 @@ namespace Kernel.Primitives
             var assignment = Assign(list, AssertionAttribute.InputCasted);
             var methodCallParameters = GenerateMethodCallParameters(typeAssertions,
                                                                     primitiveInformation,
-                                                                    typeCompilance,
                                                                     list);
 
             Expression methodCall = Call(null, method, methodCallParameters);
@@ -85,14 +84,12 @@ namespace Kernel.Primitives
             }
 #endif
 
-            var result = Lambda(body, true, AssertionAttribute.Input).Compile();
-            return result as Func<List, Object>;
+            return Lambda(body, true, AssertionAttribute.Input).Compile() as Func<List, Object>;
         }
 
         static IEnumerable<Expression> GenerateMethodCallParameters(IEnumerable<TypeAssertionAttribute> typeAssertions,
                                                                     PrimitiveAttribute primitiveInformation,
-                                                                    VariadicTypeAssertion typeCompilance,
-                                                                    ParameterExpression input)
+                                                                    ParameterExpression list)
         {
             if (typeAssertions.Count() > primitiveInformation.InputCount)
                 throw new InvalidOperationException("Input cannot be less than type assertions");
@@ -100,15 +97,15 @@ namespace Kernel.Primitives
             var methodCallParameters = Enumerable.Empty<Expression>();
             if (primitiveInformation.InputCount != 0)
             {
-                methodCallParameters = GenerateCallParameters(typeAssertions, primitiveInformation.Parameters(input));
+                methodCallParameters = GenerateCallParameters(typeAssertions, primitiveInformation.Parameters(list));
             }
             if (primitiveInformation.Variadic)
             {
-                Expression restOfParameters = input;
+                Expression restOfParameters = list;
                 if (methodCallParameters.Any())
                 {
-                    var skipCount = (typeCompilance?.Skip) ?? methodCallParameters.Count();
-                    restOfParameters = CallFunction("Skip", input, Constant(skipCount));
+                    var skipCount = primitiveInformation.InputCount;
+                    restOfParameters = CallFunction("Skip", list, Constant(skipCount));
                 }
 
                 methodCallParameters = methodCallParameters.Concat(new[] { restOfParameters });

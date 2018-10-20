@@ -56,13 +56,5 @@ namespace Kernel.Arithmetic
 
         protected override int Compare(Number num)
         => ReferenceEquals(this, num) ? 0 : BiggerThan(num) ? 1 : -1;
-
-        public override bool Equals(Object other)
-        {
-            if (!(other is Number n)) return false;
-            if (n.Exact != Exact) return false;
-            if (n.Priority > Priority) return n.Equals(this);
-            return System.Math.Abs((n as Real).Data - Data) < double.Epsilon;
-        }
     }
 }

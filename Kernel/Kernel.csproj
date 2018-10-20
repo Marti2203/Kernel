@@ -33,11 +33,11 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
-    <Reference Include="NClone">
-      <HintPath>..\packages\NClone.1.1.1\lib\net45\NClone.dll</HintPath>
-    </Reference>
     <Reference Include="Antlr4.Runtime.Standard">
       <HintPath>..\packages\Antlr4.Runtime.Standard.4.7.1.1\lib\net35\Antlr4.Runtime.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="NClone">
+      <HintPath>..\packages\NClone.1.2.0\lib\net45\NClone.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +79,7 @@
     <Compile Include="Utilities\ListHelper.cs" />
     <Compile Include="BaseTypes\Encapsulation.cs" />
     <Compile Include="BaseTypes\Promise.cs" />
-    <Compile Include="Arithmetic\InexactReal.cs" />
+    <Compile Include="Arithmetic\Inexact.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />

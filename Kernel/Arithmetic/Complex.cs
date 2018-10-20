@@ -35,14 +35,6 @@ namespace Kernel.Arithmetic
         public override string ToString()
         => Math.Abs(imaginary) < double.Epsilon ? real.ToString() : $"{real}{ (imaginary > 0 ? "+" : "-") }{imaginary}i";
 
-        public override bool Equals(Object other)
-        {
-            if (!(other is Number n)) return false;
-            if (n.Exact != Exact) return false;
-            Complex complex = (Complex)other;
-            return Math.Abs(real - complex.real) < double.Epsilon && Math.Abs(imaginary - complex.imaginary) < double.Epsilon;
-        }
-
         protected override Number Add(Number num)
         {
             Complex other = num as Complex;

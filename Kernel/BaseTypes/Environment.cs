@@ -70,7 +70,7 @@ namespace Kernel
                     foreach (Environment environment in current.ProperParents)
                         environments.Push(environment);
             }
-            if (this == Ground && Has(symbol))
+            if (Has(symbol))
                 return Get(symbol);
             return null;
         }

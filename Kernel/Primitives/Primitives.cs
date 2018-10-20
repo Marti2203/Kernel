@@ -351,7 +351,7 @@ namespace Kernel.Primitives
                 if (i2 == Integer.Zero)
                     return Inert.Instance;
 
-                Object start = ListTail(obj, (i1 + i2 - Integer.One) as Integer);
+                Object start = ListTail(obj, (i1 + i2 - 1) as Integer);
 
                 if (!(start is Pair p))
                     throw new ArgumentException("List is not deep enough to encycle");
@@ -603,7 +603,7 @@ namespace Kernel.Primitives
 
             [Primitive("/", 1, true)]
             [TypeAssertion(0, typeof(Number))]
-            [VariadicTypeAssertion(typeof(Number))]
+            [VariadicTypeAssertion(typeof(Number), 1)]
             public static Number Divide(Number seed, List numbers)
             => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current / start, seed)
                           : Integer.One / seed;
@@ -612,10 +612,10 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(Integer))]
             public static Boolean IsEven(Integer integer) => integer % 2 == 0;
 
-            //[Primitive("=?", 0, true)]
-            //[VariadicTypeAssertion(typeof(Number))]
-            //public static Boolean Equals(List numbers)
-            //=> Equal(numbers);
+            [Primitive("=?", 0, true)]
+            [VariadicTypeAssertion(typeof(Number))]
+            public static Boolean Equals(List numbers)
+            => Equal(numbers);
 
             [Primitive("<=?", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]

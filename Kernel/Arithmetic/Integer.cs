@@ -16,9 +16,9 @@ namespace Kernel.Arithmetic
         static BigInteger ParseBigInteger(string value, int baseOfValue)
         => value.Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
 
-        static readonly Dictionary<string, Integer> cache = new Dictionary<string, Integer>{
-            {"0",Zero},
-            {"1",One},
+        static readonly Dictionary<BigInteger, Integer> cache = new Dictionary<BigInteger, Integer>{
+            {0,Zero},
+            {1,One},
         };
         public override NumberHierarchy Priority => NumberHierarchy.Integer;
 
@@ -34,58 +34,47 @@ namespace Kernel.Arithmetic
         }
 
         public static Integer Get(string input, int @base = 10)
-        {
-            BigInteger result;
-            if (input[0] == '-' || input[0] == '+')
-                result = ParseBigInteger(input.Substring(1), @base) * (input[0] == '-' ? -1 : 1);
-            else
-                result = ParseBigInteger(input, @base);
-
-            if (cache.TryGetValue(input, out Integer v))
-                return v;
-
-            var integer = new Integer(result);
-            cache.Add(integer.ToString(), integer);
-            return integer;
-        }
+        => Get((input[0] == '-' || input[0] == '+') ?
+                (ParseBigInteger(input.Substring(1), @base) * (input[0] == '-' ? -1 : 1))
+                :
+                       ParseBigInteger(input, @base));
 
         public static Integer Get(long input) => Get(new BigInteger(input));
 
         public static Integer Get(BigInteger input)
         {
             Integer result;
-            if (!((result = cache.Values.FirstOrDefault(v => v.Data == input)) is null))
-                return result;
+            if (cache.ContainsKey(input))
+                return cache[input];
             result = new Integer(input);
-            cache.Add(input.ToString(), result);
+            cache.Add(input, result);
             return result;
         }
 
+        public static bool operator >(Integer l, Integer r) => l.Data > r.Data;
+
+        public static bool operator <(Integer l, Integer r) => l.Data < r.Data;
+
+        public static bool operator >=(Integer l, Integer r) => l.Data >= r.Data;
+
+        public static bool operator <=(Integer l, Integer r) => l.Data <= r.Data;
+
+        public static bool operator ==(Integer l, Integer r) => l.Data == r.Data;
+
+        public static bool operator !=(Integer l, Integer r) => l.Data != r.Data;
+
+        public static Integer operator -(Integer l, Integer r) => Get(l.Data - r.Data);
+
+        public static Integer operator /(Integer l, Integer r) => Get(l.Data / r.Data);
+
+        public static Integer operator *(Integer l, Integer r) => Get(l.Data * r.Data);
+
+        public static Integer operator +(Integer l, Integer r) => Get(l.Data + r.Data);
+
+
         public override string ToString() => Data.ToString();
 
-        public static bool operator >(Integer l, Integer r) => !(r is null) && l.Data > r.Data;
-
-        public static bool operator <(Integer l, Integer r) => !(r is null) && l.Data < r.Data;
-
-        public static bool operator >=(Integer l, Integer r) => !(r is null) && l.Data >= r.Data;
-
-        public static bool operator <=(Integer l, Integer r) => !(r is null) && l.Data <= r.Data;
-
-        public static bool operator ==(Integer l, Integer r) => !(r is null) && l.Data == r.Data;
-
-        public static bool operator !=(Integer l, Integer r) => !(r is null) && l.Data != r.Data;
-
-        public static Integer operator %(Integer l, Integer r) => l.Data % r.Data;
-
-        public override int GetHashCode() => Data.GetHashCode();
-
-        public override bool Equals(Object other)
-        {
-            if (!(other is Number n)) return false;
-            if (n.Exact != Exact) return false;
-            if (n.Priority > Priority) return n.Equals(this);
-            return (n as Integer).Data == Data;
-        }
+        public static Integer operator %(Integer l, Integer r) => Get(l.Data % r.Data);
 
         protected override Number Add(Number num) => Get(Data + (num as Integer).Data);
 
