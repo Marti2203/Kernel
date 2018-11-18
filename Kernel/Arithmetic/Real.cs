@@ -67,19 +67,14 @@ namespace Kernel.Arithmetic
             }
         }
 
-        public static Real Get(Integer value)
-        => Get((decimal)value);
-        public static Real Get(Rational value)
-        => Get(((decimal)value.Numerator) / ((decimal)value.Denominator));
-
-        public static Real Get(Number number)
+        public static Real Convert(Number number)
         {
             switch (number)
             {
                 case Integer integer:
-                    return Get(integer);
+                    return Get((decimal)integer);
                 case Rational rational:
-                    return Get(rational);
+                    return Get(((decimal)rational.Numerator) / ((decimal)rational.Denominator));
                 case Real real:
                     return real;
                 case InexactReal inexact:
@@ -95,7 +90,7 @@ namespace Kernel.Arithmetic
                     cache.Add(exact, resultExact);
                     return resultExact;
             }
-            throw new System.InvalidOperationException("Is this a complex??!");
+            throw new InvalidOperationException("Is this a complex??!");
         }
 
         public static Real Get(decimal value)
@@ -108,30 +103,50 @@ namespace Kernel.Arithmetic
             return result;
         }
 
+        public static Real Get(Number number)
+        {
+            switch (number)
+            {
+                case InexactReal inexact:
+                    if (cache.ContainsKey(inexact))
+                        return cache[inexact];
+                    Real resultInexact = new Real(inexact);
+                    cache.Add(inexact, resultInexact);
+                    return resultInexact;
+                case ExactReal exact:
+                    if (cache.ContainsKey(exact))
+                        return cache[exact];
+                    Real resultExact = new Real(exact);
+                    cache.Add(exact, resultExact);
+                    return resultExact;
+            }
+            throw new InvalidOperationException("Is this a complex??!");
+        }
+
 
         public override string ToString() => Data.ToString();
 
-        protected override Number Add(Number num) => Get(Data + Get(num));
+        protected override Number Add(Number num) => Get(Data + Convert(num));
 
-        protected override Number Subtract(Number num) => Get(Data - Get(num).Data);
+        protected override Number Subtract(Number num) => Get(Data - Convert(num).Data);
 
-        protected override Number SubtractFrom(Number num) => Get(Get(num).Data - Data);
+        protected override Number SubtractFrom(Number num) => Get(Convert(num).Data - Data);
 
-        protected override Number Multiply(Number num) => Get(Get(num).Data * Data);
+        protected override Number Multiply(Number num) => Get(Convert(num).Data * Data);
 
-        protected override Number Divide(Number num) => Get(Get(num).Data / Data);
+        protected override Number Divide(Number num) => Get(Convert(num).Data / Data);
 
-        protected override Number DivideBy(Number num) => Get(Data / Get(num).Data);
+        protected override Number DivideBy(Number num) => Get(Data / Convert(num).Data);
 
         protected override Number Negate() => Get(-Data);
 
-        protected override Boolean LessThan(Number num) => Data < Get(num).Data;
+        protected override Boolean LessThan(Number num) => Data < Convert(num).Data;
 
-        protected override Boolean BiggerThan(Number num) => Data > Get(num).Data;
+        protected override Boolean BiggerThan(Number num) => Data > Convert(num).Data;
 
-        protected override Boolean LessThanOrEqual(Number num) => Data <= Get(num).Data;
+        protected override Boolean LessThanOrEqual(Number num) => Data <= Convert(num).Data;
 
-        protected override Boolean BiggerThanOrEqual(Number num) => Data >= Get(num).Data;
+        protected override Boolean BiggerThanOrEqual(Number num) => Data >= Convert(num).Data;
 
         public static Integer Ceiling(Real x)
         {
@@ -159,7 +174,7 @@ namespace Kernel.Arithmetic
         {
             if (real.Data is ExactReal exact)
                 return exact.Data;
-            throw new System.ArgumentException("WTF?!");
+            throw new ArgumentException("WTF?!");
         }
 
         class ExactReal : Number
@@ -280,7 +295,7 @@ namespace Kernel.Arithmetic
                     case Rational rational:
                         return Get(((double)rational.Numerator) / ((double)rational.Denominator));
                 }
-                throw new System.Exception("WTF?!");
+                throw new Exception("WTF?!");
             }
 
             protected override Number Add(Number num)

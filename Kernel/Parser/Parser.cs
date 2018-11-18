@@ -119,17 +119,21 @@ namespace Kernel.Parser
             public override Object VisitDecimalReal([NotNull] KernelParser.DecimalRealContext context)
             {
                 string text = context.Decimal().GetText();
-                string replaced = replacer.Replace(text, "e");
-                try
+                if (replacer.Matches(text).Count != 0)
                 {
-                    return long.Parse(text.Split('e')[1]) > 28
-                        ? Real.Get(double.Parse(replaced, System.Globalization.NumberStyles.Any))
-                        : Real.Get(decimal.Parse(replaced, System.Globalization.NumberStyles.Any));
+                    string replaced = replacer.Replace(text, "e");
+                    try
+                    {
+                        return long.Parse(text.Split('e')[1]) > 28
+                            ? Real.Get(double.Parse(replaced, System.Globalization.NumberStyles.Any))
+                            : Real.Get(decimal.Parse(replaced, System.Globalization.NumberStyles.Any));
+                    }
+                    catch (OverflowException)
+                    {
+                        throw new ArgumentException($"Value {text} out of range.");
+                    }
                 }
-                catch (OverflowException)
-                {
-                    throw new ArgumentException($"Value {text} out of range.");
-                }
+                return Real.Get(decimal.Parse(text, System.Globalization.NumberStyles.Any));
             }
             #endregion
 

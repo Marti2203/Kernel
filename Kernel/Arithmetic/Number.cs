@@ -49,6 +49,16 @@ namespace Kernel.Arithmetic
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
+#pragma warning disable CS0252 // Possible unintended reference comparison; left hand side needs cast
+            if (l == Integer.Zero)
+                return Integer.Zero;
+            if (r == Integer.Zero)
+                return Integer.Zero;
+            if (l == Integer.One)
+                return r;
+            if (r == Integer.One)
+                return l;
+#pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
             return l.Priority >= r.Priority ? l.Multiply(r) : r.Multiply(l);
         }
 
