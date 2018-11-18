@@ -126,7 +126,7 @@ namespace Kernel.Arithmetic
 
         public override string ToString() => Data.ToString();
 
-        protected override Number Add(Number num) => Get(Data + Convert(num));
+        protected override Number Add(Number num) => Get(Data + Convert(num).Data);
 
         protected override Number Subtract(Number num) => Get(Data - Convert(num).Data);
 

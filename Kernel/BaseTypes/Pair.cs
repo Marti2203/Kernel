@@ -64,11 +64,7 @@ namespace Kernel
         }
 
         public override string ToString()
-        {
-            if (Cdr is Null) return $"({Car.ToString()})";
-            if (Cdr is Pair p) return ToStringList(Array.Empty<Pair>());
-            return $"({Car} . {Cdr})";
-        }
+        => Cdr is Null ? $"({Car.ToString()})" : Cdr is Pair p ? ToStringList(Array.Empty<Pair>()) : $"({Car} . {Cdr})";
 
         string ToStringList(Pair[] visitedCars, int depth = 0)
         {
@@ -214,11 +210,7 @@ namespace Kernel
                 }
                 else
                 {
-                    if (!(current.Cdr is Pair || otherPair.Cdr is Pair))
-                    {
-                        return current.Cdr.Equals(otherPair.Cdr);
-                    }
-                    return false;
+                    return !(current.Cdr is Pair || otherPair.Cdr is Pair) && current.Cdr.Equals(otherPair.Cdr);
                 }
             }
             return true;
@@ -243,12 +235,10 @@ namespace Kernel
         }
 
         public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(this, obj)) return true;
-            if (!(obj is Object other)) return false;
-            if (Mutable != other.Mutable) return false;
-            if (!(other is Pair p)) return false;
-            return Equals(other);
-        }
+        => ReferenceEquals(this, obj)
+            || (obj is Object other)
+            && Mutable == other.Mutable
+                               && (other is Pair p)
+                               && Equals(other);
     }
 }

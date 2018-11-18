@@ -811,6 +811,7 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(String))]
             public static Symbol StringToSymbol(String s) => Symbol.Get(s.Data);
 
+
         }
 
         public static class Operatives
