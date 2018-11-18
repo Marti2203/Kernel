@@ -14,7 +14,7 @@ namespace Kernel.Arithmetic
         static readonly string digits = "0123456789abcdef";
         static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, digits.IndexOf);
         static BigInteger ParseBigInteger(string value, int baseOfValue)
-        => value.Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
+        => value.ToLower().Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
 
         static readonly Dictionary<BigInteger, Integer> cache = new Dictionary<BigInteger, Integer>{
             {0,Zero},
@@ -22,15 +22,14 @@ namespace Kernel.Arithmetic
         };
         public override NumberHierarchy Priority => NumberHierarchy.Integer;
 
-        public BigInteger Data => data;
-        readonly BigInteger data;
+        public BigInteger Data { get; }
 
         public static Integer Zero => new Integer(BigInteger.Zero);
         public static Integer One => new Integer(BigInteger.One);
 
         Integer(BigInteger value)
         {
-            data = value;
+            Data = value;
         }
 
         public static Integer Get(string input, int @base = 10)
@@ -65,12 +64,11 @@ namespace Kernel.Arithmetic
 
         public static Integer operator -(Integer l, Integer r) => Get(l.Data - r.Data);
 
-        public static Integer operator /(Integer l, Integer r) => Get(l.Data / r.Data);
+        public static Number operator /(Integer l, Integer r) => Rational.Get(l.Data, r.Data);
 
         public static Integer operator *(Integer l, Integer r) => Get(l.Data * r.Data);
 
         public static Integer operator +(Integer l, Integer r) => Get(l.Data + r.Data);
-
 
         public override string ToString() => Data.ToString();
 
@@ -84,13 +82,10 @@ namespace Kernel.Arithmetic
 
         protected override Number Multiply(Number num) => Get((num as Integer).Data * Data);
 
-        protected override Number Divide(Number num)
-        => Data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
-                                           : Get((num as Integer).Data / Data);
+        protected override Number Divide(Number num) => Rational.Get(num as Integer, this);
 
         protected override Number DivideBy(Number num)
-        => (num as Integer).Data == 0 ? throw new System.ArgumentException("Cannot divide an integer by zero!")
-                                           : Get(Data / (num as Integer).Data);
+        => Rational.Get(this, num as Integer);
 
         protected override Number Negate() => Get(-Data);
 
@@ -102,11 +97,32 @@ namespace Kernel.Arithmetic
 
         protected override Boolean BiggerThanOrEqual(Number num) => Data >= (num as Integer).Data;
 
+        public Integer Div(Integer num) => Get(Data / num.Data);
+
+        public static Integer operator <<(Integer l, int r)
+        => Get(l.Data << r);
+
+        public static Integer operator >>(Integer l, int r)
+        => Get(l.Data >> r);
+
+        public static Integer operator |(Integer l, Integer r)
+        => Get(l.Data | r.Data);
+
+        public static Integer operator &(Integer l, Integer r)
+        => Get(l.Data & r.Data);
+
+        public static Integer operator ~(Integer l)
+        => Get(~l.Data);
+
+        public static Integer GCD(Integer l, Integer r) => BigInteger.GreatestCommonDivisor(l, r);
+
         protected override int Compare(Number num) => (Data - (num as Integer).Data).Sign;
 
         public static implicit operator BigInteger(Integer @int) => @int.Data;
         public static implicit operator Integer(BigInteger @int) => Get(@int);
         public static implicit operator Integer(long number) => Get(number);
+        public static explicit operator decimal(Integer @int) => (decimal)@int.Data;
+        public static explicit operator double(Integer @int) => (double)@int.Data;
         public static explicit operator int(Integer @int)
         => @int.Data > int.MaxValue ?
                 throw new System.InvalidCastException("Value is bigger than max integer size")

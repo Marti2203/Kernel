@@ -1,7 +1,0 @@
-file: expression*;
-expression : atom | pair;
-atom : keyword | string | number | symbol;
-keyword : ...;
-string : " escape sequences or character+ ";
-number: integer | rational | real | complex;
-symbol: a valid identifier;

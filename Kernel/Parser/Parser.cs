@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Numerics;
 using Antlr4.Runtime;
 using Kernel.Arithmetic;
 using Antlr4.Runtime.Misc;
@@ -33,48 +32,140 @@ namespace Kernel.Parser
             { "#inert", Inert.Instance},
             { "()", Null.Instance},
         };
-
-            static readonly IDictionary<char, int> bases = new Dictionary<char, int>
-        {
-            {'b', 2}, {'o',8}, {'d', 10}, {'x',16}
-        };
-
-            static Regex complexRegex = new Regex(@"([+-]??.*?)??([+-].*)i");
-
             readonly KernelParser parser;
             public KernelVisitor(KernelParser parser)
             {
                 this.parser = parser;
             }
 
-            public override Object VisitKeywords([NotNull] KernelParser.KeywordsContext context)
+            #region Signing Numbers
+
+            public override Object VisitRealBin([NotNull] KernelParser.RealBinContext context)
+            => (Visit(context.urealBin()) as Number) * (context.Sign()?.GetText() == "-" ? -1 : 1);
+
+            public override Object VisitRealOct([NotNull] KernelParser.RealOctContext context)
+            => (Visit(context.urealOct()) as Number) * (context.Sign()?.GetText() == "-" ? -1 : 1);
+
+            public override Object VisitRealDec([NotNull] KernelParser.RealDecContext context)
+            => (Visit(context.urealDec()) as Number) * (context.Sign()?.GetText() == "-" ? -1 : 1);
+
+            public override Object VisitRealHex([NotNull] KernelParser.RealHexContext context)
+            => (Visit(context.urealHex()) as Number) * (context.Sign()?.GetText() == "-" ? -1 : 1);
+
+            public override Object VisitBinaryNumber([NotNull] KernelParser.BinaryNumberContext context)
+            => (Visit(context.urealBin()) as Number) * (context.sign?.Text == "-" ? -1 : 1);
+
+            public override Object VisitOctalNumber([NotNull] KernelParser.OctalNumberContext context)
+            => (Visit(context.urealOct()) as Number) * (context.sign?.Text == "-" ? -1 : 1);
+
+            public override Object VisitDecimalNumber([NotNull] KernelParser.DecimalNumberContext context)
+            => (Visit(context.urealDec()) as Number) * (context.sign?.Text == "-" ? -1 : 1);
+
+            public override Object VisitHexadecimalNumber([NotNull] KernelParser.HexadecimalNumberContext context)
+            => (Visit(context.urealHex()) as Number) * (context.sign?.Text == "-" ? -1 : 1);
+
+            #endregion
+
+            #region Integer
+
+            Object VisitInteger(string number, int @base)
+            => number.EndsWith("#", StringComparison.InvariantCultureIgnoreCase) ?
+                     Real.Get(number, @base) : (Object)Integer.Get(number, @base);
+            public override Object VisitBinaryInteger([NotNull] KernelParser.BinaryIntegerContext context)
+            => VisitInteger(context.UintegerBin().GetText(), 2);
+            public override Object VisitOctalInteger([NotNull] KernelParser.OctalIntegerContext context)
+            => VisitInteger(context.UintegerOct().GetText(), 8);
+
+            public override Object VisitDecimalInteger([NotNull] KernelParser.DecimalIntegerContext context)
+            => VisitInteger(context.UintegerDec().GetText(), 10);
+
+            public override Object VisitHexadecimalInteger([NotNull] KernelParser.HexadecimalIntegerContext context)
+            => VisitInteger(context.UintegerHex().GetText(), 16);
+            #endregion
+
+            #region Rational
+
+            Object VisitRational(string numerator, string denominator, int @base)
+            => (VisitInteger(numerator, @base) as Number) / (VisitInteger(denominator, @base) as Number);
+
+            public override Object VisitBinaryRational([NotNull] KernelParser.BinaryRationalContext context)
+            {
+                string numerator = context.UintegerBin(0).GetText();
+                string denominator = context.UintegerBin(1).GetText();
+                return VisitRational(numerator, denominator, 2);
+            }
+            public override Object VisitOctalRational([NotNull] KernelParser.OctalRationalContext context)
+            {
+                string numerator = context.UintegerOct(0).GetText();
+                string denominator = context.UintegerOct(1).GetText();
+                return VisitRational(numerator, denominator, 8);
+            }
+            public override Object VisitDecimalRational([NotNull] KernelParser.DecimalRationalContext context)
+            {
+                string numerator = context.UintegerDec(0).GetText();
+                string denominator = context.UintegerDec(1).GetText();
+                return VisitRational(numerator, denominator, 10);
+            }
+            public override Object VisitHexadecimalRational([NotNull] KernelParser.HexadecimalRationalContext context)
+            {
+                string numerator = context.UintegerHex(0).GetText();
+                string denominator = context.UintegerHex(1).GetText();
+                return VisitRational(numerator, denominator, 16);
+            }
+            #endregion
+
+            #region Real
+            static readonly Regex replacer = new Regex("[esdfl]", RegexOptions.IgnoreCase);
+            public override Object VisitDecimalReal([NotNull] KernelParser.DecimalRealContext context)
+            => Real.Get(decimal.Parse(replacer.Replace(context.Decimal().GetText(), "e"), System.Globalization.NumberStyles.Any));
+            #endregion
+
+            #region Complex
+            public override Object VisitBinaryComplex([NotNull] KernelParser.BinaryComplexContext context)
+            => Complex.Get(VisitOrDefault(context.realBin(), Integer.Zero) as Number, VisitOrDefault(context.imagBin(), Integer.Zero) as Number);
+
+            public override Object VisitOctalComplex([NotNull] KernelParser.OctalComplexContext context)
+            => Complex.Get(VisitOrDefault(context.realOct(), Integer.Zero) as Number, VisitOrDefault(context.imagOct(), Integer.Zero) as Number);
+
+            public override Object VisitDecimalComplex([NotNull] KernelParser.DecimalComplexContext context)
+            => Complex.Get(VisitOrDefault(context.realDec(), Integer.Zero) as Number, VisitOrDefault(context.imagDec(), Integer.Zero) as Number);
+
+            public override Object VisitHexadecimalComplex([NotNull] KernelParser.HexadecimalComplexContext context)
+            => Complex.Get(VisitOrDefault(context.realHex(), Integer.Zero) as Number, VisitOrDefault(context.imagHex(), Integer.Zero) as Number);
+
+            public override Object VisitImagBin([NotNull] KernelParser.ImagBinContext context)
+            => VisitOrDefault(context.urealBin(), Integer.One);
+
+            public override Object VisitImagOct([NotNull] KernelParser.ImagOctContext context)
+            => VisitOrDefault(context.urealOct(), Integer.One);
+
+            public override Object VisitImagDec([NotNull] KernelParser.ImagDecContext context)
+            => VisitOrDefault(context.urealDec(), Integer.One);
+
+            public override Object VisitImagHex([NotNull] KernelParser.ImagHexContext context)
+            => VisitOrDefault(context.urealHex(), Integer.One);
+
+            public override Object VisitBinaryPolar([NotNull] KernelParser.BinaryPolarContext context)
+            => Complex.GetPolar(Visit(context.realBin(0)) as Number, Visit(context.realBin(1)) as Number);
+
+            public override Object VisitOctalPolar([NotNull] KernelParser.OctalPolarContext context)
+            => Complex.GetPolar(Visit(context.realOct(0)) as Number, Visit(context.realOct(1)) as Number);
+
+            public override Object VisitDecimalPolar([NotNull] KernelParser.DecimalPolarContext context)
+            => Complex.GetPolar(Visit(context.realDec(0)) as Number, Visit(context.realDec(1)) as Number);
+
+            public override Object VisitHexadecimalPolar([NotNull] KernelParser.HexadecimalPolarContext context)
+            => Complex.GetPolar(Visit(context.realHex(0)) as Number, Visit(context.realHex(1)) as Number);
+            #endregion
+
+            #region String,Keyword,Symbol
+
+            public override Object VisitKeyword([NotNull] KernelParser.KeywordContext context)
             => keywords[context.GetText()];
-
-            //public override Object VisitComplexLiteral([NotNull] KernelParser.ComplexLiteralContext context)
-            //{
-            //	Match result = complexRegex.Match(context.GetText());
-            //	string imaginary = result.Groups[2].Value;
-            //	string real = result.Groups[1].Value;                                                   
-            //	if (result.Groups[1].Value.Length == 0)
-            //		real = "0";
-            //	if (result.Groups[2].Value.Length == 1)
-            //		imaginary = result.Groups[2].Value + "1";
-            //	return Arithmetic.Complex.Get(real, imaginary);
-            //}
-
-            //public override Object VisitIntLiteral([NotNull] KernelParser.IntLiteralContext context)
-            //{
-            //	string text = context.GetText();
-            //	if (text[0] == '#')
-            //	{
-            //		return Integer.Get(text.Substring(2), bases[text[1]]);
-            //	}
-            //	return Integer.Get(text);
-            //}
 
             public override Object VisitPair([NotNull] KernelParser.PairContext context)
             {
-                if (context.star != null)
+                if (context.dot != null)
                 {
                     Object[] expressions = context.expression().Select(VisitExpression).ToArray();
                     Pair start, pair;
@@ -87,32 +178,21 @@ namespace Kernel.Parser
                 return new Pair(context.expression().Select(VisitExpression));
             }
 
-            //public override Object VisitRationalLiteral([NotNull] KernelParser.RationalLiteralContext context)
-            //{
-            //	string[] parts = context.GetText().Split('/');
-            //	return Rational.Get(parts[0], parts[1]);
-            //}
-
-
-            //public override Object VisitRealLiteral([NotNull] KernelParser.RealLiteralContext context)
-            //=> Real.Get(context.GetText());
-
             public override Object VisitString([NotNull] KernelParser.StringContext context)
             {
                 string text = context.GetText();
                 return String.Get(text.Substring(1, text.Length - 2));
             }
 
-            public override Object VisitNumber([NotNull] KernelParser.NumberContext context)
-            => Integer.Get(context.GetText());
-
-            public override Object VisitSymbol([NotNull] KernelParser.SymbolContext context)
+            public override Object VisitSymbolLiteral([NotNull] KernelParser.SymbolLiteralContext context)
             => Symbol.Get(context.GetText());
-
+            #endregion
 
             public override Object VisitErrorNode(IErrorNode node)
             => throw new ArgumentException(node.GetText());
 
+            Object VisitOrDefault(IParseTree context, Object @default)
+            => context == null ? @default : Visit(context);
         }
     }
 }

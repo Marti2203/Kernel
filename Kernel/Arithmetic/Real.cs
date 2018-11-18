@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 namespace Kernel.Arithmetic
 {
 
     public sealed class Real : Number
     {
-        static readonly Dictionary<double, Real> cache = new Dictionary<double, Real>();
-
         public override NumberHierarchy Priority => NumberHierarchy.Real;
 
-        public double Data => data;
-        readonly double data;
+        Number Data { get; }
+
+        static readonly Dictionary<Number, Real> cache = new Dictionary<Number, Real>();
 
         public static readonly Real PositiveInfinity = Get(double.PositiveInfinity);
 
@@ -17,44 +17,338 @@ namespace Kernel.Arithmetic
 
         Real(double value)
         {
-            data = value;
+            Data = InexactReal.Get(value);
+        }
+
+        Real(decimal value)
+        {
+            Data = ExactReal.Get(value);
+        }
+
+        Real(Number number)
+        {
+            Data = number;
         }
 
         public static Real Get(double value)
         {
-            if (cache.ContainsKey(value)) return cache[value];
-            cache.Add(value, new Real(value));
-            return cache[value];
+            InexactReal container = InexactReal.Get(value);
+            if (cache.ContainsKey(container)) return cache[container];
+            cache.Add(container, new Real(value));
+            return cache[container];
         }
+
+        public static Real Get(string value, int @base = 10)
+        {
+            if (value.Contains("#"))
+            {
+                double lowerBound = double.Parse(value.Replace('#', '0'));
+
+                char replace = @base > 16 ? (char)('a' + (@base - 11)) : (char)('0' + @base - 1);
+                double upperBound = double.Parse(value.Replace('#', replace));
+
+                double primaryValue = (lowerBound + upperBound) / 2;
+
+                InexactReal key = InexactReal.Get(lowerBound, upperBound, primaryValue, false);
+                if (cache.ContainsKey(key))
+                    return cache[key];
+                Real result = new Real(key);
+                cache.Add(key, result);
+                return result;
+            }
+            else
+            {
+                ExactReal key = ExactReal.Get(decimal.Parse(Integer.Get(value, @base).ToString()));
+                if (cache.ContainsKey(key))
+                    return cache[key];
+                Real result = new Real(key);
+                cache.Add(key, result);
+                return result;
+            }
+        }
+
+        public static Real Get(Integer value)
+        => Get((decimal)value);
+        public static Real Get(Rational value)
+        => Get(((decimal)value.Numerator) / ((decimal)value.Denominator));
+
+        public static Real Get(Number number)
+        {
+            switch (number)
+            {
+                case Integer integer:
+                    return Get(integer);
+                case Rational rational:
+                    return Get(rational);
+                case Real real:
+                    return real;
+                case InexactReal inexact:
+                    if (cache.ContainsKey(inexact))
+                        return cache[inexact];
+                    Real resultInexact = new Real(inexact);
+                    cache.Add(inexact, resultInexact);
+                    return resultInexact;
+                case ExactReal exact:
+                    if (cache.ContainsKey(exact))
+                        return cache[exact];
+                    Real resultExact = new Real(exact);
+                    cache.Add(exact, resultExact);
+                    return resultExact;
+            }
+            throw new System.InvalidOperationException("Is this a complex??!");
+        }
+
+        public static Real Get(decimal value)
+        {
+            Number cachedKey = ExactReal.Get(value);
+            if (cache.ContainsKey(cachedKey))
+                return cache[cachedKey];
+            Real result = new Real(cachedKey);
+            cache.Add(cachedKey, result);
+            return result;
+        }
+
 
         public override string ToString() => Data.ToString();
 
-        protected override Number Add(Number num) => Get(Data + (num as Real).Data);
+        protected override Number Add(Number num) => Get(Data + Get(num));
 
-        protected override Number Subtract(Number num) => Get(Data - (num as Real).Data);
+        protected override Number Subtract(Number num) => Get(Data - Get(num).Data);
 
-        protected override Number SubtractFrom(Number num) => Get((num as Real).Data - Data);
+        protected override Number SubtractFrom(Number num) => Get(Get(num).Data - Data);
 
-        protected override Number Multiply(Number num) => Get((num as Real).Data * Data);
+        protected override Number Multiply(Number num) => Get(Get(num).Data * Data);
 
-        protected override Number Divide(Number num) => Get((num as Real).Data / Data);
+        protected override Number Divide(Number num) => Get(Get(num).Data / Data);
 
-        protected override Number DivideBy(Number num) => Get(Data / (num as Real).Data);
+        protected override Number DivideBy(Number num) => Get(Data / Get(num).Data);
 
         protected override Number Negate() => Get(-Data);
 
-        protected override Boolean LessThan(Number num) => Data < (num as Real).Data;
+        protected override Boolean LessThan(Number num) => Data < Get(num).Data;
 
-        protected override Boolean BiggerThan(Number num) => Data > (num as Real).Data;
+        protected override Boolean BiggerThan(Number num) => Data > Get(num).Data;
 
-        protected override Boolean LessThanOrEqual(Number num) => Data <= (num as Real).Data;
+        protected override Boolean LessThanOrEqual(Number num) => Data <= Get(num).Data;
 
-        protected override Boolean BiggerThanOrEqual(Number num) => Data >= (num as Real).Data;
+        protected override Boolean BiggerThanOrEqual(Number num) => Data >= Get(num).Data;
+
+        public static Integer Ceiling(Real x)
+        {
+            if (!x.Exact)
+                throw new ArgumentException("Input is not an exact real", nameof(x));
+            return Integer.Get(Math.Ceiling((x.Data as ExactReal).Data).ToString());
+        }
+
+        public static Integer Floor(Real x)
+        {
+            if (!x.Exact)
+                throw new ArgumentException("Input is not an exact real", nameof(x));
+            return Integer.Get(Math.Floor((x.Data as ExactReal).Data).ToString());
+        }
 
         public static implicit operator Real(Rational rational) => Get((double)rational.Numerator / (double)rational.Denominator);
         public static implicit operator Real(Integer integer) => Get((double)integer.Data);
+        public static implicit operator Real(double dub) => Get(dub);
+        public static implicit operator Real(decimal dec) => Get(dec);
 
         protected override int Compare(Number num)
         => ReferenceEquals(this, num) ? 0 : BiggerThan(num) ? 1 : -1;
+
+        public static explicit operator decimal(Real real)
+        {
+            if (real.Data is ExactReal exact)
+                return exact.Data;
+            throw new System.ArgumentException("WTF?!");
+        }
+
+        class ExactReal : Number
+        {
+#pragma warning disable RECS0146 // Member hides static member from outer class
+            public static readonly IDictionary<decimal, ExactReal> cache = new Dictionary<decimal, ExactReal>();
+#pragma warning restore RECS0146 // Member hides static member from outer class
+            public decimal Data { get; }
+            public override NumberHierarchy Priority => NumberHierarchy.Integer;
+            ExactReal(decimal value)
+            {
+                Data = value;
+            }
+
+#pragma warning disable RECS0146 // Member hides static member from outer class
+            public static ExactReal Get(decimal value)
+#pragma warning restore RECS0146 // Member hides static member from outer class
+            {
+                if (cache.ContainsKey(value)) return cache[value];
+                ExactReal real = new ExactReal(value);
+                cache.Add(value, real);
+                return real;
+            }
+
+            protected override Number Add(Number num)
+            => new ExactReal(Data + (num as ExactReal).Data);
+
+            protected override Number Subtract(Number num)
+            => new ExactReal(Data - (num as ExactReal).Data);
+
+            protected override Number SubtractFrom(Number num)
+            => new ExactReal((num as ExactReal).Data - Data);
+
+            protected override Number Multiply(Number num)
+            => new ExactReal(Data * (num as ExactReal).Data);
+
+            protected override Number Divide(Number num)
+            => new ExactReal(Data / (num as ExactReal).Data);
+
+            protected override Number DivideBy(Number num)
+            => new ExactReal((num as ExactReal).Data / Data);
+
+            protected override Number Negate()
+            => new ExactReal(-Data);
+
+            protected override Boolean LessThan(Number num)
+            => Data < (num as ExactReal).Data;
+
+            protected override Boolean BiggerThan(Number num)
+            => Data > (num as ExactReal).Data;
+
+            protected override Boolean LessThanOrEqual(Number num)
+            => Data <= (num as ExactReal).Data;
+
+            protected override Boolean BiggerThanOrEqual(Number num)
+            => Data >= (num as ExactReal).Data;
+
+            protected override int Compare(Number num)
+            => Data.CompareTo((num as ExactReal).Data);
+
+            public override string ToString() => Data.ToString();
+        }
+
+        class InexactReal : Number
+        {
+#pragma warning disable RECS0146 // Member hides static member from outer class
+            static readonly IDictionary<(double, double, double, bool), InexactReal> cache
+#pragma warning restore RECS0146 // Member hides static member from outer class
+            = new Dictionary<(double, double, double, bool), InexactReal>();
+            public override NumberHierarchy Priority => NumberHierarchy.Real;
+
+            double UpperBound { get; }
+            double LowerBound { get; }
+            double PrimaryValue { get; }
+            bool Robust { get; }
+
+            InexactReal(double value)
+                : this(value, value, value, true)
+            {
+            }
+
+            InexactReal(double lowerBound, double upperBound, double primaryValue = double.NaN, bool robust = false)
+            {
+                LowerBound = lowerBound;
+                UpperBound = upperBound;
+                PrimaryValue = primaryValue;
+                Robust = robust;
+            }
+
+#pragma warning disable RECS0146 // Member hides static member from outer class
+            public static InexactReal Get(double lowerBound, double upperBound, double primaryValue, bool robust)
+#pragma warning restore RECS0146 // Member hides static member from outer class
+            {
+                var key = (lowerBound, upperBound, primaryValue, robust);
+                if (cache.ContainsKey(key))
+                    return cache[key];
+                InexactReal result = new InexactReal(lowerBound, upperBound, primaryValue, robust);
+                cache.Add(key, result);
+                return result;
+            }
+#pragma warning disable RECS0146 // Member hides static member from outer class
+            public static InexactReal Get(double value)
+#pragma warning restore RECS0146 // Member hides static member from outer class
+            => Get(value, value, value, true);
+
+            public static InexactReal Get(Number number)
+            {
+                switch (number)
+                {
+                    case Real real:
+                        return Get(real.Data);
+                    case ExactReal exact:
+                        return Get((double)exact.Data);
+                    case InexactReal inexact:
+                        return inexact;
+                    case Integer integer:
+                        return Get((double)integer);
+                    case Rational rational:
+                        return Get(((double)rational.Numerator) / ((double)rational.Denominator));
+                }
+                throw new System.Exception("WTF?!");
+            }
+
+            protected override Number Add(Number num)
+            {
+                InexactReal other = Get(num);
+                return Get(LowerBound + other.LowerBound, UpperBound + other.UpperBound, PrimaryValue + other.PrimaryValue, Robust && other.Robust);
+            }
+
+            protected override Number Subtract(Number num)
+            {
+                InexactReal other = Get(num);
+                return Get(LowerBound - other.LowerBound, UpperBound - other.UpperBound, PrimaryValue - other.PrimaryValue, Robust && other.Robust);
+            }
+
+            protected override Number SubtractFrom(Number num)
+            {
+                InexactReal other = Get(num);
+                return Get(other.LowerBound - LowerBound, other.UpperBound - UpperBound, other.PrimaryValue - PrimaryValue, Robust && other.Robust);
+            }
+
+            protected override Number Multiply(Number num)
+            {
+                InexactReal other = Get(num);
+                return Get(other.LowerBound * LowerBound, other.UpperBound * UpperBound, other.PrimaryValue * PrimaryValue, Robust && other.Robust);
+            }
+
+            protected override Number Divide(Number num)
+            {
+                InexactReal other = Get(num);
+                return Get(other.LowerBound / LowerBound, other.UpperBound / UpperBound, other.PrimaryValue / PrimaryValue, Robust && other.Robust);
+
+            }
+
+            protected override Number DivideBy(Number num)
+            {
+                InexactReal other = Get(num);
+                return Get(LowerBound / other.LowerBound, UpperBound / other.UpperBound, PrimaryValue / other.PrimaryValue, Robust && other.Robust);
+            }
+
+            protected override Number Negate()
+            => Get(-LowerBound, -UpperBound, -PrimaryValue, Robust);
+
+            protected override Boolean LessThan(Number num)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            protected override Boolean BiggerThan(Number num)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            protected override Boolean LessThanOrEqual(Number num)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            protected override Boolean BiggerThanOrEqual(Number num)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            protected override int Compare(Number num)
+            {
+                throw new System.NotImplementedException();
+            }
+            public override string ToString() => $"#i{PrimaryValue}";
+        }
     }
+
 }

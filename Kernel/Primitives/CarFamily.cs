@@ -26,7 +26,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -52,7 +52,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -74,7 +74,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -100,7 +100,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -126,7 +126,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -148,7 +148,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -166,7 +166,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -192,7 +192,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaadaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -218,7 +218,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaadadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -240,7 +240,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -266,7 +266,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaddar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -292,7 +292,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaadddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -314,7 +314,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -332,7 +332,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -346,7 +346,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -372,7 +372,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -398,7 +398,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -420,7 +420,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -446,7 +446,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -472,7 +472,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -494,7 +494,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -512,7 +512,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -538,7 +538,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaddaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -564,7 +564,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaddadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -586,7 +586,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaddar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -612,7 +612,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadddar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -638,7 +638,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaddddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -660,7 +660,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -678,7 +678,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -692,7 +692,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -702,7 +702,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -728,7 +728,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaaaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -754,7 +754,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaaadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -776,7 +776,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -802,7 +802,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -828,7 +828,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaaddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -850,7 +850,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -868,7 +868,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -894,7 +894,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadadaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -920,7 +920,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadadadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -942,7 +942,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -968,7 +968,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -994,7 +994,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadadddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1016,7 +1016,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadaddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1034,7 +1034,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1048,7 +1048,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1074,7 +1074,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddaaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1100,7 +1100,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddaadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1122,7 +1122,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1148,7 +1148,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1174,7 +1174,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddaddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1196,7 +1196,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1214,7 +1214,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1240,7 +1240,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadddaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1266,7 +1266,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadddadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1288,7 +1288,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1314,7 +1314,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1340,7 +1340,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadddddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1362,7 +1362,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1380,7 +1380,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("caddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1394,7 +1394,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Caddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("cadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1404,13 +1404,13 @@ public static class CarFamily
 			throw new System.ArgumentException("Cadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Car as T;
+		return (T) p.Car;
 	}
 	[Primitive("car",1)]
 	[TypeAssertion(0, typeof(Pair))]
 	public static T Car<T>(Pair p) where T : Object
 	{
-		return p.Car as T;
+		return (T) p.Car;
 	}
 
 	[Primitive("cdaaaaar",1)]
@@ -1437,7 +1437,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1463,7 +1463,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1485,7 +1485,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1511,7 +1511,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1537,7 +1537,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1559,7 +1559,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1577,7 +1577,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1603,7 +1603,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaadaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1629,7 +1629,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaadadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1651,7 +1651,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1677,7 +1677,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaddar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1703,7 +1703,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaadddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1725,7 +1725,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1743,7 +1743,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1757,7 +1757,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1783,7 +1783,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadaaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1809,7 +1809,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadaadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1831,7 +1831,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1857,7 +1857,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1883,7 +1883,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1905,7 +1905,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1923,7 +1923,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1949,7 +1949,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaddaar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1975,7 +1975,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaddadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -1997,7 +1997,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaddar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2023,7 +2023,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadddar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2049,7 +2049,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaddddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2071,7 +2071,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2089,7 +2089,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdaddr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2103,7 +2103,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdadr's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2113,7 +2113,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdar's Car function has not received a proper argument ");
 		p = p.Car as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2139,7 +2139,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaaaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2165,7 +2165,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaaadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2187,7 +2187,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2213,7 +2213,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2239,7 +2239,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaaddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2261,7 +2261,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2279,7 +2279,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddadaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2305,7 +2305,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddadaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddadadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2331,7 +2331,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddadadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2353,7 +2353,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2379,7 +2379,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddadddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2405,7 +2405,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddadddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2427,7 +2427,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddaddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2445,7 +2445,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2459,7 +2459,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddaaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2485,7 +2485,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddaaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddaadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2511,7 +2511,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddaadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2533,7 +2533,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddadar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2559,7 +2559,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddadar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddaddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2585,7 +2585,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddaddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2607,7 +2607,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2625,7 +2625,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddddaar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2651,7 +2651,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddddaar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddddadr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2677,7 +2677,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddddadr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2699,7 +2699,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddddar",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2725,7 +2725,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddddar's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2751,7 +2751,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddddddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2773,7 +2773,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2791,7 +2791,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2805,7 +2805,7 @@ public static class CarFamily
 			throw new System.ArgumentException("Cdddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cddr",1)]
 	[TypeAssertion(0, typeof(Pair))]
@@ -2815,13 +2815,13 @@ public static class CarFamily
 			throw new System.ArgumentException("Cddr's Cdr function has not received a proper argument ");
 		p = p.Cdr as Pair;
 
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 	[Primitive("cdr",1)]
 	[TypeAssertion(0, typeof(Pair))]
 	public static T Cdr<T>(Pair p) where T : Object
 	{
-		return p.Cdr as T;
+		return (T) p.Cdr;
 	}
 
 }

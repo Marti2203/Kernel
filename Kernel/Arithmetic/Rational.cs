@@ -9,38 +9,36 @@ namespace Kernel.Arithmetic
     {
         public override NumberHierarchy Priority => NumberHierarchy.Rational;
 
-        static IDictionary<(BigInteger numerator, BigInteger denominator), Rational> cache
-        = new Dictionary<(BigInteger, BigInteger), Rational>();
+        static IDictionary<(Integer numerator, Integer denominator), Rational> cache
+        = new Dictionary<(Integer, Integer), Rational>();
 
         /// <summary>
         /// The numerator.
         /// </summary>
-        public BigInteger Numerator => numerator;
-        readonly BigInteger numerator;
+        public Integer Numerator { get; }
 
         /// <summary>
         /// The denominator.
         /// </summary>
-        public BigInteger Denominator => denominator;
-        readonly BigInteger denominator;
+        public Integer Denominator { get; }
 
-        Rational(BigInteger numerator)
-            : this(numerator, BigInteger.One) { }
+        Rational(Integer numerator)
+            : this(numerator, Integer.One) { }
 
-        Rational(BigInteger numerator, BigInteger denominator)
+        Rational(Integer numerator, Integer denominator)
         {
-            this.denominator = denominator / denominator;
-            this.numerator = numerator / numerator;
+            Numerator = numerator;
+            Denominator = denominator;
         }
 
-        public static Rational Get(BigInteger numerator) => Get(numerator, BigInteger.One);
-        public static Rational Get(BigInteger numerator, BigInteger denominator)
+        public static Rational Get(Integer numerator) => Get(numerator, BigInteger.One);
+        public static Rational Get(Integer numerator, Integer denominator)
         {
             if (denominator == 0)
                 throw new System.ArgumentOutOfRangeException(nameof(denominator), "Denominator cannot be zero!");
-            BigInteger divisor = NumericOperations.GCD(numerator, denominator);
-            BigInteger numeratorLowered = numerator / divisor;
-            BigInteger denominatorLowered = denominator / divisor;
+            Integer divisor = NumericOperations.GCD(numerator, denominator);
+            Integer numeratorLowered = numerator.Div(divisor);
+            Integer denominatorLowered = denominator.Div(divisor);
             var key = (numeratorLowered, denominatorLowered);
             if (cache.ContainsKey(key))
                 return cache[key];
@@ -48,6 +46,10 @@ namespace Kernel.Arithmetic
             cache.Add(key, number);
             return number;
         }
+
+        public static Number Get(string numerator, string denominator, int numeratorBase = 10, int denominatorBase = 10)
+        => Get(Integer.Get(numerator, numeratorBase),
+               Integer.Get(denominator, denominatorBase));
 
 
         /// <summary>
@@ -59,90 +61,97 @@ namespace Kernel.Arithmetic
         protected override Number Add(Number num)
         {
             if (ReferenceEquals(this, num)) return Get(Numerator * 2, Denominator);
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
-            BigInteger sum = Numerator * lcm / Denominator + other.Numerator * lcm / other.Denominator;
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Integer sum = (Numerator * lcm).Div(Denominator) + (other.Numerator * lcm).Div(other.Denominator);
             return Get(sum, lcm);
         }
 
         protected override Number Subtract(Number num)
         {
             if (ReferenceEquals(this, num)) return Get(0);
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
-            BigInteger sum = Numerator * lcm / Denominator - other.Numerator * lcm / other.Denominator;
-            return Get(sum, lcm);
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Integer diff = (Numerator * lcm).Div(Denominator) - (other.Numerator * lcm).Div(other.Denominator);
+            return Get(diff, lcm);
         }
 
         protected override Number SubtractFrom(Number num)
         {
             if (ReferenceEquals(this, num)) return Get(0);
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
-            BigInteger sum = other.Numerator * lcm / other.Denominator - Numerator * lcm / Denominator;
-            return Get(sum, lcm);
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Integer diff = (other.Numerator * lcm).Div(other.Denominator) - (Numerator * lcm).Div(Denominator);
+            return Get(diff, lcm);
         }
 
         protected override Number Multiply(Number num)
         {
-            Rational other = num as Rational;
+            Rational other = Convert(num);
             return Get(Numerator * other.Numerator, Denominator * other.Denominator);
-        }
-
-        protected override Number Divide(Number num)
-        {
-            Rational other = num as Rational;
-            return Get(Numerator * other.Denominator, Denominator * other.Numerator);
         }
 
         protected override Number DivideBy(Number num)
         {
-            Rational other = num as Rational;
+            Rational other = Convert(num);
+            return Get(Numerator * other.Denominator, Denominator * other.Numerator);
+        }
+
+        protected override Number Divide(Number num)
+        {
+            Rational other = Convert(num);
             return Get(other.Numerator * Denominator, other.Denominator * Numerator);
         }
 
-        protected override Number Negate() => Get(-Numerator, Denominator);
+        protected override Number Negate() => Get(-Numerator as Integer, Denominator);
 
         protected override Boolean LessThan(Number num)
         {
             if (ReferenceEquals(this, num)) return false;
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
             return Numerator * lcm / Denominator < other.Numerator * lcm / other.Denominator;
         }
 
         protected override Boolean BiggerThan(Number num)
         {
             if (ReferenceEquals(this, num)) return false;
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
             return Numerator * lcm / Denominator > other.Numerator * lcm / other.Denominator;
         }
 
         protected override Boolean LessThanOrEqual(Number num)
         {
             if (ReferenceEquals(this, num)) return true;
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
             return Numerator * lcm / Denominator <= other.Numerator * lcm / other.Denominator;
         }
 
         protected override Boolean BiggerThanOrEqual(Number num)
         {
             if (ReferenceEquals(this, num)) return true;
-            Rational other = num as Rational;
-            BigInteger lcm = NumericOperations.LCM(Denominator, other.Denominator);
+            Rational other = Convert(num);
+            Integer lcm = NumericOperations.LCM(Denominator, other.Denominator);
             return Numerator * lcm / Denominator >= other.Numerator * lcm / other.Denominator;
         }
 
         protected override int Compare(Number num) => ReferenceEquals(this, num) ? 0 : BiggerThan(num) ? 1 : -1;
 
-        public static implicit operator Rational(Integer integer) => Get(integer.Data);
+        static Rational Convert(Number num)
+        {
+            if (num is Rational rat) return rat;
+            if (num is Integer integer) return Get(integer);
+            throw new System.ArgumentException("WTF");
+        }
+
+        public static implicit operator Rational(Integer integer) => Get(integer);
 
         static class NumericOperations
         {
             public static BigInteger GCD(BigInteger l, BigInteger r) => BigInteger.GreatestCommonDivisor(l, r);
-            public static BigInteger LCM(BigInteger l, BigInteger r) => (l * r) / GCD(l, r);
+            public static BigInteger LCM(BigInteger l, BigInteger r) => l * r / GCD(l, r);
         }
     }
 }

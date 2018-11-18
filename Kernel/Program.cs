@@ -9,25 +9,24 @@ namespace Kernel
     {
         public static void Main()
         {
-            int counter = 1;
+            Object result;
+            int counter = 0;
             while (true)
             {
-                Write("Input: ");
+                result = Null.Instance;
+                Write("Kernel> ");
 #if DirectRead
                 Object input = Applicatives.Read();
 #else
                 Object input = Get("read").Invoke();
 #endif
-
-                //WriteLine($"{input.ToString()} {input.GetType()}");
-                Object result = Null.Instance;
                 try
                 {
                     result = Environment.Ground.Evaluate(input);
                     if (!(result is Inert))
                     {
-                        WriteLine($"Output: ${counter} = {result} { result.GetType()} ");
-                        Environment.Ground[$"${counter++}"] = result;
+                        WriteLine($"${++counter} = {result}");
+                        Environment.Ground[$"${counter}"] = result;
                     }
                 }
                 catch (ArgumentException argE)

@@ -35,9 +35,9 @@ namespace Kernel.Primitives
                 var compareInputWithExpected = NotEqual(realCount, expectedCount);
                 predicate = predicate == null ? compareInputWithExpected : Or(predicate, compareInputWithExpected);
             }
-            if (predicate == null)
-                return Empty();
-            return Block(new[] { realCount },
+            return predicate == null
+                ? Empty()
+                : (Expression)Block(new[] { realCount },
                          Assign(realCount, count),
 #if DebugCallMethods
                          Call(null, typeof(Console).GetMethod("Write", new[] { typeof(string) }), Constant($"The function {primitive.PrimitiveName} has input count {primitive.InputCount} and receives ")),
@@ -72,7 +72,7 @@ namespace Kernel.Primitives
                              methodCall);
 
 #if DebugMethods
-            if (method.Name == "Let")
+            if (method.Name == "Add")
             {
                 Console.WriteLine($"Name: {method.Name}");
                 Console.WriteLine($"Body Expressions");
@@ -121,8 +121,7 @@ namespace Kernel.Primitives
         static string Name => typeof(T).Name.ToLower() + "?";
         static Boolean Validate(Object @object)
         {
-            List list = @object as List;
-            if (list == null)
+            if (!(@object is List list))
                 throw new ArgumentException("Validate accepts a list of objects", nameof(@object));
             return list.All<T>(x => x is T);
         }

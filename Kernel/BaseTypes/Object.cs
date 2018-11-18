@@ -7,13 +7,7 @@ namespace Kernel
 
         public abstract bool Equals(Object other);
         public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(this, obj)) return true;
-            if (!(obj is Object other)) return false;
-            if (Mutable != other.Mutable) return false;
-            if (ToString() != obj.ToString()) return false;
-            return true;
-        }
+        => ReferenceEquals(this, obj) || (obj is Object other) && Mutable == other.Mutable && ToString() != obj.ToString();
 
         public Object Copy() => NClone.Clone.ObjectGraph(this);
 

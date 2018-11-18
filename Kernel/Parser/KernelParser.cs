@@ -37,23 +37,31 @@ public partial class KernelParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, EscapeSequence=11, Integer=12, Rational=13, Real=14, Complex=15, 
-		Identifier=16, COMMENT=17, WHITESPACE=18;
+		KEYWORD=10, STRING=11, UintegerBin=12, UintegerOct=13, UintegerDec=14, 
+		UintegerHex=15, PrefixBin=16, PrefixOct=17, PrefixDec=18, PrefixHex=19, 
+		Decimal=20, Sign=21, Suffix=22, SYMBOL=23, WS=24;
 	public const int
-		RULE_file = 0, RULE_expression = 1, RULE_atom = 2, RULE_symbol = 3, RULE_pair = 4, 
-		RULE_keywords = 5, RULE_string = 6, RULE_number = 7;
+		RULE_file = 0, RULE_expression = 1, RULE_atom = 2, RULE_pair = 3, RULE_number = 4, 
+		RULE_numBin = 5, RULE_numOct = 6, RULE_numDec = 7, RULE_numHex = 8, RULE_complexBin = 9, 
+		RULE_complexOct = 10, RULE_complexDec = 11, RULE_complexHex = 12, RULE_realBin = 13, 
+		RULE_realOct = 14, RULE_realDec = 15, RULE_realHex = 16, RULE_imagBin = 17, 
+		RULE_imagOct = 18, RULE_imagDec = 19, RULE_imagHex = 20, RULE_urealBin = 21, 
+		RULE_urealOct = 22, RULE_urealDec = 23, RULE_urealHex = 24, RULE_symbol = 25;
 	public static readonly string[] ruleNames = {
-		"file", "expression", "atom", "symbol", "pair", "keywords", "string", 
-		"number"
+		"file", "expression", "atom", "pair", "number", "numBin", "numOct", "numDec", 
+		"numHex", "complexBin", "complexOct", "complexDec", "complexHex", "realBin", 
+		"realOct", "realDec", "realHex", "imagBin", "imagOct", "imagDec", "imagHex", 
+		"urealBin", "urealOct", "urealDec", "urealHex", "symbol"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'('", "'.'", "')'", "'#t'", "'#f'", "'#ignore'", "'#inert'", "'()'", 
-		"'\"'", "'\\'"
+		null, "'('", "'.'", "')'", "'@'", "'+'", "'-'", "'i'", "'I'", "'/'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, null, null, null, null, null, null, null, null, "EscapeSequence", 
-		"Integer", "Rational", "Real", "Complex", "Identifier", "COMMENT", "WHITESPACE"
+		null, null, null, null, null, null, null, null, null, null, "KEYWORD", 
+		"STRING", "UintegerBin", "UintegerOct", "UintegerDec", "UintegerHex", 
+		"PrefixBin", "PrefixOct", "PrefixDec", "PrefixHex", "Decimal", "Sign", 
+		"Suffix", "SYMBOL", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -113,19 +121,19 @@ public partial class KernelParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 17;
+			State = 53;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			do {
 				{
 				{
-				State = 16; expression();
+				State = 52; expression();
 				}
 				}
-				State = 19;
+				State = 55;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << Integer) | (1L << Rational) | (1L << Real) | (1L << Complex) | (1L << Identifier))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__4) | (1L << T__5) | (1L << T__8) | (1L << KEYWORD) | (1L << STRING) | (1L << UintegerDec) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << SYMBOL))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -163,29 +171,31 @@ public partial class KernelParser : Parser {
 		ExpressionContext _localctx = new ExpressionContext(Context, State);
 		EnterRule(_localctx, 2, RULE_expression);
 		try {
-			State = 23;
+			State = 59;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
-			case T__3:
 			case T__4:
 			case T__5:
-			case T__6:
-			case T__7:
 			case T__8:
-			case Integer:
-			case Rational:
-			case Real:
-			case Complex:
-			case Identifier:
+			case KEYWORD:
+			case STRING:
+			case UintegerDec:
+			case PrefixBin:
+			case PrefixOct:
+			case PrefixDec:
+			case PrefixHex:
+			case Decimal:
+			case Sign:
+			case SYMBOL:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 21; atom();
+				State = 57; atom();
 				}
 				break;
 			case T__0:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 22; pair();
+				State = 58; pair();
 				}
 				break;
 			default:
@@ -204,26 +214,54 @@ public partial class KernelParser : Parser {
 	}
 
 	public partial class AtomContext : ParserRuleContext {
-		public KeywordsContext keywords() {
-			return GetRuleContext<KeywordsContext>(0);
-		}
-		public StringContext @string() {
-			return GetRuleContext<StringContext>(0);
-		}
-		public NumberContext number() {
-			return GetRuleContext<NumberContext>(0);
-		}
-		public SymbolContext symbol() {
-			return GetRuleContext<SymbolContext>(0);
-		}
 		public AtomContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
 		public override int RuleIndex { get { return RULE_atom; } }
+	 
+		public AtomContext() { }
+		public virtual void CopyFrom(AtomContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class KeywordContext : AtomContext {
+		public ITerminalNode KEYWORD() { return GetToken(KernelParser.KEYWORD, 0); }
+		public KeywordContext(AtomContext context) { CopyFrom(context); }
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAtom(this);
+			if (typedVisitor != null) return typedVisitor.VisitKeyword(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class SymbolLiteralContext : AtomContext {
+		public SymbolContext symbol() {
+			return GetRuleContext<SymbolContext>(0);
+		}
+		public SymbolLiteralContext(AtomContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSymbolLiteral(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class StringContext : AtomContext {
+		public ITerminalNode STRING() { return GetToken(KernelParser.STRING, 0); }
+		public StringContext(AtomContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitString(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class NumberLiteralContext : AtomContext {
+		public NumberContext number() {
+			return GetRuleContext<NumberContext>(0);
+		}
+		public NumberLiteralContext(AtomContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumberLiteral(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -233,77 +271,37 @@ public partial class KernelParser : Parser {
 		AtomContext _localctx = new AtomContext(Context, State);
 		EnterRule(_localctx, 4, RULE_atom);
 		try {
-			State = 29;
+			State = 65;
 			ErrorHandler.Sync(this);
-			switch (TokenStream.LA(1)) {
-			case T__3:
-			case T__4:
-			case T__5:
-			case T__6:
-			case T__7:
+			switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
+			case 1:
+				_localctx = new KeywordContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 25; keywords();
+				State = 61; Match(KEYWORD);
 				}
 				break;
-			case T__8:
+			case 2:
+				_localctx = new StringContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 26; @string();
+				State = 62; Match(STRING);
 				}
 				break;
-			case Integer:
-			case Rational:
-			case Real:
-			case Complex:
+			case 3:
+				_localctx = new SymbolLiteralContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 27; number();
+				State = 63; symbol();
 				}
 				break;
-			case Identifier:
+			case 4:
+				_localctx = new NumberLiteralContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 28; symbol();
+				State = 64; number();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class SymbolContext : ParserRuleContext {
-		public ITerminalNode Identifier() { return GetToken(KernelParser.Identifier, 0); }
-		public SymbolContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_symbol; } }
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitSymbol(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public SymbolContext symbol() {
-		SymbolContext _localctx = new SymbolContext(Context, State);
-		EnterRule(_localctx, 6, RULE_symbol);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 31; Match(Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -318,7 +316,7 @@ public partial class KernelParser : Parser {
 	}
 
 	public partial class PairContext : ParserRuleContext {
-		public IToken star;
+		public IToken dot;
 		public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
@@ -340,37 +338,36 @@ public partial class KernelParser : Parser {
 	[RuleVersion(0)]
 	public PairContext pair() {
 		PairContext _localctx = new PairContext(Context, State);
-		EnterRule(_localctx, 8, RULE_pair);
+		EnterRule(_localctx, 6, RULE_pair);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 33; Match(T__0);
-			State = 34; expression();
-			State = 38;
+			State = 67; Match(T__0);
+			State = 69;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << Integer) | (1L << Rational) | (1L << Real) | (1L << Complex) | (1L << Identifier))) != 0)) {
+			do {
 				{
 				{
-				State = 35; expression();
+				State = 68; expression();
 				}
 				}
-				State = 40;
+				State = 71;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
-			}
-			State = 43;
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__4) | (1L << T__5) | (1L << T__8) | (1L << KEYWORD) | (1L << STRING) | (1L << UintegerDec) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << SYMBOL))) != 0) );
+			State = 75;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			if (_la==T__1) {
 				{
-				State = 41; _localctx.star = Match(T__1);
-				State = 42; expression();
+				State = 73; _localctx.dot = Match(T__1);
+				State = 74; expression();
 				}
 			}
 
-			State = 45; Match(T__2);
+			State = 77; Match(T__2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -384,30 +381,1056 @@ public partial class KernelParser : Parser {
 		return _localctx;
 	}
 
-	public partial class KeywordsContext : ParserRuleContext {
-		public KeywordsContext(ParserRuleContext parent, int invokingState)
+	public partial class NumberContext : ParserRuleContext {
+		public NumBinContext numBin() {
+			return GetRuleContext<NumBinContext>(0);
+		}
+		public NumOctContext numOct() {
+			return GetRuleContext<NumOctContext>(0);
+		}
+		public NumDecContext numDec() {
+			return GetRuleContext<NumDecContext>(0);
+		}
+		public NumHexContext numHex() {
+			return GetRuleContext<NumHexContext>(0);
+		}
+		public NumberContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_keywords; } }
+		public override int RuleIndex { get { return RULE_number; } }
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitKeywords(this);
+			if (typedVisitor != null) return typedVisitor.VisitNumber(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public KeywordsContext keywords() {
-		KeywordsContext _localctx = new KeywordsContext(Context, State);
-		EnterRule(_localctx, 10, RULE_keywords);
+	public NumberContext number() {
+		NumberContext _localctx = new NumberContext(Context, State);
+		EnterRule(_localctx, 8, RULE_number);
+		try {
+			State = 83;
+			ErrorHandler.Sync(this);
+			switch (TokenStream.LA(1)) {
+			case PrefixBin:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 79; numBin();
+				}
+				break;
+			case PrefixOct:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 80; numOct();
+				}
+				break;
+			case T__4:
+			case T__5:
+			case UintegerDec:
+			case PrefixDec:
+			case Decimal:
+			case Sign:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 81; numDec();
+				}
+				break;
+			case PrefixHex:
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 82; numHex();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumBinContext : ParserRuleContext {
+		public ITerminalNode PrefixBin() { return GetToken(KernelParser.PrefixBin, 0); }
+		public ComplexBinContext complexBin() {
+			return GetRuleContext<ComplexBinContext>(0);
+		}
+		public NumBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numBin; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumBin(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumBinContext numBin() {
+		NumBinContext _localctx = new NumBinContext(Context, State);
+		EnterRule(_localctx, 10, RULE_numBin);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 85; Match(PrefixBin);
+			State = 86; complexBin();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumOctContext : ParserRuleContext {
+		public ITerminalNode PrefixOct() { return GetToken(KernelParser.PrefixOct, 0); }
+		public ComplexOctContext complexOct() {
+			return GetRuleContext<ComplexOctContext>(0);
+		}
+		public NumOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numOct; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumOct(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumOctContext numOct() {
+		NumOctContext _localctx = new NumOctContext(Context, State);
+		EnterRule(_localctx, 12, RULE_numOct);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 88; Match(PrefixOct);
+			State = 89; complexOct();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumDecContext : ParserRuleContext {
+		public ComplexDecContext complexDec() {
+			return GetRuleContext<ComplexDecContext>(0);
+		}
+		public ITerminalNode PrefixDec() { return GetToken(KernelParser.PrefixDec, 0); }
+		public NumDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numDec; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumDec(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumDecContext numDec() {
+		NumDecContext _localctx = new NumDecContext(Context, State);
+		EnterRule(_localctx, 14, RULE_numDec);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 47;
+			State = 92;
+			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7))) != 0)) ) {
+			if (_la==PrefixDec) {
+				{
+				State = 91; Match(PrefixDec);
+				}
+			}
+
+			State = 94; complexDec();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumHexContext : ParserRuleContext {
+		public ITerminalNode PrefixHex() { return GetToken(KernelParser.PrefixHex, 0); }
+		public ComplexHexContext complexHex() {
+			return GetRuleContext<ComplexHexContext>(0);
+		}
+		public NumHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numHex; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumHex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumHexContext numHex() {
+		NumHexContext _localctx = new NumHexContext(Context, State);
+		EnterRule(_localctx, 16, RULE_numHex);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 96; Match(PrefixHex);
+			State = 97; complexHex();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexBinContext : ParserRuleContext {
+		public ComplexBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexBin; } }
+	 
+		public ComplexBinContext() { }
+		public virtual void CopyFrom(ComplexBinContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class BinaryPolarContext : ComplexBinContext {
+		public RealBinContext[] realBin() {
+			return GetRuleContexts<RealBinContext>();
+		}
+		public RealBinContext realBin(int i) {
+			return GetRuleContext<RealBinContext>(i);
+		}
+		public BinaryPolarContext(ComplexBinContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryNumberContext : ComplexBinContext {
+		public IToken sign;
+		public UrealBinContext urealBin() {
+			return GetRuleContext<UrealBinContext>(0);
+		}
+		public BinaryNumberContext(ComplexBinContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryComplexContext : ComplexBinContext {
+		public IToken sign;
+		public RealBinContext realBin() {
+			return GetRuleContext<RealBinContext>(0);
+		}
+		public ImagBinContext imagBin() {
+			return GetRuleContext<ImagBinContext>(0);
+		}
+		public BinaryComplexContext(ComplexBinContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexBinContext complexBin() {
+		ComplexBinContext _localctx = new ComplexBinContext(Context, State);
+		EnterRule(_localctx, 18, RULE_complexBin);
+		int _la;
+		try {
+			State = 113;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,8,Context) ) {
+			case 1:
+				_localctx = new BinaryPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 99; realBin();
+				State = 100; Match(T__3);
+				State = 101; realBin();
+				}
+				break;
+			case 2:
+				_localctx = new BinaryComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 103; realBin();
+				State = 104;
+				((BinaryComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((BinaryComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 105; imagBin();
+				}
+				break;
+			case 3:
+				_localctx = new BinaryNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 108;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__4 || _la==T__5) {
+					{
+					State = 107;
+					((BinaryNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__4 || _la==T__5) ) {
+						((BinaryNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 110; urealBin();
+				}
+				break;
+			case 4:
+				_localctx = new BinaryComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 111;
+				((BinaryComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((BinaryComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 112; imagBin();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexOctContext : ParserRuleContext {
+		public ComplexOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexOct; } }
+	 
+		public ComplexOctContext() { }
+		public virtual void CopyFrom(ComplexOctContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class OctalComplexContext : ComplexOctContext {
+		public IToken sign;
+		public RealOctContext realOct() {
+			return GetRuleContext<RealOctContext>(0);
+		}
+		public ImagOctContext imagOct() {
+			return GetRuleContext<ImagOctContext>(0);
+		}
+		public OctalComplexContext(ComplexOctContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class OctalNumberContext : ComplexOctContext {
+		public IToken sign;
+		public UrealOctContext urealOct() {
+			return GetRuleContext<UrealOctContext>(0);
+		}
+		public OctalNumberContext(ComplexOctContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class OctalPolarContext : ComplexOctContext {
+		public RealOctContext[] realOct() {
+			return GetRuleContexts<RealOctContext>();
+		}
+		public RealOctContext realOct(int i) {
+			return GetRuleContext<RealOctContext>(i);
+		}
+		public OctalPolarContext(ComplexOctContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexOctContext complexOct() {
+		ComplexOctContext _localctx = new ComplexOctContext(Context, State);
+		EnterRule(_localctx, 20, RULE_complexOct);
+		int _la;
+		try {
+			State = 129;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,10,Context) ) {
+			case 1:
+				_localctx = new OctalPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 115; realOct();
+				State = 116; Match(T__3);
+				State = 117; realOct();
+				}
+				break;
+			case 2:
+				_localctx = new OctalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 119; realOct();
+				State = 120;
+				((OctalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((OctalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 121; imagOct();
+				}
+				break;
+			case 3:
+				_localctx = new OctalNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 124;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__4 || _la==T__5) {
+					{
+					State = 123;
+					((OctalNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__4 || _la==T__5) ) {
+						((OctalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 126; urealOct();
+				}
+				break;
+			case 4:
+				_localctx = new OctalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 127;
+				((OctalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((OctalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 128; imagOct();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexDecContext : ParserRuleContext {
+		public ComplexDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexDec; } }
+	 
+		public ComplexDecContext() { }
+		public virtual void CopyFrom(ComplexDecContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class DecimalComplexContext : ComplexDecContext {
+		public IToken sign;
+		public RealDecContext realDec() {
+			return GetRuleContext<RealDecContext>(0);
+		}
+		public ImagDecContext imagDec() {
+			return GetRuleContext<ImagDecContext>(0);
+		}
+		public DecimalComplexContext(ComplexDecContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalNumberContext : ComplexDecContext {
+		public IToken sign;
+		public UrealDecContext urealDec() {
+			return GetRuleContext<UrealDecContext>(0);
+		}
+		public DecimalNumberContext(ComplexDecContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalPolarContext : ComplexDecContext {
+		public RealDecContext[] realDec() {
+			return GetRuleContexts<RealDecContext>();
+		}
+		public RealDecContext realDec(int i) {
+			return GetRuleContext<RealDecContext>(i);
+		}
+		public DecimalPolarContext(ComplexDecContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexDecContext complexDec() {
+		ComplexDecContext _localctx = new ComplexDecContext(Context, State);
+		EnterRule(_localctx, 22, RULE_complexDec);
+		int _la;
+		try {
+			State = 145;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,12,Context) ) {
+			case 1:
+				_localctx = new DecimalPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 131; realDec();
+				State = 132; Match(T__3);
+				State = 133; realDec();
+				}
+				break;
+			case 2:
+				_localctx = new DecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 135; realDec();
+				State = 136;
+				((DecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((DecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 137; imagDec();
+				}
+				break;
+			case 3:
+				_localctx = new DecimalNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 140;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__4 || _la==T__5) {
+					{
+					State = 139;
+					((DecimalNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__4 || _la==T__5) ) {
+						((DecimalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 142; urealDec();
+				}
+				break;
+			case 4:
+				_localctx = new DecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 143;
+				((DecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((DecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 144; imagDec();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexHexContext : ParserRuleContext {
+		public ComplexHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexHex; } }
+	 
+		public ComplexHexContext() { }
+		public virtual void CopyFrom(ComplexHexContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class HexadecimalComplexContext : ComplexHexContext {
+		public IToken sign;
+		public RealHexContext realHex() {
+			return GetRuleContext<RealHexContext>(0);
+		}
+		public ImagHexContext imagHex() {
+			return GetRuleContext<ImagHexContext>(0);
+		}
+		public HexadecimalComplexContext(ComplexHexContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class HexadecimalNumberContext : ComplexHexContext {
+		public IToken sign;
+		public UrealHexContext urealHex() {
+			return GetRuleContext<UrealHexContext>(0);
+		}
+		public HexadecimalNumberContext(ComplexHexContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class HexadecimalPolarContext : ComplexHexContext {
+		public RealHexContext[] realHex() {
+			return GetRuleContexts<RealHexContext>();
+		}
+		public RealHexContext realHex(int i) {
+			return GetRuleContext<RealHexContext>(i);
+		}
+		public HexadecimalPolarContext(ComplexHexContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexHexContext complexHex() {
+		ComplexHexContext _localctx = new ComplexHexContext(Context, State);
+		EnterRule(_localctx, 24, RULE_complexHex);
+		int _la;
+		try {
+			State = 161;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,14,Context) ) {
+			case 1:
+				_localctx = new HexadecimalPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 147; realHex();
+				State = 148; Match(T__3);
+				State = 149; realHex();
+				}
+				break;
+			case 2:
+				_localctx = new HexadecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 151; realHex();
+				State = 152;
+				((HexadecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((HexadecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 153; imagHex();
+				}
+				break;
+			case 3:
+				_localctx = new HexadecimalNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 156;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__4 || _la==T__5) {
+					{
+					State = 155;
+					((HexadecimalNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__4 || _la==T__5) ) {
+						((HexadecimalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 158; urealHex();
+				}
+				break;
+			case 4:
+				_localctx = new HexadecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 159;
+				((HexadecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__4 || _la==T__5) ) {
+					((HexadecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 160; imagHex();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealBinContext : ParserRuleContext {
+		public UrealBinContext urealBin() {
+			return GetRuleContext<UrealBinContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realBin; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealBin(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealBinContext realBin() {
+		RealBinContext _localctx = new RealBinContext(Context, State);
+		EnterRule(_localctx, 26, RULE_realBin);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 164;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 163; Match(Sign);
+				}
+			}
+
+			State = 166; urealBin();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealOctContext : ParserRuleContext {
+		public UrealOctContext urealOct() {
+			return GetRuleContext<UrealOctContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realOct; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealOct(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealOctContext realOct() {
+		RealOctContext _localctx = new RealOctContext(Context, State);
+		EnterRule(_localctx, 28, RULE_realOct);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 169;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 168; Match(Sign);
+				}
+			}
+
+			State = 171; urealOct();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealDecContext : ParserRuleContext {
+		public UrealDecContext urealDec() {
+			return GetRuleContext<UrealDecContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realDec; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealDec(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealDecContext realDec() {
+		RealDecContext _localctx = new RealDecContext(Context, State);
+		EnterRule(_localctx, 30, RULE_realDec);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 174;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 173; Match(Sign);
+				}
+			}
+
+			State = 176; urealDec();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealHexContext : ParserRuleContext {
+		public UrealHexContext urealHex() {
+			return GetRuleContext<UrealHexContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realHex; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealHex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealHexContext realHex() {
+		RealHexContext _localctx = new RealHexContext(Context, State);
+		EnterRule(_localctx, 32, RULE_realHex);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 179;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 178; Match(Sign);
+				}
+			}
+
+			State = 181; urealHex();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ImagBinContext : ParserRuleContext {
+		public UrealBinContext urealBin() {
+			return GetRuleContext<UrealBinContext>(0);
+		}
+		public ImagBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_imagBin; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitImagBin(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ImagBinContext imagBin() {
+		ImagBinContext _localctx = new ImagBinContext(Context, State);
+		EnterRule(_localctx, 34, RULE_imagBin);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 184;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==UintegerBin) {
+				{
+				State = 183; urealBin();
+				}
+			}
+
+			State = 186;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__6 || _la==T__7) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -427,65 +1450,48 @@ public partial class KernelParser : Parser {
 		return _localctx;
 	}
 
-	public partial class StringContext : ParserRuleContext {
-		public ITerminalNode[] EscapeSequence() { return GetTokens(KernelParser.EscapeSequence); }
-		public ITerminalNode EscapeSequence(int i) {
-			return GetToken(KernelParser.EscapeSequence, i);
+	public partial class ImagOctContext : ParserRuleContext {
+		public UrealOctContext urealOct() {
+			return GetRuleContext<UrealOctContext>(0);
 		}
-		public StringContext(ParserRuleContext parent, int invokingState)
+		public ImagOctContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_string; } }
+		public override int RuleIndex { get { return RULE_imagOct; } }
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitString(this);
+			if (typedVisitor != null) return typedVisitor.VisitImagOct(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public StringContext @string() {
-		StringContext _localctx = new StringContext(Context, State);
-		EnterRule(_localctx, 12, RULE_string);
+	public ImagOctContext imagOct() {
+		ImagOctContext _localctx = new ImagOctContext(Context, State);
+		EnterRule(_localctx, 36, RULE_imagOct);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 49; Match(T__8);
-			State = 54;
+			State = 189;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << EscapeSequence) | (1L << Integer) | (1L << Rational) | (1L << Real) | (1L << Complex) | (1L << Identifier) | (1L << COMMENT) | (1L << WHITESPACE))) != 0)) {
+			if (_la==UintegerOct) {
 				{
-				State = 52;
-				ErrorHandler.Sync(this);
-				switch ( Interpreter.AdaptivePredict(TokenStream,5,Context) ) {
-				case 1:
-					{
-					State = 50; Match(EscapeSequence);
-					}
-					break;
-				case 2:
-					{
-					State = 51;
-					_la = TokenStream.LA(1);
-					if ( _la <= 0 || (_la==T__8 || _la==T__9) ) {
-					ErrorHandler.RecoverInline(this);
-					}
-					else {
-						ErrorHandler.ReportMatch(this);
-					    Consume();
-					}
-					}
-					break;
+				State = 188; urealOct();
 				}
-				}
-				State = 56;
-				ErrorHandler.Sync(this);
-				_la = TokenStream.LA(1);
 			}
-			State = 57; Match(T__8);
+
+			State = 191;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__6 || _la==T__7) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -499,34 +1505,441 @@ public partial class KernelParser : Parser {
 		return _localctx;
 	}
 
-	public partial class NumberContext : ParserRuleContext {
-		public ITerminalNode Integer() { return GetToken(KernelParser.Integer, 0); }
-		public ITerminalNode Rational() { return GetToken(KernelParser.Rational, 0); }
-		public ITerminalNode Real() { return GetToken(KernelParser.Real, 0); }
-		public ITerminalNode Complex() { return GetToken(KernelParser.Complex, 0); }
-		public NumberContext(ParserRuleContext parent, int invokingState)
+	public partial class ImagDecContext : ParserRuleContext {
+		public UrealDecContext urealDec() {
+			return GetRuleContext<UrealDecContext>(0);
+		}
+		public ImagDecContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_number; } }
+		public override int RuleIndex { get { return RULE_imagDec; } }
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitNumber(this);
+			if (typedVisitor != null) return typedVisitor.VisitImagDec(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public NumberContext number() {
-		NumberContext _localctx = new NumberContext(Context, State);
-		EnterRule(_localctx, 14, RULE_number);
+	public ImagDecContext imagDec() {
+		ImagDecContext _localctx = new ImagDecContext(Context, State);
+		EnterRule(_localctx, 38, RULE_imagDec);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 59;
+			State = 194;
+			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Integer) | (1L << Rational) | (1L << Real) | (1L << Complex))) != 0)) ) {
+			if (_la==UintegerDec || _la==Decimal) {
+				{
+				State = 193; urealDec();
+				}
+			}
+
+			State = 196;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__6 || _la==T__7) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ImagHexContext : ParserRuleContext {
+		public UrealHexContext urealHex() {
+			return GetRuleContext<UrealHexContext>(0);
+		}
+		public ImagHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_imagHex; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitImagHex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ImagHexContext imagHex() {
+		ImagHexContext _localctx = new ImagHexContext(Context, State);
+		EnterRule(_localctx, 40, RULE_imagHex);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 199;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==UintegerHex) {
+				{
+				State = 198; urealHex();
+				}
+			}
+
+			State = 201;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__6 || _la==T__7) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealBinContext : ParserRuleContext {
+		public UrealBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealBin; } }
+	 
+		public UrealBinContext() { }
+		public virtual void CopyFrom(UrealBinContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class BinaryRationalContext : UrealBinContext {
+		public ITerminalNode[] UintegerBin() { return GetTokens(KernelParser.UintegerBin); }
+		public ITerminalNode UintegerBin(int i) {
+			return GetToken(KernelParser.UintegerBin, i);
+		}
+		public BinaryRationalContext(UrealBinContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryIntegerContext : UrealBinContext {
+		public ITerminalNode UintegerBin() { return GetToken(KernelParser.UintegerBin, 0); }
+		public BinaryIntegerContext(UrealBinContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealBinContext urealBin() {
+		UrealBinContext _localctx = new UrealBinContext(Context, State);
+		EnterRule(_localctx, 42, RULE_urealBin);
+		try {
+			State = 207;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,23,Context) ) {
+			case 1:
+				_localctx = new BinaryRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 203; Match(UintegerBin);
+				State = 204; Match(T__8);
+				State = 205; Match(UintegerBin);
+				}
+				break;
+			case 2:
+				_localctx = new BinaryIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 206; Match(UintegerBin);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealOctContext : ParserRuleContext {
+		public UrealOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealOct; } }
+	 
+		public UrealOctContext() { }
+		public virtual void CopyFrom(UrealOctContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class OctalIntegerContext : UrealOctContext {
+		public ITerminalNode UintegerOct() { return GetToken(KernelParser.UintegerOct, 0); }
+		public OctalIntegerContext(UrealOctContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class OctalRationalContext : UrealOctContext {
+		public ITerminalNode[] UintegerOct() { return GetTokens(KernelParser.UintegerOct); }
+		public ITerminalNode UintegerOct(int i) {
+			return GetToken(KernelParser.UintegerOct, i);
+		}
+		public OctalRationalContext(UrealOctContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealOctContext urealOct() {
+		UrealOctContext _localctx = new UrealOctContext(Context, State);
+		EnterRule(_localctx, 44, RULE_urealOct);
+		try {
+			State = 213;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,24,Context) ) {
+			case 1:
+				_localctx = new OctalRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 209; Match(UintegerOct);
+				State = 210; Match(T__8);
+				State = 211; Match(UintegerOct);
+				}
+				break;
+			case 2:
+				_localctx = new OctalIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 212; Match(UintegerOct);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealDecContext : ParserRuleContext {
+		public UrealDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealDec; } }
+	 
+		public UrealDecContext() { }
+		public virtual void CopyFrom(UrealDecContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class DecimalRationalContext : UrealDecContext {
+		public ITerminalNode[] UintegerDec() { return GetTokens(KernelParser.UintegerDec); }
+		public ITerminalNode UintegerDec(int i) {
+			return GetToken(KernelParser.UintegerDec, i);
+		}
+		public DecimalRationalContext(UrealDecContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalIntegerContext : UrealDecContext {
+		public ITerminalNode UintegerDec() { return GetToken(KernelParser.UintegerDec, 0); }
+		public DecimalIntegerContext(UrealDecContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalRealContext : UrealDecContext {
+		public ITerminalNode Decimal() { return GetToken(KernelParser.Decimal, 0); }
+		public DecimalRealContext(UrealDecContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalReal(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealDecContext urealDec() {
+		UrealDecContext _localctx = new UrealDecContext(Context, State);
+		EnterRule(_localctx, 46, RULE_urealDec);
+		try {
+			State = 220;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,25,Context) ) {
+			case 1:
+				_localctx = new DecimalRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 215; Match(UintegerDec);
+				State = 216; Match(T__8);
+				State = 217; Match(UintegerDec);
+				}
+				break;
+			case 2:
+				_localctx = new DecimalIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 218; Match(UintegerDec);
+				}
+				break;
+			case 3:
+				_localctx = new DecimalRealContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 219; Match(Decimal);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealHexContext : ParserRuleContext {
+		public UrealHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealHex; } }
+	 
+		public UrealHexContext() { }
+		public virtual void CopyFrom(UrealHexContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class HexadecimalRationalContext : UrealHexContext {
+		public ITerminalNode[] UintegerHex() { return GetTokens(KernelParser.UintegerHex); }
+		public ITerminalNode UintegerHex(int i) {
+			return GetToken(KernelParser.UintegerHex, i);
+		}
+		public HexadecimalRationalContext(UrealHexContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class HexadecimalIntegerContext : UrealHexContext {
+		public ITerminalNode UintegerHex() { return GetToken(KernelParser.UintegerHex, 0); }
+		public HexadecimalIntegerContext(UrealHexContext context) { CopyFrom(context); }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealHexContext urealHex() {
+		UrealHexContext _localctx = new UrealHexContext(Context, State);
+		EnterRule(_localctx, 48, RULE_urealHex);
+		try {
+			State = 226;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,26,Context) ) {
+			case 1:
+				_localctx = new HexadecimalRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 222; Match(UintegerHex);
+				State = 223; Match(T__8);
+				State = 224; Match(UintegerHex);
+				}
+				break;
+			case 2:
+				_localctx = new HexadecimalIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 225; Match(UintegerHex);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class SymbolContext : ParserRuleContext {
+		public ITerminalNode SYMBOL() { return GetToken(KernelParser.SYMBOL, 0); }
+		public SymbolContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_symbol; } }
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSymbol(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public SymbolContext symbol() {
+		SymbolContext _localctx = new SymbolContext(Context, State);
+		EnterRule(_localctx, 50, RULE_symbol);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 228;
+			_la = TokenStream.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__8) | (1L << SYMBOL))) != 0)) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -548,57 +1961,201 @@ public partial class KernelParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\x14', '@', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\x5964', '\x3', '\x1A', '\xE9', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
 		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4', 
 		'\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x4', '\b', '\t', '\b', 
-		'\x4', '\t', '\t', '\t', '\x3', '\x2', '\x6', '\x2', '\x14', '\n', '\x2', 
-		'\r', '\x2', '\xE', '\x2', '\x15', '\x3', '\x3', '\x3', '\x3', '\x5', 
-		'\x3', '\x1A', '\n', '\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x4', 
-		'\x3', '\x4', '\x5', '\x4', ' ', '\n', '\x4', '\x3', '\x5', '\x3', '\x5', 
-		'\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\a', '\x6', '\'', '\n', '\x6', 
-		'\f', '\x6', '\xE', '\x6', '*', '\v', '\x6', '\x3', '\x6', '\x3', '\x6', 
-		'\x5', '\x6', '.', '\n', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\a', 
-		'\x3', '\a', '\x3', '\b', '\x3', '\b', '\x3', '\b', '\a', '\b', '\x37', 
-		'\n', '\b', '\f', '\b', '\xE', '\b', ':', '\v', '\b', '\x3', '\b', '\x3', 
-		'\b', '\x3', '\t', '\x3', '\t', '\x3', '\t', '\x2', '\x2', '\n', '\x2', 
-		'\x4', '\x6', '\b', '\n', '\f', '\xE', '\x10', '\x2', '\x5', '\x3', '\x2', 
-		'\x6', '\n', '\x3', '\x2', '\v', '\f', '\x3', '\x2', '\xE', '\x11', '\x2', 
-		'@', '\x2', '\x13', '\x3', '\x2', '\x2', '\x2', '\x4', '\x19', '\x3', 
-		'\x2', '\x2', '\x2', '\x6', '\x1F', '\x3', '\x2', '\x2', '\x2', '\b', 
-		'!', '\x3', '\x2', '\x2', '\x2', '\n', '#', '\x3', '\x2', '\x2', '\x2', 
-		'\f', '\x31', '\x3', '\x2', '\x2', '\x2', '\xE', '\x33', '\x3', '\x2', 
-		'\x2', '\x2', '\x10', '=', '\x3', '\x2', '\x2', '\x2', '\x12', '\x14', 
-		'\x5', '\x4', '\x3', '\x2', '\x13', '\x12', '\x3', '\x2', '\x2', '\x2', 
-		'\x14', '\x15', '\x3', '\x2', '\x2', '\x2', '\x15', '\x13', '\x3', '\x2', 
-		'\x2', '\x2', '\x15', '\x16', '\x3', '\x2', '\x2', '\x2', '\x16', '\x3', 
-		'\x3', '\x2', '\x2', '\x2', '\x17', '\x1A', '\x5', '\x6', '\x4', '\x2', 
-		'\x18', '\x1A', '\x5', '\n', '\x6', '\x2', '\x19', '\x17', '\x3', '\x2', 
-		'\x2', '\x2', '\x19', '\x18', '\x3', '\x2', '\x2', '\x2', '\x1A', '\x5', 
-		'\x3', '\x2', '\x2', '\x2', '\x1B', ' ', '\x5', '\f', '\a', '\x2', '\x1C', 
-		' ', '\x5', '\xE', '\b', '\x2', '\x1D', ' ', '\x5', '\x10', '\t', '\x2', 
-		'\x1E', ' ', '\x5', '\b', '\x5', '\x2', '\x1F', '\x1B', '\x3', '\x2', 
-		'\x2', '\x2', '\x1F', '\x1C', '\x3', '\x2', '\x2', '\x2', '\x1F', '\x1D', 
-		'\x3', '\x2', '\x2', '\x2', '\x1F', '\x1E', '\x3', '\x2', '\x2', '\x2', 
-		' ', '\a', '\x3', '\x2', '\x2', '\x2', '!', '\"', '\a', '\x12', '\x2', 
-		'\x2', '\"', '\t', '\x3', '\x2', '\x2', '\x2', '#', '$', '\a', '\x3', 
-		'\x2', '\x2', '$', '(', '\x5', '\x4', '\x3', '\x2', '%', '\'', '\x5', 
-		'\x4', '\x3', '\x2', '&', '%', '\x3', '\x2', '\x2', '\x2', '\'', '*', 
-		'\x3', '\x2', '\x2', '\x2', '(', '&', '\x3', '\x2', '\x2', '\x2', '(', 
-		')', '\x3', '\x2', '\x2', '\x2', ')', '-', '\x3', '\x2', '\x2', '\x2', 
-		'*', '(', '\x3', '\x2', '\x2', '\x2', '+', ',', '\a', '\x4', '\x2', '\x2', 
-		',', '.', '\x5', '\x4', '\x3', '\x2', '-', '+', '\x3', '\x2', '\x2', '\x2', 
-		'-', '.', '\x3', '\x2', '\x2', '\x2', '.', '/', '\x3', '\x2', '\x2', '\x2', 
-		'/', '\x30', '\a', '\x5', '\x2', '\x2', '\x30', '\v', '\x3', '\x2', '\x2', 
-		'\x2', '\x31', '\x32', '\t', '\x2', '\x2', '\x2', '\x32', '\r', '\x3', 
-		'\x2', '\x2', '\x2', '\x33', '\x38', '\a', '\v', '\x2', '\x2', '\x34', 
-		'\x37', '\a', '\r', '\x2', '\x2', '\x35', '\x37', '\n', '\x3', '\x2', 
-		'\x2', '\x36', '\x34', '\x3', '\x2', '\x2', '\x2', '\x36', '\x35', '\x3', 
-		'\x2', '\x2', '\x2', '\x37', ':', '\x3', '\x2', '\x2', '\x2', '\x38', 
-		'\x36', '\x3', '\x2', '\x2', '\x2', '\x38', '\x39', '\x3', '\x2', '\x2', 
-		'\x2', '\x39', ';', '\x3', '\x2', '\x2', '\x2', ':', '\x38', '\x3', '\x2', 
-		'\x2', '\x2', ';', '<', '\a', '\v', '\x2', '\x2', '<', '\xF', '\x3', '\x2', 
-		'\x2', '\x2', '=', '>', '\t', '\x4', '\x2', '\x2', '>', '\x11', '\x3', 
-		'\x2', '\x2', '\x2', '\t', '\x15', '\x19', '\x1F', '(', '-', '\x36', '\x38',
+		'\x4', '\t', '\t', '\t', '\x4', '\n', '\t', '\n', '\x4', '\v', '\t', '\v', 
+		'\x4', '\f', '\t', '\f', '\x4', '\r', '\t', '\r', '\x4', '\xE', '\t', 
+		'\xE', '\x4', '\xF', '\t', '\xF', '\x4', '\x10', '\t', '\x10', '\x4', 
+		'\x11', '\t', '\x11', '\x4', '\x12', '\t', '\x12', '\x4', '\x13', '\t', 
+		'\x13', '\x4', '\x14', '\t', '\x14', '\x4', '\x15', '\t', '\x15', '\x4', 
+		'\x16', '\t', '\x16', '\x4', '\x17', '\t', '\x17', '\x4', '\x18', '\t', 
+		'\x18', '\x4', '\x19', '\t', '\x19', '\x4', '\x1A', '\t', '\x1A', '\x4', 
+		'\x1B', '\t', '\x1B', '\x3', '\x2', '\x6', '\x2', '\x38', '\n', '\x2', 
+		'\r', '\x2', '\xE', '\x2', '\x39', '\x3', '\x3', '\x3', '\x3', '\x5', 
+		'\x3', '>', '\n', '\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x4', '\x3', 
+		'\x4', '\x5', '\x4', '\x44', '\n', '\x4', '\x3', '\x5', '\x3', '\x5', 
+		'\x6', '\x5', 'H', '\n', '\x5', '\r', '\x5', '\xE', '\x5', 'I', '\x3', 
+		'\x5', '\x3', '\x5', '\x5', '\x5', 'N', '\n', '\x5', '\x3', '\x5', '\x3', 
+		'\x5', '\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\x5', 
+		'\x6', 'V', '\n', '\x6', '\x3', '\a', '\x3', '\a', '\x3', '\a', '\x3', 
+		'\b', '\x3', '\b', '\x3', '\b', '\x3', '\t', '\x5', '\t', '_', '\n', '\t', 
+		'\x3', '\t', '\x3', '\t', '\x3', '\n', '\x3', '\n', '\x3', '\n', '\x3', 
+		'\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', 
+		'\x3', '\v', '\x3', '\v', '\x3', '\v', '\x5', '\v', 'o', '\n', '\v', '\x3', 
+		'\v', '\x3', '\v', '\x3', '\v', '\x5', '\v', 't', '\n', '\v', '\x3', '\f', 
+		'\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', 
+		'\f', '\x3', '\f', '\x3', '\f', '\x5', '\f', '\x7F', '\n', '\f', '\x3', 
+		'\f', '\x3', '\f', '\x3', '\f', '\x5', '\f', '\x84', '\n', '\f', '\x3', 
+		'\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', 
+		'\x3', '\r', '\x3', '\r', '\x3', '\r', '\x5', '\r', '\x8F', '\n', '\r', 
+		'\x3', '\r', '\x3', '\r', '\x3', '\r', '\x5', '\r', '\x94', '\n', '\r', 
+		'\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', 
+		'\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x5', '\xE', 
+		'\x9F', '\n', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x5', 
+		'\xE', '\xA4', '\n', '\xE', '\x3', '\xF', '\x5', '\xF', '\xA7', '\n', 
+		'\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\x10', '\x5', '\x10', '\xAC', 
+		'\n', '\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x11', '\x5', '\x11', 
+		'\xB1', '\n', '\x11', '\x3', '\x11', '\x3', '\x11', '\x3', '\x12', '\x5', 
+		'\x12', '\xB6', '\n', '\x12', '\x3', '\x12', '\x3', '\x12', '\x3', '\x13', 
+		'\x5', '\x13', '\xBB', '\n', '\x13', '\x3', '\x13', '\x3', '\x13', '\x3', 
+		'\x14', '\x5', '\x14', '\xC0', '\n', '\x14', '\x3', '\x14', '\x3', '\x14', 
+		'\x3', '\x15', '\x5', '\x15', '\xC5', '\n', '\x15', '\x3', '\x15', '\x3', 
+		'\x15', '\x3', '\x16', '\x5', '\x16', '\xCA', '\n', '\x16', '\x3', '\x16', 
+		'\x3', '\x16', '\x3', '\x17', '\x3', '\x17', '\x3', '\x17', '\x3', '\x17', 
+		'\x5', '\x17', '\xD2', '\n', '\x17', '\x3', '\x18', '\x3', '\x18', '\x3', 
+		'\x18', '\x3', '\x18', '\x5', '\x18', '\xD8', '\n', '\x18', '\x3', '\x19', 
+		'\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x5', '\x19', 
+		'\xDF', '\n', '\x19', '\x3', '\x1A', '\x3', '\x1A', '\x3', '\x1A', '\x3', 
+		'\x1A', '\x5', '\x1A', '\xE5', '\n', '\x1A', '\x3', '\x1B', '\x3', '\x1B', 
+		'\x3', '\x1B', '\x2', '\x2', '\x1C', '\x2', '\x4', '\x6', '\b', '\n', 
+		'\f', '\xE', '\x10', '\x12', '\x14', '\x16', '\x18', '\x1A', '\x1C', '\x1E', 
+		' ', '\"', '$', '&', '(', '*', ',', '.', '\x30', '\x32', '\x34', '\x2', 
+		'\x5', '\x3', '\x2', '\a', '\b', '\x3', '\x2', '\t', '\n', '\x5', '\x2', 
+		'\a', '\b', '\v', '\v', '\x19', '\x19', '\x2', '\xF6', '\x2', '\x37', 
+		'\x3', '\x2', '\x2', '\x2', '\x4', '=', '\x3', '\x2', '\x2', '\x2', '\x6', 
+		'\x43', '\x3', '\x2', '\x2', '\x2', '\b', '\x45', '\x3', '\x2', '\x2', 
+		'\x2', '\n', 'U', '\x3', '\x2', '\x2', '\x2', '\f', 'W', '\x3', '\x2', 
+		'\x2', '\x2', '\xE', 'Z', '\x3', '\x2', '\x2', '\x2', '\x10', '^', '\x3', 
+		'\x2', '\x2', '\x2', '\x12', '\x62', '\x3', '\x2', '\x2', '\x2', '\x14', 
+		's', '\x3', '\x2', '\x2', '\x2', '\x16', '\x83', '\x3', '\x2', '\x2', 
+		'\x2', '\x18', '\x93', '\x3', '\x2', '\x2', '\x2', '\x1A', '\xA3', '\x3', 
+		'\x2', '\x2', '\x2', '\x1C', '\xA6', '\x3', '\x2', '\x2', '\x2', '\x1E', 
+		'\xAB', '\x3', '\x2', '\x2', '\x2', ' ', '\xB0', '\x3', '\x2', '\x2', 
+		'\x2', '\"', '\xB5', '\x3', '\x2', '\x2', '\x2', '$', '\xBA', '\x3', '\x2', 
+		'\x2', '\x2', '&', '\xBF', '\x3', '\x2', '\x2', '\x2', '(', '\xC4', '\x3', 
+		'\x2', '\x2', '\x2', '*', '\xC9', '\x3', '\x2', '\x2', '\x2', ',', '\xD1', 
+		'\x3', '\x2', '\x2', '\x2', '.', '\xD7', '\x3', '\x2', '\x2', '\x2', '\x30', 
+		'\xDE', '\x3', '\x2', '\x2', '\x2', '\x32', '\xE4', '\x3', '\x2', '\x2', 
+		'\x2', '\x34', '\xE6', '\x3', '\x2', '\x2', '\x2', '\x36', '\x38', '\x5', 
+		'\x4', '\x3', '\x2', '\x37', '\x36', '\x3', '\x2', '\x2', '\x2', '\x38', 
+		'\x39', '\x3', '\x2', '\x2', '\x2', '\x39', '\x37', '\x3', '\x2', '\x2', 
+		'\x2', '\x39', ':', '\x3', '\x2', '\x2', '\x2', ':', '\x3', '\x3', '\x2', 
+		'\x2', '\x2', ';', '>', '\x5', '\x6', '\x4', '\x2', '<', '>', '\x5', '\b', 
+		'\x5', '\x2', '=', ';', '\x3', '\x2', '\x2', '\x2', '=', '<', '\x3', '\x2', 
+		'\x2', '\x2', '>', '\x5', '\x3', '\x2', '\x2', '\x2', '?', '\x44', '\a', 
+		'\f', '\x2', '\x2', '@', '\x44', '\a', '\r', '\x2', '\x2', '\x41', '\x44', 
+		'\x5', '\x34', '\x1B', '\x2', '\x42', '\x44', '\x5', '\n', '\x6', '\x2', 
+		'\x43', '?', '\x3', '\x2', '\x2', '\x2', '\x43', '@', '\x3', '\x2', '\x2', 
+		'\x2', '\x43', '\x41', '\x3', '\x2', '\x2', '\x2', '\x43', '\x42', '\x3', 
+		'\x2', '\x2', '\x2', '\x44', '\a', '\x3', '\x2', '\x2', '\x2', '\x45', 
+		'G', '\a', '\x3', '\x2', '\x2', '\x46', 'H', '\x5', '\x4', '\x3', '\x2', 
+		'G', '\x46', '\x3', '\x2', '\x2', '\x2', 'H', 'I', '\x3', '\x2', '\x2', 
+		'\x2', 'I', 'G', '\x3', '\x2', '\x2', '\x2', 'I', 'J', '\x3', '\x2', '\x2', 
+		'\x2', 'J', 'M', '\x3', '\x2', '\x2', '\x2', 'K', 'L', '\a', '\x4', '\x2', 
+		'\x2', 'L', 'N', '\x5', '\x4', '\x3', '\x2', 'M', 'K', '\x3', '\x2', '\x2', 
+		'\x2', 'M', 'N', '\x3', '\x2', '\x2', '\x2', 'N', 'O', '\x3', '\x2', '\x2', 
+		'\x2', 'O', 'P', '\a', '\x5', '\x2', '\x2', 'P', '\t', '\x3', '\x2', '\x2', 
+		'\x2', 'Q', 'V', '\x5', '\f', '\a', '\x2', 'R', 'V', '\x5', '\xE', '\b', 
+		'\x2', 'S', 'V', '\x5', '\x10', '\t', '\x2', 'T', 'V', '\x5', '\x12', 
+		'\n', '\x2', 'U', 'Q', '\x3', '\x2', '\x2', '\x2', 'U', 'R', '\x3', '\x2', 
+		'\x2', '\x2', 'U', 'S', '\x3', '\x2', '\x2', '\x2', 'U', 'T', '\x3', '\x2', 
+		'\x2', '\x2', 'V', '\v', '\x3', '\x2', '\x2', '\x2', 'W', 'X', '\a', '\x12', 
+		'\x2', '\x2', 'X', 'Y', '\x5', '\x14', '\v', '\x2', 'Y', '\r', '\x3', 
+		'\x2', '\x2', '\x2', 'Z', '[', '\a', '\x13', '\x2', '\x2', '[', '\\', 
+		'\x5', '\x16', '\f', '\x2', '\\', '\xF', '\x3', '\x2', '\x2', '\x2', ']', 
+		'_', '\a', '\x14', '\x2', '\x2', '^', ']', '\x3', '\x2', '\x2', '\x2', 
+		'^', '_', '\x3', '\x2', '\x2', '\x2', '_', '`', '\x3', '\x2', '\x2', '\x2', 
+		'`', '\x61', '\x5', '\x18', '\r', '\x2', '\x61', '\x11', '\x3', '\x2', 
+		'\x2', '\x2', '\x62', '\x63', '\a', '\x15', '\x2', '\x2', '\x63', '\x64', 
+		'\x5', '\x1A', '\xE', '\x2', '\x64', '\x13', '\x3', '\x2', '\x2', '\x2', 
+		'\x65', '\x66', '\x5', '\x1C', '\xF', '\x2', '\x66', 'g', '\a', '\x6', 
+		'\x2', '\x2', 'g', 'h', '\x5', '\x1C', '\xF', '\x2', 'h', 't', '\x3', 
+		'\x2', '\x2', '\x2', 'i', 'j', '\x5', '\x1C', '\xF', '\x2', 'j', 'k', 
+		'\t', '\x2', '\x2', '\x2', 'k', 'l', '\x5', '$', '\x13', '\x2', 'l', 't', 
+		'\x3', '\x2', '\x2', '\x2', 'm', 'o', '\t', '\x2', '\x2', '\x2', 'n', 
+		'm', '\x3', '\x2', '\x2', '\x2', 'n', 'o', '\x3', '\x2', '\x2', '\x2', 
+		'o', 'p', '\x3', '\x2', '\x2', '\x2', 'p', 't', '\x5', ',', '\x17', '\x2', 
+		'q', 'r', '\t', '\x2', '\x2', '\x2', 'r', 't', '\x5', '$', '\x13', '\x2', 
+		's', '\x65', '\x3', '\x2', '\x2', '\x2', 's', 'i', '\x3', '\x2', '\x2', 
+		'\x2', 's', 'n', '\x3', '\x2', '\x2', '\x2', 's', 'q', '\x3', '\x2', '\x2', 
+		'\x2', 't', '\x15', '\x3', '\x2', '\x2', '\x2', 'u', 'v', '\x5', '\x1E', 
+		'\x10', '\x2', 'v', 'w', '\a', '\x6', '\x2', '\x2', 'w', 'x', '\x5', '\x1E', 
+		'\x10', '\x2', 'x', '\x84', '\x3', '\x2', '\x2', '\x2', 'y', 'z', '\x5', 
+		'\x1E', '\x10', '\x2', 'z', '{', '\t', '\x2', '\x2', '\x2', '{', '|', 
+		'\x5', '&', '\x14', '\x2', '|', '\x84', '\x3', '\x2', '\x2', '\x2', '}', 
+		'\x7F', '\t', '\x2', '\x2', '\x2', '~', '}', '\x3', '\x2', '\x2', '\x2', 
+		'~', '\x7F', '\x3', '\x2', '\x2', '\x2', '\x7F', '\x80', '\x3', '\x2', 
+		'\x2', '\x2', '\x80', '\x84', '\x5', '.', '\x18', '\x2', '\x81', '\x82', 
+		'\t', '\x2', '\x2', '\x2', '\x82', '\x84', '\x5', '&', '\x14', '\x2', 
+		'\x83', 'u', '\x3', '\x2', '\x2', '\x2', '\x83', 'y', '\x3', '\x2', '\x2', 
+		'\x2', '\x83', '~', '\x3', '\x2', '\x2', '\x2', '\x83', '\x81', '\x3', 
+		'\x2', '\x2', '\x2', '\x84', '\x17', '\x3', '\x2', '\x2', '\x2', '\x85', 
+		'\x86', '\x5', ' ', '\x11', '\x2', '\x86', '\x87', '\a', '\x6', '\x2', 
+		'\x2', '\x87', '\x88', '\x5', ' ', '\x11', '\x2', '\x88', '\x94', '\x3', 
+		'\x2', '\x2', '\x2', '\x89', '\x8A', '\x5', ' ', '\x11', '\x2', '\x8A', 
+		'\x8B', '\t', '\x2', '\x2', '\x2', '\x8B', '\x8C', '\x5', '(', '\x15', 
+		'\x2', '\x8C', '\x94', '\x3', '\x2', '\x2', '\x2', '\x8D', '\x8F', '\t', 
+		'\x2', '\x2', '\x2', '\x8E', '\x8D', '\x3', '\x2', '\x2', '\x2', '\x8E', 
+		'\x8F', '\x3', '\x2', '\x2', '\x2', '\x8F', '\x90', '\x3', '\x2', '\x2', 
+		'\x2', '\x90', '\x94', '\x5', '\x30', '\x19', '\x2', '\x91', '\x92', '\t', 
+		'\x2', '\x2', '\x2', '\x92', '\x94', '\x5', '(', '\x15', '\x2', '\x93', 
+		'\x85', '\x3', '\x2', '\x2', '\x2', '\x93', '\x89', '\x3', '\x2', '\x2', 
+		'\x2', '\x93', '\x8E', '\x3', '\x2', '\x2', '\x2', '\x93', '\x91', '\x3', 
+		'\x2', '\x2', '\x2', '\x94', '\x19', '\x3', '\x2', '\x2', '\x2', '\x95', 
+		'\x96', '\x5', '\"', '\x12', '\x2', '\x96', '\x97', '\a', '\x6', '\x2', 
+		'\x2', '\x97', '\x98', '\x5', '\"', '\x12', '\x2', '\x98', '\xA4', '\x3', 
+		'\x2', '\x2', '\x2', '\x99', '\x9A', '\x5', '\"', '\x12', '\x2', '\x9A', 
+		'\x9B', '\t', '\x2', '\x2', '\x2', '\x9B', '\x9C', '\x5', '*', '\x16', 
+		'\x2', '\x9C', '\xA4', '\x3', '\x2', '\x2', '\x2', '\x9D', '\x9F', '\t', 
+		'\x2', '\x2', '\x2', '\x9E', '\x9D', '\x3', '\x2', '\x2', '\x2', '\x9E', 
+		'\x9F', '\x3', '\x2', '\x2', '\x2', '\x9F', '\xA0', '\x3', '\x2', '\x2', 
+		'\x2', '\xA0', '\xA4', '\x5', '\x32', '\x1A', '\x2', '\xA1', '\xA2', '\t', 
+		'\x2', '\x2', '\x2', '\xA2', '\xA4', '\x5', '*', '\x16', '\x2', '\xA3', 
+		'\x95', '\x3', '\x2', '\x2', '\x2', '\xA3', '\x99', '\x3', '\x2', '\x2', 
+		'\x2', '\xA3', '\x9E', '\x3', '\x2', '\x2', '\x2', '\xA3', '\xA1', '\x3', 
+		'\x2', '\x2', '\x2', '\xA4', '\x1B', '\x3', '\x2', '\x2', '\x2', '\xA5', 
+		'\xA7', '\a', '\x17', '\x2', '\x2', '\xA6', '\xA5', '\x3', '\x2', '\x2', 
+		'\x2', '\xA6', '\xA7', '\x3', '\x2', '\x2', '\x2', '\xA7', '\xA8', '\x3', 
+		'\x2', '\x2', '\x2', '\xA8', '\xA9', '\x5', ',', '\x17', '\x2', '\xA9', 
+		'\x1D', '\x3', '\x2', '\x2', '\x2', '\xAA', '\xAC', '\a', '\x17', '\x2', 
+		'\x2', '\xAB', '\xAA', '\x3', '\x2', '\x2', '\x2', '\xAB', '\xAC', '\x3', 
+		'\x2', '\x2', '\x2', '\xAC', '\xAD', '\x3', '\x2', '\x2', '\x2', '\xAD', 
+		'\xAE', '\x5', '.', '\x18', '\x2', '\xAE', '\x1F', '\x3', '\x2', '\x2', 
+		'\x2', '\xAF', '\xB1', '\a', '\x17', '\x2', '\x2', '\xB0', '\xAF', '\x3', 
+		'\x2', '\x2', '\x2', '\xB0', '\xB1', '\x3', '\x2', '\x2', '\x2', '\xB1', 
+		'\xB2', '\x3', '\x2', '\x2', '\x2', '\xB2', '\xB3', '\x5', '\x30', '\x19', 
+		'\x2', '\xB3', '!', '\x3', '\x2', '\x2', '\x2', '\xB4', '\xB6', '\a', 
+		'\x17', '\x2', '\x2', '\xB5', '\xB4', '\x3', '\x2', '\x2', '\x2', '\xB5', 
+		'\xB6', '\x3', '\x2', '\x2', '\x2', '\xB6', '\xB7', '\x3', '\x2', '\x2', 
+		'\x2', '\xB7', '\xB8', '\x5', '\x32', '\x1A', '\x2', '\xB8', '#', '\x3', 
+		'\x2', '\x2', '\x2', '\xB9', '\xBB', '\x5', ',', '\x17', '\x2', '\xBA', 
+		'\xB9', '\x3', '\x2', '\x2', '\x2', '\xBA', '\xBB', '\x3', '\x2', '\x2', 
+		'\x2', '\xBB', '\xBC', '\x3', '\x2', '\x2', '\x2', '\xBC', '\xBD', '\t', 
+		'\x3', '\x2', '\x2', '\xBD', '%', '\x3', '\x2', '\x2', '\x2', '\xBE', 
+		'\xC0', '\x5', '.', '\x18', '\x2', '\xBF', '\xBE', '\x3', '\x2', '\x2', 
+		'\x2', '\xBF', '\xC0', '\x3', '\x2', '\x2', '\x2', '\xC0', '\xC1', '\x3', 
+		'\x2', '\x2', '\x2', '\xC1', '\xC2', '\t', '\x3', '\x2', '\x2', '\xC2', 
+		'\'', '\x3', '\x2', '\x2', '\x2', '\xC3', '\xC5', '\x5', '\x30', '\x19', 
+		'\x2', '\xC4', '\xC3', '\x3', '\x2', '\x2', '\x2', '\xC4', '\xC5', '\x3', 
+		'\x2', '\x2', '\x2', '\xC5', '\xC6', '\x3', '\x2', '\x2', '\x2', '\xC6', 
+		'\xC7', '\t', '\x3', '\x2', '\x2', '\xC7', ')', '\x3', '\x2', '\x2', '\x2', 
+		'\xC8', '\xCA', '\x5', '\x32', '\x1A', '\x2', '\xC9', '\xC8', '\x3', '\x2', 
+		'\x2', '\x2', '\xC9', '\xCA', '\x3', '\x2', '\x2', '\x2', '\xCA', '\xCB', 
+		'\x3', '\x2', '\x2', '\x2', '\xCB', '\xCC', '\t', '\x3', '\x2', '\x2', 
+		'\xCC', '+', '\x3', '\x2', '\x2', '\x2', '\xCD', '\xCE', '\a', '\xE', 
+		'\x2', '\x2', '\xCE', '\xCF', '\a', '\v', '\x2', '\x2', '\xCF', '\xD2', 
+		'\a', '\xE', '\x2', '\x2', '\xD0', '\xD2', '\a', '\xE', '\x2', '\x2', 
+		'\xD1', '\xCD', '\x3', '\x2', '\x2', '\x2', '\xD1', '\xD0', '\x3', '\x2', 
+		'\x2', '\x2', '\xD2', '-', '\x3', '\x2', '\x2', '\x2', '\xD3', '\xD4', 
+		'\a', '\xF', '\x2', '\x2', '\xD4', '\xD5', '\a', '\v', '\x2', '\x2', '\xD5', 
+		'\xD8', '\a', '\xF', '\x2', '\x2', '\xD6', '\xD8', '\a', '\xF', '\x2', 
+		'\x2', '\xD7', '\xD3', '\x3', '\x2', '\x2', '\x2', '\xD7', '\xD6', '\x3', 
+		'\x2', '\x2', '\x2', '\xD8', '/', '\x3', '\x2', '\x2', '\x2', '\xD9', 
+		'\xDA', '\a', '\x10', '\x2', '\x2', '\xDA', '\xDB', '\a', '\v', '\x2', 
+		'\x2', '\xDB', '\xDF', '\a', '\x10', '\x2', '\x2', '\xDC', '\xDF', '\a', 
+		'\x10', '\x2', '\x2', '\xDD', '\xDF', '\a', '\x16', '\x2', '\x2', '\xDE', 
+		'\xD9', '\x3', '\x2', '\x2', '\x2', '\xDE', '\xDC', '\x3', '\x2', '\x2', 
+		'\x2', '\xDE', '\xDD', '\x3', '\x2', '\x2', '\x2', '\xDF', '\x31', '\x3', 
+		'\x2', '\x2', '\x2', '\xE0', '\xE1', '\a', '\x11', '\x2', '\x2', '\xE1', 
+		'\xE2', '\a', '\v', '\x2', '\x2', '\xE2', '\xE5', '\a', '\x11', '\x2', 
+		'\x2', '\xE3', '\xE5', '\a', '\x11', '\x2', '\x2', '\xE4', '\xE0', '\x3', 
+		'\x2', '\x2', '\x2', '\xE4', '\xE3', '\x3', '\x2', '\x2', '\x2', '\xE5', 
+		'\x33', '\x3', '\x2', '\x2', '\x2', '\xE6', '\xE7', '\t', '\x4', '\x2', 
+		'\x2', '\xE7', '\x35', '\x3', '\x2', '\x2', '\x2', '\x1D', '\x39', '=', 
+		'\x43', 'I', 'M', 'U', '^', 'n', 's', '~', '\x83', '\x8E', '\x93', '\x9E', 
+		'\xA3', '\xA6', '\xAB', '\xB0', '\xB5', '\xBA', '\xBF', '\xC4', '\xC9', 
+		'\xD1', '\xD7', '\xDE', '\xE4',
 	};
 
 	public static readonly ATN _ATN =

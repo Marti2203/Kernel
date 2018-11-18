@@ -70,9 +70,7 @@ namespace Kernel
                     foreach (Environment environment in current.ProperParents)
                         environments.Push(environment);
             }
-            if (Has(symbol))
-                return Get(symbol);
-            return null;
+            return Has(symbol) ? Get(symbol) : null;
         }
 
         public IEnumerable<Environment> ImproperParents

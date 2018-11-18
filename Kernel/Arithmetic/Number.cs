@@ -27,10 +27,7 @@ namespace Kernel.Arithmetic
         public override bool Equals(Object other) => ReferenceEquals(this, other);
 
         public int CompareTo(Number other)
-        {
-            if (Priority >= other.Priority) return Compare(other);
-            return other.Compare(this);
-        }
+        => Priority >= other.Priority ? Compare(other) : other.Compare(this);
 
         public static Number operator -(Number l) => l is null ? throw new NullReferenceException() : l.Negate();
 
@@ -38,62 +35,56 @@ namespace Kernel.Arithmetic
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.Add(r);
-            return r.Add(l);
+            return l.Priority >= r.Priority ? l.Add(r) : r.Add(l);
         }
 
         public static Number operator -(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.Subtract(r);
-            return r.SubtractFrom(l);
+            return l.Priority >= r.Priority ? l.Subtract(r) : r.SubtractFrom(l);
         }
 
         public static Number operator *(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.Multiply(r);
-            return r.Multiply(l);
+            return l.Priority >= r.Priority ? l.Multiply(r) : r.Multiply(l);
         }
 
         public static Number operator /(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.DivideBy(r);
-            return r.Divide(l);
+            return l.Priority >= r.Priority ? l.DivideBy(r) : r.Divide(l);
         }
 
         public static Boolean operator <(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.LessThan(r);
-            return r.BiggerThan(l);
+            return l.Priority >= r.Priority ? l.LessThan(r) : r.BiggerThan(l);
         }
         public static Boolean operator >(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.BiggerThan(r);
-            return r.LessThan(l);
+            return l.Priority >= r.Priority ? l.BiggerThan(r) : r.LessThan(l);
         }
         public static Boolean operator >=(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.BiggerThanOrEqual(r);
-            return r.LessThanOrEqual(l);
+            return l.Priority >= r.Priority ? l.BiggerThanOrEqual(r) : r.LessThanOrEqual(l);
         }
         public static Boolean operator <=(Number l, Number r)
         {
             if (l is null || r is null)
                 throw new NullReferenceException();
-            if (l.Priority >= r.Priority) return l.LessThanOrEqual(r);
-            return r.BiggerThanOrEqual(l);
+            return l.Priority >= r.Priority ? l.LessThanOrEqual(r) : r.BiggerThanOrEqual(l);
         }
+
+        public static implicit operator Number(long value) => Integer.Get(value);
     }
     public enum NumberHierarchy : byte
     {

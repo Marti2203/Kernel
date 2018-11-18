@@ -6,23 +6,22 @@ namespace Kernel.Combiners
         public Applicative(Func<List, Object> application, string name = "Undefined")
             : base(name)
         {
-            combiner = new Operative((@object, env) => application(@object), name);
+            Combiner = new Operative((@object, env) => application(@object), name);
         }
 
         public Applicative(Combiner combiner)
         {
-            this.combiner = combiner;
+            Combiner = combiner;
         }
 
-        public Combiner Combiner => combiner;
-        readonly Combiner combiner;
+        public Combiner Combiner { get; }
 
         public override Object Invoke(List list)
         {
             Applicative current = this;
-            while (current.combiner is Applicative next)
+            while (current.Combiner is Applicative next)
                 current = next;
-            return (current.combiner as Operative).Invoke(list, Environment.Current);
+            return (current.Combiner as Operative).Invoke(list, Environment.Current);
         }
         public bool Equals(Applicative other) => Combiner == other.Combiner;
 

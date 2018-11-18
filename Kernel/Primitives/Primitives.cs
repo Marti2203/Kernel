@@ -290,10 +290,10 @@ namespace Kernel.Primitives
             {
                 if (!obj.Mutable && immutableMetricsCache.ContainsKey(obj))
                     return immutableMetricsCache[obj];
-                int pairs = 0;
-                int nilCount = 0;
-                int acyclicLength = 0;
-                int cycleLength = 0;
+                long pairs = 0;
+                long nilCount = 0;
+                long acyclicLength = 0;
+                long cycleLength = 0;
                 if (obj is Pair p)
                 {
                     HashSet<Pair> visitedPairs = new HashSet<Pair>();
@@ -348,8 +348,7 @@ namespace Kernel.Primitives
             [NonNegativityAssertion(2)]
             public static Object Encycle(Object obj, Integer i1, Integer i2)
             {
-                if (i2 == Integer.Zero)
-                    return Inert.Instance;
+                if (i2 == 0) return Inert.Instance;
 
                 Object start = ListTail(obj, (i1 + i2 - 1) as Integer);
 
@@ -429,13 +428,8 @@ namespace Kernel.Primitives
 
             [Primitive("length", 1)]
             public static Number Length(Object @object)
-            {
-                if (!(@object is List l))
-                    return Integer.Zero;
-                if (l.ContainsCycle)
-                    return Real.PositiveInfinity;
-                return ListMetrics.Pairs(GetListMetrics(l));
-            }
+            => !(@object is List l) ? 0 : l.ContainsCycle ? Real.PositiveInfinity :
+                                            (Number)ListMetrics.Pairs(GetListMetrics(l));
 
             [Primitive("list-ref", 2)]
             [TypeAssertion(0, typeof(List))]
@@ -586,7 +580,7 @@ namespace Kernel.Primitives
             [Primitive("+", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]
             public static Number Add(List numbers)
-            => AggregateNumbers(numbers, (current, start) => current + start, Integer.Zero);
+            => AggregateNumbers(numbers, (current, start) => current + start, 0);
 
             [Primitive("*", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]
@@ -642,19 +636,83 @@ namespace Kernel.Primitives
             public static Number Max(List numbers)
             => AggregateNumbers(numbers, (current, next) => current > next ? current : next, Real.NegativeInfinity);
 
-
             [Primitive("min", 0, true)]
             [VariadicTypeAssertion(typeof(Number))]
             public static Number Min(List numbers)
             => AggregateNumbers(numbers, (current, next) => current > next ? next : current, Real.PositiveInfinity);
 
+            [Primitive("gcd", 0, true)]
+            [VariadicTypeAssertion(typeof(Integer))]
+            public static Integer GCD(List numbers)
+            => numbers is Null ? 0 : numbers.Count(false) == 1 ? numbers[0] as Integer :
+                                        AggregateNumbers(numbers.Skip(1),
+                                                         (current, next) => Integer.GCD(current as Integer, next as Integer),
+                                                         numbers[0] as Integer) as Integer;
+            [Primitive("exact?", 1)]
+            [TypeAssertion(0, typeof(Number))]
+            public static Boolean Exact(Number n) => n.Exact;
+
+            [Primitive("inexact?", 1)]
+            [TypeAssertion(0, typeof(Number))]
+            public static Boolean Inexact(Number n) => !n.Exact;
+
+            [Primitive("floor", 1)]
+            [TypeAssertion(0, typeof(Number))]
+            public static Integer Floor(Number number)
+            {
+                switch (number)
+                {
+                    case Integer i:
+                        return i;
+                    case Rational n:
+                        return n.Numerator.Div(n.Denominator);
+                    case Real n:
+                        return Real.Floor(n);
+                    case Complex c:
+                        throw new ArgumentException("Cannot get floor of a complex number.");
+                }
+                throw new InvalidOperationException("WATAFAK?!");
+            }
+
+            [Primitive("ceiling", 1)]
+            [TypeAssertion(0, typeof(Number))]
+            public static Integer Ceiling(Number number)
+            {
+                switch (number)
+                {
+                    case Integer i:
+                        return i;
+                    case Rational n:
+                        return n.Numerator.Div(n.Denominator) + (Integer.GCD(n.Numerator, n.Denominator) == n.Denominator ? 0 : 1);
+                    case Real n:
+                        return Real.Ceiling(n);
+                    case Complex c:
+                        throw new ArgumentException("Cannot get floor of a complex number.");
+                }
+                throw new InvalidOperationException("WATAFAK?!");
+            }
+
+            [Primitive("make-rectangular", 2)]
+            [TypeAssertion(0, typeof(Number))]
+            [TypeAssertion(1, typeof(Number))]
+            public static Complex MakeRectangular(Number real, Number imaginary) => Complex.Get(real, imaginary);
+
+            [Primitive("imag-part", 1)]
+            [TypeAssertion(0, typeof(Complex))]
+            public static Number ImaginaryPart(Complex complex)
+            => complex.Imaginary;
+
+            [Primitive("real-part", 1)]
+            [TypeAssertion(0, typeof(Complex))]
+            public static Number RealPart(Complex complex)
+            => complex.RealPart;
 
             static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
             {
                 Func<Number, Number> identity = (x) => x;
-                if (numbers.ContainsCycle)
-                    return numbers.AggregateCyclic(action, identity, action, identity, seed);
-                return numbers.AggregateAcyclic(action, seed);
+                return numbers.ContainsCycle
+                    ? numbers.AggregateCyclic(action, identity, action, identity, seed)
+                    : numbers.AggregateAcyclic(action, seed);
             }
             #endregion
 
