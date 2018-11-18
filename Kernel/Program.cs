@@ -15,13 +15,13 @@ namespace Kernel
             {
                 result = Null.Instance;
                 Write("Kernel> ");
+                try
+                {
 #if DirectRead
                 Object input = Applicatives.Read();
 #else
-                Object input = Get("read").Invoke();
+                    Object input = Get("read").Invoke();
 #endif
-                try
-                {
                     result = Environment.Ground.Evaluate(input);
                     if (!(result is Inert))
                     {

@@ -21,16 +21,14 @@ namespace Kernel
             ProperParents = new Environment[] { parent };
         }
 
-        internal Guid ID => id;
-        readonly Guid id;
-        internal Object Value => value;
-        readonly Object value;
+        internal Guid ID { get; }
+        internal Object Value { get; }
 
         internal Environment(Environment parent, Guid id, Object value)
             : this(parent)
         {
-            this.id = id;
-            this.value = value;
+            ID = id;
+            Value = value;
         }
 
         public Environment(IEnumerable<Environment> parents)

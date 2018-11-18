@@ -185,25 +185,25 @@ namespace Kernel.Arithmetic
             }
 
             protected override Number Add(Number num)
-            => new ExactReal(Data + (num as ExactReal).Data);
+            => Get(Data + (num as ExactReal).Data);
 
             protected override Number Subtract(Number num)
-            => new ExactReal(Data - (num as ExactReal).Data);
+            => Get(Data - (num as ExactReal).Data);
 
             protected override Number SubtractFrom(Number num)
-            => new ExactReal((num as ExactReal).Data - Data);
+            => Get((num as ExactReal).Data - Data);
 
             protected override Number Multiply(Number num)
-            => new ExactReal(Data * (num as ExactReal).Data);
+            => Get(Data * (num as ExactReal).Data);
 
             protected override Number Divide(Number num)
-            => new ExactReal(Data / (num as ExactReal).Data);
+            => Get(Data / (num as ExactReal).Data);
 
             protected override Number DivideBy(Number num)
-            => new ExactReal((num as ExactReal).Data / Data);
+            => Get((num as ExactReal).Data / Data);
 
             protected override Number Negate()
-            => new ExactReal(-Data);
+            => Get(-Data);
 
             protected override Boolean LessThan(Number num)
             => Data < (num as ExactReal).Data;

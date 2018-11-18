@@ -114,10 +114,23 @@ namespace Kernel.Parser
             }
             #endregion
 
-            #region Real
+            #region Decimal
             static readonly Regex replacer = new Regex("[esdfl]", RegexOptions.IgnoreCase);
             public override Object VisitDecimalReal([NotNull] KernelParser.DecimalRealContext context)
-            => Real.Get(decimal.Parse(replacer.Replace(context.Decimal().GetText(), "e"), System.Globalization.NumberStyles.Any));
+            {
+                string text = context.Decimal().GetText();
+                string replaced = replacer.Replace(text, "e");
+                try
+                {
+                    return long.Parse(text.Split('e')[1]) > 28
+                        ? Real.Get(double.Parse(replaced, System.Globalization.NumberStyles.Any))
+                        : Real.Get(decimal.Parse(replaced, System.Globalization.NumberStyles.Any));
+                }
+                catch (OverflowException)
+                {
+                    throw new ArgumentException($"Value {text} out of range.");
+                }
+            }
             #endregion
 
             #region Complex
