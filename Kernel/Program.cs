@@ -25,7 +25,7 @@ namespace Kernel
                     result = Environment.Ground.Evaluate(input);
                     if (!(result is Inert))
                     {
-                        WriteLine($"${++counter} = {result}");
+                        WriteLine($"${++counter} = {result} {result.GetType()}");
                         Environment.Ground[$"${counter}"] = result;
                     }
                 }

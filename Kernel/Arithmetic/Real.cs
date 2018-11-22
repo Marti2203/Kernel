@@ -3,8 +3,11 @@ using System.Collections.Generic;
 namespace Kernel.Arithmetic
 {
 
-    public sealed class Real : Number
+    internal sealed class Real : Number
     {
+        public static bool HasPrimaryValue(Real real)
+        => real.Exact || (!double.IsNaN((real.Data as InexactReal).PrimaryValue));
+
         public override NumberHierarchy Priority => NumberHierarchy.Real;
 
         Number Data { get; }
@@ -240,6 +243,7 @@ namespace Kernel.Arithmetic
 
         class InexactReal : Number
         {
+            public static readonly InexactReal Undefined = new InexactReal(double.NegativeInfinity, double.PositiveInfinity);
 #pragma warning disable RECS0146 // Member hides static member from outer class
             static readonly IDictionary<(double, double, double, bool), InexactReal> cache
 #pragma warning restore RECS0146 // Member hides static member from outer class
@@ -248,7 +252,7 @@ namespace Kernel.Arithmetic
 
             double UpperBound { get; }
             double LowerBound { get; }
-            double PrimaryValue { get; }
+            public double PrimaryValue { get; }
             bool Robust { get; }
 
             InexactReal(double value)
@@ -268,6 +272,8 @@ namespace Kernel.Arithmetic
             public static InexactReal Get(double lowerBound, double upperBound, double primaryValue, bool robust)
 #pragma warning restore RECS0146 // Member hides static member from outer class
             {
+                if (upperBound < lowerBound)
+                    return Undefined;
                 var key = (lowerBound, upperBound, primaryValue, robust);
                 if (cache.ContainsKey(key))
                     return cache[key];
@@ -277,10 +283,10 @@ namespace Kernel.Arithmetic
             }
 #pragma warning disable RECS0146 // Member hides static member from outer class
             public static InexactReal Get(double value)
-#pragma warning restore RECS0146 // Member hides static member from outer class
             => Get(value, value, value, true);
 
             public static InexactReal Get(Number number)
+#pragma warning restore RECS0146 // Member hides static member from outer class
             {
                 switch (number)
                 {
@@ -325,6 +331,10 @@ namespace Kernel.Arithmetic
             protected override Number Divide(Number num)
             {
                 InexactReal other = Get(num);
+                if (0 >= LowerBound && 0 <= UpperBound)
+                {
+                    throw new ArithmeticException("Cannot divide by an inexact number which contains 0");
+                }
                 return Get(other.LowerBound / LowerBound, other.UpperBound / UpperBound, other.PrimaryValue / PrimaryValue, Robust && other.Robust);
 
             }
@@ -332,6 +342,11 @@ namespace Kernel.Arithmetic
             protected override Number DivideBy(Number num)
             {
                 InexactReal other = Get(num);
+
+                if (0 >= other.LowerBound && 0 <= other.UpperBound)
+                {
+                    throw new ArithmeticException("Cannot divide by an inexact number which contains 0");
+                }
                 return Get(LowerBound / other.LowerBound, UpperBound / other.UpperBound, PrimaryValue / other.PrimaryValue, Robust && other.Robust);
             }
 
@@ -362,8 +377,11 @@ namespace Kernel.Arithmetic
             {
                 throw new System.NotImplementedException();
             }
-            public override string ToString() => $"#i{PrimaryValue}";
+            public override string ToString() => $"{PrimaryValue}";
         }
+
+        internal static bool IsUndefined(Real r)
+        => (!r.Exact) && (r.Data as InexactReal) == InexactReal.Undefined;
     }
 
 }

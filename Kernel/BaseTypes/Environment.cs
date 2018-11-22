@@ -10,7 +10,11 @@ namespace Kernel
         public static readonly Environment Ground = new Environment();
         public static Environment Current = Ground;
         public readonly IEnumerable<Environment> ProperParents = Enumerable.Empty<Environment>();
-        readonly IDictionary<Symbol, Object> bindings = new Dictionary<Symbol, Object>();
+        readonly IDictionary<Symbol, Object> bindings = new Dictionary<Symbol, Object>
+        {
+            {Symbol.Get("+inf.0"), Arithmetic.Real.PositiveInfinity},
+            {Symbol.Get("-inf.0"), Arithmetic.Real.NegativeInfinity}
+        };
 
         public bool IsStandard => ProperParents.SequenceEqual(new[] { Ground });
 

@@ -519,13 +519,11 @@ namespace Kernel.Primitives
                 if (objects is Null)
                     return Null.Instance;
                 if (objects.ContainsCycle)
-                {
                     return objects.AggregateCyclic((current, next) => binary.Invoke(current, next)
                                             , (obj) => Car<Applicative>(cycleApplicatives as Pair).Invoke(obj)
                                             , (current, next) => Cadr<Applicative>(cycleApplicatives as Pair).Invoke(current, next)
                                             , (obj) => Caddr<Applicative>(cycleApplicatives as Pair).Invoke(obj)
                                             , identity);
-                }
 
                 return objects.AggregateAcyclic((current, next) => binary.Invoke(current, next), identity);
             }
@@ -577,135 +575,174 @@ namespace Kernel.Primitives
 
             #region Numbers
 
-            [Primitive("+", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Number Add(List numbers)
-            => AggregateNumbers(numbers, (current, start) => current + start, 0);
+            //[Primitive("+", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Number Add(List numbers)
+            //=> AggregateNumbers(numbers, (current, start) => current + start, 0);
 
-            [Primitive("*", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Number Multiply(List numbers)
-            => AggregateNumbers(numbers, (current, start) => current * start, Integer.One);
+            //[Primitive("*", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Number Multiply(List numbers)
+            //=> AggregateNumbers(numbers, (current, start) => current * start, Integer.One);
 
-            [Primitive("-", 1, true)]
-            [TypeAssertion(0, typeof(Number))]
-            [VariadicTypeAssertion(typeof(Number), 1)]
-            public static Number Subtract(Number seed, List numbers)
-            => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current - start, seed)
-                          : -seed;
+            //[Primitive("-", 1, true)]
+            //[TypeAssertion(0, typeof(Number))]
+            //[VariadicTypeAssertion(typeof(Number), 1)]
+            //public static Number Subtract(Number seed, List numbers)
+            //=> numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current - start, seed)
+            //              : -seed;
 
 
-            [Primitive("/", 1, true)]
-            [TypeAssertion(0, typeof(Number))]
-            [VariadicTypeAssertion(typeof(Number), 1)]
-            public static Number Divide(Number seed, List numbers)
-            => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current / start, seed)
-                          : Integer.One / seed;
+            //[Primitive("/", 1, true)]
+            //[TypeAssertion(0, typeof(Number))]
+            //[VariadicTypeAssertion(typeof(Number), 1)]
+            //public static Number Divide(Number seed, List numbers)
+            //=> numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current / start, seed)
+            //              : Integer.One / seed;
 
-            [Primitive("even?", 1)]
-            [TypeAssertion(0, typeof(Integer))]
-            public static Boolean IsEven(Integer integer) => integer % 2 == 0;
+            //[Primitive("even?", 1)]
+            //[TypeAssertion(0, typeof(Integer))]
+            //public static Boolean IsEven(Integer integer) => integer % 2 == 0;
 
-            [Primitive("=?", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean Equals(List numbers)
-            => Equal(numbers);
+            //[Primitive("=?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean Equals(List numbers)
+            //=> Equal(numbers);
 
-            [Primitive("<=?", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean LessOrEqual(List numbers)
-            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) <= Cadr<Number>(pair));
+            //[Primitive("<=?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean LessOrEqual(List numbers)
+            //=> ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) <= Cadr<Number>(pair));
 
-            [Primitive("<?", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean Less(List numbers)
-            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) < Cadr<Number>(pair));
+            //[Primitive("<?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean Less(List numbers)
+            //=> ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) < Cadr<Number>(pair));
 
-            [Primitive(">?", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean BiggerThan(List numbers)
-            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) > Cadr<Number>(pair));
+            //[Primitive(">?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean BiggerThan(List numbers)
+            //=> ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) > Cadr<Number>(pair));
 
-            [Primitive(">=?", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Boolean BiggerThanOrEqual(List numbers)
-            => ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) >= Cadr<Number>(pair));
+            //[Primitive(">=?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean BiggerThanOrEqual(List numbers)
+            //=> ListNeighbors(numbers).All<Pair>((pair) => Car<Number>(pair) >= Cadr<Number>(pair));
 
-            [Primitive("max", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Number Max(List numbers)
-            => AggregateNumbers(numbers, (current, next) => current > next ? current : next, Real.NegativeInfinity);
+            //[Primitive("max", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Number Max(List numbers)
+            //=> AggregateNumbers(numbers, (current, next) => current > next ? current : next, Real.NegativeInfinity);
 
-            [Primitive("min", 0, true)]
-            [VariadicTypeAssertion(typeof(Number))]
-            public static Number Min(List numbers)
-            => AggregateNumbers(numbers, (current, next) => current > next ? next : current, Real.PositiveInfinity);
+            //[Primitive("min", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Number Min(List numbers)
+            //=> AggregateNumbers(numbers, (current, next) => current > next ? next : current, Real.PositiveInfinity);
 
-            [Primitive("gcd", 0, true)]
-            [VariadicTypeAssertion(typeof(Integer))]
-            public static Integer GCD(List numbers)
-            => numbers is Null ? 0 : numbers.Count(false) == 1 ? numbers[0] as Integer :
-                                        AggregateNumbers(numbers.Skip(1),
-                                                         (current, next) => Integer.GCD(current as Integer, next as Integer),
-                                                         numbers[0] as Integer) as Integer;
-            [Primitive("exact?", 1)]
-            [TypeAssertion(0, typeof(Number))]
-            public static Boolean Exact(Number n) => n.Exact;
+            //[Primitive("gcd", 0, true)]
+            //[VariadicTypeAssertion(typeof(Integer))]
+            //public static Integer GCD(List numbers)
+            //=> numbers is Null ? 0 : numbers.Count(false) == 1 ? numbers[0] as Integer :
+            //                            AggregateNumbers(numbers.Skip(1),
+            //                                             (current, next) => Integer.GCD(current as Integer, next as Integer),
+            //                                             numbers[0] as Integer) as Integer;
+            //[Primitive("exact?", 1)]
+            //[TypeAssertion(0, typeof(Number))]
+            //public static Boolean Exact(Number n) => n.Exact;
 
-            [Primitive("inexact?", 1)]
-            [TypeAssertion(0, typeof(Number))]
-            public static Boolean Inexact(Number n) => !n.Exact;
+            //[Primitive("inexact?", 1)]
+            //[TypeAssertion(0, typeof(Number))]
+            //public static Boolean Inexact(Number n) => !n.Exact;
 
-            [Primitive("floor", 1)]
-            [TypeAssertion(0, typeof(Number))]
-            public static Integer Floor(Number number)
-            {
-                switch (number)
-                {
-                    case Integer i:
-                        return i;
-                    case Rational n:
-                        return n.Numerator.Div(n.Denominator);
-                    case Real n:
-                        return Real.Floor(n);
-                    case Complex c:
-                        throw new ArgumentException("Cannot get floor of a complex number.");
-                }
-                throw new InvalidOperationException("WATAFAK?!");
-            }
+            //[Primitive("floor", 1)]
+            //[TypeAssertion(0, typeof(Number))]
+            //public static Integer Floor(Number number)
+            //{
+            //    switch (number)
+            //    {
+            //        case Integer i:
+            //            return i;
+            //        case Rational n:
+            //            return n.Numerator.Div(n.Denominator);
+            //        case Real n:
+            //            return Real.Floor(n);
+            //        case Complex c:
+            //            throw new ArgumentException("Cannot get floor of a complex number.");
+            //    }
+            //    throw new InvalidOperationException("WATAFAK?!");
+            //}
 
-            [Primitive("ceiling", 1)]
-            [TypeAssertion(0, typeof(Number))]
-            public static Integer Ceiling(Number number)
-            {
-                switch (number)
-                {
-                    case Integer i:
-                        return i;
-                    case Rational n:
-                        return n.Numerator.Div(n.Denominator) + (Integer.GCD(n.Numerator, n.Denominator) == n.Denominator ? 0 : 1);
-                    case Real n:
-                        return Real.Ceiling(n);
-                    case Complex c:
-                        throw new ArgumentException("Cannot get floor of a complex number.");
-                }
-                throw new InvalidOperationException("WATAFAK?!");
-            }
+            //[Primitive("ceiling", 1)]
+            //[TypeAssertion(0, typeof(Number))]
+            //public static Integer Ceiling(Number number)
+            //{
+            //    switch (number)
+            //    {
+            //        case Integer i:
+            //            return i;
+            //        case Rational n:
+            //            return n.Numerator.Div(n.Denominator) + (Integer.GCD(n.Numerator, n.Denominator) == n.Denominator ? 0 : 1);
+            //        case Real n:
+            //            return Real.Ceiling(n);
+            //        case Complex c:
+            //            throw new ArgumentException("Cannot get floor of a complex number.");
+            //    }
+            //    throw new InvalidOperationException("WATAFAK?!");
+            //}
 
-            [Primitive("make-rectangular", 2)]
-            [TypeAssertion(0, typeof(Number))]
-            [TypeAssertion(1, typeof(Number))]
-            public static Complex MakeRectangular(Number real, Number imaginary) => Complex.Get(real, imaginary);
+            //[Primitive("make-rectangular", 2)]
+            //[TypeAssertion(0, typeof(Number))]
+            //[TypeAssertion(1, typeof(Number))]
+            //public static Complex MakeRectangular(Number real, Number imaginary) => Complex.Get(real, imaginary);
 
-            [Primitive("imag-part", 1)]
-            [TypeAssertion(0, typeof(Complex))]
-            public static Number ImaginaryPart(Complex complex)
-            => complex.Imaginary;
+            //[Primitive("imag-part", 1)]
+            //[TypeAssertion(0, typeof(Complex))]
+            //public static Number ImaginaryPart(Complex complex)
+            //=> complex.Imaginary;
 
-            [Primitive("real-part", 1)]
-            [TypeAssertion(0, typeof(Complex))]
-            public static Number RealPart(Complex complex)
-            => complex.RealPart;
+            //[Primitive("real-part", 1)]
+            //[TypeAssertion(0, typeof(Complex))]
+            //public static Number RealPart(Complex complex)
+            //=> complex.RealPart;
+
+            //[Primitive("finite?", 0, true)]
+            //[VariadicTypeAssertion(typeof(Number))]
+            //public static Boolean Finite(List numbers)
+            //{
+            //    bool Infinite(Number number)
+            //    {
+            //        if (number is Real r && !number.Exact && !Real.HasPrimaryValue(r) || Real.IsUndefined(r))
+            //            throw new ArgumentException("Argument does not have a primary value.");
+
+            //        return number == Real.NegativeInfinity || number == Real.PositiveInfinity
+            //                             || (number is Real real && !number.Exact && Real.HasPrimaryValue(real))
+            //                             || (number is Complex c && Infinite(c.RealPart) && Infinite(c.Imaginary));
+            //    }
+
+            //    return numbers.All<Number>(Infinite);
+            //}
+
+            //[Primitive("integer?", 0, true)]
+            //public static Boolean IsInteger(List objects)
+            //{
+            //    bool isInteger(Object @object)
+            //    {
+            //        switch (@object)
+            //        {
+            //            case Integer integer:
+            //                return true;
+            //            case Rational rational:
+            //                return rational.Denominator == 1;
+            //            case Real real:
+            //                return real == Real.Get(1d);
+            //            case Complex complex:
+            //                return complex.Imaginary == Integer.Zero && isInteger(complex.RealPart);
+            //            default:
+            //                return false;
+            //        }
+            //    }
+            //    return objects.All<Object>(isInteger);
+            //}
 
             static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
             {
@@ -811,7 +848,14 @@ namespace Kernel.Primitives
             [TypeAssertion(0, typeof(String))]
             public static Symbol StringToSymbol(String s) => Symbol.Get(s.Data);
 
+            [Primitive("input-port?", 0, true)]
+            public static Boolean IsInputPort(List objects)
+            => objects.All<Object>((obj) => obj is Port p && p.Type == PortType.Input);
 
+
+            [Primitive("output-port?", 0, true)]
+            public static Boolean IsOutputPort(List objects)
+            => objects.All<Object>((obj) => obj is Port p && p.Type == PortType.Output);
         }
 
         public static class Operatives

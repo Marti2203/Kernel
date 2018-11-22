@@ -79,6 +79,7 @@
     <Compile Include="Utilities\ListHelper.cs" />
     <Compile Include="BaseTypes\Encapsulation.cs" />
     <Compile Include="BaseTypes\Promise.cs" />
+    <Compile Include="BaseTypes\Port.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EvalutedPrimitives\" />
