@@ -16,7 +16,7 @@ namespace Kernel.Parser
             KernelLexer lexer = new KernelLexer(CharStreams.fromstring(input));
             CommonTokenStream stream = new CommonTokenStream(lexer);
             KernelParser parser = new KernelParser(stream);
-            IParseTree tree = parser.expression();
+            IParseTree tree = parser.expressionLine();
 
             KernelVisitor walker = new KernelVisitor(parser);
             return walker.Visit(tree);
@@ -204,6 +204,9 @@ namespace Kernel.Parser
             public override Object VisitSymbolLiteral([NotNull] KernelParser.SymbolLiteralContext context)
             => Symbol.Get(context.GetText());
             #endregion
+
+            public override Object VisitExpressionLine([NotNull] KernelParser.ExpressionLineContext context)
+            => Visit(context.expression());
 
             public override Object VisitErrorNode(IErrorNode node)
             => throw new ArgumentException(node.GetText());

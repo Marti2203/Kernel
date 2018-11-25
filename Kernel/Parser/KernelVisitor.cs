@@ -38,6 +38,12 @@ public interface IKernelVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFile([NotNull] KernelParser.FileContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="KernelParser.expressionLine"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExpressionLine([NotNull] KernelParser.ExpressionLineContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="KernelParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

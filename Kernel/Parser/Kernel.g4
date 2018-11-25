@@ -2,7 +2,8 @@ grammar Kernel;
 @lexer::members {
  int @base = 10;
 }
-file: expression+;
+file: expression+ EOF;
+expressionLine: expression EOF;
 expression: atom | pair;
 
 atom:
