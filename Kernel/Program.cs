@@ -1,5 +1,4 @@
 ﻿//#define DirectRead
-using System;
 using System.Linq;
 using Kernel.BaseTypes;
 using static System.Console;
@@ -31,7 +30,7 @@ namespace Kernel
                         Environment.Ground[$"${counter}"] = result;
                     }
                 }
-                catch (ArgumentException argE)
+                catch (System.ArgumentException argE)
                 {
                     WriteLine(argE.Message);
                 }
@@ -39,7 +38,7 @@ namespace Kernel
                 {
                     WriteLine(binding.Message);
                 }
-                catch (AggregateException agg)
+                catch (System.AggregateException agg)
                 {
                     WriteLine(string.Join(System.Environment.NewLine, agg.InnerExceptions.Select(x => x.Message)));
                 }

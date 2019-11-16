@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Antlr4.Runtime;
 using Kernel.Arithmetic;
 using Antlr4.Runtime.Misc;
@@ -7,7 +6,7 @@ using Antlr4.Runtime.Tree;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Kernel.BaseTypes;
-
+using Object = Kernel.BaseTypes.Object;
 namespace Kernel.Parser
 {
     public static class Parser
@@ -67,7 +66,7 @@ namespace Kernel.Parser
             #region Integer
 
             Object VisitInteger(string number, int @base)
-            => number.EndsWith("#", StringComparison.InvariantCultureIgnoreCase) ?
+            => number.EndsWith("#", System.StringComparison.InvariantCultureIgnoreCase) ?
                      Real.Get(number, @base) : (Object)Integer.Get(number, @base);
             public override Object VisitBinaryInteger([NotNull] KernelParser.BinaryIntegerContext context)
             => VisitInteger(context.UintegerBin().GetText(), 2);
@@ -126,9 +125,9 @@ namespace Kernel.Parser
                             ? Real.Get(double.Parse(replaced, System.Globalization.NumberStyles.Any))
                             : Real.Get(decimal.Parse(replaced, System.Globalization.NumberStyles.Any));
                     }
-                    catch (OverflowException)
+                    catch (System.OverflowException)
                     {
-                        throw new ArgumentException($"Value {text} out of range.");
+                        throw new System.ArgumentException($"Value {text} out of range.");
                     }
                 }
                 return Real.Get(decimal.Parse(text, System.Globalization.NumberStyles.Any));
@@ -207,7 +206,7 @@ namespace Kernel.Parser
             => Visit(context.expression());
 
             public override Object VisitErrorNode(IErrorNode node)
-            => throw new ArgumentException(node.GetText());
+            => throw new System.ArgumentException(node.GetText());
 
             Object VisitOrDefault(IParseTree context, Object @default)
             => context == null ? @default : Visit(context);

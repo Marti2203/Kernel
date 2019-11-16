@@ -1,5 +1,4 @@
 ﻿using Kernel.BaseTypes;
-using System;
 namespace Kernel.Arithmetic
 {
     /// <summary>
@@ -7,7 +6,7 @@ namespace Kernel.Arithmetic
     /// </summary>
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
-    public abstract class Number : Object, IEquatable<Number>, IComparable<Number>
+    public abstract class Number : Object, System.IEquatable<Number>, System.IComparable<Number>
 #pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
@@ -36,26 +35,26 @@ namespace Kernel.Arithmetic
         public int CompareTo(Number other)
         => Priority >= other.Priority ? Compare(other) : other.Compare(this);
 
-        public static Number operator -(Number l) => l is null ? throw new NullReferenceException() : l.Negate();
+        public static Number operator -(Number l) => l is null ? throw new System.NullReferenceException() : l.Negate();
 
         public static Number operator +(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.Add(r) : r.Add(l);
         }
 
         public static Number operator -(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.Subtract(r) : r.SubtractFrom(l);
         }
 
         public static Number operator *(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
 #pragma warning disable CS0252 // Possible unintended reference comparison; left hand side needs cast
             if (ReferenceEquals(l, Integer.Zero))
                 return Integer.Zero;
@@ -72,32 +71,32 @@ namespace Kernel.Arithmetic
         public static Number operator /(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.DivideBy(r) : r.Divide(l);
         }
 
         public static Boolean operator <(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.LessThan(r) : r.BiggerThan(l);
         }
         public static Boolean operator >(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.BiggerThan(r) : r.LessThan(l);
         }
         public static Boolean operator >=(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.BiggerThanOrEqual(r) : r.LessThanOrEqual(l);
         }
         public static Boolean operator <=(Number l, Number r)
         {
             if (l is null || r is null)
-                throw new NullReferenceException();
+                throw new System.NullReferenceException();
             return l.Priority >= r.Priority ? l.LessThanOrEqual(r) : r.BiggerThanOrEqual(l);
         }
 

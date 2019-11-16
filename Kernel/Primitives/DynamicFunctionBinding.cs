@@ -1,6 +1,5 @@
 ﻿//#define DebugMethods
 //#define DebugCallMethods
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -50,7 +49,7 @@ namespace Kernel.Primitives
                          Throw(predicate, $"Not enough or too many arguments for combiner {primitive.PrimitiveName}"));
         }
 
-        public static Func<List, Object> CreateBinding(MethodInfo method)
+        public static System.Func<List, Object> CreateBinding(MethodInfo method)
         {
             var primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute>();
             var assertions = method.GetCustomAttributes<AssertionAttribute>();
@@ -83,7 +82,7 @@ namespace Kernel.Primitives
             }
 #endif
 
-            return Lambda(body, true, AssertionAttribute.Input).Compile() as Func<List, Object>;
+            return Lambda(body, true, AssertionAttribute.Input).Compile() as System.Func<List, Object>;
         }
 
         static IEnumerable<Expression> GenerateMethodCallParameters(IEnumerable<TypeAssertionAttribute> typeAssertions,
@@ -91,7 +90,7 @@ namespace Kernel.Primitives
                                                                     ParameterExpression list)
         {
             if (typeAssertions.Count() > primitiveInformation.InputCount)
-                throw new InvalidOperationException("Input cannot be less than type assertions");
+                throw new System.InvalidOperationException("Input cannot be less than type assertions");
 
             var methodCallParameters = Enumerable.Empty<Expression>();
             if (primitiveInformation.InputCount != 0)
@@ -121,7 +120,7 @@ namespace Kernel.Primitives
         static Boolean Validate(Object @object)
         {
             if (!(@object is List list))
-                throw new ArgumentException("Validate accepts a list of objects", nameof(@object));
+                throw new System.ArgumentException("Validate only accepts a list of objects", nameof(@object));
             return list.All<T>(x => x is T);
         }
     }

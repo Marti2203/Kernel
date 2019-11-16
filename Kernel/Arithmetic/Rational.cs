@@ -11,7 +11,7 @@ namespace Kernel.Arithmetic
     {
         public override NumberHierarchy Priority => NumberHierarchy.Rational;
 
-        static IDictionary<(Integer numerator, Integer denominator), Rational> cache
+        static readonly IDictionary<(Integer numerator, Integer denominator), Rational> cache
         = new Dictionary<(Integer, Integer), Rational>();
 
         /// <summary>
@@ -23,9 +23,6 @@ namespace Kernel.Arithmetic
         /// The denominator.
         /// </summary>
         public Integer Denominator { get; }
-
-        Rational(Integer numerator)
-            : this(numerator, Integer.One) { }
 
         Rational(Integer numerator, Integer denominator)
         {

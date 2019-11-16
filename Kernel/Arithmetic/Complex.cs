@@ -1,6 +1,6 @@
 ﻿using Kernel.BaseTypes;
-using System;
 using System.Collections.Generic;
+using InvalidOperationException = System.InvalidOperationException;
 namespace Kernel.Arithmetic
 {
     /// <summary>

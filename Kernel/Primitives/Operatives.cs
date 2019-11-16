@@ -6,7 +6,9 @@ using Kernel.Utilities;
 using System.Linq;
 using static Kernel.Primitives.Primitives;
 using Kernel.BaseTypes;
-
+using Object = Kernel.BaseTypes.Object;
+using Environment = Kernel.BaseTypes.Environment;
+using Boolean = Kernel.BaseTypes.Boolean;
 namespace Kernel.Primitives
 {
     public static class Operatives

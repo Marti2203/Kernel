@@ -1,10 +1,9 @@
 ﻿using Kernel.BaseTypes;
-using System;
 namespace Kernel.Combiners
 {
     public sealed class Applicative : Combiner
     {
-        public Applicative(Func<List, Object> application, string name = "Undefined")
+        public Applicative(System.Func<List, Object> application, string name = "Undefined")
             : base(name)
         {
             Combiner = new Operative((@object, env) => application(@object), name);

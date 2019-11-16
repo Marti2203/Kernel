@@ -1,6 +1,6 @@
 ﻿using Kernel.BaseTypes;
-using System;
 using System.Collections.Generic;
+using InvalidOperationException = System.InvalidOperationException;
 namespace Kernel.Arithmetic
 {
     public sealed class Real : Number
@@ -23,10 +23,10 @@ namespace Kernel.Arithmetic
             Data = InexactReal.Get(value);
         }
 
-        Real(decimal value)
-        {
-            Data = ExactReal.Get(value);
-        }
+        //Real(decimal value)
+        //{
+        //    Data = ExactReal.Get(value);
+        //}
 
         Real(Number number)
         {
@@ -154,15 +154,15 @@ namespace Kernel.Arithmetic
         public static Integer Ceiling(Real x)
         {
             if (!x.Exact)
-                throw new ArgumentException("Input is not an exact real", nameof(x));
-            return Integer.Get(Math.Ceiling((x.Data as ExactReal).Data).ToString());
+                throw new System.ArgumentException("Input is not an exact real", nameof(x));
+            return Integer.Get(System.Math.Ceiling((x.Data as ExactReal).Data).ToString());
         }
 
         public static Integer Floor(Real x)
         {
             if (!x.Exact)
-                throw new ArgumentException("Input is not an exact real", nameof(x));
-            return Integer.Get(Math.Floor((x.Data as ExactReal).Data).ToString());
+                throw new System.ArgumentException("Input is not an exact real", nameof(x));
+            return Integer.Get(System.Math.Floor((x.Data as ExactReal).Data).ToString());
         }
 
         public static implicit operator Real(Rational rational) => Get((double)rational.Numerator / (double)rational.Denominator);
@@ -181,7 +181,7 @@ namespace Kernel.Arithmetic
         {
             if (real.Data is ExactReal exact)
                 return exact.Data;
-            throw new ArgumentException("WTF?!");
+            throw new System.ArgumentException("WTF?!");
         }
 
         class ExactReal : Number
@@ -259,10 +259,10 @@ namespace Kernel.Arithmetic
             public double PrimaryValue { get; }
             bool Robust { get; }
 
-            InexactReal(double value)
-                : this(value, value, value, true)
-            {
-            }
+            //InexactReal(double value)
+            //    : this(value, value, value, true)
+            //{
+            //}
 
             InexactReal(double lowerBound, double upperBound, double primaryValue = double.NaN, bool robust = false)
             {
@@ -305,7 +305,7 @@ namespace Kernel.Arithmetic
                     case Rational rational:
                         return Get(((double)rational.Numerator) / ((double)rational.Denominator));
                 }
-                throw new Exception("WTF?!");
+                throw new System.Exception("WTF?!");
             }
 
             protected override Number Add(Number num)
@@ -337,7 +337,7 @@ namespace Kernel.Arithmetic
                 InexactReal other = Get(num);
                 if (0 >= LowerBound && 0 <= UpperBound)
                 {
-                    throw new ArithmeticException("Cannot divide by an inexact number which contains 0");
+                    throw new System.ArithmeticException("Cannot divide by an inexact number which contains 0");
                 }
                 return Get(other.LowerBound / LowerBound, other.UpperBound / UpperBound, other.PrimaryValue / PrimaryValue, Robust && other.Robust);
 
@@ -349,7 +349,7 @@ namespace Kernel.Arithmetic
 
                 if (0 >= other.LowerBound && 0 <= other.UpperBound)
                 {
-                    throw new ArithmeticException("Cannot divide by an inexact number which contains 0");
+                    throw new System.ArithmeticException("Cannot divide by an inexact number which contains 0");
                 }
                 return Get(LowerBound / other.LowerBound, UpperBound / other.UpperBound, PrimaryValue / other.PrimaryValue, Robust && other.Robust);
             }

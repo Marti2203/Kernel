@@ -1,9 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using static Kernel.Primitives.Primitives;
 using static Kernel.Primitives.Operatives;
 using Kernel.BaseTypes;
-
 namespace Kernel.Combiners
 {
     [DebuggerDisplay("{Name}")]
@@ -11,14 +9,14 @@ namespace Kernel.Combiners
     {
         readonly IOperative underlyingOperative;
 
-        public Operative(Func<List, Environment, Object> operation, string name = "Undefined")
+        public Operative(System.Func<List, Environment, Object> operation, string name = "Undefined")
             : base(name)
         {
             underlyingOperative = new PrimitiveOperative(operation);
         }
 
         // This is Used only by the Add Operatives Method
-        internal Operative(Func<List, Object> operation, string name = "Undefined")
+        internal Operative(System.Func<List, Object> operation, string name = "Undefined")
             : this((@object, environment) => operation(new Pair(environment, @object)), name)
         {
 
@@ -63,8 +61,8 @@ namespace Kernel.Combiners
 
         class PrimitiveOperative : IOperative
         {
-            readonly Func<List, Environment, Object> operation;
-            public PrimitiveOperative(Func<List, Environment, Object> operation)
+            readonly System.Func<List, Environment, Object> operation;
+            public PrimitiveOperative(System.Func<List, Environment, Object> operation)
             {
                 this.operation = operation;
             }
@@ -89,7 +87,7 @@ namespace Kernel.Combiners
                 if (!(p.Cdr is Environment))
                     exceptionMessage += " and Argument Cdr is not a List";
             }
-            throw new ArgumentException(exceptionMessage);
+            throw new System.ArgumentException(exceptionMessage);
         }
 
         public Object Invoke(List list, Environment environment) => underlyingOperative.Action(list, environment);

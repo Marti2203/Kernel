@@ -8,7 +8,8 @@ using static CarFamily;
 using Kernel.Utilities;
 using System.Linq;
 using Kernel.BaseTypes;
-
+using Object = Kernel.BaseTypes.Object;
+using Environment = Kernel.BaseTypes.Environment;
 namespace Kernel.Primitives
 {
     public static partial class Primitives
@@ -96,8 +97,6 @@ namespace Kernel.Primitives
             }
             else throw new AggregateException(errors);
         }
-
-        static bool NullOrEnvironment(Object @object) => @object is Null || @object is Environment;
 
         static bool IsFormalParameterTree(Object @object, bool pairCheck)
         => @object is Symbol

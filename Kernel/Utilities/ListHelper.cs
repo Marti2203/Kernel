@@ -1,8 +1,8 @@
 ﻿using Kernel.BaseTypes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System;
+using Object = Kernel.BaseTypes.Object;
 namespace Kernel.Utilities
 {
     public static class ListHelper
