@@ -10,9 +10,9 @@ using System.Reflection;
 using Kernel.Utilities;
 namespace Kernel.Primitives
 {
-    public static class DynamicConnections
+    public static class DynamicFunctionBinding
     {
-        static IEnumerable<Expression> GenerateCallParameters(IEnumerable<TypeAssertionAttribute> typeAssertions
+        static IEnumerable<Expression> GenerateCallParameterCasts(IEnumerable<TypeAssertionAttribute> typeAssertions
                                    , IEnumerable<Expression> parameters)
         => parameters.Select((expression, index) =>
         {
@@ -20,7 +20,7 @@ namespace Kernel.Primitives
             return assertion == null ? expression : TypeAs(expression, assertion.Type);
         });
 
-        static Expression GenerateCountCheck(PrimitiveAttribute primitive)
+        static Expression GenerateParameterCountCheck(PrimitiveAttribute primitive)
         {
             var realCount = Parameter(typeof(int), "realCount");
             var count = CallFunction("Count", AssertionAttribute.InputCasted, Constant(false));
@@ -45,10 +45,10 @@ namespace Kernel.Primitives
                          Call(null, typeof(Console).GetMethod("Write", new[] { typeof(string) }), Constant("With Input ")),
                          Call(null, typeof(Console).GetMethod("WriteLine", new[] { typeof(object) }), AssertionAttribute.InputCasted),
 #endif
-                         Throw(predicate, "Not enough or too many arguments for combiner"));
+                         Throw(predicate, $"Not enough or too many arguments for combiner {primitive.PrimitiveName}"));
         }
 
-        public static Func<List, Object> CreatePipeFunction(MethodInfo method)
+        public static Func<List, Object> CreateBinding(MethodInfo method)
         {
             var primitiveInformation = method.GetCustomAttribute<PrimitiveAttribute>();
             var assertions = method.GetCustomAttributes<AssertionAttribute>();
@@ -64,15 +64,12 @@ namespace Kernel.Primitives
             Expression methodCall = Call(null, method, methodCallParameters);
 
 
-            Expression countCheck = GenerateCountCheck(primitiveInformation);
-            var body = Block(new[] { list },
-                             assignment,
-                             countCheck,
-                             Block(assertions.Select(x => Throw(x.Expression, x.ErrorMessage))),
-                             methodCall);
+            Expression countCheck = GenerateParameterCountCheck(primitiveInformation);
+            Expression throws = assertions.Any() ? Block(assertions.Select(x => Throw(x.Expression, x.ErrorMessage))) as Expression : Empty();
+            var body = Block(new[] { list }, assignment, countCheck, throws, methodCall);
 
 #if DebugMethods
-            if (method.Name == "Add")
+            if (method.Name != null)
             {
                 Console.WriteLine($"Name: {method.Name}");
                 Console.WriteLine($"Body Expressions");
@@ -97,7 +94,7 @@ namespace Kernel.Primitives
             var methodCallParameters = Enumerable.Empty<Expression>();
             if (primitiveInformation.InputCount != 0)
             {
-                methodCallParameters = GenerateCallParameters(typeAssertions, primitiveInformation.Parameters(list));
+                methodCallParameters = GenerateCallParameterCasts(typeAssertions, primitiveInformation.Parameters(list));
             }
             if (primitiveInformation.Variadic)
             {
