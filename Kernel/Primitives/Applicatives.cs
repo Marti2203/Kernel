@@ -43,35 +43,20 @@ namespace Kernel.Primitives
             return Inert.Instance;
         }
 
-        [Primitive("display", 1, true)]
-        [TypeAssertion(1,typeof(Port))]
-        public static Inert Display(Object obj, List rest)
+        [Primitive("display", 2)]
+        [OptionalTypeAssertion(1, typeof(Port))]
+        [OptionalPredicateAssertion(1, typeof(Primitives), "IsOutputPort")]
+        public static Inert Display(Object obj, Port p)
         {
-            if (rest.Count() > 1)
-            {
-                throw new ArgumentException("Too many arguments for display. Only an output port is accepted.");
-            }
-            if (rest.Count() == 0)
-            {
-                Console.WriteLine(obj);
-            }
-            else
-            {
-                if (!(rest[0] is Port p) || p.Type != PortType.Output)
-                {
-                    throw new ArgumentException("Given object is not a port or not an output port.");
-                }
-
-                p.Writer.WriteLine(obj);
-            }
-
+            p ??= Port.StandardOutput;
+            p.Writer.WriteLine(obj);
             return Inert.Instance;
         }
 
         [Primitive("read")]
         public static Object Read()
         {
-            bool Valid(string representation)
+            static bool Valid(string representation)
             {
                 int braces = 0;
                 bool inString = false;
@@ -175,23 +160,14 @@ namespace Kernel.Primitives
             return head;
         }
 
-        [Primitive("apply", 2, true)]
+        [Primitive("apply", 3)]
         [TypeAssertion(0, typeof(Applicative))]
-        public static Object Apply(Applicative a, Object p, List objects)
+        [TypeAssertion(2, typeof(Environment), optional: true)]
+        public static Object Apply(Applicative a, Object p, Environment env)
         {
-            int count = objects.Count(false);
-            if (count > 1 || count < 0)
-                throw new ArgumentException("Apply can except an additional environment only", nameof(objects));
-            if (count == 1)
-            {
-                if (objects[0] is Environment e)
-                    return Evaluate(new Pair(a.Combiner, p), e);
-
-                throw new ArgumentException("Extra argument has to be an environment.", nameof(objects));
-            }
-
+            env ??= Environment.Current;
             List list = p is List l ? l : new Pair(p);
-            return Environment.Current.Evaluate(a.Combiner, list);
+            return Evaluate(a.Combiner, list, env);
         }
 
         static readonly Dictionary<Object, Pair> immutableMetricsCache = new Dictionary<Object, Pair>();
@@ -351,17 +327,20 @@ namespace Kernel.Primitives
         public static List Append(List lists)
         {
             if (!lists.Any<Object>()) return Null.Instance;
-            Pair head, tail;
             if ((lists[0] as List).ContainsCycle)
                 throw new ArgumentException("Only last argument can be cyclic");
+            Pair head, tail;
             head = tail = lists[0].Copy() as Pair;
-            List last = lists.Skip(1).ForEachReturnLast<List>((list) =>
+            tail.Tail.Cdr = lists.Skip(1).ForEachReturnLast((Action<List>)((list) =>
             {
                 if (list.ContainsCycle)
                     throw new ArgumentException("Only last argument can be cyclic");
-                list.ForEach<Object>(obj => tail = tail.Append(obj));
-            });
-            tail.Tail.Cdr = last;
+                tail = tail.Append(list);
+                if (list is Pair p) //Skip until end
+                {
+                    tail = p.Tail;
+                }
+            }));
             return head;
         }
 
@@ -566,39 +545,25 @@ namespace Kernel.Primitives
 
         [Primitive("floor", 1)]
         [TypeAssertion(0, typeof(Number))]
-        public static Integer Floor(Number number)
+        public static Integer Floor(Number number) => number switch
         {
-            switch (number)
-            {
-                case Integer i:
-                    return i;
-                case Rational n:
-                    return n.Numerator.Div(n.Denominator);
-                case Real n:
-                    return Real.Floor(n);
-                case Complex _:
-                    throw new ArgumentException("Cannot get floor of a complex number.");
-            }
-            throw new InvalidOperationException("WATAFAK?!");
-        }
+            Integer i => i,
+            Rational n => n.Numerator.Div(n.Denominator),
+            Real n => Real.Floor(n),
+            Complex _ => throw new ArgumentException("Cannot get floor of a complex number."),
+            _ => throw new InvalidOperationException("WATAFAK?!"),
+        };
 
         [Primitive("ceiling", 1)]
         [TypeAssertion(0, typeof(Number))]
-        public static Integer Ceiling(Number number)
+        public static Integer Ceiling(Number number) => number switch
         {
-            switch (number)
-            {
-                case Integer i:
-                    return i;
-                case Rational n:
-                    return n.Numerator.Div(n.Denominator) + (Integer.GCD(n.Numerator, n.Denominator) == n.Denominator ? 0 : 1);
-                case Real n:
-                    return Real.Ceiling(n);
-                case Complex _:
-                    throw new ArgumentException("Cannot get floor of a complex number.");
-            }
-            throw new InvalidOperationException("WATAFAK?!");
-        }
+            Integer i => i,
+            Rational n => n.Numerator.Div(n.Denominator) + (Integer.GCD(n.Numerator, n.Denominator) == n.Denominator ? 0 : 1),
+            Real n => Real.Ceiling(n),
+            Complex _ => throw new ArgumentException("Cannot get floor of a complex number."),
+            _ => throw new InvalidOperationException("WATAFAK?!"),
+        };
 
         [Primitive("make-rectangular", 2)]
         [TypeAssertion(0, typeof(Number))]
@@ -619,7 +584,7 @@ namespace Kernel.Primitives
         [VariadicTypeAssertion(typeof(Number))]
         public static Boolean Finite(List numbers)
         {
-            bool Infinite(Number number)
+            static bool Infinite(Number number)
             {
                 if (number is Real r && ((!number.Exact && !Real.HasPrimaryValue(r)) || Real.IsUndefined(r)))
                     throw new ArgumentException("Argument does not have a primary value.");
@@ -636,28 +601,20 @@ namespace Kernel.Primitives
         [Primitive("integer?", 0, true)]
         public static Boolean IsInteger(List objects)
         {
-            bool isInteger(Object @object)
+            static bool isInteger(Object @object) => @object switch
             {
-                switch (@object)
-                {
-                    case Integer integer:
-                        return true;
-                    case Rational rational:
-                        return rational.Denominator == 1;
-                    case Real real:
-                        return real == Floor(real);
-                    case Complex complex:
-                        return ReferenceEquals(complex.Imaginary, Integer.Zero) && isInteger(complex.RealPart);
-                    default:
-                        return false;
-                }
-            }
+                Integer integer => true,
+                Rational rational => rational.Denominator == 1,
+                Real real => real == Floor(real),
+                Complex complex => ReferenceEquals(complex.Imaginary, Integer.Zero) && isInteger(complex.RealPart),
+                _ => false,
+            };
             return objects.All<Object>(isInteger);
         }
 
         static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
         {
-            Number identity(Number x) => x;
+            static Number identity(Number x) => x;
             return numbers.ContainsCycle
                 ? numbers.AggregateCyclic(action, identity, action, identity, seed)
                 : numbers.AggregateAcyclic(action, seed);
@@ -710,10 +667,13 @@ namespace Kernel.Primitives
         public static Promise Memoize(Object value)
         => new Promise(value);
 
-        [Primitive("newline")]
-        public static Inert NewLine()
+        [Primitive("newline", 1)]
+        [TypeAssertion(0, typeof(Port), true)]
+        [PredicateAssertion(0, typeof(Primitives), "IsOutputPort", true, true)]
+        public static Inert NewLine(Port p)
         {
-            Console.WriteLine();
+            p ??= Port.StandardOutput;
+            p.Writer.WriteLine();
             return Inert.Instance;
         }
 

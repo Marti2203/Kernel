@@ -4,7 +4,7 @@ using static System.Linq.Expressions.Expression;
 namespace Kernel.Primitives.BindingAttributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    sealed class NonNegativityAssertionAttribute : IndexAssertionAttribute
+    public sealed class NonNegativityAssertionAttribute : IndexAssertionAttribute
     {
         public NonNegativityAssertionAttribute(int index)
             : base(And

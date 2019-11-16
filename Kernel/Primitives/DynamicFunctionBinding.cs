@@ -9,45 +9,73 @@ using System.Reflection;
 using Kernel.Utilities;
 using Kernel.BaseTypes;
 using Kernel.Primitives.BindingAttributes;
-
+using ExpressionList = System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression>;
+using Console = System.Console;
+using static Kernel.Primitives.DynamicFunctionBindingVariables;
 namespace Kernel.Primitives
 {
     public static class DynamicFunctionBinding
     {
-        static IEnumerable<Expression> GenerateCallParameterCasts(IEnumerable<TypeAssertionAttribute> typeAssertions
-                                   , IEnumerable<Expression> parameters)
+
+        //static Expression HasEnough
+
+        static ExpressionList GenerateCallParameterCasts(IEnumerable<TypeAssertionAttribute> typeAssertions, ExpressionList parameters)
         => parameters.Select((expression, index) =>
         {
             TypeAssertionAttribute assertion = typeAssertions.FirstOrDefault(x => x.Index == index);
-            return assertion == null ? expression : TypeAs(expression, assertion.Type);
+            return assertion == null ?
+                               expression :
+                               assertion.Optional ?
+                               Condition(GreaterThan(ArgumentCount, Constant(index)), TypeAs(expression, assertion.Type), TypeAs(Constant(null), assertion.Type)) :
+                               TypeAs(expression, assertion.Type) as Expression;
         });
 
-        static Expression GenerateParameterCountCheck(PrimitiveAttribute primitive)
+        static Expression GenerateParameterCountCheck(PrimitiveAttribute primitive, IEnumerable<TypeAssertionAttribute> typeAssertions, Expression realCount)
         {
-            var realCount = Parameter(typeof(int), "realCount");
-            var count = CallFunction("Count", AssertionAttribute.InputCasted, Constant(false));
             var expectedCount = Constant(primitive.InputCount);
-            Expression predicate = null;
-            if (primitive.InputCount != 0)
+            var optionalParameters = typeAssertions.Count(x => x.Optional);
+            Expression countPredicate = null;
+            var difference = "";
+
+            if (optionalParameters == 0)
             {
-                predicate = LessThan(realCount, expectedCount);
+                if (primitive.InputCount != 0)
+                {
+                    countPredicate = LessThan(realCount, expectedCount);
+                    difference = "Not enough";
+                }
+                if (!primitive.Variadic)
+                {
+                    var compareInputWithExpected = NotEqual(realCount, expectedCount);
+                    if (countPredicate == null)
+                    {
+                        difference = "Too many";
+                        countPredicate = compareInputWithExpected;
+                    }
+                    else
+                    {
+                        difference += " or too many";
+                        countPredicate = Or(countPredicate, compareInputWithExpected);
+                    }
+                }
             }
-            if (!primitive.Variadic)
+            else
             {
-                var compareInputWithExpected = NotEqual(realCount, expectedCount);
-                predicate = predicate == null ? compareInputWithExpected : Or(predicate, compareInputWithExpected);
+                difference = "Not enough or too many";
+                countPredicate = Or(GreaterThan(realCount, expectedCount)
+                              , LessThan(realCount, Constant(primitive.InputCount - optionalParameters)));
             }
-            return predicate == null
+
+            return countPredicate == null
                 ? Empty()
-                : (Expression)Block(new[] { realCount },
-                         Assign(realCount, count),
+                : (Expression)Block(
 #if DebugCallMethods
                          Call(null, typeof(Console).GetMethod("Write", new[] { typeof(string) }), Constant($"The function {primitive.PrimitiveName} has input count {primitive.InputCount} and receives ")),
                          Call(null, typeof(Console).GetMethod("WriteLine", new[] { typeof(int) }), realCount),
                          Call(null, typeof(Console).GetMethod("Write", new[] { typeof(string) }), Constant("With Input ")),
-                         Call(null, typeof(Console).GetMethod("WriteLine", new[] { typeof(object) }), AssertionAttribute.InputCasted),
+                         Call(null, typeof(Console).GetMethod("WriteLine", new[] { typeof(object) }), Input),
 #endif
-                         Throw(predicate, $"Not enough or too many arguments for combiner {primitive.PrimitiveName}"));
+                         ThrowIF(countPredicate, $"{difference} arguments for combiner '{primitive.PrimitiveName}'"));
         }
 
         public static System.Func<List, Object> CreateBinding(MethodInfo method)
@@ -57,24 +85,30 @@ namespace Kernel.Primitives
             var typeCompilance = method.GetCustomAttribute<VariadicTypeAssertion>();
             var typeAssertions = method.GetCustomAttributes<TypeAssertionAttribute>();
 
-            var list = Parameter(typeof(List), "list");
-            var assignment = Assign(list, AssertionAttribute.InputCasted);
-            var methodCallParameters = GenerateMethodCallParameters(typeAssertions,
-                                                                    primitiveInformation,
-                                                                    list);
+            if (primitiveInformation.Variadic && typeAssertions.Any(assertion => assertion.Optional))
+            {
+                throw new System.InvalidOperationException("Cannot have a variadic function with an optional argument.");
+            }
 
-            Expression methodCall = Call(null, method, methodCallParameters);
+            var assignList = Assign(ListParameter, InputCasted);
+            var assignArgumentCount = Assign(ArgumentCount, CallFunction("Count", ListParameter, Constant(false)));
+            var methodCallParameters = GenerateMethodCallParameters(typeAssertions, primitiveInformation);
+            var methodCall = Call(null, method, methodCallParameters);
+            var countCheck = GenerateParameterCountCheck(primitiveInformation, typeAssertions, ArgumentCount);
+            var throws = assertions.Any() ? Block(assertions.Select(x =>
+            {
+                var baseThrow = ThrowIF(x.Expression, x.ErrorMessage);
+                return x is IndexAssertionAttribute indexAssertion && indexAssertion.Optional
+                    ? IfThen(GreaterThan(ArgumentCount, Constant(indexAssertion.Index)), baseThrow)
+                    : baseThrow;
+            })) as Expression : Empty();
 
-
-            Expression countCheck = GenerateParameterCountCheck(primitiveInformation);
-            Expression throws = assertions.Any() ? Block(assertions.Select(x => Throw(x.Expression, x.ErrorMessage))) as Expression : Empty();
-            var body = Block(new[] { list }, assignment, countCheck, throws, methodCall);
+            var body = Block(new[] { ListParameter, ArgumentCount }, assignList, assignArgumentCount, countCheck, throws, methodCall);
 
 #if DebugMethods
-            if (method.Name != null)
+            if (method.Name == "Apply")
             {
-                Console.WriteLine($"Name: {method.Name}");
-                Console.WriteLine($"Body Expressions");
+                Console.WriteLine(method.Name);
                 var expressions = body
                     .Expressions
                     .SelectMany(expression => expression is BlockExpression block ? block.Expressions.ToArray() : new[] { expression });
@@ -82,30 +116,21 @@ namespace Kernel.Primitives
                 Console.WriteLine();
             }
 #endif
-
-            return Lambda(body, true, AssertionAttribute.Input).Compile() as System.Func<List, Object>;
+            return Lambda(body, true, Input).Compile() as System.Func<List, Object>;
         }
 
-        static IEnumerable<Expression> GenerateMethodCallParameters(IEnumerable<TypeAssertionAttribute> typeAssertions,
-                                                                    PrimitiveAttribute primitiveInformation,
-                                                                    ParameterExpression list)
+        static ExpressionList GenerateMethodCallParameters(IEnumerable<TypeAssertionAttribute> typeAssertions,
+                                                                    PrimitiveAttribute primitiveInformation)
         {
             if (typeAssertions.Count() > primitiveInformation.InputCount)
                 throw new System.InvalidOperationException("Input cannot be less than type assertions");
 
-            var methodCallParameters = Enumerable.Empty<Expression>();
-            if (primitiveInformation.InputCount != 0)
-            {
-                methodCallParameters = GenerateCallParameterCasts(typeAssertions, primitiveInformation.Parameters(list));
-            }
+            var methodCallParameters = GenerateCallParameterCasts(typeAssertions, primitiveInformation.Parameters(ListParameter));
             if (primitiveInformation.Variadic)
             {
-                Expression restOfParameters = list;
-                if (methodCallParameters.Any())
-                {
-                    var skipCount = primitiveInformation.InputCount;
-                    restOfParameters = CallFunction("Skip", list, Constant(skipCount));
-                }
+                Expression restOfParameters = methodCallParameters.Any()
+                                            ? CallFunction("Skip", ListParameter, Constant(primitiveInformation.InputCount))
+                                            : ListParameter;
 
                 methodCallParameters = methodCallParameters.Concat(new[] { restOfParameters });
             }
@@ -113,16 +138,5 @@ namespace Kernel.Primitives
             return methodCallParameters;
         }
 
-    }
-    public static class PredicateApplicative<T> where T : Object
-    {
-        public static Combiners.Applicative Instance => new Combiners.Applicative(Validate, Name);
-        static string Name => typeof(T).Name.ToLower() + "?";
-        static Boolean Validate(Object @object)
-        {
-            if (!(@object is List list))
-                throw new System.ArgumentException("Validate only accepts a list of objects", nameof(@object));
-            return list.All<T>(x => x is T);
-        }
     }
 }

@@ -2,14 +2,15 @@
 using System.Linq.Expressions;
 using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
+using static Kernel.Primitives.DynamicFunctionBindingVariables;
 using Object = Kernel.BaseTypes.Object;
 namespace Kernel.Primitives.BindingAttributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    sealed class VariadicTypeAssertion : AssertionAttribute
+    public sealed class VariadicTypeAssertion : AssertionAttribute
     {
         public VariadicTypeAssertion(Type type, int skip = 0)
-            : base($"All { (skip > 0 ? $"after {skip}" : "")} arguments must be {type.Name}")
+            : base($"All arguments { (skip > 0 ? $"after {skip}" : "")} must be of type {type.Name}")
         {
             Skip = skip;
             Type = type;
@@ -25,7 +26,7 @@ namespace Kernel.Primitives.BindingAttributes
         {
             get
             {
-                var input = Skip == 0 ? InputCasted : CallFunction("Skip", InputCasted, Constant(Skip));
+                var input = Skip == 0 ? ListParameter : CallFunction("Skip", ListParameter, Constant(Skip));
                 return Not(CallFunction("All", input, TypePredicate()));
             }
         }

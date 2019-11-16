@@ -31,6 +31,8 @@ namespace Kernel.Primitives
             AddOperatives();
         }
 
+        public static bool IsOutputPort(Object obj) => obj is Port p && p.Type == PortType.Output;
+
         public static bool ValidBindingList(Object obj)
         => obj is List l && l.All<Object>(element => element is Pair pair && IsFormalParameterTree(pair.Car) && !(pair.Cdr is Null));
 
@@ -49,6 +51,14 @@ namespace Kernel.Primitives
             Environment temp = Environment.Current;
             Environment.Current = environment;
             Object result = environment.Evaluate(@object);
+            Environment.Current = temp;
+            return result;
+        }
+        public static Object Evaluate(Combiner c,List l, Environment environment)
+        {
+            Environment temp = Environment.Current;
+            Environment.Current = environment;
+            Object result = environment.Evaluate(c,l);
             Environment.Current = temp;
             return result;
         }

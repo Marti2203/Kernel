@@ -285,28 +285,18 @@ namespace Kernel.Arithmetic
                 cache.Add(key, result);
                 return result;
             }
-#pragma warning disable RECS0146 // Member hides static member from outer class
             public static InexactReal Get(double value)
             => Get(value, value, value, true);
 
-            public static InexactReal Get(Number number)
-#pragma warning restore RECS0146 // Member hides static member from outer class
+            public static InexactReal Get(Number number) => number switch
             {
-                switch (number)
-                {
-                    case Real real:
-                        return Get(real.Data);
-                    case ExactReal exact:
-                        return Get((double)exact.Data);
-                    case InexactReal inexact:
-                        return inexact;
-                    case Integer integer:
-                        return Get((double)integer);
-                    case Rational rational:
-                        return Get(((double)rational.Numerator) / ((double)rational.Denominator));
-                }
-                throw new System.Exception("WTF?!");
-            }
+                Real real => Get(real.Data),
+                ExactReal exact => Get((double)exact.Data),
+                InexactReal inexact => inexact,
+                Integer integer => Get((double)integer),
+                Rational rational => Get(((double)rational.Numerator) / ((double)rational.Denominator)),
+                _ => throw new System.Exception("WTF?!"),
+            };
 
             protected override Number Add(Number num)
             {

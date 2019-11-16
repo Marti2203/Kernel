@@ -5,7 +5,7 @@ using static System.Linq.Expressions.Expression;
 namespace Kernel.Primitives.BindingAttributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    sealed class PrimitiveAttribute : Attribute
+    public sealed class PrimitiveAttribute : Attribute
     {
         public string PrimitiveName { get; }
         public int InputCount { get; }

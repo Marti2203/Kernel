@@ -29,7 +29,7 @@ namespace Kernel.Utilities
             return currentValue;
         }
 
-        public static Expression Throw(Expression check, string errorMessage)
+        public static Expression ThrowIF(Expression check, string errorMessage)
         => IfThen(check, Expression.Throw(Constant(new System.ArgumentException(errorMessage))));
 
     }

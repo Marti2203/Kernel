@@ -1,4 +1,6 @@
-﻿namespace Kernel.BaseTypes
+﻿using System;
+
+namespace Kernel.BaseTypes
 {
     public abstract class List : Object
     {
@@ -8,5 +10,6 @@
         public abstract Object this[int index] { get; }
         public abstract bool IsCyclic { get; }
         public abstract bool ContainsCycle { get; }
+
     }
 }

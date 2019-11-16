@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -27,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,8 +46,19 @@
     <Compile Include="Parser\KernelBaseListener.cs" />
     <Compile Include="Parser\KernelListener.cs" />
     <Compile Include="Primitives\Applicatives.cs" />
+    <Compile Include="Primitives\BindingAttributes\AssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\IndexAssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\MutabilityAssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\NonNegativityAssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\OptionalPredicateAssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\OptionalTypeAssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\PredicateAssertionAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\PrimitiveAttribute.cs" />
+    <Compile Include="Primitives\BindingAttributes\TypeAssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicFunctionBindingVariables.cs" />
     <Compile Include="Primitives\ListMetrics.cs" />
     <Compile Include="Primitives\Operatives.cs" />
+    <Compile Include="Primitives\PredicateApplicative.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NoBindingException.cs" />
@@ -54,7 +67,7 @@
       <DependentUpon>CarFamily.tt</DependentUpon>
     </Compile>
     <Compile Include="Primitives\Primitives.cs" />
-    <Compile Include="Primitives\PrimitiveAttributes.cs" />
+    <Compile Include="Primitives\BindingAttributes\VariadicTypeAssertion.cs" />
     <Compile Include="Arithmetic\Complex.cs" />
     <Compile Include="Arithmetic\Integer.cs" />
     <Compile Include="Arithmetic\Number.cs" />
