@@ -5,8 +5,10 @@ namespace Kernel
     public sealed class Port : Object, IDisposable
     {
         public PortType Type { get; }
+        public string Path { get; }
         public Port(string fileName, PortType type)
         {
+            Path = fileName;
             Type = type;
         }
 

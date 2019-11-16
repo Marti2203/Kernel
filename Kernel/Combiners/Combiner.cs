@@ -4,8 +4,7 @@ namespace Kernel.Combiners
     [DebuggerDisplay("{Name}")]
     public abstract class Combiner : Object
     {
-        public string Name => name;
-        readonly string name;
+        public string Name { get; }
 
         public abstract Object Invoke(List list);
 
@@ -14,7 +13,7 @@ namespace Kernel.Combiners
         public Object Invoke(params Object[] objects) => Invoke(new Pair(objects));
         internal Combiner(string name = "Undefined")
         {
-            this.name = name;
+            Name = name;
         }
 
     }

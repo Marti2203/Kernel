@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using static Kernel.Primitives.Primitives;
+using static Kernel.Primitives.Operatives;
 namespace Kernel.Combiners
 {
     [DebuggerDisplay("{Name}")]
@@ -54,7 +55,7 @@ namespace Kernel.Combiners
                 Match(local, formals, list);
                 if (eformal is Symbol s)
                     local[s] = dynamicEnvironment;
-                return Operatives.Sequence(local, exprs);
+                return Sequence(local, exprs);
             }
         }
 
@@ -76,17 +77,17 @@ namespace Kernel.Combiners
 
         public override Object Invoke(List list)
         {
-            string message = "Argument is not a Pair";
+            string exceptionMessage = "Argument is not a Pair";
             if (list is Pair p)
             {
                 if (p.Car is List l && p.Cdr is Environment environment)
                     return underlyingOperative.Action(l, environment);
                 if (!(p.Car is List))
-                    message += " and Argument Car is not a List";
+                    exceptionMessage += " and Argument Car is not a List";
                 if (!(p.Cdr is Environment))
-                    message += " and Argument Cdr is not a List";
+                    exceptionMessage += " and Argument Cdr is not a List";
             }
-            throw new ArgumentException(message);
+            throw new ArgumentException(exceptionMessage);
         }
 
         public Object Invoke(List list, Environment environment) => underlyingOperative.Action(list, environment);

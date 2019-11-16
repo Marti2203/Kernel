@@ -6,7 +6,9 @@ using System.Linq;
 using Kernel.Utilities;
 namespace Kernel
 {
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public sealed class Pair : List
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         Object car, cdr;
         public Object Car
@@ -64,7 +66,7 @@ namespace Kernel
         }
 
         public override string ToString()
-        => Cdr is Null ? $"({Car.ToString()})" : Cdr is Pair p ? ToStringList(Array.Empty<Pair>()) : $"({Car} . {Cdr})";
+        => Cdr is Null ? $"({Car.ToString()})" : Cdr is Pair ? ToStringList(Array.Empty<Pair>()) : $"({Car} . {Cdr})";
 
         string ToStringList(Pair[] visitedCars, int depth = 0)
         {
@@ -238,7 +240,7 @@ namespace Kernel
         => ReferenceEquals(this, obj)
             || (obj is Object other)
             && Mutable == other.Mutable
-                               && (other is Pair p)
+                               && (other is Pair)
                                && Equals(other);
     }
 }
