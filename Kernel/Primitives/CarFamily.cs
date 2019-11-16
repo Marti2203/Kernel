@@ -1,5 +1,6 @@
 ﻿using Kernel.BaseTypes;
-using Kernel.Primitives;
+using Kernel.Primitives.BindingAttributes;
+
 public static class CarFamily
 {
 	[Primitive("caaaaaar",1)]

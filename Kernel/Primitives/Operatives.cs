@@ -9,6 +9,8 @@ using Kernel.BaseTypes;
 using Object = Kernel.BaseTypes.Object;
 using Environment = Kernel.BaseTypes.Environment;
 using Boolean = Kernel.BaseTypes.Boolean;
+using Kernel.Primitives.BindingAttributes;
+
 namespace Kernel.Primitives
 {
     public static class Operatives

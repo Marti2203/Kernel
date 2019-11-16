@@ -10,6 +10,8 @@ using System.Linq;
 using Kernel.BaseTypes;
 using Object = Kernel.BaseTypes.Object;
 using Environment = Kernel.BaseTypes.Environment;
+using Kernel.Primitives.BindingAttributes;
+
 namespace Kernel.Primitives
 {
     public static partial class Primitives

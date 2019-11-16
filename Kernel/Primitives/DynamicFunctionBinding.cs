@@ -8,6 +8,7 @@ using static Kernel.Utilities.MethodCallUtilities;
 using System.Reflection;
 using Kernel.Utilities;
 using Kernel.BaseTypes;
+using Kernel.Primitives.BindingAttributes;
 
 namespace Kernel.Primitives
 {

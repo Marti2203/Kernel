@@ -12,6 +12,8 @@ using Object = Kernel.BaseTypes.Object;
 using Environment = Kernel.BaseTypes.Environment;
 using Boolean = Kernel.BaseTypes.Boolean;
 using String = Kernel.BaseTypes.String;
+using Kernel.Primitives.BindingAttributes;
+
 namespace Kernel.Primitives
 {
     public static class Applicatives
@@ -41,10 +43,28 @@ namespace Kernel.Primitives
             return Inert.Instance;
         }
 
-        [Primitive("display", 1)]
-        public static Inert Display(Object obj)
+        [Primitive("display", 1, true)]
+        [TypeAssertion(1,typeof(Port))]
+        public static Inert Display(Object obj, List rest)
         {
-            Console.WriteLine(obj);
+            if (rest.Count() > 1)
+            {
+                throw new ArgumentException("Too many arguments for display. Only an output port is accepted.");
+            }
+            if (rest.Count() == 0)
+            {
+                Console.WriteLine(obj);
+            }
+            else
+            {
+                if (!(rest[0] is Port p) || p.Type != PortType.Output)
+                {
+                    throw new ArgumentException("Given object is not a port or not an output port.");
+                }
+
+                p.Writer.WriteLine(obj);
+            }
+
             return Inert.Instance;
         }
 
@@ -750,9 +770,17 @@ namespace Kernel.Primitives
         public static Boolean IsInputPort(List objects)
         => objects.All<Object>((obj) => obj is Port p && p.Type == PortType.Input);
 
-
         [Primitive("output-port?", 0, true)]
         public static Boolean IsOutputPort(List objects)
         => objects.All<Object>((obj) => obj is Port p && p.Type == PortType.Output);
+
+        [Primitive("current-input-port")]
+        public static Port CurrentInputPort() => Port.CurrentInput;
+
+        [Primitive("current-output-port")]
+        public static Port CurrentOutputPort() => Port.CurrentOutput;
+
+        [Primitive("current-error-port")]
+        public static Port CurrentErrorPort() => Port.CurrentError;
     }
 }
