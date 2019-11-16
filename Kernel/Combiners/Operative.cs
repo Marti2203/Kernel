@@ -39,21 +39,21 @@ namespace Kernel.Combiners
         {
             readonly Environment @static;
             readonly Object formals;
-            readonly Object eformal;
+            readonly Object envformal;
             readonly List exprs;
 
             public CompoundOperative(Environment @static, Object formals, Object envFormal, List exprs)
             {
                 this.@static = @static;
                 this.formals = formals;
-                this.eformal = envFormal;
+                this.envformal = envFormal;
                 this.exprs = exprs;
             }
             public Object Action(List list, Environment dynamicEnvironment)
             {
                 Environment local = new Environment(@static);
                 Match(local, formals, list);
-                if (eformal is Symbol s)
+                if (envformal is Symbol s)
                     local[s] = dynamicEnvironment;
                 return Sequence(local, exprs);
             }

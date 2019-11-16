@@ -50,7 +50,7 @@ namespace Kernel.BaseTypes
                 if (Has(name))
                     throw new InvalidOperationException("Cannot replace primitive");
                 var container = ProperParents.FirstOrDefault(parent => parent.Contains(name)) ?? this;
-                container[name] = value;
+                container.bindings[name] = value;
             }
         }
 
