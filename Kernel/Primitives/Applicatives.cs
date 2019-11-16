@@ -44,8 +44,8 @@ namespace Kernel.Primitives
         }
 
         [Primitive("display", 2)]
-        [OptionalTypeAssertion(1, typeof(Port))]
-        [OptionalPredicateAssertion(1, typeof(Primitives), "IsOutputPort")]
+        [TypeAssertion(1, typeof(Port),optional:true)]
+        [PredicateAssertion(1, typeof(Primitives), "IsOutputPort",optional:true)]
         public static Inert Display(Object obj, Port p)
         {
             p ??= Port.StandardOutput;

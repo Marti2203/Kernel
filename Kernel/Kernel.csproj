@@ -50,8 +50,6 @@
     <Compile Include="Primitives\BindingAttributes\IndexAssertionAttribute.cs" />
     <Compile Include="Primitives\BindingAttributes\MutabilityAssertionAttribute.cs" />
     <Compile Include="Primitives\BindingAttributes\NonNegativityAssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\OptionalPredicateAssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\OptionalTypeAssertionAttribute.cs" />
     <Compile Include="Primitives\BindingAttributes\PredicateAssertionAttribute.cs" />
     <Compile Include="Primitives\BindingAttributes\PrimitiveAttribute.cs" />
     <Compile Include="Primitives\BindingAttributes\TypeAssertionAttribute.cs" />

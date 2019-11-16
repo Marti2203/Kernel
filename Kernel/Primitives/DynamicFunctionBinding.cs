@@ -10,14 +10,12 @@ using Kernel.Utilities;
 using Kernel.BaseTypes;
 using Kernel.Primitives.BindingAttributes;
 using ExpressionList = System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression>;
-using Console = System.Console;
 using static Kernel.Primitives.DynamicFunctionBindingVariables;
+using Console = System.Console;
 namespace Kernel.Primitives
 {
     public static class DynamicFunctionBinding
     {
-
-        //static Expression HasEnough
 
         static ExpressionList GenerateCallParameterCasts(IEnumerable<TypeAssertionAttribute> typeAssertions, ExpressionList parameters)
         => parameters.Select((expression, index) =>
@@ -106,7 +104,7 @@ namespace Kernel.Primitives
             var body = Block(new[] { ListParameter, ArgumentCount }, assignList, assignArgumentCount, countCheck, throws, methodCall);
 
 #if DebugMethods
-            if (method.Name == "Apply")
+            if (method.Name == "Display")
             {
                 Console.WriteLine(method.Name);
                 var expressions = body
