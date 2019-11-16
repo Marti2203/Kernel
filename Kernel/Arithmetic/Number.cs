@@ -4,10 +4,13 @@ namespace Kernel.Arithmetic
     /// <summary>
     /// Number.
     /// </summary>
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
     public abstract class Number : Object, IEquatable<Number>, IComparable<Number>
+#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public abstract NumberHierarchy Priority { get; }
-
         protected abstract Number Add(Number num);
         protected abstract Number Subtract(Number num);
         protected abstract Number SubtractFrom(Number num);
@@ -22,6 +25,9 @@ namespace Kernel.Arithmetic
         protected abstract int Compare(Number num);
 
         public bool Exact => true;
+
+        public static bool operator ==(Number l, Number r) => ReferenceEquals(l, r) || l.CompareTo(r) == 0;
+        public static bool operator !=(Number l, Number r) => !ReferenceEquals(l, r) && l.CompareTo(r) != 0;
 
         public bool Equals(Number other) => ReferenceEquals(this, other);
         public override bool Equals(Object other) => ReferenceEquals(this, other);
@@ -95,6 +101,23 @@ namespace Kernel.Arithmetic
         }
 
         public static implicit operator Number(long value) => Integer.Get(value);
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (obj is Object o)
+                return Equals(o);
+            return false;
+        }
     }
     public enum NumberHierarchy : byte
     {

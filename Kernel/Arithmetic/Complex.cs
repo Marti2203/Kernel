@@ -4,9 +4,9 @@ namespace Kernel.Arithmetic
 {
     /// <summary>
     /// Complex number, consisting of a real and imaginary part.
-    /// Highest number in hierarchy
+    /// Highest number in hierarchy for now.
     /// </summary>
-    internal sealed class Complex : Number
+    public sealed class Complex : Number
     {
         static readonly Dictionary<(Number, Number), Complex> cache = new Dictionary<(Number, Number), Complex>();
 

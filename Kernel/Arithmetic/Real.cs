@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 namespace Kernel.Arithmetic
 {
-
-    internal sealed class Real : Number
+    public sealed class Real : Number
     {
         public static bool HasPrimaryValue(Real real)
         => real.Exact || (!double.IsNaN((real.Data as InexactReal).PrimaryValue));
@@ -171,7 +170,11 @@ namespace Kernel.Arithmetic
         public static implicit operator Real(decimal dec) => Get(dec);
 
         protected override int Compare(Number num)
-        => ReferenceEquals(this, num) ? 0 : BiggerThan(num) ? 1 : -1;
+        {
+            Real r = Convert(num);
+
+            return ReferenceEquals(this, r) ? 0 : BiggerThan(r) ? 1 : -1;
+        }
 
         public static explicit operator decimal(Real real)
         {

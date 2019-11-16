@@ -4,14 +4,16 @@ using System.Linq;
 
 namespace Kernel.Arithmetic
 {
-#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
     /// <summary>
     /// Integer class
     /// </summary>
+#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
     public sealed class Integer : Number
+#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 #pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
     {
-        static readonly string digits = "0123456789abcdef";
+        const string digits = "0123456789abcdef";
         static readonly Dictionary<char, int> values = digits.ToDictionary(c => c, digits.IndexOf);
         static BigInteger ParseBigInteger(string value, int baseOfValue)
         => value.ToLower().Aggregate(new BigInteger(), (current, digit) => current * baseOfValue + values[digit]);
