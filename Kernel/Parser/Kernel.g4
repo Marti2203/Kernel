@@ -18,6 +18,7 @@ KEYWORD:
     | '#' [fF]
     | '#' [Ii][Gg][Nn][Oo][Rr][Ee]
     | '#' [Ii][Nn][Ee][Rr][Tt]
+	| ('+' | '-') [Ii][Nn][Ff] '.0'
     | '(' ')';
 
 STRING: '"' (EscapeSequence | ~('\\' | '"'))* '"';

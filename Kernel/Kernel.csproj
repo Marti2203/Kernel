@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,6 +41,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parser\KernelBaseListener.cs" />
+    <Compile Include="Parser\KernelListener.cs" />
+    <Compile Include="Primitives\Applicatives.cs" />
+    <Compile Include="Primitives\ListMetrics.cs" />
+    <Compile Include="Primitives\Operatives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NoBindingException.cs" />
@@ -69,7 +74,7 @@
     <Compile Include="Combiners\Operative.cs" />
     <Compile Include="Utilities\MethodInfoExtender.cs" />
     <Compile Include="Utilities\MethodCallUtilities.cs" />
-    <Compile Include="Primitives\DynamicConnections.cs" />
+    <Compile Include="Primitives\DynamicFunctionBinding.cs" />
     <Compile Include="BaseTypes\List.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\KernelBaseVisitor.cs" />
@@ -81,15 +86,7 @@
     <Compile Include="BaseTypes\Promise.cs" />
     <Compile Include="BaseTypes\Port.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EvalutedPrimitives\" />
-    <Folder Include="Primitives\" />
-    <Folder Include="Arithmetic\" />
-    <Folder Include="BaseTypes\" />
-    <Folder Include="Combiners\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="Parser\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="EvalutedPrimitives\SequenceCore.k" />

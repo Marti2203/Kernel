@@ -18,7 +18,7 @@ namespace Kernel.Parser
             KernelParser parser = new KernelParser(stream);
             IParseTree tree = parser.expressionLine();
 
-            KernelVisitor walker = new KernelVisitor(parser);
+            KernelVisitor walker = new KernelVisitor();
             return walker.Visit(tree);
         }
 
@@ -31,12 +31,9 @@ namespace Kernel.Parser
             { "#ignore", Ignore.Instance},
             { "#inert", Inert.Instance},
             { "()", Null.Instance},
+            { "+inf.0", Real.PositiveInfinity },
+            { "-inf.0", Real.NegativeInfinity },
         };
-            readonly KernelParser parser;
-            public KernelVisitor(KernelParser parser)
-            {
-                this.parser = parser;
-            }
 
             #region Signing Numbers
 
