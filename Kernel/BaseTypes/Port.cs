@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-namespace Kernel
+namespace Kernel.BaseTypes
 {
     public sealed class Port : Object, IDisposable
     {

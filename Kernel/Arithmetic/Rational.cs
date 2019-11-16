@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
 using System.Collections.Generic;
+using Kernel.BaseTypes;
+
 namespace Kernel.Arithmetic
 {
     /// <summary>

@@ -1,17 +1,13 @@
-﻿using System;
-
-namespace Kernel
+﻿namespace Kernel.BaseTypes
 {
-	public class Inert : Object
-	{
-		public static readonly Inert Instance = new Inert();
+    public class Inert : Object
+    {
+        public static readonly Inert Instance = new Inert();
 
-		Inert()
-		{
-		}
+        Inert(){}
 
-		public override bool Equals(Object other) => other is Inert;
+        public override bool Equals(Object other) => other is Inert;
 
-		public override string ToString() => "#inert";
-	}
+        public override string ToString() => "#inert";
+    }
 }

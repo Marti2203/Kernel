@@ -1,4 +1,4 @@
-﻿using Kernel;
+﻿using Kernel.BaseTypes;
 using Kernel.Primitives;
 public static class CarFamily
 {

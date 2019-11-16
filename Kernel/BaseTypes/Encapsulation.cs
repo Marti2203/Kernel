@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kernel
+namespace Kernel.BaseTypes
 {
     public sealed class Encapsulation : Object
     {

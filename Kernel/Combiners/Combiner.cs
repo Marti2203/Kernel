@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Kernel.BaseTypes;
+using System.Diagnostics;
 namespace Kernel.Combiners
 {
     [DebuggerDisplay("{Name}")]

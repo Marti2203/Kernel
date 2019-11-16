@@ -8,6 +8,8 @@ using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
 using System.Reflection;
 using Kernel.Utilities;
+using Kernel.BaseTypes;
+
 namespace Kernel.Primitives
 {
     public static class DynamicFunctionBinding

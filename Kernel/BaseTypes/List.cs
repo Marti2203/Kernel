@@ -1,4 +1,4 @@
-﻿namespace Kernel
+﻿namespace Kernel.BaseTypes
 {
     public abstract class List : Object
     {

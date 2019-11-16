@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using static Kernel.Primitives.Primitives;
-using Evaluation = System.Collections.Generic.KeyValuePair<string, Kernel.Object>;
+using Evaluation = System.Collections.Generic.KeyValuePair<string, Kernel.BaseTypes.Object>;
+using Kernel.BaseTypes;
+
 namespace Kernel
 {
     public static class EvaluatedPrimitives

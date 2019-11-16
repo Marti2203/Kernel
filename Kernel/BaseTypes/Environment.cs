@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Kernel.Combiners;
 using static Kernel.Primitives.Primitives;
 using System.Linq;
-namespace Kernel
+
+namespace Kernel.BaseTypes
 {
     public sealed class Environment : Object
     {

@@ -1,5 +1,6 @@
 ﻿#define FastCopyES
 using Kernel.Arithmetic;
+using Kernel.BaseTypes;
 using static CarFamily;
 namespace Kernel.Primitives
 {

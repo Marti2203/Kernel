@@ -1,4 +1,4 @@
-﻿namespace Kernel
+﻿namespace Kernel.BaseTypes
 {
     public sealed class Promise : Object
     {
@@ -9,7 +9,7 @@
         readonly Environment environment;
         public Promise(Object value)
         {
-            this.result = value;
+            result = value;
             evaluated = true;
         }
         public Promise(Environment environment, Object expression)

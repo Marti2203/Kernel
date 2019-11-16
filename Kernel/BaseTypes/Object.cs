@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Kernel
+namespace Kernel.BaseTypes
 {
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public abstract class Object : IEquatable<Object>
@@ -9,7 +9,7 @@ namespace Kernel
 
         public abstract bool Equals(Object other);
         public override bool Equals(object obj)
-        => ReferenceEquals(this, obj) || (obj is Object other) && Mutable == other.Mutable && ToString() != obj.ToString();
+        => ReferenceEquals(this, obj) || obj is Object other && Mutable == other.Mutable && ToString() != obj.ToString();
 
         public Object Copy() => NClone.Clone.ObjectGraph(this);
 

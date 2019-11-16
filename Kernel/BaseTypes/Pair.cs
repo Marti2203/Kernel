@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Kernel.Utilities;
-namespace Kernel
+
+namespace Kernel.BaseTypes
 {
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public sealed class Pair : List
@@ -238,9 +239,9 @@ namespace Kernel
 
         public override bool Equals(object obj)
         => ReferenceEquals(this, obj)
-            || (obj is Object other)
+            || obj is Object other
             && Mutable == other.Mutable
-                               && (other is Pair)
+                               && other is Pair
                                && Equals(other);
     }
 }

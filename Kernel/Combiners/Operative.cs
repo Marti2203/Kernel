@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using static Kernel.Primitives.Primitives;
 using static Kernel.Primitives.Operatives;
+using Kernel.BaseTypes;
+
 namespace Kernel.Combiners
 {
     [DebuggerDisplay("{Name}")]

@@ -1,4 +1,4 @@
-﻿namespace Kernel
+﻿namespace Kernel.BaseTypes
 {
     public sealed class Boolean : Object
     {

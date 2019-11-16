@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Kernel.BaseTypes;
 using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
 namespace Kernel.Primitives

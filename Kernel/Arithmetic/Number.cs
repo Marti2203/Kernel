@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kernel.BaseTypes;
+using System;
 namespace Kernel.Arithmetic
 {
     /// <summary>
