@@ -702,7 +702,7 @@ namespace Kernel.Primitives
         public static Inert Load(String fileName)
         {
             if (!System.IO.File.Exists(fileName))
-                throw new ArgumentException($"File {fileName} does not exist in the working directory");
+                throw new ArgumentException($"File {fileName} does not exist.");
             using (System.IO.StreamReader reader = new System.IO.StreamReader(fileName))
             {
                 Operatives.Sequence(Environment.Current, Parser.Parser.Parse($"({reader.ReadToEnd()})") as List);

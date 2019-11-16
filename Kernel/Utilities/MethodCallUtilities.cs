@@ -1,5 +1,4 @@
 ﻿using Kernel.BaseTypes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -31,7 +30,7 @@ namespace Kernel.Utilities
         }
 
         public static Expression Throw(Expression check, string errorMessage)
-        => IfThen(check, Expression.Throw(Constant(new ArgumentException(errorMessage))));
+        => IfThen(check, Expression.Throw(Constant(new System.ArgumentException(errorMessage))));
 
     }
 }

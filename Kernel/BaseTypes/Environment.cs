@@ -44,11 +44,13 @@ namespace Kernel.BaseTypes
         public Object this[Symbol name]
         {
             get => Find(name) ?? throw new NoBindingException($"No binding for {name}");
+
             set
             {
                 if (Has(name))
                     throw new InvalidOperationException("Cannot replace primitive");
-                bindings[name] = value;
+                var container = ProperParents.FirstOrDefault(parent => parent.Contains(name)) ?? this;
+                container[name] = value;
             }
         }
 

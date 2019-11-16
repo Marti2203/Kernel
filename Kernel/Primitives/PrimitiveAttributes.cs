@@ -5,26 +5,21 @@ using System.Reflection;
 using Kernel.BaseTypes;
 using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
+using Object = Kernel.BaseTypes.Object;
 namespace Kernel.Primitives
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     sealed class PrimitiveAttribute : Attribute
     {
-
-        public string PrimitiveName => primitiveName;
-        readonly string primitiveName;
-
-        public int InputCount => inputCount;
-        readonly int inputCount;
-
-        public bool Variadic => variadic;
-        readonly bool variadic;
+        public string PrimitiveName { get; }
+        public int InputCount { get; }
+        public bool Variadic { get; }
 
         public PrimitiveAttribute(string primitiveName, int inputCount = 0, bool variadic = false)
         {
-            this.primitiveName = primitiveName;
-            this.inputCount = inputCount;
-            this.variadic = variadic;
+            PrimitiveName = primitiveName;
+            InputCount = inputCount;
+            Variadic = variadic;
         }
 
         public Expression[] Parameters(ParameterExpression input) => Enumerable
@@ -36,10 +31,7 @@ namespace Kernel.Primitives
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     abstract class AssertionAttribute : Attribute
     {
-        protected AssertionAttribute(string errorMessage)
-        {
-            this.errorMessage = errorMessage;
-        }
+        protected AssertionAttribute(string errorMessage) => ErrorMessage = errorMessage;
 
         public abstract Expression Expression { get; }
 
@@ -47,8 +39,7 @@ namespace Kernel.Primitives
 
         public static readonly UnaryExpression InputCasted = TypeAs(Input, typeof(List));
 
-        public string ErrorMessage => errorMessage;
-        readonly string errorMessage;
+        public string ErrorMessage { get; }
     }
 
 
@@ -60,8 +51,8 @@ namespace Kernel.Primitives
         protected IndexAssertionAttribute(Expression condition, string errorMessage, int index, bool negated)
             : base(errorMessage)
         {
-            this.negated = negated;
-            this.index = index;
+            Negated = negated;
+            Index = index;
             expression = condition;
         }
 
@@ -71,11 +62,8 @@ namespace Kernel.Primitives
 
         public Expression Element => ElementAt(Index);
 
-        public int Index => index;
-        readonly int index;
-
-        public bool Negated => negated;
-        readonly bool negated;
+        public int Index { get; }
+        public bool Negated { get; }
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
@@ -90,17 +78,13 @@ namespace Kernel.Primitives
         }
         public TypeAssertionAttribute(int index, Type type1, Type type2)
             : base(OrElse(ElementAtIs((index), type1), ElementAtIs((index), type2)),
-                   $"{index} Argument is not a {type1} or {type2}", index, true)
-        {
-            Type = typeof(Object);
-        }
+                   $"{index} Argument is not a {type1} or {type2}", index, true) => Type = typeof(Object);
 
         static TypeBinaryExpression ElementAtIs(int index, Type type) => TypeIs(ElementAt(index), type);
-        TypeBinaryExpression ElementIs(Type type) => TypeIs(Element, type);
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    class PredicateAssertionAttribute : IndexAssertionAttribute
+    sealed class PredicateAssertionAttribute : IndexAssertionAttribute
     {
         public PredicateAssertionAttribute(int index, Type type, string methodName, bool negated = true)
             : base(StaticCallOnElementAt(type.GetMethod(methodName, new[] { typeof(Object) }), index)
@@ -110,15 +94,11 @@ namespace Kernel.Primitives
 
         static Expression StaticCallOnElementAt(MethodInfo predicate, int index)
         => Call(null, predicate, ElementAt(index));
-
-
-        Expression StaticCallOnElement(MethodInfo predicate)
-        => Call(null, predicate, Element);
     }
 
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    class MutabilityAssertionAttribute : IndexAssertionAttribute
+    sealed class MutabilityAssertionAttribute : IndexAssertionAttribute
     {
         public MutabilityAssertionAttribute(int index, bool required = true)
             : base(Property(ElementAt(index), "Mutable"), $"{index} Argument is not mutable", index, !required) { }
@@ -126,7 +106,7 @@ namespace Kernel.Primitives
 
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    class NonNegativityAssertionAttribute : IndexAssertionAttribute
+    sealed class NonNegativityAssertionAttribute : IndexAssertionAttribute
     {
         public NonNegativityAssertionAttribute(int index)
             : base(And
@@ -142,13 +122,13 @@ namespace Kernel.Primitives
     }
 
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    class VariadicTypeAssertion : AssertionAttribute
+    sealed class VariadicTypeAssertion : AssertionAttribute
     {
         public VariadicTypeAssertion(Type type, int skip = 0)
             : base($"All { (skip > 0 ? $"after {skip}" : "")} arguments must be {type.Name}")
         {
-            this.skip = skip;
-            this.type = type;
+            Skip = skip;
+            Type = type;
         }
 
         public LambdaExpression TypePredicate()
@@ -165,10 +145,8 @@ namespace Kernel.Primitives
                 return Not(CallFunction("All", input, TypePredicate()));
             }
         }
-        public Type Type => type;
-        readonly Type type;
-        public int Skip => skip;
-        readonly int skip;
+        public Type Type { get; }
+        public int Skip { get; }
     }
 
 }

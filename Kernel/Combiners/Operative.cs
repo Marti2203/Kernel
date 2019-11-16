@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using static Kernel.Primitives.Primitives;
 using static Kernel.Primitives.Operatives;
 using Kernel.BaseTypes;
@@ -22,10 +22,10 @@ namespace Kernel.Combiners
 
         }
 
-        public Operative(Environment @static, Object formals, Object eformal, List exprs)
+        public Operative(Environment @static, Object formals, Object envformal, List exprs)
             : base("User Defined Operative")
         {
-            underlyingOperative = new CompoundOperative(@static, formals, eformal, exprs);
+            underlyingOperative = new CompoundOperative(@static, formals, envformal, exprs);
         }
 
         interface IOperative
@@ -42,11 +42,11 @@ namespace Kernel.Combiners
             readonly Object eformal;
             readonly List exprs;
 
-            public CompoundOperative(Environment @static, Object formals, Object eformal, List exprs)
+            public CompoundOperative(Environment @static, Object formals, Object envFormal, List exprs)
             {
                 this.@static = @static;
                 this.formals = formals;
-                this.eformal = eformal;
+                this.eformal = envFormal;
                 this.exprs = exprs;
             }
             public Object Action(List list, Environment dynamicEnvironment)
