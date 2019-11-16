@@ -1,4 +1,4 @@
-﻿using Kernel.BaseTypes;
+using Kernel.BaseTypes;
 namespace Kernel.Combiners
 {
     public sealed class Applicative : Combiner
