@@ -1,5 +1,6 @@
 ﻿//#define DirectRead
 using System;
+using System.Linq;
 using static System.Console;
 using static Kernel.Primitives.Primitives;
 
@@ -36,6 +37,10 @@ namespace Kernel
                 catch (NoBindingException binding)
                 {
                     WriteLine(binding.Message);
+                }
+                catch (AggregateException agg)
+                {
+                    WriteLine(string.Join(System.Environment.NewLine, agg.InnerExceptions.Select(x => x.Message)));
                 }
             }
         }
