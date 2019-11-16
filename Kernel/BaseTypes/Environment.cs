@@ -60,17 +60,18 @@ namespace Kernel
         public Object Find(Symbol symbol)
         {
             HashSet<Environment> traversed = new HashSet<Environment>();
-            Stack<Environment> environments = new Stack<Environment>();
-            environments.Push(this);
+            Stack<Environment> environmentsToTraverse = new Stack<Environment>();
+            environmentsToTraverse.Push(this);
 
-            while (environments.Count != 0)
+            while (environmentsToTraverse.Count != 0)
             {
-                Environment current = environments.Pop();
+                Environment current = environmentsToTraverse.Pop();
                 if (current.bindings.ContainsKey(symbol))
                     return current.bindings[symbol];
                 if (traversed.Add(current))
-                    foreach (Environment environment in current.ProperParents)
-                        environments.Push(environment);
+                    foreach (Environment environmentParents in current.ProperParents)
+                        if (!traversed.Contains(environmentParents) && !environmentsToTraverse.Contains(environmentParents))
+                            environmentsToTraverse.Push(environmentParents);
             }
             return Has(symbol) ? Get(symbol) : null;
         }
