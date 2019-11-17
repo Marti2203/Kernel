@@ -118,7 +118,7 @@ namespace Kernel.Utilities
 
         public static Object Last(this List list)
         {
-            if (list is Null) throw new ArgumentException("Cannot find a last element in a null array");
+            if (list is Null) throw new ArgumentException("Cannot find a last element in an empty list");
             if (list.ContainsCycle) throw new ArgumentException("Cannot find a last element in a cyclic list");
             Pair current = list as Pair;
             while (current.Cdr is Pair p)

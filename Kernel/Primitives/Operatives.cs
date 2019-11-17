@@ -59,9 +59,8 @@ namespace Kernel.Primitives
 
         [Primitive("$sequence", 1, true)]
         [TypeAssertion(0, typeof(Environment))]
-        public static Object Sequence(Environment env, List objects)
-        => !objects.Any<Object>() ? Inert.Instance
-                       : Evaluate(objects.ForEachReturnLast<Object>((obj) => Evaluate(obj, env)), env);
+        public static Object Sequence(Environment env, List objects) 
+            => !objects.Any<Object>() ? Inert.Instance : Evaluate(objects.ForEachReturnLast<Object>((obj) => Evaluate(obj, env)), env);
 
         [Primitive("$cond", 1, true)]
         [TypeAssertion(0, typeof(Environment))]

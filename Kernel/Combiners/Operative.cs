@@ -2,6 +2,8 @@ using System.Diagnostics;
 using static Kernel.Primitives.Primitives;
 using static Kernel.Primitives.Operatives;
 using Kernel.BaseTypes;
+using System.Runtime.CompilerServices;
+
 namespace Kernel.Combiners
 {
     [DebuggerDisplay("{Name}")]
@@ -73,6 +75,8 @@ namespace Kernel.Combiners
             }
         }
 
+        internal bool IsPrimitive => this.underlyingOperative is PrimitiveOperative;
+
         #endregion
 
         public override Object Invoke(List list)
@@ -90,6 +94,7 @@ namespace Kernel.Combiners
             throw new System.ArgumentException(exceptionMessage);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Object Invoke(List list, Environment environment) => underlyingOperative.Action(list, environment);
 
         public override string ToString() => Name;

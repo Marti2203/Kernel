@@ -8,16 +8,16 @@ using Kernel.BaseTypes;
 using Kernel.Primitives.DynamicBinding.Attributes;
 public static class CarFamily
 {
-<#=Recurse("Ca",5)#>
-<#=Recurse("Cd",5)#>
+<#=GenerateTree("Ca",5)#>
+<#=GenerateTree("Cd",5)#>
 }
 <#+
 
-public string TypeCheck(string functionWhole, string functionSub)
+public string TypeCheck(string functionWhole, char functionSub)
 => $@"	
-		if (!(p.{functionSub} is Pair))
-			throw new System.ArgumentException(""{functionWhole}r's {functionSub} function has not received a proper argument."");
-		p = p.{functionSub} as Pair;
+		if (!(p.C{functionSub}r is Pair))
+			throw new System.ArgumentException(""{functionWhole}r's C{functionSub}r function has not received a proper argument."");
+		p = p.C{functionSub}r as Pair;
 	";
 
 public string GenerateCall(string name)
@@ -28,7 +28,7 @@ public string GenerateCall(string name)
 	{{{
 		name.Substring(2)
 		    .Reverse()
-			.Select(c => c == 'a' ? TypeCheck(name,"Car") : TypeCheck(name,"Cdr"))
+			.Select(c => TypeCheck(name,c))
 			.Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
 		}
 		return (T)p.{(name[1] == 'a' ? "Car" : "Cdr")};
@@ -36,7 +36,7 @@ public string GenerateCall(string name)
 	";
 
 
-public string Recurse(string name,int level = 1)
+public string GenerateTree(string name,int level = 1)
 {
 	if(level == 0) 
 	{
@@ -44,8 +44,8 @@ public string Recurse(string name,int level = 1)
 	}
 	else 
 	{
-		Write(Recurse(name+"a",level - 1));
-		Write(Recurse(name+"d",level - 1));
+		Write(GenerateTree(name+"a",level - 1));
+		Write(GenerateTree(name+"d",level - 1));
 		return GenerateCall(name);
 	}
 }

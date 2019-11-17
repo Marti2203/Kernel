@@ -103,25 +103,27 @@ namespace Kernel.BaseTypes
 
         public Object Evaluate(Object obj)
         {
-            if (obj is Symbol s)
-                return this[s];
-            if (obj is Pair p)
+            Object EvaluatePair(Pair p)
             {
                 Object car = Evaluate(p.Car);
-                if (car is Operative o)
+                if (!(p.Cdr is List l))
                 {
-                    return o.Invoke(p.Cdr as Pair, this);
-                }
-                if (car is Applicative ap)
-                {
-                    if (p.Cdr is List l)
-                        return Evaluate(ap.Combiner, l.EvaluateAll(this));
-
                     throw new ArgumentException("Applicatives require a list");
                 }
-                throw new ArgumentException("Car must be either an applicative or operative");
+                return car switch
+                {
+                    Operative o => o.Invoke(p.Cdr as Pair, this),
+                    Applicative ap => Evaluate(ap.Combiner,l.EvaluateAll(this)),
+                    _ => throw new ArgumentException("Car must be either an applicative or operative"),
+                };
             }
-            return obj;
+
+            return obj switch
+            {
+                Symbol s => this[s],
+                Pair p => EvaluatePair(p),
+                _ => obj,
+            };
         }
 
         public Object Evaluate(Combiner combiner, List list)

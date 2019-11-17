@@ -44,8 +44,8 @@ namespace Kernel.Primitives
         }
 
         [Primitive("display", 2)]
-        [TypeAssertion(1, typeof(Port),optional:true)]
-        [PredicateAssertion(1, typeof(Primitives), "IsOutputPort",optional:true)]
+        [TypeAssertion(1, typeof(Port), optional: true)]
+        [PredicateAssertion(1, typeof(Primitives), "IsOutputPort", optional: true)]
         public static Inert Display(Object obj, Port p)
         {
             p ??= Port.StandardOutput;
@@ -683,10 +683,8 @@ namespace Kernel.Primitives
         {
             if (!System.IO.File.Exists(fileName))
                 throw new ArgumentException($"File {fileName} does not exist.");
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(fileName))
-            {
-                Operatives.Sequence(Environment.Current, Parser.Parser.Parse($"({reader.ReadToEnd()})") as List);
-            }
+            using System.IO.StreamReader reader = new System.IO.StreamReader(fileName);
+            Operatives.Sequence(Environment.Current, Parser.Parser.Parse($"({reader.ReadToEnd()})") as List);
             return Inert.Instance;
         }
 
