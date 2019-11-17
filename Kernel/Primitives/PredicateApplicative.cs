@@ -1,6 +1,4 @@
-﻿//#define DebugMethods
-//#define DebugCallMethods
-using System.Linq;
+﻿using System.Linq;
 using Kernel.Utilities;
 using Kernel.BaseTypes;
 
@@ -13,7 +11,7 @@ namespace Kernel.Primitives
         static Boolean Validate(Object @object)
         {
             if (!(@object is List list))
-                throw new System.ArgumentException("Validate only accepts a list of objects", nameof(@object));
+                throw new System.ArgumentException($"{Name} only accepts a list of objects", nameof(@object));
             return list.All<T>(x => x is T);
         }
     }

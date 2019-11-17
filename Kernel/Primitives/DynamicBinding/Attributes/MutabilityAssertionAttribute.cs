@@ -1,6 +1,6 @@
 ﻿using System;
 using static System.Linq.Expressions.Expression;
-namespace Kernel.Primitives.BindingAttributes
+namespace Kernel.Primitives.DynamicBinding.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public sealed class MutabilityAssertionAttribute : IndexAssertionAttribute

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using static System.Linq.Expressions.Expression;
-namespace Kernel.Primitives.BindingAttributes
+namespace Kernel.Primitives.DynamicBinding.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class PrimitiveAttribute : Attribute
@@ -17,11 +14,5 @@ namespace Kernel.Primitives.BindingAttributes
             InputCount = inputCount;
             Variadic = variadic;
         }
-
-        public Expression[] Parameters(ParameterExpression input) => Enumerable
-            .Range(0, InputCount)
-            .Select<int, Expression>(x => Property(input, "Item", Constant(x)))
-            .ToArray();
     }
-
 }

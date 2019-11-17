@@ -46,14 +46,14 @@
     <Compile Include="Parser\KernelBaseListener.cs" />
     <Compile Include="Parser\KernelListener.cs" />
     <Compile Include="Primitives\Applicatives.cs" />
-    <Compile Include="Primitives\BindingAttributes\AssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\IndexAssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\MutabilityAssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\NonNegativityAssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\PredicateAssertionAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\PrimitiveAttribute.cs" />
-    <Compile Include="Primitives\BindingAttributes\TypeAssertionAttribute.cs" />
-    <Compile Include="Primitives\DynamicFunctionBindingVariables.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\AssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\IndexAssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\MutabilityAssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\NonNegativityAssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\PredicateAssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\PrimitiveAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\TypeAssertionAttribute.cs" />
+    <Compile Include="Primitives\DynamicBinding\BindingVariables.cs" />
     <Compile Include="Primitives\ListMetrics.cs" />
     <Compile Include="Primitives\Operatives.cs" />
     <Compile Include="Primitives\PredicateApplicative.cs" />
@@ -63,9 +63,11 @@
     <Compile Include="EvalutedPrimitives\EvaluatedPrimitives.cs" />
     <Compile Include="Primitives\CarFamily.cs">
       <DependentUpon>CarFamily.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Primitives\Primitives.cs" />
-    <Compile Include="Primitives\BindingAttributes\VariadicTypeAssertion.cs" />
+    <Compile Include="Primitives\DynamicBinding\Attributes\VariadicTypeAssertion.cs" />
     <Compile Include="Arithmetic\Complex.cs" />
     <Compile Include="Arithmetic\Integer.cs" />
     <Compile Include="Arithmetic\Number.cs" />
@@ -85,7 +87,7 @@
     <Compile Include="Combiners\Operative.cs" />
     <Compile Include="Utilities\MethodInfoExtender.cs" />
     <Compile Include="Utilities\MethodCallUtilities.cs" />
-    <Compile Include="Primitives\DynamicFunctionBinding.cs" />
+    <Compile Include="Primitives\DynamicBinding\DynamicFunctionBinding.cs" />
     <Compile Include="BaseTypes\List.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\KernelBaseVisitor.cs" />
@@ -97,7 +99,9 @@
     <Compile Include="BaseTypes\Promise.cs" />
     <Compile Include="BaseTypes\Port.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="EvalutedPrimitives\SequenceCore.k" />

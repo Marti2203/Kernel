@@ -12,7 +12,7 @@ using Object = Kernel.BaseTypes.Object;
 using Environment = Kernel.BaseTypes.Environment;
 using Boolean = Kernel.BaseTypes.Boolean;
 using String = Kernel.BaseTypes.String;
-using Kernel.Primitives.BindingAttributes;
+using Kernel.Primitives.DynamicBinding.Attributes;
 
 namespace Kernel.Primitives
 {

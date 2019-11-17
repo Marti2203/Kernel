@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
 using static System.Linq.Expressions.Expression;
-using static Kernel.Primitives.DynamicFunctionBindingVariables;
-namespace Kernel.Primitives.BindingAttributes
+using static Kernel.Primitives.DynamicBinding.BindingVariables;
+namespace Kernel.Primitives.DynamicBinding.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public abstract class IndexAssertionAttribute : AssertionAttribute

@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Kernel.Combiners;
-using static Kernel.Primitives.DynamicFunctionBinding;
+using static Kernel.Primitives.DynamicBinding.DynamicFunctionBinding;
 using static CarFamily;
 using Kernel.Utilities;
 using System.Linq;
 using Kernel.BaseTypes;
 using Object = Kernel.BaseTypes.Object;
 using Environment = Kernel.BaseTypes.Environment;
-using Kernel.Primitives.BindingAttributes;
+using Kernel.Primitives.DynamicBinding.Attributes;
 
 namespace Kernel.Primitives
 {

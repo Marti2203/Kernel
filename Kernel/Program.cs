@@ -26,7 +26,7 @@ namespace Kernel
                     result = Environment.Ground.Evaluate(input);
                     if (!(result is Inert))
                     {
-                        WriteLine($"${++counter} = {result} {result.GetType()}");
+                        WriteLine($"${++counter} = {result} {Documentation(result)} {result.GetType()}");
                         Environment.Ground[$"${counter}"] = result;
                     }
                 }
@@ -44,5 +44,12 @@ namespace Kernel
                 }
             }
         }
+
+        private static string Documentation(Object input) => input switch
+        {
+            Combiners.Combiner comb => $"({comb.Name})",
+            _ => string.Empty,
+        };
+
     }
 }

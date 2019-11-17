@@ -93,9 +93,7 @@ namespace Kernel.Utilities
             throw new ArgumentException("List does not contain an element that passes the predicate");
         }
 
-#pragma warning disable RECS0096 // Type parameter is never used
         public static bool Any<T>(this List list) => !(list is Null);
-#pragma warning restore RECS0096 // Type parameter is never used
 
         public static int Count(this List list, bool throwOnCyclic = true)
         {

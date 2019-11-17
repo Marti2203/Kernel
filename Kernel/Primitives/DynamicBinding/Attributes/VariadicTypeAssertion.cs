@@ -2,9 +2,10 @@
 using System.Linq.Expressions;
 using static System.Linq.Expressions.Expression;
 using static Kernel.Utilities.MethodCallUtilities;
-using static Kernel.Primitives.DynamicFunctionBindingVariables;
+using static Kernel.Primitives.DynamicBinding.BindingVariables;
 using Object = Kernel.BaseTypes.Object;
-namespace Kernel.Primitives.BindingAttributes
+
+namespace Kernel.Primitives.DynamicBinding.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class VariadicTypeAssertion : AssertionAttribute

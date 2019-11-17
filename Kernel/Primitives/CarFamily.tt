@@ -4,8 +4,8 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-using Kernel;
-using Kernel.Primitives;
+using Kernel.BaseTypes;
+using Kernel.Primitives.DynamicBinding.Attributes;
 public static class CarFamily
 {
 <#=Recurse("Ca",5)#>
@@ -14,33 +14,39 @@ public static class CarFamily
 <#+
 
 public string TypeCheck(string functionWhole, string functionSub)
-=>String.Join(System.Environment.NewLine,"\n\t\tif(!(p."+functionSub+" is Pair))"
-,$"\t\t\tthrow new System.ArgumentException(\""+functionWhole+"r's " + functionSub + " function has not received a proper argument \");"
-,"\t\tp = p."+functionSub+" as Pair;"
-,""
-);
+=> $@"	
+		if (!(p.{functionSub} is Pair))
+			throw new System.ArgumentException(""{functionWhole}r's {functionSub} function has not received a proper argument."");
+		p = p.{functionSub} as Pair;
+	";
+
+public string GenerateCall(string name)
+=> $@"
+	[Primitive(""{name.ToLower()}r"", 1)]
+	[TypeAssertion(0, typeof(Pair))]
+	public static T {name}r<T>(Pair p) where T : Object
+	{{{
+		name.Substring(2)
+		    .Reverse()
+			.Select(c => c == 'a' ? TypeCheck(name,"Car") : TypeCheck(name,"Cdr"))
+			.Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
+		}
+		return (T)p.{(name[1] == 'a' ? "Car" : "Cdr")};
+	}}
+	";
 
 
-public string Recurse(string start,int level = 1)
+public string Recurse(string name,int level = 1)
 {
-start:
-if(level == 0) 
-{
-return string.Join(System.Environment.NewLine
-    ,$"\t[Primitive(\"{start.ToLower()}r\",1)]"
-    ,$"\t[TypeAssertion(0, typeof(Pair))]"
-    ,"\tpublic static T "+start +"r<T>(Pair p) where T : Object"
-    ,"\t{" +start
-        .Substring(2)
-        .Reverse()
-        .Select(c => c == 'a' ? TypeCheck(start,"Car") : TypeCheck(start,"Cdr"))
-        .Aggregate(new StringBuilder(200),(c,n) => c.Append(n))
-    ,"\t\treturn (T) p."+ (start[1] == 'a' ? "Car" : "Cdr") + ";"
-    ,"\t}","");
-}
-Write(Recurse(start+"a",level - 1));
-Write(Recurse(start+"d",level - 1));
-level = 0;
-goto start;
+	if(level == 0) 
+	{
+		return GenerateCall(name);
+	}
+	else 
+	{
+		Write(Recurse(name+"a",level - 1));
+		Write(Recurse(name+"d",level - 1));
+		return GenerateCall(name);
+	}
 }
 #>

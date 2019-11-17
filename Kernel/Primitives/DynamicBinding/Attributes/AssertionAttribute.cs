@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Kernel.BaseTypes;
-using static System.Linq.Expressions.Expression;
-using Object = Kernel.BaseTypes.Object;
-namespace Kernel.Primitives.BindingAttributes
+namespace Kernel.Primitives.DynamicBinding.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public abstract class AssertionAttribute : Attribute

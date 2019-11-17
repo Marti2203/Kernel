@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using static System.Linq.Expressions.Expression;
 using Object = Kernel.BaseTypes.Object;
-namespace Kernel.Primitives.BindingAttributes
+namespace Kernel.Primitives.DynamicBinding.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public sealed class PredicateAssertionAttribute : IndexAssertionAttribute
