@@ -14,7 +14,9 @@ namespace Kernel.BaseTypes
             if (cache.ContainsKey(data) && cache[data].TryGetTarget(out Symbol value))
                 return value;
             Symbol instance = new Symbol(data);
-            cache.Add(data, new WeakReference<Symbol>(instance));
+            if (!cache.ContainsKey(data))
+                cache.Add(data, new WeakReference<Symbol>(instance));
+            else cache[data].SetTarget(instance);
             return instance;
         }
         Symbol(string data) => Data = data;
