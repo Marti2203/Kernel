@@ -146,6 +146,40 @@ namespace Kernel.Utilities
             return resultStart;
         }
 
+        public static IEnumerable<Out> Select<In, Out>(this List list, Func<In, Out> transform) where In : Object
+        {
+            if (list is Null) yield break;
+            if (list.ContainsCycle) throw new InvalidOperationException("Cyclical List in a IEnumerable Select. Why??");
+            Pair current = list as Pair;
+            while (current != null)
+            {
+                yield return transform(current.Car as In);
+                if(!(current.Cdr is Pair || current.Cdr is Null))
+                {
+                    throw new InvalidOperationException("Not a list. Bad thing");
+                }
+                current = current.Cdr as Pair;
+            }
+        }
+
+        public static IEnumerable<Out> Select<In, Out>(this List list, Func<In,int, Out> transform) where In : Object
+        {
+            if (list is Null) yield break;
+            if (list.ContainsCycle) throw new InvalidOperationException("Cyclical List in a IEnumerable Select. Why??");
+            Pair current = list as Pair;
+            int index = 0;
+            while (current != null)
+            {
+                yield return transform(current.Car as In,index++);
+                if (!(current.Cdr is Pair || current.Cdr is Null))
+                {
+                    throw new InvalidOperationException("Not a list. Bad thing");
+                }
+                current = current.Cdr as Pair;
+            }
+        }
+
+
         public static List Skip(this List list, int count)
         {
             if (list is Null) throw new ArgumentOutOfRangeException(nameof(list), "Cannot skip on an empty list");
