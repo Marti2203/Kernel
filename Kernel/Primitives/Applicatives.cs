@@ -49,7 +49,7 @@ namespace Kernel.Primitives
         public static Inert Display(Object obj, Port p)
         {
             p ??= Port.StandardOutput;
-            p.Writer.WriteLine(obj);
+            p.Writer.Write(obj);
             p.Writer.Flush();
             return Inert.Instance;
         }
@@ -492,6 +492,19 @@ namespace Kernel.Primitives
         [Primitive("even?", 1)]
         [TypeAssertion(0, typeof(Integer))]
         public static Boolean IsEven(Integer integer) => integer % 2 == 0;
+        [Primitive("mod", 2)]
+        [TypeAssertion(0, typeof(Integer))]
+        [TypeAssertion(1, typeof(Integer))]
+        public static Integer Modulus(Integer x, Integer y) => x % y;
+
+        [Primitive("div", 2)]
+        [TypeAssertion(0, typeof(Integer))]
+        [TypeAssertion(1, typeof(Integer))]
+        public static Integer Divide(Integer x, Integer y) => x.Div(y);
+
+        [Primitive("odd?", 1)]
+        [TypeAssertion(0, typeof(Integer))]
+        public static Boolean IsOdd(Integer integer) => integer % 2 == 1;
 
         [Primitive("=?", 0, true)]
         [VariadicTypeAssertion(typeof(Number))]
@@ -564,6 +577,8 @@ namespace Kernel.Primitives
             Complex _ => throw new ArgumentException("Cannot get floor of a complex number."),
             _ => throw new InvalidOperationException("WATAFAK?!"),
         };
+
+
 
         [Primitive("make-rectangular", 2)]
         [TypeAssertion(0, typeof(Number))]
@@ -741,26 +756,26 @@ namespace Kernel.Primitives
         [Primitive("current-error-port")]
         public static Port CurrentErrorPort() => Port.CurrentError;
 
-        [Primitive("open-input-file",1)]
+        [Primitive("open-input-file", 1)]
         [TypeAssertion(0, typeof(String))]
         public static Port OpenInputFile(String fileName)
         => new Port(fileName, PortType.Input);
 
-        [Primitive("open-output-file",1)]
+        [Primitive("open-output-file", 1)]
         [TypeAssertion(0, typeof(String))]
         public static Port OpenOutputFile(String fileName)
         => new Port(fileName, PortType.Output);
 
-        [Primitive("close-input-port",1)]     
+        [Primitive("close-input-port", 1)]
         [TypeAssertion(0, typeof(Port))]
-        [PredicateAssertion(0,typeof(Primitives),"IsInputPort")]
+        [PredicateAssertion(0, typeof(Primitives), "IsInputPort")]
         public static Inert CloseInputPort(Port p)
         {
             p.Dispose();
             return Inert.Instance;
         }
 
-        [Primitive("close-output-port",1)]
+        [Primitive("close-output-port", 1)]
         [TypeAssertion(0, typeof(Port))]
         [PredicateAssertion(0, typeof(Primitives), "IsOutputPort")]
         public static Inert CloseOutputPort(Port p)
@@ -768,7 +783,7 @@ namespace Kernel.Primitives
             p.Dispose();
             return Inert.Instance;
         }
-        
+
         [Primitive("read-line", 1)]
         [TypeAssertion(0, typeof(Port))]
         [PredicateAssertion(0, typeof(Primitives), "IsInputPort")]
