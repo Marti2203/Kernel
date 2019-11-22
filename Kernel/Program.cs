@@ -1,4 +1,4 @@
-﻿//#define DirectRead
+//#define DirectRead
 using System.Linq;
 using Kernel.BaseTypes;
 using static System.Console;

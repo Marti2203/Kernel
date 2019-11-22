@@ -31,6 +31,7 @@ namespace Kernel.Primitives
             AddOperatives();
         }
 
+        public static bool IsInputPort(Object obj) => obj is Port p && p.Type == PortType.Input;
         public static bool IsOutputPort(Object obj) => obj is Port p && p.Type == PortType.Output;
 
         public static bool ValidBindingList(Object obj)
@@ -48,17 +49,26 @@ namespace Kernel.Primitives
 
         public static Object Evaluate(Object @object, Environment environment)
         {
-            Environment temp = Environment.Current;
-            Environment.Current = environment;
-            Object result = environment.Evaluate(@object);
-            Environment.Current = temp;
+            Object result;
+            if (environment != Environment.Current)
+            {
+                Environment temp = Environment.Current;
+                Environment.Current = environment;
+                result = environment.Evaluate(@object);
+                Environment.Current = temp;
+            }
+            else
+            {
+                result = Environment.Current.Evaluate(@object);
+            }
+
             return result;
         }
-        public static Object Evaluate(Combiner c,List l, Environment environment)
+        public static Object Evaluate(Combiner c, List l, Environment environment)
         {
             Environment temp = Environment.Current;
             Environment.Current = environment;
-            Object result = environment.Evaluate(c,l);
+            Object result = environment.Evaluate(c, l);
             Environment.Current = temp;
             return result;
         }
@@ -81,7 +91,8 @@ namespace Kernel.Primitives
                 switch (definiendCurrent)
                 {
                     case Symbol s:
-                        settingOperations.Add(() => env[s] = resultCurrent);
+                        settingOperations.Add(resultCurrent is Combiner c ? new Action(() => OptmizeCombinerMatch(env, s, c))
+                                                                          : () => env[s] = resultCurrent);
                         break;
                     case Null _:
                         if (!(resultCurrent is Null))
@@ -108,6 +119,28 @@ namespace Kernel.Primitives
                     action();
             }
             else throw new AggregateException(errors);
+        }
+
+        private static void OptmizeCombinerMatch(Environment e, Symbol s, Combiner c)
+        {
+            if (c is Applicative a)
+            {
+                while (a.Combiner is Applicative aInner)
+                {
+                    a = aInner;
+                }
+                if (!(a.Combiner is Operative op))
+                    throw new InvalidOperationException("WTF??");
+                e[s] = new Applicative(Operative.Optimize(op,s,e));
+            }
+            else if (c is Operative o)
+            {
+                e[s] = Operative.Optimize(o,s,e);
+            }
+            else
+            {
+                throw new InvalidOperationException("WTF??");
+            }
         }
 
         static bool IsFormalParameterTree(Object @object, bool pairCheck)
