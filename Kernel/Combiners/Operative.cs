@@ -183,12 +183,13 @@ namespace Kernel.Combiners
                     default:
                         if (!(e[s] is Combiner c))
                             throw new System.InvalidOperationException("Cannot compile a pair that doesn't have a combiner as a first argument");
-                        return Call(Constant(c),
-                                    c.GetType().GetMethod("Invoke", new[] { typeof(List) }),
-                                    Call(
-                                    MethodCallUtilities.CallFunction("Skip", Constant(pairs), Constant(1)),
-                                    typeof(List).GetMethod("EvaluateAll"), staticEnvironmentConstant)
-                                    );
+                        var invoke = c.GetType().GetMethod("Invoke", new[] { typeof(List) });
+                        var arguments = MethodCallUtilities.CallFunction("Skip", Constant(pairs), Constant(1));
+                        if(c is Applicative)
+                        {
+                            arguments = Call(arguments, typeof(List).GetMethod("EvaluateAll"), staticEnvironmentConstant);
+                        }
+                        return Call(Constant(c),invoke,arguments);
 
                 }
             }
