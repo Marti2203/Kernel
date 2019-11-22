@@ -50,6 +50,7 @@ namespace Kernel.Primitives
         {
             p ??= Port.StandardOutput;
             p.Writer.WriteLine(obj);
+            p.Writer.Flush();
             return Inert.Instance;
         }
 
@@ -279,11 +280,11 @@ namespace Kernel.Primitives
         #region Equality
         [Primitive("eq?", 0, true)]
         public static Boolean Eq(List objects)
-        => (!objects.Any<Object>() || objects.All<Object>(obj => ReferenceEquals(obj, objects[0])));
+        => !objects.Any<Object>() || objects.All<Object>(obj => ReferenceEquals(obj, objects[0]));
 
         [Primitive("equal?", 0, true)]
         public static Boolean Equal(List objects)
-        => (!objects.Any<Object>() || objects.All<Object>(obj => obj.Equals(objects[0])));
+        => !objects.Any<Object>() || objects.All<Object>(obj => obj.Equals(objects[0]));
         #endregion
 
         #region Environment
@@ -480,7 +481,6 @@ namespace Kernel.Primitives
         public static Number Subtract(Number seed, List numbers)
         => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current - start, seed)
                       : -seed;
-
 
         [Primitive("/", 1, true)]
         [TypeAssertion(0, typeof(Number))]
@@ -740,5 +740,58 @@ namespace Kernel.Primitives
 
         [Primitive("current-error-port")]
         public static Port CurrentErrorPort() => Port.CurrentError;
+
+        [Primitive("open-input-file",1)]
+        [TypeAssertion(0, typeof(String))]
+        public static Port OpenInputFile(String fileName)
+        => new Port(fileName, PortType.Input);
+
+        [Primitive("open-output-file",1)]
+        [TypeAssertion(0, typeof(String))]
+        public static Port OpenOutputFile(String fileName)
+        => new Port(fileName, PortType.Output);
+
+        [Primitive("close-input-port",1)]     
+        [TypeAssertion(0, typeof(Port))]
+        [PredicateAssertion(0,typeof(Primitives),"IsInputPort")]
+        public static Inert CloseInputPort(Port p)
+        {
+            p.Dispose();
+            return Inert.Instance;
+        }
+
+        [Primitive("close-output-port",1)]
+        [TypeAssertion(0, typeof(Port))]
+        [PredicateAssertion(0, typeof(Primitives), "IsOutputPort")]
+        public static Inert CloseOutputPort(Port p)
+        {
+            p.Dispose();
+            return Inert.Instance;
+        }
+        
+        [Primitive("read-line", 1)]
+        [TypeAssertion(0, typeof(Port))]
+        [PredicateAssertion(0, typeof(Primitives), "IsInputPort")]
+        public static String ReadLine(Port p) => p.Reader.ReadLine();
+
+        [Primitive("write-line", 2)]
+        [TypeAssertion(0, typeof(Port))]
+        [PredicateAssertion(0, typeof(Primitives), "IsOutputPort")]
+        [TypeAssertion(1, typeof(String))]
+        public static Inert WriteLine(Port p, String s)
+        {
+            p.Writer.WriteLine(s);
+            p.Writer.Flush();
+            return Inert.Instance;
+        }
+        [Primitive("write", 2)]
+        [TypeAssertion(0, typeof(Port))]
+        [PredicateAssertion(0, typeof(Primitives), "IsOutputPort")]
+        public static Inert WriteLine(Port p, Object o)
+        {
+            p.Writer.WriteLine(o);
+            p.Writer.Flush();
+            return Inert.Instance;
+        }
     }
 }
