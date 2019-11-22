@@ -46,10 +46,10 @@ namespace Kernel.Arithmetic
         public static Integer Get(BigInteger input)
         {
             Integer result;
-            if (cache.ContainsKey(input))
-                return cache[input];
+            //if (cache.ContainsKey(input))
+               // return cache[input];
             result = new Integer(input);
-            cache.Add(input, result);
+            //cache.Add(input, result);
             return result;
         }
 
