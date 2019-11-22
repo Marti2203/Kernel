@@ -25,7 +25,7 @@ namespace Kernel.Combiners
         }
         public bool Equals(Applicative other) => Combiner == other.Combiner;
 
-        public override string ToString() => Name ?? Combiner.Name;
+        public override string ToString() => Combiner.Name;
 
         public override bool Equals(Object other)
         => ReferenceEquals(this, other) || (other is Applicative app && Combiner == app.Combiner);
