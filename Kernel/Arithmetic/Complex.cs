@@ -13,15 +13,15 @@ namespace Kernel.Arithmetic
 
         public override NumberHierarchy Priority => NumberHierarchy.Complex;
 
-        public new bool Exact => RealPart.Exact && Imaginary.Exact;
+        public new bool Exact => RealPart.Exact && ImaginaryPart.Exact;
 
         public Number RealPart { get; }
-        public Number Imaginary { get; }
+        public Number ImaginaryPart { get; }
 
         Complex(Number real, Number imaginary)
         {
             RealPart = real;
-            Imaginary = imaginary;
+            ImaginaryPart = imaginary;
         }
 
         public static Complex Get(Number real, Number imaginary)
@@ -40,30 +40,30 @@ namespace Kernel.Arithmetic
         public static Complex GetRectangle(Number real, Number imag) => Get(real, imag);
 
         public override string ToString()
-        => Imaginary.Equals(0) ? RealPart.ToString() : $"{RealPart}{ (Imaginary >= 0 ? "+" : "-") }{Imaginary}i";
+        => ImaginaryPart.Equals(0) ? RealPart.ToString() : $"{RealPart}{ (ImaginaryPart >= 0 ? "+" : "-") }{ImaginaryPart}i";
 
         protected override Number Add(Number num)
         {
             Complex other = Convert(num);
-            return Get(RealPart + other.RealPart, Imaginary + other.Imaginary);
+            return Get(RealPart + other.RealPart, ImaginaryPart + other.ImaginaryPart);
         }
 
         protected override Number Subtract(Number num)
         {
             Complex other = Convert(num);
-            return Get(RealPart - other.RealPart, Imaginary - other.Imaginary);
+            return Get(RealPart - other.RealPart, ImaginaryPart - other.ImaginaryPart);
         }
 
         protected override Number SubtractFrom(Number num)
         {
             Complex other = Convert(num);
-            return Get(other.RealPart - RealPart, other.Imaginary - Imaginary);
+            return Get(other.RealPart - RealPart, other.ImaginaryPart - ImaginaryPart);
         }
 
         protected override Number Multiply(Number num)
         {
             Complex other = Convert(num);
-            return Get(other.RealPart * RealPart - other.Imaginary * Imaginary, other.RealPart * Imaginary + other.Imaginary * RealPart);
+            return Get(other.RealPart * RealPart - other.ImaginaryPart * ImaginaryPart, other.RealPart * ImaginaryPart + other.ImaginaryPart * RealPart);
         }
 
         protected override Number Divide(Number num)
@@ -71,7 +71,7 @@ namespace Kernel.Arithmetic
             Complex other = Convert(num);
             Complex numerator = other.Multiply(Conjugate(this)) as Complex;
             Number denominator = Absolute(this);
-            return Get(numerator.RealPart / denominator, numerator.Imaginary / denominator);
+            return Get(numerator.RealPart / denominator, numerator.ImaginaryPart / denominator);
         }
 
         protected override Number DivideBy(Number num)
@@ -79,15 +79,15 @@ namespace Kernel.Arithmetic
             Complex other = Convert(num);
             Complex numerator = Multiply(Conjugate(other)) as Complex;
             Number denominator = Absolute(other);
-            return Get(numerator.RealPart / denominator, numerator.Imaginary / denominator);
+            return Get(numerator.RealPart / denominator, numerator.ImaginaryPart / denominator);
         }
 
-        protected override Number Negate() => Get(-RealPart, -Imaginary);
+        protected override Number Negate() => Get(-RealPart, -ImaginaryPart);
 
         public static Number Absolute(Complex complex)
-        => complex.RealPart * complex.RealPart + complex.Imaginary * complex.Imaginary;
+        => complex.RealPart * complex.RealPart + complex.ImaginaryPart * complex.ImaginaryPart;
 
-        public static Complex Conjugate(Complex number) => Get(number.RealPart, -number.Imaginary);
+        public static Complex Conjugate(Complex number) => Get(number.RealPart, -number.ImaginaryPart);
 
         protected override Boolean LessThan(Number num) => throw new InvalidOperationException("Cannot compare Complex Numbers directly.");
 
@@ -99,20 +99,19 @@ namespace Kernel.Arithmetic
 
         protected override int Compare(Number num) => throw new InvalidOperationException("Cannot compare Complex Numbers directly.");
 
-        static Complex Convert(Number number)
+        static Complex Convert(Number number) => number switch
         {
-            switch (number)
-            {
-                case Integer integer:
-                    return Get(integer, Integer.Zero);
-                case Rational rational:
-                    return Get(rational, Rational.Get(0));
-                case Real real:
-                    return Get(real, Real.Get(0m));
-                case Complex complex:
-                    return complex;
-            }
-            throw new InvalidOperationException("WATAFAK?!");
+            Integer integer => Get(integer, Integer.Zero),
+            Rational rational => Get(rational, Rational.Get(0)),
+            Real real => Get(real, Real.Get(0m)),
+            Complex complex => complex,
+            _ => throw new InvalidOperationException("WATAFAK?!"),
+        };
+
+        protected override bool InternalEquals(Object other)
+        {
+            var compOther = other as Complex;
+            return compOther.RealPart == RealPart && compOther.ImaginaryPart == ImaginaryPart;
         }
     }
 }

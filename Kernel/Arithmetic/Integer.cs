@@ -46,10 +46,11 @@ namespace Kernel.Arithmetic
         public static Integer Get(BigInteger input)
         {
             Integer result;
-            //if (cache.ContainsKey(input))
-               // return cache[input];
+            if (cache.ContainsKey(input))
+                return cache[input];
             result = new Integer(input);
-            //cache.Add(input, result);
+            //if (result < 128)
+            //    cache.Add(input, result);
             return result;
         }
 
@@ -121,6 +122,11 @@ namespace Kernel.Arithmetic
 
         protected override int Compare(Number num) => (Data - (num as Integer).Data).Sign;
 
+        protected override bool InternalEquals(Object other)
+        {
+            return (other as Integer).Data == this.Data;
+        }
+
         public static implicit operator BigInteger(Integer @int) => @int.Data;
         public static implicit operator Integer(BigInteger @int) => Get(@int);
         public static implicit operator Integer(long number) => Get(number);
@@ -134,5 +140,6 @@ namespace Kernel.Arithmetic
         => @int.Data > long.MaxValue ?
         throw new System.InvalidCastException("Value is bigger than max long size")
                    : (long)@int.Data;
+
     }
 }

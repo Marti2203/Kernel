@@ -30,7 +30,10 @@ namespace Kernel.Arithmetic
         public static bool operator !=(Number l, Number r) => !ReferenceEquals(l, r) && l.CompareTo(r) != 0;
 
         public bool Equals(Number other) => ReferenceEquals(this, other);
-        public override bool Equals(Object other) => ReferenceEquals(this, other);
+        public override bool Equals(Object other) => ReferenceEquals(this, other) || (GetType() == other.GetType() && InternalEquals(other) ) 
+                                                    || (other is Number n && CompareTo(n) == 0) ;
+
+        protected abstract bool InternalEquals(Object other);
 
         public int CompareTo(Number other)
         => Priority >= other.Priority ? Compare(other) : other.Compare(this);

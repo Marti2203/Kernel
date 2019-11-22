@@ -243,6 +243,11 @@ namespace Kernel.Arithmetic
             => Data.CompareTo((num as ExactReal).Data);
 
             public override string ToString() => Data.ToString();
+
+            protected override bool InternalEquals(Object other)
+            {
+                return (other as ExactReal).Data == Data;
+            }
         }
 
         class InexactReal : Number
@@ -372,10 +377,20 @@ namespace Kernel.Arithmetic
                 throw new System.NotImplementedException();
             }
             public override string ToString() => $"{PrimaryValue}";
+
+            protected override bool InternalEquals(Object other)
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
         internal static bool IsUndefined(Real r)
         => (!r.Exact) && (r.Data as InexactReal) == InexactReal.Undefined;
+
+        protected override bool InternalEquals(Object other)
+        {
+            return (other as Real).Data == Data;
+        }
     }
 
 }

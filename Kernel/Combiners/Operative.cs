@@ -136,8 +136,6 @@ namespace Kernel.Combiners
                 if (s == name)
                 {
                     var arguments = pairs.Skip(1);
-                    //System.Console.WriteLine("Arguments for call : {0}", arguments);
-                    //System.Console.WriteLine("Formals: {0}", underlying.formals);
                     var gotoStart = Goto(startLabelTarget);
 
                     var assignments = System.Array.Empty<Expression>();
@@ -156,7 +154,6 @@ namespace Kernel.Combiners
                         assignments = l.Select((System.Func<Object, int, Expression>)((symbol, i) => Assign(Property(staticEnvironmentConstant, "Item", Constant(l[i]))
                                                                                         , Call(instance: staticEnvironmentConstant, method: EvaluateInstance, Constant(arguments[i])))))
                                         .ToArray();
-
                     }
                     else
                     {

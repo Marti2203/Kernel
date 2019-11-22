@@ -573,7 +573,7 @@ namespace Kernel.Primitives
         [Primitive("imag-part", 1)]
         [TypeAssertion(0, typeof(Complex))]
         public static Number ImaginaryPart(Complex complex)
-        => complex.Imaginary;
+        => complex.ImaginaryPart;
 
         [Primitive("real-part", 1)]
         [TypeAssertion(0, typeof(Complex))]
@@ -592,7 +592,7 @@ namespace Kernel.Primitives
                 return number == Real.NegativeInfinity
                     || number == Real.PositiveInfinity
                     || (number is Real real && !number.Exact && Real.HasPrimaryValue(real))
-                    || (number is Complex c && Infinite(c.RealPart) && Infinite(c.Imaginary));
+                    || (number is Complex c && Infinite(c.RealPart) && Infinite(c.ImaginaryPart));
             }
 
             return numbers.All<Number>(Infinite);
@@ -606,7 +606,7 @@ namespace Kernel.Primitives
                 Integer integer => true,
                 Rational rational => rational.Denominator == 1,
                 Real real => real == Floor(real),
-                Complex complex => ReferenceEquals(complex.Imaginary, Integer.Zero) && isInteger(complex.RealPart),
+                Complex complex => ReferenceEquals(complex.ImaginaryPart, Integer.Zero) && isInteger(complex.RealPart),
                 _ => false,
             };
             return objects.All<Object>(isInteger);

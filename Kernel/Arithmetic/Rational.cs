@@ -145,6 +145,12 @@ namespace Kernel.Arithmetic
             throw new System.ArgumentException("WTF");
         }
 
+        protected override bool InternalEquals(Object other)
+        {
+            var ratOther = other as Rational;
+            return ratOther.Numerator * Denominator == ratOther.Denominator * Numerator;
+        }
+
         public static implicit operator Rational(Integer integer) => Get(integer);
 
         static class NumericOperations
