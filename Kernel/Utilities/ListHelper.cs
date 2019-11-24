@@ -98,7 +98,7 @@ namespace Kernel.Utilities
         public static int Count(this List list, bool throwOnCyclic = true)
         {
             if (list is Null) return 0;
-            if (list.ContainsCycle)
+            if (list.IsCyclic)
             {
                 if (throwOnCyclic)
                     throw new ArgumentException("Cannot get count of cyclic lists");
@@ -119,7 +119,7 @@ namespace Kernel.Utilities
         public static Object Last(this List list)
         {
             if (list is Null) throw new ArgumentException("Cannot find a last element in an empty list");
-            if (list.ContainsCycle) throw new ArgumentException("Cannot find a last element in a cyclic list");
+            if (list.IsCyclic) throw new ArgumentException("Cannot find a last element in a cyclic list");
             Pair current = list as Pair;
             while (current.Cdr is Pair p)
                 current = p;
@@ -149,7 +149,7 @@ namespace Kernel.Utilities
         public static IEnumerable<Out> Select<In, Out>(this List list, Func<In, Out> transform) where In : Object
         {
             if (list is Null) yield break;
-            if (list.ContainsCycle) throw new InvalidOperationException("Cyclical List in a IEnumerable Select. Why??");
+            if (list.IsCyclic) throw new InvalidOperationException("Cyclical List in a IEnumerable Select. Why??");
             Pair current = list as Pair;
             while (current != null)
             {
@@ -165,7 +165,7 @@ namespace Kernel.Utilities
         public static IEnumerable<Out> Select<In, Out>(this List list, Func<In,int, Out> transform) where In : Object
         {
             if (list is Null) yield break;
-            if (list.ContainsCycle) throw new InvalidOperationException("Cyclical List in a IEnumerable Select. Why??");
+            if (list.IsCyclic) throw new InvalidOperationException("Cyclical List in a IEnumerable Select. Why??");
             Pair current = list as Pair;
             int index = 0;
             while (current != null)
@@ -241,7 +241,7 @@ namespace Kernel.Utilities
 
         public static T AggregateAcyclic<T>(this List list, Func<T, T, T> aggregate, T initialSeed = null) where T : Object
         {
-            if (list.ContainsCycle) throw new ArgumentException("Cannot aggregate a cyclic list with the acyclic method.", nameof(list));
+            if (list.IsCyclic) throw new ArgumentException("Cannot aggregate a cyclic list with the acyclic method.", nameof(list));
             if (list is Null) return initialSeed;
             Pair current = list as Pair;
             T result = initialSeed ?? current.Car as T;
@@ -261,7 +261,7 @@ namespace Kernel.Utilities
                                                Func<T, T> postcycle,
                                             T initialSeed = null) where T : Object
         {
-            if (!list.ContainsCycle) throw new ArgumentException("Cannot aggregate an acyclic list with the cyclic list", nameof(list));
+            if (!list.IsCyclic) throw new ArgumentException("Cannot aggregate an acyclic list with the cyclic list", nameof(list));
             if (list is Null) return initialSeed;
             Pair current = list as Pair;
             T result = initialSeed ?? current.Car as T;

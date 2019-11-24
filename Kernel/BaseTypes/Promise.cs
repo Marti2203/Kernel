@@ -29,6 +29,6 @@
             return result;
         }
         public override bool Equals(Object other) => ReferenceEquals(this, other);
-        public override string ToString() => evaluated ? $"Promise<{result}>" : "Promise<not forced>";
+        public override string ToString() => evaluated ? $"Promise<evaluated>" : "Promise<not forced>";
     }
 }

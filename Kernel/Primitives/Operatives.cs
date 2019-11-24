@@ -239,7 +239,7 @@ namespace Kernel.Primitives
         [PredicateAssertion(1, typeof(Primitives), nameof(AllSymbols))]
         public static Inert Provide(Environment environment, List symbols, List body)
         {
-            if (body.ContainsCycle)
+            if (body.IsCyclic)
                 throw new ArgumentException("Body cannot be a cyclic list.");
             Environment child = new Environment(environment);
             body.ForEach<Object>((exp) => Evaluate(exp, child));

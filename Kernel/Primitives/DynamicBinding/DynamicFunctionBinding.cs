@@ -147,13 +147,13 @@ namespace Kernel.Primitives.DynamicBinding
             var body = Block(parameters, expressions);
 
 #if DebugMethods
-            if (method.Name == "Display")
+            if (method.Name == "ListStar")
             {
                 Console.WriteLine(method.Name);
-                var expressions = body
+                var expressionsDisplay = body
                     .Expressions
                     .SelectMany(expression => expression is BlockExpression block ? block.Expressions.ToArray() : new[] { expression });
-                Console.WriteLine(string.Join("\n", expressions));
+                Console.WriteLine(string.Join("\n", expressionsDisplay));
                 Console.WriteLine();
             }
 #endif

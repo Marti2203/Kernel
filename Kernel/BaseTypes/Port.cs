@@ -16,6 +16,7 @@ namespace Kernel.BaseTypes
         public TextReader Reader { get; }
         public TextWriter Writer { get; }
         private string FileName { get; }
+        public bool IsClosed { get; private set; } = false;
 
         public Port(Stream s, PortType type)
         {
@@ -47,7 +48,12 @@ namespace Kernel.BaseTypes
 
         public override bool Equals(Object other) => ReferenceEquals(this, other);
 
-        public void Dispose() => (Type == PortType.Input ? Reader as IDisposable : Writer).Dispose();
+        public void Dispose()
+        {
+            IsClosed = true;
+            (Type == PortType.Input ? Reader as IDisposable : Writer).Dispose();
+        }
+
         public override string ToString() => $"{Type} port { FileName ?? StandardOrUnknown }";
 
         private string StandardOrUnknown => ReferenceEquals(this, StandardError) ? "Standard Error" :

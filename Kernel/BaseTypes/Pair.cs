@@ -17,8 +17,14 @@ namespace Kernel.BaseTypes
             get => car;
             set
             {
+                if (!Mutable)
+                    throw new InvalidOperationException("Cannot mutate an immutable object");
                 if (!Mutable && value is Pair && value.Mutable)
                     throw new InvalidOperationException("Mutable pair cannot be part of immutable pair");
+                if (Contains(value))
+                {
+                    IsCyclic = true;
+                }
                 car = value;
             }
         }
@@ -27,8 +33,14 @@ namespace Kernel.BaseTypes
             get => cdr;
             set
             {
+                if (!Mutable)
+                    throw new InvalidOperationException("Cannot mutate an immutable object");
                 if (!Mutable && value is Pair && value.Mutable)
                     throw new InvalidOperationException("Mutable pair cannot be part of immutable pair");
+                if (Contains(value))
+                {
+                    IsCyclic = true;
+                }
                 cdr = value;
             }
         }
@@ -135,19 +147,9 @@ namespace Kernel.BaseTypes
             return result.ToString();
         }
 
-        public override bool IsCyclic => Contains(this);
 
-        public override bool ContainsCycle
-        {
-            get
-            {
-                HashSet<Pair> visitedPairs = new HashSet<Pair>();
-                Pair current = this;
-                while (current != null && visitedPairs.Add(current)) current = current.Cdr as Pair;
-                return current != null;
-            }
-        }
-
+        private bool containsCycle = false;
+        public override bool IsCyclic { get => containsCycle; protected set => containsCycle = value ; }
 
         public bool Contains(Object o)
         {
@@ -199,12 +201,14 @@ namespace Kernel.BaseTypes
         public override bool Equals(Object other)
         {
             if (!(other is Pair otherPair)) return false;
+            if (Car != otherPair.Car) return false; // quick escape hatch
+            if (IsCyclic != otherPair.IsCyclic) return false;
             Pair current = this;
             HashSet<Pair> visitedPairsThis = new HashSet<Pair>();
             HashSet<Pair> visitedPairsOther = new HashSet<Pair>();
             while (current != null && otherPair != null && (visitedPairsThis.Add(current) || visitedPairsOther.Add(otherPair)))
             {
-                if (!Car.Equals(otherPair.Car))
+                if (!current.Car.Equals(otherPair.Car))
                     return false;
                 if (current.Cdr is Pair next && otherPair.Cdr is Pair otherNext)
                 {
@@ -239,9 +243,8 @@ namespace Kernel.BaseTypes
 
         public override bool Equals(object obj)
         => ReferenceEquals(this, obj)
-            || obj is Object other
+            || (obj is Object other
             && Mutable == other.Mutable
-                               && other is Pair
-                               && Equals(other);
+            && Equals(other));
     }
 }

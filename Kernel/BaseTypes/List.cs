@@ -8,8 +8,7 @@ namespace Kernel.BaseTypes
         public abstract List EvaluateAll(Environment environment);
 
         public abstract Object this[int index] { get; }
-        public abstract bool IsCyclic { get; }
-        public abstract bool ContainsCycle { get; }
+        public abstract bool IsCyclic { get; protected set; }
 
     }
 }

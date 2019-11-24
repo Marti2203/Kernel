@@ -1,18 +1,18 @@
 ﻿#define FastCopyES
+using Kernel.Arithmetic;
+using Kernel.BaseTypes;
+using Kernel.Combiners;
+using Kernel.Primitives.DynamicBinding.Attributes;
+using Kernel.Utilities;
 using System;
 using System.Collections.Generic;
-using Kernel.Combiners;
-using Kernel.Arithmetic;
-using static CarFamily;
-using Kernel.Utilities;
 using System.Linq;
+using static CarFamily;
 using static Kernel.Primitives.Primitives;
-using Kernel.BaseTypes;
-using Object = Kernel.BaseTypes.Object;
-using Environment = Kernel.BaseTypes.Environment;
 using Boolean = Kernel.BaseTypes.Boolean;
+using Environment = Kernel.BaseTypes.Environment;
+using Object = Kernel.BaseTypes.Object;
 using String = Kernel.BaseTypes.String;
-using Kernel.Primitives.DynamicBinding.Attributes;
 
 namespace Kernel.Primitives
 {
@@ -26,7 +26,7 @@ namespace Kernel.Primitives
             if (!lists.Any<Object>()) throw new ArgumentException("Lists list must not be empty");
             Integer starterLength = ListMetrics.Pairs(GetListMetrics(lists[0]));
 
-            if ((lists[0] as Pair).ContainsCycle && lists.Any<List>(list => !list.ContainsCycle))
+            if ((lists[0] as Pair).IsCyclic && lists.Any<List>(list => !list.IsCyclic))
                 throw new ArgumentException("A list is cyclic, so they must all be");
 
             if (lists.Any<Object>(l => ListMetrics.Pairs(GetListMetrics(l)) != starterLength))
@@ -79,6 +79,8 @@ namespace Kernel.Primitives
                             break;
                     }
                 }
+                if (!inString && braces < 0)
+                    throw new ArgumentException("Too many closing brackets");
                 return braces == 0 && !inString && representation.Trim().Any();
             }
 
@@ -149,10 +151,9 @@ namespace Kernel.Primitives
         public static Object List(List objects) => objects;
 
         [Primitive("list*", 0, true)]
-        [PredicateAssertion(0, typeof(Primitives), nameof(ContainsCycle), true)]
         public static Object ListStar(List objects)
         {
-            if (objects is Null || objects.ContainsCycle) throw new ArgumentException("List* requires a nonempty acyclic list.");
+            if (objects is Null || objects.IsCyclic) throw new ArgumentException("List* requires a nonempty acyclic list.");
             if (objects.Count() == 1) return objects[0];
             Pair head = new Pair(objects[0]);
             Pair tail = head;
@@ -256,7 +257,7 @@ namespace Kernel.Primitives
             if (!lists.Any<Object>()) throw new ArgumentException("Lists list must not be empty");
             Integer starterLength = ListMetrics.Pairs(GetListMetrics(lists[0]));
 
-            if ((lists[0] as Pair).ContainsCycle && lists.Any<List>(list => !list.ContainsCycle))
+            if ((lists[0] as Pair).IsCyclic && lists.Any<List>(list => !list.IsCyclic))
                 throw new ArgumentException("A list is cyclic, so they must all be");
 
             if (lists.Any<Object>(l => ListMetrics.Pairs(GetListMetrics(l)) != starterLength))
@@ -315,7 +316,7 @@ namespace Kernel.Primitives
 
         [Primitive("length", 1)]
         public static Number Length(Object @object)
-        => !(@object is List l) ? 0 : l.ContainsCycle ? Real.PositiveInfinity :
+        => !(@object is List l) ? 0 : l.IsCyclic ? Real.PositiveInfinity :
                                         (Number)ListMetrics.Pairs(GetListMetrics(l));
 
         [Primitive("list-ref", 2)]
@@ -328,13 +329,13 @@ namespace Kernel.Primitives
         public static List Append(List lists)
         {
             if (!lists.Any<Object>()) return Null.Instance;
-            if ((lists[0] as List).ContainsCycle)
+            if ((lists[0] as List).IsCyclic)
                 throw new ArgumentException("Only last argument can be cyclic");
             Pair head, tail;
             head = tail = lists[0].Copy() as Pair;
             tail.Tail.Cdr = lists.Skip(1).ForEachReturnLast((Action<List>)((list) =>
             {
-                if (list.ContainsCycle)
+                if (list.IsCyclic)
                     throw new ArgumentException("Only last argument can be cyclic");
                 tail = tail.Append(list);
                 if (list is Pair p) //Skip until end
@@ -391,7 +392,7 @@ namespace Kernel.Primitives
 
         [Primitive("finite-list?", 0, true)]
         public static Boolean FiniteList(List objects)
-        => !objects.Any<Object>(@object => @object is List list && list.ContainsCycle);
+        => !objects.Any<Object>(@object => @object is List list && list.IsCyclic);
 
         [Primitive("countable-list?", 0, true)]
         public static Boolean CountableList(List objects)
@@ -402,13 +403,13 @@ namespace Kernel.Primitives
         [TypeAssertion(1, typeof(Applicative))]
         public static Object Reduce(List objects, Applicative binary, Object identity, List cycleApplicatives)
         {
-            if (objects.ContainsCycle && !(cycleApplicatives.Count(false) == 3 && cycleApplicatives.All<Object>(obj => obj is Applicative)))
+            if (objects.IsCyclic && !(cycleApplicatives.Count(false) == 3 && cycleApplicatives.All<Object>(obj => obj is Applicative)))
                 throw new ArgumentException("Wrong call syntax. Cyclic list given but without cycle applicatives.");
-            if (!objects.ContainsCycle && cycleApplicatives.Any<Object>())
+            if (!objects.IsCyclic && cycleApplicatives.Any<Object>())
                 throw new ArgumentException("Wrong call syntax. Acyclic list given but extra argumens given.");
             if (objects is Null)
                 return Null.Instance;
-            if (objects.ContainsCycle)
+            if (objects.IsCyclic)
                 return objects.AggregateCyclic((current, next) => binary.Invoke(current, next)
                                         , (obj) => Car<Applicative>(cycleApplicatives as Pair).Invoke(obj)
                                         , (current, next) => Cadr<Applicative>(cycleApplicatives as Pair).Invoke(current, next)
@@ -427,16 +428,16 @@ namespace Kernel.Primitives
                                  => lists.Any<Pair>(((second, j)
                                                      => i != j
                                                      && first != second
-                                                     && !first.ContainsCycle
-                                                     && !second.ContainsCycle
+                                                     && !first.IsCyclic
+                                                     && !second.IsCyclic
                                                      && first.Tail == second.Tail)))))
                 throw new ArgumentException("A list contains a tail pair that is in a different list");
-            if (lists[0] is Null || (lists[0] as List).ContainsCycle)
+            if (lists[0] is Null || (lists[0] as List).IsCyclic)
                 throw new ArgumentException("First element must be an acyclic nonempty list");
             Pair start = lists[0] as Pair;
             Object last = lists.Skip(1).ForEachReturnLast<List>(pair =>
            {
-               if (pair.ContainsCycle)
+               if (pair.IsCyclic)
                    throw new ArgumentException("Cannot append an element that is cyclic and not last.");
                if (pair is Pair)
                    start.Tail.Cdr = pair;
@@ -486,7 +487,10 @@ namespace Kernel.Primitives
         [TypeAssertion(0, typeof(Number))]
         [VariadicTypeAssertion(typeof(Number), 1)]
         public static Number Divide(Number seed, List numbers)
-        => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => current / start, seed)
+        => numbers.Any<Object>() ? AggregateNumbers(numbers, (current, start) => start != 1 ?
+                                                                                (start != -1 ? current / start
+                                                                                : -current)
+                                                                                : current, seed)
                       : Integer.One / seed;
 
         [Primitive("even?", 1)]
@@ -574,11 +578,9 @@ namespace Kernel.Primitives
             Integer i => i,
             Rational n => n.Numerator.Div(n.Denominator) + (Integer.GCD(n.Numerator, n.Denominator) == n.Denominator ? 0 : 1),
             Real n => Real.Ceiling(n),
-            Complex _ => throw new ArgumentException("Cannot get floor of a complex number."),
+            Complex _ => throw new ArgumentException("Cannot get ceiling of a complex number."),
             _ => throw new InvalidOperationException("WATAFAK?!"),
         };
-
-
 
         [Primitive("make-rectangular", 2)]
         [TypeAssertion(0, typeof(Number))]
@@ -621,7 +623,7 @@ namespace Kernel.Primitives
                 Integer integer => true,
                 Rational rational => rational.Denominator == 1,
                 Real real => real == Floor(real),
-                Complex complex => ReferenceEquals(complex.ImaginaryPart, Integer.Zero) && isInteger(complex.RealPart),
+                Complex complex => complex.ImaginaryPart == 0 && isInteger(complex.RealPart),
                 _ => false,
             };
             return objects.All<Object>(isInteger);
@@ -630,7 +632,7 @@ namespace Kernel.Primitives
         static Number AggregateNumbers(List numbers, Func<Number, Number, Number> action, Number seed)
         {
             static Number identity(Number x) => x;
-            return numbers.ContainsCycle
+            return numbers.IsCyclic
                 ? numbers.AggregateCyclic(action, identity, action, identity, seed)
                 : numbers.AggregateAcyclic(action, seed);
         }
@@ -784,6 +786,11 @@ namespace Kernel.Primitives
             return Inert.Instance;
         }
 
+        [Primitive("closed?", 1)]
+        [TypeAssertion(0, typeof(Port))]
+        public static Boolean IsClosed(Port p)
+        => p.IsClosed;
+
         [Primitive("read-line", 1)]
         [TypeAssertion(0, typeof(Port))]
         [PredicateAssertion(0, typeof(Primitives), "IsInputPort")]
@@ -808,5 +815,10 @@ namespace Kernel.Primitives
             p.Writer.Flush();
             return Inert.Instance;
         }
+
+        [Primitive("format", 1, true)]
+        [TypeAssertion(0, typeof(String))]
+        public static String Format(String input, List objects)
+            => string.Format(input, objects.Select<Object, string>(x => x.ToString()).ToArray());
     }
 }

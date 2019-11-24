@@ -121,14 +121,13 @@ namespace Kernel.Combiners
             LabelTarget startLabelTarget = Label("Start");
             Expression Transform(Object o)
             {
-                if (o is Null)
-                    return Empty();
-
                 ConstantExpression staticEnvironmentConstant = Constant(underlying.@static);
 
-                if (!(o is Pair pairs))
+                if (o is Symbol)
                     return Call(null, Evaluate, Constant(o), staticEnvironmentConstant);
 
+                if (!(o is Pair pairs))
+                    return Constant(o);
 
                 if (!(pairs.Car is Symbol s))
                     throw new System.InvalidOperationException("First element of pair has to be symbol.");
@@ -226,6 +225,7 @@ namespace Kernel.Combiners
         {
             if (s is BlockExpression block)
             {
+                System.Console.WriteLine(format.Replace("{0}", string.Empty));
                 foreach (var e in block.Expressions)
                     Display(e);
             }

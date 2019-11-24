@@ -45,7 +45,7 @@ namespace Kernel.Primitives
         public static bool AllSymbols(Object obj) => obj is Pair p && p.All<Object>(@object => @object is Symbol);
 
         public static bool ContainsCycle(Object obj)
-        => obj is List l && l.ContainsCycle;
+        => obj is List l && l.IsCyclic;
 
         public static Object Evaluate(Object @object, Environment environment)
         {
@@ -157,7 +157,7 @@ namespace Kernel.Primitives
             do
             {
                 p = pairs.Pop();
-                if (p.ContainsCycle) throw new ArgumentException("Cannot accept a cyclic tree");
+                if (p.IsCyclic) throw new ArgumentException("Cannot accept a cyclic tree");
                 if (p.Car is Pair pCar)
                     pairs.Push(pCar);
                 else

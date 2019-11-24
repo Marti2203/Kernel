@@ -5,8 +5,8 @@ namespace Kernel.BaseTypes
     {
         public static readonly Null Instance = new Null();
         Null(){}
-        public override bool IsCyclic => false;
-        public override bool ContainsCycle => false;
+
+        public override bool IsCyclic { get => false; protected set { } }
         public override List EvaluateAll(Environment environment) => this;
         public override Object this[int index] => throw new InvalidOperationException("Empty list cannot be indexed");
         public override string ToString() => "()";
