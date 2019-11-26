@@ -1,0 +1,20 @@
+($define! cons-stream ($vau (a b) #ignore (cons a ($lazy (eval b (get-current-environment))))))
+($define! the-empty-stream ())
+($define! head car)
+($define! empty-stream? null?)
+($define! tail ($lambda (stream) (force (cdr stream))))
+($define! stream-section 
+	($lambda (n stream) 
+		($define! helper 
+			($lambda (n stream agg) 
+				($if (=? n 0) agg 
+					(helper (- n 1) (tail stream) (append agg (list (head stream))))
+				)
+			) 
+		)
+		($if (=? n 0) () 
+				(helper (- n 1) (tail stream) (list (head stream)))
+		)
+	)
+)
+($define! ones (cons-stream 1 ones))

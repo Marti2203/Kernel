@@ -37,8 +37,8 @@ namespace Kernel
         }
         static KeyValuePair<string, Object> Create(string filename)
         {
-            using (var stream = new StreamReader(filename))
-                return new Evaluation(stream.ReadLine().Substring(1), Evaluate(String.Get(stream.ReadToEnd()), Environment.Ground));
+            using var stream = new StreamReader(filename);
+            return new Evaluation(stream.ReadLine().Substring(1), Evaluate(String.Get(stream.ReadToEnd()), Environment.Ground));
         }
     }
 }

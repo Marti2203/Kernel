@@ -88,7 +88,7 @@ namespace Kernel.Primitives
 
             do
             {
-                input += Console.ReadLine();
+                input += Console.ReadLine().Trim();
             }
             while (!Valid(input));
 
@@ -691,6 +691,7 @@ namespace Kernel.Primitives
         {
             p ??= Port.StandardOutput;
             p.Writer.WriteLine();
+            p.Writer.Flush();
             return Inert.Instance;
         }
 
@@ -820,5 +821,8 @@ namespace Kernel.Primitives
         [TypeAssertion(0, typeof(String))]
         public static String Format(String input, List objects)
             => string.Format(input, objects.Select<Object, string>(x => x.ToString()).ToArray());
+
+        [Primitive("cwd")]
+        public static String CurrentWorkingDirectory() => System.IO.Directory.GetCurrentDirectory();
     }
 }

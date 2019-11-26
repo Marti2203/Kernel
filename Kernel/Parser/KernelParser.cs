@@ -19,2953 +19,2636 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
-namespace Kernel.Parser
-{
-    using System;
-    using System.IO;
-    using System.Text;
-    using System.Diagnostics;
-    using System.Collections.Generic;
-    using Antlr4.Runtime;
-    using Antlr4.Runtime.Atn;
-    using Antlr4.Runtime.Misc;
-    using Antlr4.Runtime.Tree;
-    using DFA = Antlr4.Runtime.Dfa.DFA;
-
-    [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
-    public partial class KernelParser : Antlr4.Runtime.Parser
-    {
-        protected static DFA[] decisionToDFA;
-        protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
-        public const int
-            T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, T__7 = 8, T__8 = 9,
-            KEYWORD = 10, STRING = 11, UintegerBin = 12, UintegerOct = 13, UintegerDec = 14,
-            UintegerHex = 15, PrefixBin = 16, PrefixOct = 17, PrefixDec = 18, PrefixHex = 19,
-            Decimal = 20, Sign = 21, Suffix = 22, SYMBOL = 23, WS = 24;
-        public const int
-            RULE_file = 0, RULE_expressionLine = 1, RULE_expression = 2, RULE_atom = 3,
-            RULE_pair = 4, RULE_number = 5, RULE_numBin = 6, RULE_numOct = 7, RULE_numDec = 8,
-            RULE_numHex = 9, RULE_complexBin = 10, RULE_complexOct = 11, RULE_complexDec = 12,
-            RULE_complexHex = 13, RULE_realBin = 14, RULE_realOct = 15, RULE_realDec = 16,
-            RULE_realHex = 17, RULE_imagBin = 18, RULE_imagOct = 19, RULE_imagDec = 20,
-            RULE_imagHex = 21, RULE_urealBin = 22, RULE_urealOct = 23, RULE_urealDec = 24,
-            RULE_urealHex = 25, RULE_symbol = 26;
-        public static readonly string[] ruleNames = {
-        "file", "expressionLine", "expression", "atom", "pair", "number", "numBin",
-        "numOct", "numDec", "numHex", "complexBin", "complexOct", "complexDec",
-        "complexHex", "realBin", "realOct", "realDec", "realHex", "imagBin", "imagOct",
-        "imagDec", "imagHex", "urealBin", "urealOct", "urealDec", "urealHex",
-        "symbol"
-    };
-
-        private static readonly string[] _LiteralNames = {
-        null, "'('", "'.'", "')'", "'@'", "'+'", "'-'", "'i'", "'I'", "'/'"
-    };
-        private static readonly string[] _SymbolicNames = {
-        null, null, null, null, null, null, null, null, null, null, "KEYWORD",
-        "STRING", "UintegerBin", "UintegerOct", "UintegerDec", "UintegerHex",
-        "PrefixBin", "PrefixOct", "PrefixDec", "PrefixHex", "Decimal", "Sign",
-        "Suffix", "SYMBOL", "WS"
-    };
-        public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
-
-        [NotNull]
-        public override IVocabulary Vocabulary
-        {
-            get
-            {
-                return DefaultVocabulary;
-            }
-        }
-
-        public override string GrammarFileName { get { return "Kernel.g4"; } }
-
-        public override string[] RuleNames { get { return ruleNames; } }
-
-        public override string SerializedAtn { get { return new string(_serializedATN); } }
-
-        static KernelParser()
-        {
-            decisionToDFA = new DFA[_ATN.NumberOfDecisions];
-            for (int i = 0; i < _ATN.NumberOfDecisions; i++)
-            {
-                decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
-            }
-        }
-
-        public KernelParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
-
-        public KernelParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
-        : base(input, output, errorOutput)
-        {
-            Interpreter = new ParserATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
-        }
-
-        public partial class FileContext : ParserRuleContext
-        {
-            public ITerminalNode Eof() { return GetToken(KernelParser.Eof, 0); }
-            public ExpressionContext[] expression()
-            {
-                return GetRuleContexts<ExpressionContext>();
-            }
-            public ExpressionContext expression(int i)
-            {
-                return GetRuleContext<ExpressionContext>(i);
-            }
-            public FileContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_file; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterFile(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitFile(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitFile(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public FileContext file()
-        {
-            FileContext _localctx = new FileContext(Context, State);
-            EnterRule(_localctx, 0, RULE_file);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 55;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    do
-                    {
-                        {
-                            {
-                                State = 54; expression();
-                            }
-                        }
-                        State = 57;
-                        ErrorHandler.Sync(this);
-                        _la = TokenStream.LA(1);
-                    } while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__4) | (1L << T__5) | (1L << T__8) | (1L << KEYWORD) | (1L << STRING) | (1L << UintegerDec) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << SYMBOL))) != 0));
-                    State = 59; Match(Eof);
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ExpressionLineContext : ParserRuleContext
-        {
-            public ExpressionContext expression()
-            {
-                return GetRuleContext<ExpressionContext>(0);
-            }
-            public ITerminalNode Eof() { return GetToken(KernelParser.Eof, 0); }
-            public ExpressionLineContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_expressionLine; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterExpressionLine(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitExpressionLine(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitExpressionLine(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ExpressionLineContext expressionLine()
-        {
-            ExpressionLineContext _localctx = new ExpressionLineContext(Context, State);
-            EnterRule(_localctx, 2, RULE_expressionLine);
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 61; expression();
-                    State = 62; Match(Eof);
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ExpressionContext : ParserRuleContext
-        {
-            public AtomContext atom()
-            {
-                return GetRuleContext<AtomContext>(0);
-            }
-            public PairContext pair()
-            {
-                return GetRuleContext<PairContext>(0);
-            }
-            public ExpressionContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_expression; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterExpression(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitExpression(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitExpression(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ExpressionContext expression()
-        {
-            ExpressionContext _localctx = new ExpressionContext(Context, State);
-            EnterRule(_localctx, 4, RULE_expression);
-            try
-            {
-                State = 66;
-                ErrorHandler.Sync(this);
-                switch (TokenStream.LA(1))
-                {
-                    case T__4:
-                    case T__5:
-                    case T__8:
-                    case KEYWORD:
-                    case STRING:
-                    case UintegerDec:
-                    case PrefixBin:
-                    case PrefixOct:
-                    case PrefixDec:
-                    case PrefixHex:
-                    case Decimal:
-                    case Sign:
-                    case SYMBOL:
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 64; atom();
-                        }
-                        break;
-                    case T__0:
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 65; pair();
-                        }
-                        break;
-                    default:
-                        throw new NoViableAltException(this);
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class AtomContext : ParserRuleContext
-        {
-            public AtomContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_atom; } }
-
-            public AtomContext() { }
-            public virtual void CopyFrom(AtomContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class KeywordContext : AtomContext
-        {
-            public ITerminalNode KEYWORD() { return GetToken(KernelParser.KEYWORD, 0); }
-            public KeywordContext(AtomContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterKeyword(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitKeyword(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitKeyword(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class SymbolLiteralContext : AtomContext
-        {
-            public SymbolContext symbol()
-            {
-                return GetRuleContext<SymbolContext>(0);
-            }
-            public SymbolLiteralContext(AtomContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterSymbolLiteral(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitSymbolLiteral(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitSymbolLiteral(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class StringContext : AtomContext
-        {
-            public ITerminalNode STRING() { return GetToken(KernelParser.STRING, 0); }
-            public StringContext(AtomContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterString(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitString(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitString(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class NumberLiteralContext : AtomContext
-        {
-            public NumberContext number()
-            {
-                return GetRuleContext<NumberContext>(0);
-            }
-            public NumberLiteralContext(AtomContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterNumberLiteral(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitNumberLiteral(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitNumberLiteral(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public AtomContext atom()
-        {
-            AtomContext _localctx = new AtomContext(Context, State);
-            EnterRule(_localctx, 6, RULE_atom);
-            try
-            {
-                State = 72;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 2, Context))
-                {
-                    case 1:
-                        _localctx = new KeywordContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 68; Match(KEYWORD);
-                        }
-                        break;
-                    case 2:
-                        _localctx = new StringContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 69; Match(STRING);
-                        }
-                        break;
-                    case 3:
-                        _localctx = new SymbolLiteralContext(_localctx);
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 70; symbol();
-                        }
-                        break;
-                    case 4:
-                        _localctx = new NumberLiteralContext(_localctx);
-                        EnterOuterAlt(_localctx, 4);
-                        {
-                            State = 71; number();
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class PairContext : ParserRuleContext
-        {
-            public IToken dot;
-            public ExpressionContext[] expression()
-            {
-                return GetRuleContexts<ExpressionContext>();
-            }
-            public ExpressionContext expression(int i)
-            {
-                return GetRuleContext<ExpressionContext>(i);
-            }
-            public PairContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_pair; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterPair(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitPair(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitPair(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public PairContext pair()
-        {
-            PairContext _localctx = new PairContext(Context, State);
-            EnterRule(_localctx, 8, RULE_pair);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 74; Match(T__0);
-                    State = 76;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    do
-                    {
-                        {
-                            {
-                                State = 75; expression();
-                            }
-                        }
-                        State = 78;
-                        ErrorHandler.Sync(this);
-                        _la = TokenStream.LA(1);
-                    } while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__4) | (1L << T__5) | (1L << T__8) | (1L << KEYWORD) | (1L << STRING) | (1L << UintegerDec) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << SYMBOL))) != 0));
-                    State = 82;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == T__1)
-                    {
-                        {
-                            State = 80; _localctx.dot = Match(T__1);
-                            State = 81; expression();
-                        }
-                    }
-
-                    State = 84; Match(T__2);
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class NumberContext : ParserRuleContext
-        {
-            public NumBinContext numBin()
-            {
-                return GetRuleContext<NumBinContext>(0);
-            }
-            public NumOctContext numOct()
-            {
-                return GetRuleContext<NumOctContext>(0);
-            }
-            public NumDecContext numDec()
-            {
-                return GetRuleContext<NumDecContext>(0);
-            }
-            public NumHexContext numHex()
-            {
-                return GetRuleContext<NumHexContext>(0);
-            }
-            public NumberContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_number; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterNumber(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitNumber(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitNumber(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public NumberContext number()
-        {
-            NumberContext _localctx = new NumberContext(Context, State);
-            EnterRule(_localctx, 10, RULE_number);
-            try
-            {
-                State = 90;
-                ErrorHandler.Sync(this);
-                switch (TokenStream.LA(1))
-                {
-                    case PrefixBin:
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 86; numBin();
-                        }
-                        break;
-                    case PrefixOct:
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 87; numOct();
-                        }
-                        break;
-                    case T__4:
-                    case T__5:
-                    case UintegerDec:
-                    case PrefixDec:
-                    case Decimal:
-                    case Sign:
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 88; numDec();
-                        }
-                        break;
-                    case PrefixHex:
-                        EnterOuterAlt(_localctx, 4);
-                        {
-                            State = 89; numHex();
-                        }
-                        break;
-                    default:
-                        throw new NoViableAltException(this);
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class NumBinContext : ParserRuleContext
-        {
-            public ITerminalNode PrefixBin() { return GetToken(KernelParser.PrefixBin, 0); }
-            public ComplexBinContext complexBin()
-            {
-                return GetRuleContext<ComplexBinContext>(0);
-            }
-            public NumBinContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_numBin; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterNumBin(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitNumBin(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitNumBin(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public NumBinContext numBin()
-        {
-            NumBinContext _localctx = new NumBinContext(Context, State);
-            EnterRule(_localctx, 12, RULE_numBin);
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 92; Match(PrefixBin);
-                    State = 93; complexBin();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class NumOctContext : ParserRuleContext
-        {
-            public ITerminalNode PrefixOct() { return GetToken(KernelParser.PrefixOct, 0); }
-            public ComplexOctContext complexOct()
-            {
-                return GetRuleContext<ComplexOctContext>(0);
-            }
-            public NumOctContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_numOct; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterNumOct(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitNumOct(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitNumOct(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public NumOctContext numOct()
-        {
-            NumOctContext _localctx = new NumOctContext(Context, State);
-            EnterRule(_localctx, 14, RULE_numOct);
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 95; Match(PrefixOct);
-                    State = 96; complexOct();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class NumDecContext : ParserRuleContext
-        {
-            public ComplexDecContext complexDec()
-            {
-                return GetRuleContext<ComplexDecContext>(0);
-            }
-            public ITerminalNode PrefixDec() { return GetToken(KernelParser.PrefixDec, 0); }
-            public NumDecContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_numDec; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterNumDec(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitNumDec(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitNumDec(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public NumDecContext numDec()
-        {
-            NumDecContext _localctx = new NumDecContext(Context, State);
-            EnterRule(_localctx, 16, RULE_numDec);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 99;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == PrefixDec)
-                    {
-                        {
-                            State = 98; Match(PrefixDec);
-                        }
-                    }
-
-                    State = 101; complexDec();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class NumHexContext : ParserRuleContext
-        {
-            public ITerminalNode PrefixHex() { return GetToken(KernelParser.PrefixHex, 0); }
-            public ComplexHexContext complexHex()
-            {
-                return GetRuleContext<ComplexHexContext>(0);
-            }
-            public NumHexContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_numHex; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterNumHex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitNumHex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitNumHex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public NumHexContext numHex()
-        {
-            NumHexContext _localctx = new NumHexContext(Context, State);
-            EnterRule(_localctx, 18, RULE_numHex);
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 103; Match(PrefixHex);
-                    State = 104; complexHex();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ComplexBinContext : ParserRuleContext
-        {
-            public ComplexBinContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_complexBin; } }
-
-            public ComplexBinContext() { }
-            public virtual void CopyFrom(ComplexBinContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class BinaryPolarContext : ComplexBinContext
-        {
-            public RealBinContext[] realBin()
-            {
-                return GetRuleContexts<RealBinContext>();
-            }
-            public RealBinContext realBin(int i)
-            {
-                return GetRuleContext<RealBinContext>(i);
-            }
-            public BinaryPolarContext(ComplexBinContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterBinaryPolar(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitBinaryPolar(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitBinaryPolar(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class BinaryNumberContext : ComplexBinContext
-        {
-            public IToken sign;
-            public UrealBinContext urealBin()
-            {
-                return GetRuleContext<UrealBinContext>(0);
-            }
-            public BinaryNumberContext(ComplexBinContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterBinaryNumber(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitBinaryNumber(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitBinaryNumber(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class BinaryComplexContext : ComplexBinContext
-        {
-            public IToken sign;
-            public RealBinContext realBin()
-            {
-                return GetRuleContext<RealBinContext>(0);
-            }
-            public ImagBinContext imagBin()
-            {
-                return GetRuleContext<ImagBinContext>(0);
-            }
-            public BinaryComplexContext(ComplexBinContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterBinaryComplex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitBinaryComplex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitBinaryComplex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ComplexBinContext complexBin()
-        {
-            ComplexBinContext _localctx = new ComplexBinContext(Context, State);
-            EnterRule(_localctx, 20, RULE_complexBin);
-            int _la;
-            try
-            {
-                State = 120;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 8, Context))
-                {
-                    case 1:
-                        _localctx = new BinaryPolarContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 106; realBin();
-                            State = 107; Match(T__3);
-                            State = 108; realBin();
-                        }
-                        break;
-                    case 2:
-                        _localctx = new BinaryComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 110; realBin();
-                            State = 111;
-                            ((BinaryComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((BinaryComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 112; imagBin();
-                        }
-                        break;
-                    case 3:
-                        _localctx = new BinaryNumberContext(_localctx);
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 115;
-                            ErrorHandler.Sync(this);
-                            _la = TokenStream.LA(1);
-                            if (_la == T__4 || _la == T__5)
-                            {
-                                {
-                                    State = 114;
-                                    ((BinaryNumberContext)_localctx).sign = TokenStream.LT(1);
-                                    _la = TokenStream.LA(1);
-                                    if (!(_la == T__4 || _la == T__5))
-                                    {
-                                        ((BinaryNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                                    }
-                                    else
-                                    {
-                                        ErrorHandler.ReportMatch(this);
-                                        Consume();
-                                    }
-                                }
-                            }
-
-                            State = 117; urealBin();
-                        }
-                        break;
-                    case 4:
-                        _localctx = new BinaryComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 4);
-                        {
-                            State = 118;
-                            ((BinaryComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((BinaryComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 119; imagBin();
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ComplexOctContext : ParserRuleContext
-        {
-            public ComplexOctContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_complexOct; } }
-
-            public ComplexOctContext() { }
-            public virtual void CopyFrom(ComplexOctContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class OctalComplexContext : ComplexOctContext
-        {
-            public IToken sign;
-            public RealOctContext realOct()
-            {
-                return GetRuleContext<RealOctContext>(0);
-            }
-            public ImagOctContext imagOct()
-            {
-                return GetRuleContext<ImagOctContext>(0);
-            }
-            public OctalComplexContext(ComplexOctContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterOctalComplex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitOctalComplex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitOctalComplex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class OctalNumberContext : ComplexOctContext
-        {
-            public IToken sign;
-            public UrealOctContext urealOct()
-            {
-                return GetRuleContext<UrealOctContext>(0);
-            }
-            public OctalNumberContext(ComplexOctContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterOctalNumber(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitOctalNumber(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitOctalNumber(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class OctalPolarContext : ComplexOctContext
-        {
-            public RealOctContext[] realOct()
-            {
-                return GetRuleContexts<RealOctContext>();
-            }
-            public RealOctContext realOct(int i)
-            {
-                return GetRuleContext<RealOctContext>(i);
-            }
-            public OctalPolarContext(ComplexOctContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterOctalPolar(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitOctalPolar(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitOctalPolar(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ComplexOctContext complexOct()
-        {
-            ComplexOctContext _localctx = new ComplexOctContext(Context, State);
-            EnterRule(_localctx, 22, RULE_complexOct);
-            int _la;
-            try
-            {
-                State = 136;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 10, Context))
-                {
-                    case 1:
-                        _localctx = new OctalPolarContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 122; realOct();
-                            State = 123; Match(T__3);
-                            State = 124; realOct();
-                        }
-                        break;
-                    case 2:
-                        _localctx = new OctalComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 126; realOct();
-                            State = 127;
-                            ((OctalComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((OctalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 128; imagOct();
-                        }
-                        break;
-                    case 3:
-                        _localctx = new OctalNumberContext(_localctx);
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 131;
-                            ErrorHandler.Sync(this);
-                            _la = TokenStream.LA(1);
-                            if (_la == T__4 || _la == T__5)
-                            {
-                                {
-                                    State = 130;
-                                    ((OctalNumberContext)_localctx).sign = TokenStream.LT(1);
-                                    _la = TokenStream.LA(1);
-                                    if (!(_la == T__4 || _la == T__5))
-                                    {
-                                        ((OctalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                                    }
-                                    else
-                                    {
-                                        ErrorHandler.ReportMatch(this);
-                                        Consume();
-                                    }
-                                }
-                            }
-
-                            State = 133; urealOct();
-                        }
-                        break;
-                    case 4:
-                        _localctx = new OctalComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 4);
-                        {
-                            State = 134;
-                            ((OctalComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((OctalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 135; imagOct();
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ComplexDecContext : ParserRuleContext
-        {
-            public ComplexDecContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_complexDec; } }
-
-            public ComplexDecContext() { }
-            public virtual void CopyFrom(ComplexDecContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class DecimalComplexContext : ComplexDecContext
-        {
-            public IToken sign;
-            public RealDecContext realDec()
-            {
-                return GetRuleContext<RealDecContext>(0);
-            }
-            public ImagDecContext imagDec()
-            {
-                return GetRuleContext<ImagDecContext>(0);
-            }
-            public DecimalComplexContext(ComplexDecContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterDecimalComplex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitDecimalComplex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitDecimalComplex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class DecimalNumberContext : ComplexDecContext
-        {
-            public IToken sign;
-            public UrealDecContext urealDec()
-            {
-                return GetRuleContext<UrealDecContext>(0);
-            }
-            public DecimalNumberContext(ComplexDecContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterDecimalNumber(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitDecimalNumber(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitDecimalNumber(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class DecimalPolarContext : ComplexDecContext
-        {
-            public RealDecContext[] realDec()
-            {
-                return GetRuleContexts<RealDecContext>();
-            }
-            public RealDecContext realDec(int i)
-            {
-                return GetRuleContext<RealDecContext>(i);
-            }
-            public DecimalPolarContext(ComplexDecContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterDecimalPolar(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitDecimalPolar(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitDecimalPolar(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ComplexDecContext complexDec()
-        {
-            ComplexDecContext _localctx = new ComplexDecContext(Context, State);
-            EnterRule(_localctx, 24, RULE_complexDec);
-            int _la;
-            try
-            {
-                State = 152;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 12, Context))
-                {
-                    case 1:
-                        _localctx = new DecimalPolarContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 138; realDec();
-                            State = 139; Match(T__3);
-                            State = 140; realDec();
-                        }
-                        break;
-                    case 2:
-                        _localctx = new DecimalComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 142; realDec();
-                            State = 143;
-                            ((DecimalComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((DecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 144; imagDec();
-                        }
-                        break;
-                    case 3:
-                        _localctx = new DecimalNumberContext(_localctx);
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 147;
-                            ErrorHandler.Sync(this);
-                            _la = TokenStream.LA(1);
-                            if (_la == T__4 || _la == T__5)
-                            {
-                                {
-                                    State = 146;
-                                    ((DecimalNumberContext)_localctx).sign = TokenStream.LT(1);
-                                    _la = TokenStream.LA(1);
-                                    if (!(_la == T__4 || _la == T__5))
-                                    {
-                                        ((DecimalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                                    }
-                                    else
-                                    {
-                                        ErrorHandler.ReportMatch(this);
-                                        Consume();
-                                    }
-                                }
-                            }
-
-                            State = 149; urealDec();
-                        }
-                        break;
-                    case 4:
-                        _localctx = new DecimalComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 4);
-                        {
-                            State = 150;
-                            ((DecimalComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((DecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 151; imagDec();
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ComplexHexContext : ParserRuleContext
-        {
-            public ComplexHexContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_complexHex; } }
-
-            public ComplexHexContext() { }
-            public virtual void CopyFrom(ComplexHexContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class HexadecimalComplexContext : ComplexHexContext
-        {
-            public IToken sign;
-            public RealHexContext realHex()
-            {
-                return GetRuleContext<RealHexContext>(0);
-            }
-            public ImagHexContext imagHex()
-            {
-                return GetRuleContext<ImagHexContext>(0);
-            }
-            public HexadecimalComplexContext(ComplexHexContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterHexadecimalComplex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitHexadecimalComplex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitHexadecimalComplex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class HexadecimalNumberContext : ComplexHexContext
-        {
-            public IToken sign;
-            public UrealHexContext urealHex()
-            {
-                return GetRuleContext<UrealHexContext>(0);
-            }
-            public HexadecimalNumberContext(ComplexHexContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterHexadecimalNumber(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitHexadecimalNumber(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitHexadecimalNumber(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class HexadecimalPolarContext : ComplexHexContext
-        {
-            public RealHexContext[] realHex()
-            {
-                return GetRuleContexts<RealHexContext>();
-            }
-            public RealHexContext realHex(int i)
-            {
-                return GetRuleContext<RealHexContext>(i);
-            }
-            public HexadecimalPolarContext(ComplexHexContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterHexadecimalPolar(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitHexadecimalPolar(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitHexadecimalPolar(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ComplexHexContext complexHex()
-        {
-            ComplexHexContext _localctx = new ComplexHexContext(Context, State);
-            EnterRule(_localctx, 26, RULE_complexHex);
-            int _la;
-            try
-            {
-                State = 168;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 14, Context))
-                {
-                    case 1:
-                        _localctx = new HexadecimalPolarContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 154; realHex();
-                            State = 155; Match(T__3);
-                            State = 156; realHex();
-                        }
-                        break;
-                    case 2:
-                        _localctx = new HexadecimalComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 158; realHex();
-                            State = 159;
-                            ((HexadecimalComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((HexadecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 160; imagHex();
-                        }
-                        break;
-                    case 3:
-                        _localctx = new HexadecimalNumberContext(_localctx);
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 163;
-                            ErrorHandler.Sync(this);
-                            _la = TokenStream.LA(1);
-                            if (_la == T__4 || _la == T__5)
-                            {
-                                {
-                                    State = 162;
-                                    ((HexadecimalNumberContext)_localctx).sign = TokenStream.LT(1);
-                                    _la = TokenStream.LA(1);
-                                    if (!(_la == T__4 || _la == T__5))
-                                    {
-                                        ((HexadecimalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                                    }
-                                    else
-                                    {
-                                        ErrorHandler.ReportMatch(this);
-                                        Consume();
-                                    }
-                                }
-                            }
-
-                            State = 165; urealHex();
-                        }
-                        break;
-                    case 4:
-                        _localctx = new HexadecimalComplexContext(_localctx);
-                        EnterOuterAlt(_localctx, 4);
-                        {
-                            State = 166;
-                            ((HexadecimalComplexContext)_localctx).sign = TokenStream.LT(1);
-                            _la = TokenStream.LA(1);
-                            if (!(_la == T__4 || _la == T__5))
-                            {
-                                ((HexadecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
-                            }
-                            else
-                            {
-                                ErrorHandler.ReportMatch(this);
-                                Consume();
-                            }
-                            State = 167; imagHex();
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class RealBinContext : ParserRuleContext
-        {
-            public UrealBinContext urealBin()
-            {
-                return GetRuleContext<UrealBinContext>(0);
-            }
-            public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
-            public RealBinContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_realBin; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterRealBin(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitRealBin(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitRealBin(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public RealBinContext realBin()
-        {
-            RealBinContext _localctx = new RealBinContext(Context, State);
-            EnterRule(_localctx, 28, RULE_realBin);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 171;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == Sign)
-                    {
-                        {
-                            State = 170; Match(Sign);
-                        }
-                    }
-
-                    State = 173; urealBin();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class RealOctContext : ParserRuleContext
-        {
-            public UrealOctContext urealOct()
-            {
-                return GetRuleContext<UrealOctContext>(0);
-            }
-            public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
-            public RealOctContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_realOct; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterRealOct(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitRealOct(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitRealOct(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public RealOctContext realOct()
-        {
-            RealOctContext _localctx = new RealOctContext(Context, State);
-            EnterRule(_localctx, 30, RULE_realOct);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 176;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == Sign)
-                    {
-                        {
-                            State = 175; Match(Sign);
-                        }
-                    }
-
-                    State = 178; urealOct();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class RealDecContext : ParserRuleContext
-        {
-            public UrealDecContext urealDec()
-            {
-                return GetRuleContext<UrealDecContext>(0);
-            }
-            public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
-            public RealDecContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_realDec; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterRealDec(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitRealDec(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitRealDec(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public RealDecContext realDec()
-        {
-            RealDecContext _localctx = new RealDecContext(Context, State);
-            EnterRule(_localctx, 32, RULE_realDec);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 181;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == Sign)
-                    {
-                        {
-                            State = 180; Match(Sign);
-                        }
-                    }
-
-                    State = 183; urealDec();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class RealHexContext : ParserRuleContext
-        {
-            public UrealHexContext urealHex()
-            {
-                return GetRuleContext<UrealHexContext>(0);
-            }
-            public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
-            public RealHexContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_realHex; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterRealHex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitRealHex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitRealHex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public RealHexContext realHex()
-        {
-            RealHexContext _localctx = new RealHexContext(Context, State);
-            EnterRule(_localctx, 34, RULE_realHex);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 186;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == Sign)
-                    {
-                        {
-                            State = 185; Match(Sign);
-                        }
-                    }
-
-                    State = 188; urealHex();
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ImagBinContext : ParserRuleContext
-        {
-            public UrealBinContext urealBin()
-            {
-                return GetRuleContext<UrealBinContext>(0);
-            }
-            public ImagBinContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_imagBin; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterImagBin(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitImagBin(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitImagBin(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ImagBinContext imagBin()
-        {
-            ImagBinContext _localctx = new ImagBinContext(Context, State);
-            EnterRule(_localctx, 36, RULE_imagBin);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 191;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == UintegerBin)
-                    {
-                        {
-                            State = 190; urealBin();
-                        }
-                    }
-
-                    State = 193;
-                    _la = TokenStream.LA(1);
-                    if (!(_la == T__6 || _la == T__7))
-                    {
-                        ErrorHandler.RecoverInline(this);
-                    }
-                    else
-                    {
-                        ErrorHandler.ReportMatch(this);
-                        Consume();
-                    }
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ImagOctContext : ParserRuleContext
-        {
-            public UrealOctContext urealOct()
-            {
-                return GetRuleContext<UrealOctContext>(0);
-            }
-            public ImagOctContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_imagOct; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterImagOct(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitImagOct(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitImagOct(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ImagOctContext imagOct()
-        {
-            ImagOctContext _localctx = new ImagOctContext(Context, State);
-            EnterRule(_localctx, 38, RULE_imagOct);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 196;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == UintegerOct)
-                    {
-                        {
-                            State = 195; urealOct();
-                        }
-                    }
-
-                    State = 198;
-                    _la = TokenStream.LA(1);
-                    if (!(_la == T__6 || _la == T__7))
-                    {
-                        ErrorHandler.RecoverInline(this);
-                    }
-                    else
-                    {
-                        ErrorHandler.ReportMatch(this);
-                        Consume();
-                    }
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ImagDecContext : ParserRuleContext
-        {
-            public UrealDecContext urealDec()
-            {
-                return GetRuleContext<UrealDecContext>(0);
-            }
-            public ImagDecContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_imagDec; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterImagDec(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitImagDec(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitImagDec(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ImagDecContext imagDec()
-        {
-            ImagDecContext _localctx = new ImagDecContext(Context, State);
-            EnterRule(_localctx, 40, RULE_imagDec);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 201;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == UintegerDec || _la == Decimal)
-                    {
-                        {
-                            State = 200; urealDec();
-                        }
-                    }
-
-                    State = 203;
-                    _la = TokenStream.LA(1);
-                    if (!(_la == T__6 || _la == T__7))
-                    {
-                        ErrorHandler.RecoverInline(this);
-                    }
-                    else
-                    {
-                        ErrorHandler.ReportMatch(this);
-                        Consume();
-                    }
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class ImagHexContext : ParserRuleContext
-        {
-            public UrealHexContext urealHex()
-            {
-                return GetRuleContext<UrealHexContext>(0);
-            }
-            public ImagHexContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_imagHex; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterImagHex(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitImagHex(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitImagHex(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public ImagHexContext imagHex()
-        {
-            ImagHexContext _localctx = new ImagHexContext(Context, State);
-            EnterRule(_localctx, 42, RULE_imagHex);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 206;
-                    ErrorHandler.Sync(this);
-                    _la = TokenStream.LA(1);
-                    if (_la == UintegerHex)
-                    {
-                        {
-                            State = 205; urealHex();
-                        }
-                    }
-
-                    State = 208;
-                    _la = TokenStream.LA(1);
-                    if (!(_la == T__6 || _la == T__7))
-                    {
-                        ErrorHandler.RecoverInline(this);
-                    }
-                    else
-                    {
-                        ErrorHandler.ReportMatch(this);
-                        Consume();
-                    }
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class UrealBinContext : ParserRuleContext
-        {
-            public UrealBinContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_urealBin; } }
-
-            public UrealBinContext() { }
-            public virtual void CopyFrom(UrealBinContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class BinaryRationalContext : UrealBinContext
-        {
-            public ITerminalNode[] UintegerBin() { return GetTokens(KernelParser.UintegerBin); }
-            public ITerminalNode UintegerBin(int i)
-            {
-                return GetToken(KernelParser.UintegerBin, i);
-            }
-            public BinaryRationalContext(UrealBinContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterBinaryRational(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitBinaryRational(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitBinaryRational(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class BinaryIntegerContext : UrealBinContext
-        {
-            public ITerminalNode UintegerBin() { return GetToken(KernelParser.UintegerBin, 0); }
-            public BinaryIntegerContext(UrealBinContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterBinaryInteger(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitBinaryInteger(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitBinaryInteger(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public UrealBinContext urealBin()
-        {
-            UrealBinContext _localctx = new UrealBinContext(Context, State);
-            EnterRule(_localctx, 44, RULE_urealBin);
-            try
-            {
-                State = 214;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 23, Context))
-                {
-                    case 1:
-                        _localctx = new BinaryRationalContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 210; Match(UintegerBin);
-                            State = 211; Match(T__8);
-                            State = 212; Match(UintegerBin);
-                        }
-                        break;
-                    case 2:
-                        _localctx = new BinaryIntegerContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 213; Match(UintegerBin);
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class UrealOctContext : ParserRuleContext
-        {
-            public UrealOctContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_urealOct; } }
-
-            public UrealOctContext() { }
-            public virtual void CopyFrom(UrealOctContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class OctalIntegerContext : UrealOctContext
-        {
-            public ITerminalNode UintegerOct() { return GetToken(KernelParser.UintegerOct, 0); }
-            public OctalIntegerContext(UrealOctContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterOctalInteger(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitOctalInteger(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitOctalInteger(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class OctalRationalContext : UrealOctContext
-        {
-            public ITerminalNode[] UintegerOct() { return GetTokens(KernelParser.UintegerOct); }
-            public ITerminalNode UintegerOct(int i)
-            {
-                return GetToken(KernelParser.UintegerOct, i);
-            }
-            public OctalRationalContext(UrealOctContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterOctalRational(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitOctalRational(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitOctalRational(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public UrealOctContext urealOct()
-        {
-            UrealOctContext _localctx = new UrealOctContext(Context, State);
-            EnterRule(_localctx, 46, RULE_urealOct);
-            try
-            {
-                State = 220;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 24, Context))
-                {
-                    case 1:
-                        _localctx = new OctalRationalContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 216; Match(UintegerOct);
-                            State = 217; Match(T__8);
-                            State = 218; Match(UintegerOct);
-                        }
-                        break;
-                    case 2:
-                        _localctx = new OctalIntegerContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 219; Match(UintegerOct);
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class UrealDecContext : ParserRuleContext
-        {
-            public UrealDecContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_urealDec; } }
-
-            public UrealDecContext() { }
-            public virtual void CopyFrom(UrealDecContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class DecimalRationalContext : UrealDecContext
-        {
-            public ITerminalNode[] UintegerDec() { return GetTokens(KernelParser.UintegerDec); }
-            public ITerminalNode UintegerDec(int i)
-            {
-                return GetToken(KernelParser.UintegerDec, i);
-            }
-            public DecimalRationalContext(UrealDecContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterDecimalRational(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitDecimalRational(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitDecimalRational(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class DecimalIntegerContext : UrealDecContext
-        {
-            public ITerminalNode UintegerDec() { return GetToken(KernelParser.UintegerDec, 0); }
-            public DecimalIntegerContext(UrealDecContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterDecimalInteger(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitDecimalInteger(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitDecimalInteger(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class DecimalRealContext : UrealDecContext
-        {
-            public ITerminalNode Decimal() { return GetToken(KernelParser.Decimal, 0); }
-            public DecimalRealContext(UrealDecContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterDecimalReal(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitDecimalReal(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitDecimalReal(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public UrealDecContext urealDec()
-        {
-            UrealDecContext _localctx = new UrealDecContext(Context, State);
-            EnterRule(_localctx, 48, RULE_urealDec);
-            try
-            {
-                State = 227;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 25, Context))
-                {
-                    case 1:
-                        _localctx = new DecimalRationalContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 222; Match(UintegerDec);
-                            State = 223; Match(T__8);
-                            State = 224; Match(UintegerDec);
-                        }
-                        break;
-                    case 2:
-                        _localctx = new DecimalIntegerContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 225; Match(UintegerDec);
-                        }
-                        break;
-                    case 3:
-                        _localctx = new DecimalRealContext(_localctx);
-                        EnterOuterAlt(_localctx, 3);
-                        {
-                            State = 226; Match(Decimal);
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class UrealHexContext : ParserRuleContext
-        {
-            public UrealHexContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_urealHex; } }
-
-            public UrealHexContext() { }
-            public virtual void CopyFrom(UrealHexContext context)
-            {
-                base.CopyFrom(context);
-            }
-        }
-        public partial class HexadecimalRationalContext : UrealHexContext
-        {
-            public ITerminalNode[] UintegerHex() { return GetTokens(KernelParser.UintegerHex); }
-            public ITerminalNode UintegerHex(int i)
-            {
-                return GetToken(KernelParser.UintegerHex, i);
-            }
-            public HexadecimalRationalContext(UrealHexContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterHexadecimalRational(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitHexadecimalRational(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitHexadecimalRational(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-        public partial class HexadecimalIntegerContext : UrealHexContext
-        {
-            public ITerminalNode UintegerHex() { return GetToken(KernelParser.UintegerHex, 0); }
-            public HexadecimalIntegerContext(UrealHexContext context) { CopyFrom(context); }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterHexadecimalInteger(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitHexadecimalInteger(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitHexadecimalInteger(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public UrealHexContext urealHex()
-        {
-            UrealHexContext _localctx = new UrealHexContext(Context, State);
-            EnterRule(_localctx, 50, RULE_urealHex);
-            try
-            {
-                State = 233;
-                ErrorHandler.Sync(this);
-                switch (Interpreter.AdaptivePredict(TokenStream, 26, Context))
-                {
-                    case 1:
-                        _localctx = new HexadecimalRationalContext(_localctx);
-                        EnterOuterAlt(_localctx, 1);
-                        {
-                            State = 229; Match(UintegerHex);
-                            State = 230; Match(T__8);
-                            State = 231; Match(UintegerHex);
-                        }
-                        break;
-                    case 2:
-                        _localctx = new HexadecimalIntegerContext(_localctx);
-                        EnterOuterAlt(_localctx, 2);
-                        {
-                            State = 232; Match(UintegerHex);
-                        }
-                        break;
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        public partial class SymbolContext : ParserRuleContext
-        {
-            public ITerminalNode SYMBOL() { return GetToken(KernelParser.SYMBOL, 0); }
-            public SymbolContext(ParserRuleContext parent, int invokingState)
-                : base(parent, invokingState)
-            {
-            }
-            public override int RuleIndex { get { return RULE_symbol; } }
-            public override void EnterRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.EnterSymbol(this);
-            }
-            public override void ExitRule(IParseTreeListener listener)
-            {
-                IKernelListener typedListener = listener as IKernelListener;
-                if (typedListener != null) typedListener.ExitSymbol(this);
-            }
-            public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor)
-            {
-                IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
-                if (typedVisitor != null) return typedVisitor.VisitSymbol(this);
-                else return visitor.VisitChildren(this);
-            }
-        }
-
-        [RuleVersion(0)]
-        public SymbolContext symbol()
-        {
-            SymbolContext _localctx = new SymbolContext(Context, State);
-            EnterRule(_localctx, 52, RULE_symbol);
-            int _la;
-            try
-            {
-                EnterOuterAlt(_localctx, 1);
-                {
-                    State = 235;
-                    _la = TokenStream.LA(1);
-                    if (!((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__8) | (1L << SYMBOL))) != 0)))
-                    {
-                        ErrorHandler.RecoverInline(this);
-                    }
-                    else
-                    {
-                        ErrorHandler.ReportMatch(this);
-                        Consume();
-                    }
-                }
-            }
-            catch (RecognitionException re)
-            {
-                _localctx.exception = re;
-                ErrorHandler.ReportError(this, re);
-                ErrorHandler.Recover(this, re);
-            }
-            finally
-            {
-                ExitRule();
-            }
-            return _localctx;
-        }
-
-        private static char[] _serializedATN = {
-        '\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786',
-        '\x5964', '\x3', '\x1A', '\xF0', '\x4', '\x2', '\t', '\x2', '\x4', '\x3',
-        '\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4',
-        '\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x4', '\b', '\t', '\b',
-        '\x4', '\t', '\t', '\t', '\x4', '\n', '\t', '\n', '\x4', '\v', '\t', '\v',
-        '\x4', '\f', '\t', '\f', '\x4', '\r', '\t', '\r', '\x4', '\xE', '\t',
-        '\xE', '\x4', '\xF', '\t', '\xF', '\x4', '\x10', '\t', '\x10', '\x4',
-        '\x11', '\t', '\x11', '\x4', '\x12', '\t', '\x12', '\x4', '\x13', '\t',
-        '\x13', '\x4', '\x14', '\t', '\x14', '\x4', '\x15', '\t', '\x15', '\x4',
-        '\x16', '\t', '\x16', '\x4', '\x17', '\t', '\x17', '\x4', '\x18', '\t',
-        '\x18', '\x4', '\x19', '\t', '\x19', '\x4', '\x1A', '\t', '\x1A', '\x4',
-        '\x1B', '\t', '\x1B', '\x4', '\x1C', '\t', '\x1C', '\x3', '\x2', '\x6',
-        '\x2', ':', '\n', '\x2', '\r', '\x2', '\xE', '\x2', ';', '\x3', '\x2',
-        '\x3', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x4',
-        '\x3', '\x4', '\x5', '\x4', '\x45', '\n', '\x4', '\x3', '\x5', '\x3',
-        '\x5', '\x3', '\x5', '\x3', '\x5', '\x5', '\x5', 'K', '\n', '\x5', '\x3',
-        '\x6', '\x3', '\x6', '\x6', '\x6', 'O', '\n', '\x6', '\r', '\x6', '\xE',
-        '\x6', 'P', '\x3', '\x6', '\x3', '\x6', '\x5', '\x6', 'U', '\n', '\x6',
-        '\x3', '\x6', '\x3', '\x6', '\x3', '\a', '\x3', '\a', '\x3', '\a', '\x3',
-        '\a', '\x5', '\a', ']', '\n', '\a', '\x3', '\b', '\x3', '\b', '\x3', '\b',
-        '\x3', '\t', '\x3', '\t', '\x3', '\t', '\x3', '\n', '\x5', '\n', '\x66',
-        '\n', '\n', '\x3', '\n', '\x3', '\n', '\x3', '\v', '\x3', '\v', '\x3',
-        '\v', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f',
-        '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x5', '\f', 'v',
-        '\n', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x5', '\f', '{', '\n',
-        '\f', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r',
-        '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x5', '\r', '\x86',
-        '\n', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x5', '\r', '\x8B',
-        '\n', '\r', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3',
-        '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x5',
-        '\xE', '\x96', '\n', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE',
-        '\x5', '\xE', '\x9B', '\n', '\xE', '\x3', '\xF', '\x3', '\xF', '\x3',
-        '\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\xF', '\x3',
-        '\xF', '\x3', '\xF', '\x5', '\xF', '\xA6', '\n', '\xF', '\x3', '\xF',
-        '\x3', '\xF', '\x3', '\xF', '\x5', '\xF', '\xAB', '\n', '\xF', '\x3',
-        '\x10', '\x5', '\x10', '\xAE', '\n', '\x10', '\x3', '\x10', '\x3', '\x10',
-        '\x3', '\x11', '\x5', '\x11', '\xB3', '\n', '\x11', '\x3', '\x11', '\x3',
-        '\x11', '\x3', '\x12', '\x5', '\x12', '\xB8', '\n', '\x12', '\x3', '\x12',
-        '\x3', '\x12', '\x3', '\x13', '\x5', '\x13', '\xBD', '\n', '\x13', '\x3',
-        '\x13', '\x3', '\x13', '\x3', '\x14', '\x5', '\x14', '\xC2', '\n', '\x14',
-        '\x3', '\x14', '\x3', '\x14', '\x3', '\x15', '\x5', '\x15', '\xC7', '\n',
-        '\x15', '\x3', '\x15', '\x3', '\x15', '\x3', '\x16', '\x5', '\x16', '\xCC',
-        '\n', '\x16', '\x3', '\x16', '\x3', '\x16', '\x3', '\x17', '\x5', '\x17',
-        '\xD1', '\n', '\x17', '\x3', '\x17', '\x3', '\x17', '\x3', '\x18', '\x3',
-        '\x18', '\x3', '\x18', '\x3', '\x18', '\x5', '\x18', '\xD9', '\n', '\x18',
-        '\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x5', '\x19',
-        '\xDF', '\n', '\x19', '\x3', '\x1A', '\x3', '\x1A', '\x3', '\x1A', '\x3',
-        '\x1A', '\x3', '\x1A', '\x5', '\x1A', '\xE6', '\n', '\x1A', '\x3', '\x1B',
-        '\x3', '\x1B', '\x3', '\x1B', '\x3', '\x1B', '\x5', '\x1B', '\xEC', '\n',
-        '\x1B', '\x3', '\x1C', '\x3', '\x1C', '\x3', '\x1C', '\x2', '\x2', '\x1D',
-        '\x2', '\x4', '\x6', '\b', '\n', '\f', '\xE', '\x10', '\x12', '\x14',
-        '\x16', '\x18', '\x1A', '\x1C', '\x1E', ' ', '\"', '$', '&', '(', '*',
-        ',', '.', '\x30', '\x32', '\x34', '\x36', '\x2', '\x5', '\x3', '\x2',
-        '\a', '\b', '\x3', '\x2', '\t', '\n', '\x5', '\x2', '\a', '\b', '\v',
-        '\v', '\x19', '\x19', '\x2', '\xFC', '\x2', '\x39', '\x3', '\x2', '\x2',
-        '\x2', '\x4', '?', '\x3', '\x2', '\x2', '\x2', '\x6', '\x44', '\x3', '\x2',
-        '\x2', '\x2', '\b', 'J', '\x3', '\x2', '\x2', '\x2', '\n', 'L', '\x3',
-        '\x2', '\x2', '\x2', '\f', '\\', '\x3', '\x2', '\x2', '\x2', '\xE', '^',
-        '\x3', '\x2', '\x2', '\x2', '\x10', '\x61', '\x3', '\x2', '\x2', '\x2',
-        '\x12', '\x65', '\x3', '\x2', '\x2', '\x2', '\x14', 'i', '\x3', '\x2',
-        '\x2', '\x2', '\x16', 'z', '\x3', '\x2', '\x2', '\x2', '\x18', '\x8A',
-        '\x3', '\x2', '\x2', '\x2', '\x1A', '\x9A', '\x3', '\x2', '\x2', '\x2',
-        '\x1C', '\xAA', '\x3', '\x2', '\x2', '\x2', '\x1E', '\xAD', '\x3', '\x2',
-        '\x2', '\x2', ' ', '\xB2', '\x3', '\x2', '\x2', '\x2', '\"', '\xB7', '\x3',
-        '\x2', '\x2', '\x2', '$', '\xBC', '\x3', '\x2', '\x2', '\x2', '&', '\xC1',
-        '\x3', '\x2', '\x2', '\x2', '(', '\xC6', '\x3', '\x2', '\x2', '\x2', '*',
-        '\xCB', '\x3', '\x2', '\x2', '\x2', ',', '\xD0', '\x3', '\x2', '\x2',
-        '\x2', '.', '\xD8', '\x3', '\x2', '\x2', '\x2', '\x30', '\xDE', '\x3',
-        '\x2', '\x2', '\x2', '\x32', '\xE5', '\x3', '\x2', '\x2', '\x2', '\x34',
-        '\xEB', '\x3', '\x2', '\x2', '\x2', '\x36', '\xED', '\x3', '\x2', '\x2',
-        '\x2', '\x38', ':', '\x5', '\x6', '\x4', '\x2', '\x39', '\x38', '\x3',
-        '\x2', '\x2', '\x2', ':', ';', '\x3', '\x2', '\x2', '\x2', ';', '\x39',
-        '\x3', '\x2', '\x2', '\x2', ';', '<', '\x3', '\x2', '\x2', '\x2', '<',
-        '=', '\x3', '\x2', '\x2', '\x2', '=', '>', '\a', '\x2', '\x2', '\x3',
-        '>', '\x3', '\x3', '\x2', '\x2', '\x2', '?', '@', '\x5', '\x6', '\x4',
-        '\x2', '@', '\x41', '\a', '\x2', '\x2', '\x3', '\x41', '\x5', '\x3', '\x2',
-        '\x2', '\x2', '\x42', '\x45', '\x5', '\b', '\x5', '\x2', '\x43', '\x45',
-        '\x5', '\n', '\x6', '\x2', '\x44', '\x42', '\x3', '\x2', '\x2', '\x2',
-        '\x44', '\x43', '\x3', '\x2', '\x2', '\x2', '\x45', '\a', '\x3', '\x2',
-        '\x2', '\x2', '\x46', 'K', '\a', '\f', '\x2', '\x2', 'G', 'K', '\a', '\r',
-        '\x2', '\x2', 'H', 'K', '\x5', '\x36', '\x1C', '\x2', 'I', 'K', '\x5',
-        '\f', '\a', '\x2', 'J', '\x46', '\x3', '\x2', '\x2', '\x2', 'J', 'G',
-        '\x3', '\x2', '\x2', '\x2', 'J', 'H', '\x3', '\x2', '\x2', '\x2', 'J',
-        'I', '\x3', '\x2', '\x2', '\x2', 'K', '\t', '\x3', '\x2', '\x2', '\x2',
-        'L', 'N', '\a', '\x3', '\x2', '\x2', 'M', 'O', '\x5', '\x6', '\x4', '\x2',
-        'N', 'M', '\x3', '\x2', '\x2', '\x2', 'O', 'P', '\x3', '\x2', '\x2', '\x2',
-        'P', 'N', '\x3', '\x2', '\x2', '\x2', 'P', 'Q', '\x3', '\x2', '\x2', '\x2',
-        'Q', 'T', '\x3', '\x2', '\x2', '\x2', 'R', 'S', '\a', '\x4', '\x2', '\x2',
-        'S', 'U', '\x5', '\x6', '\x4', '\x2', 'T', 'R', '\x3', '\x2', '\x2', '\x2',
-        'T', 'U', '\x3', '\x2', '\x2', '\x2', 'U', 'V', '\x3', '\x2', '\x2', '\x2',
-        'V', 'W', '\a', '\x5', '\x2', '\x2', 'W', '\v', '\x3', '\x2', '\x2', '\x2',
-        'X', ']', '\x5', '\xE', '\b', '\x2', 'Y', ']', '\x5', '\x10', '\t', '\x2',
-        'Z', ']', '\x5', '\x12', '\n', '\x2', '[', ']', '\x5', '\x14', '\v', '\x2',
-        '\\', 'X', '\x3', '\x2', '\x2', '\x2', '\\', 'Y', '\x3', '\x2', '\x2',
-        '\x2', '\\', 'Z', '\x3', '\x2', '\x2', '\x2', '\\', '[', '\x3', '\x2',
-        '\x2', '\x2', ']', '\r', '\x3', '\x2', '\x2', '\x2', '^', '_', '\a', '\x12',
-        '\x2', '\x2', '_', '`', '\x5', '\x16', '\f', '\x2', '`', '\xF', '\x3',
-        '\x2', '\x2', '\x2', '\x61', '\x62', '\a', '\x13', '\x2', '\x2', '\x62',
-        '\x63', '\x5', '\x18', '\r', '\x2', '\x63', '\x11', '\x3', '\x2', '\x2',
-        '\x2', '\x64', '\x66', '\a', '\x14', '\x2', '\x2', '\x65', '\x64', '\x3',
-        '\x2', '\x2', '\x2', '\x65', '\x66', '\x3', '\x2', '\x2', '\x2', '\x66',
-        'g', '\x3', '\x2', '\x2', '\x2', 'g', 'h', '\x5', '\x1A', '\xE', '\x2',
-        'h', '\x13', '\x3', '\x2', '\x2', '\x2', 'i', 'j', '\a', '\x15', '\x2',
-        '\x2', 'j', 'k', '\x5', '\x1C', '\xF', '\x2', 'k', '\x15', '\x3', '\x2',
-        '\x2', '\x2', 'l', 'm', '\x5', '\x1E', '\x10', '\x2', 'm', 'n', '\a',
-        '\x6', '\x2', '\x2', 'n', 'o', '\x5', '\x1E', '\x10', '\x2', 'o', '{',
-        '\x3', '\x2', '\x2', '\x2', 'p', 'q', '\x5', '\x1E', '\x10', '\x2', 'q',
-        'r', '\t', '\x2', '\x2', '\x2', 'r', 's', '\x5', '&', '\x14', '\x2', 's',
-        '{', '\x3', '\x2', '\x2', '\x2', 't', 'v', '\t', '\x2', '\x2', '\x2',
-        'u', 't', '\x3', '\x2', '\x2', '\x2', 'u', 'v', '\x3', '\x2', '\x2', '\x2',
-        'v', 'w', '\x3', '\x2', '\x2', '\x2', 'w', '{', '\x5', '.', '\x18', '\x2',
-        'x', 'y', '\t', '\x2', '\x2', '\x2', 'y', '{', '\x5', '&', '\x14', '\x2',
-        'z', 'l', '\x3', '\x2', '\x2', '\x2', 'z', 'p', '\x3', '\x2', '\x2', '\x2',
-        'z', 'u', '\x3', '\x2', '\x2', '\x2', 'z', 'x', '\x3', '\x2', '\x2', '\x2',
-        '{', '\x17', '\x3', '\x2', '\x2', '\x2', '|', '}', '\x5', ' ', '\x11',
-        '\x2', '}', '~', '\a', '\x6', '\x2', '\x2', '~', '\x7F', '\x5', ' ', '\x11',
-        '\x2', '\x7F', '\x8B', '\x3', '\x2', '\x2', '\x2', '\x80', '\x81', '\x5',
-        ' ', '\x11', '\x2', '\x81', '\x82', '\t', '\x2', '\x2', '\x2', '\x82',
-        '\x83', '\x5', '(', '\x15', '\x2', '\x83', '\x8B', '\x3', '\x2', '\x2',
-        '\x2', '\x84', '\x86', '\t', '\x2', '\x2', '\x2', '\x85', '\x84', '\x3',
-        '\x2', '\x2', '\x2', '\x85', '\x86', '\x3', '\x2', '\x2', '\x2', '\x86',
-        '\x87', '\x3', '\x2', '\x2', '\x2', '\x87', '\x8B', '\x5', '\x30', '\x19',
-        '\x2', '\x88', '\x89', '\t', '\x2', '\x2', '\x2', '\x89', '\x8B', '\x5',
-        '(', '\x15', '\x2', '\x8A', '|', '\x3', '\x2', '\x2', '\x2', '\x8A', '\x80',
-        '\x3', '\x2', '\x2', '\x2', '\x8A', '\x85', '\x3', '\x2', '\x2', '\x2',
-        '\x8A', '\x88', '\x3', '\x2', '\x2', '\x2', '\x8B', '\x19', '\x3', '\x2',
-        '\x2', '\x2', '\x8C', '\x8D', '\x5', '\"', '\x12', '\x2', '\x8D', '\x8E',
-        '\a', '\x6', '\x2', '\x2', '\x8E', '\x8F', '\x5', '\"', '\x12', '\x2',
-        '\x8F', '\x9B', '\x3', '\x2', '\x2', '\x2', '\x90', '\x91', '\x5', '\"',
-        '\x12', '\x2', '\x91', '\x92', '\t', '\x2', '\x2', '\x2', '\x92', '\x93',
-        '\x5', '*', '\x16', '\x2', '\x93', '\x9B', '\x3', '\x2', '\x2', '\x2',
-        '\x94', '\x96', '\t', '\x2', '\x2', '\x2', '\x95', '\x94', '\x3', '\x2',
-        '\x2', '\x2', '\x95', '\x96', '\x3', '\x2', '\x2', '\x2', '\x96', '\x97',
-        '\x3', '\x2', '\x2', '\x2', '\x97', '\x9B', '\x5', '\x32', '\x1A', '\x2',
-        '\x98', '\x99', '\t', '\x2', '\x2', '\x2', '\x99', '\x9B', '\x5', '*',
-        '\x16', '\x2', '\x9A', '\x8C', '\x3', '\x2', '\x2', '\x2', '\x9A', '\x90',
-        '\x3', '\x2', '\x2', '\x2', '\x9A', '\x95', '\x3', '\x2', '\x2', '\x2',
-        '\x9A', '\x98', '\x3', '\x2', '\x2', '\x2', '\x9B', '\x1B', '\x3', '\x2',
-        '\x2', '\x2', '\x9C', '\x9D', '\x5', '$', '\x13', '\x2', '\x9D', '\x9E',
-        '\a', '\x6', '\x2', '\x2', '\x9E', '\x9F', '\x5', '$', '\x13', '\x2',
-        '\x9F', '\xAB', '\x3', '\x2', '\x2', '\x2', '\xA0', '\xA1', '\x5', '$',
-        '\x13', '\x2', '\xA1', '\xA2', '\t', '\x2', '\x2', '\x2', '\xA2', '\xA3',
-        '\x5', ',', '\x17', '\x2', '\xA3', '\xAB', '\x3', '\x2', '\x2', '\x2',
-        '\xA4', '\xA6', '\t', '\x2', '\x2', '\x2', '\xA5', '\xA4', '\x3', '\x2',
-        '\x2', '\x2', '\xA5', '\xA6', '\x3', '\x2', '\x2', '\x2', '\xA6', '\xA7',
-        '\x3', '\x2', '\x2', '\x2', '\xA7', '\xAB', '\x5', '\x34', '\x1B', '\x2',
-        '\xA8', '\xA9', '\t', '\x2', '\x2', '\x2', '\xA9', '\xAB', '\x5', ',',
-        '\x17', '\x2', '\xAA', '\x9C', '\x3', '\x2', '\x2', '\x2', '\xAA', '\xA0',
-        '\x3', '\x2', '\x2', '\x2', '\xAA', '\xA5', '\x3', '\x2', '\x2', '\x2',
-        '\xAA', '\xA8', '\x3', '\x2', '\x2', '\x2', '\xAB', '\x1D', '\x3', '\x2',
-        '\x2', '\x2', '\xAC', '\xAE', '\a', '\x17', '\x2', '\x2', '\xAD', '\xAC',
-        '\x3', '\x2', '\x2', '\x2', '\xAD', '\xAE', '\x3', '\x2', '\x2', '\x2',
-        '\xAE', '\xAF', '\x3', '\x2', '\x2', '\x2', '\xAF', '\xB0', '\x5', '.',
-        '\x18', '\x2', '\xB0', '\x1F', '\x3', '\x2', '\x2', '\x2', '\xB1', '\xB3',
-        '\a', '\x17', '\x2', '\x2', '\xB2', '\xB1', '\x3', '\x2', '\x2', '\x2',
-        '\xB2', '\xB3', '\x3', '\x2', '\x2', '\x2', '\xB3', '\xB4', '\x3', '\x2',
-        '\x2', '\x2', '\xB4', '\xB5', '\x5', '\x30', '\x19', '\x2', '\xB5', '!',
-        '\x3', '\x2', '\x2', '\x2', '\xB6', '\xB8', '\a', '\x17', '\x2', '\x2',
-        '\xB7', '\xB6', '\x3', '\x2', '\x2', '\x2', '\xB7', '\xB8', '\x3', '\x2',
-        '\x2', '\x2', '\xB8', '\xB9', '\x3', '\x2', '\x2', '\x2', '\xB9', '\xBA',
-        '\x5', '\x32', '\x1A', '\x2', '\xBA', '#', '\x3', '\x2', '\x2', '\x2',
-        '\xBB', '\xBD', '\a', '\x17', '\x2', '\x2', '\xBC', '\xBB', '\x3', '\x2',
-        '\x2', '\x2', '\xBC', '\xBD', '\x3', '\x2', '\x2', '\x2', '\xBD', '\xBE',
-        '\x3', '\x2', '\x2', '\x2', '\xBE', '\xBF', '\x5', '\x34', '\x1B', '\x2',
-        '\xBF', '%', '\x3', '\x2', '\x2', '\x2', '\xC0', '\xC2', '\x5', '.', '\x18',
-        '\x2', '\xC1', '\xC0', '\x3', '\x2', '\x2', '\x2', '\xC1', '\xC2', '\x3',
-        '\x2', '\x2', '\x2', '\xC2', '\xC3', '\x3', '\x2', '\x2', '\x2', '\xC3',
-        '\xC4', '\t', '\x3', '\x2', '\x2', '\xC4', '\'', '\x3', '\x2', '\x2',
-        '\x2', '\xC5', '\xC7', '\x5', '\x30', '\x19', '\x2', '\xC6', '\xC5', '\x3',
-        '\x2', '\x2', '\x2', '\xC6', '\xC7', '\x3', '\x2', '\x2', '\x2', '\xC7',
-        '\xC8', '\x3', '\x2', '\x2', '\x2', '\xC8', '\xC9', '\t', '\x3', '\x2',
-        '\x2', '\xC9', ')', '\x3', '\x2', '\x2', '\x2', '\xCA', '\xCC', '\x5',
-        '\x32', '\x1A', '\x2', '\xCB', '\xCA', '\x3', '\x2', '\x2', '\x2', '\xCB',
-        '\xCC', '\x3', '\x2', '\x2', '\x2', '\xCC', '\xCD', '\x3', '\x2', '\x2',
-        '\x2', '\xCD', '\xCE', '\t', '\x3', '\x2', '\x2', '\xCE', '+', '\x3',
-        '\x2', '\x2', '\x2', '\xCF', '\xD1', '\x5', '\x34', '\x1B', '\x2', '\xD0',
-        '\xCF', '\x3', '\x2', '\x2', '\x2', '\xD0', '\xD1', '\x3', '\x2', '\x2',
-        '\x2', '\xD1', '\xD2', '\x3', '\x2', '\x2', '\x2', '\xD2', '\xD3', '\t',
-        '\x3', '\x2', '\x2', '\xD3', '-', '\x3', '\x2', '\x2', '\x2', '\xD4',
-        '\xD5', '\a', '\xE', '\x2', '\x2', '\xD5', '\xD6', '\a', '\v', '\x2',
-        '\x2', '\xD6', '\xD9', '\a', '\xE', '\x2', '\x2', '\xD7', '\xD9', '\a',
-        '\xE', '\x2', '\x2', '\xD8', '\xD4', '\x3', '\x2', '\x2', '\x2', '\xD8',
-        '\xD7', '\x3', '\x2', '\x2', '\x2', '\xD9', '/', '\x3', '\x2', '\x2',
-        '\x2', '\xDA', '\xDB', '\a', '\xF', '\x2', '\x2', '\xDB', '\xDC', '\a',
-        '\v', '\x2', '\x2', '\xDC', '\xDF', '\a', '\xF', '\x2', '\x2', '\xDD',
-        '\xDF', '\a', '\xF', '\x2', '\x2', '\xDE', '\xDA', '\x3', '\x2', '\x2',
-        '\x2', '\xDE', '\xDD', '\x3', '\x2', '\x2', '\x2', '\xDF', '\x31', '\x3',
-        '\x2', '\x2', '\x2', '\xE0', '\xE1', '\a', '\x10', '\x2', '\x2', '\xE1',
-        '\xE2', '\a', '\v', '\x2', '\x2', '\xE2', '\xE6', '\a', '\x10', '\x2',
-        '\x2', '\xE3', '\xE6', '\a', '\x10', '\x2', '\x2', '\xE4', '\xE6', '\a',
-        '\x16', '\x2', '\x2', '\xE5', '\xE0', '\x3', '\x2', '\x2', '\x2', '\xE5',
-        '\xE3', '\x3', '\x2', '\x2', '\x2', '\xE5', '\xE4', '\x3', '\x2', '\x2',
-        '\x2', '\xE6', '\x33', '\x3', '\x2', '\x2', '\x2', '\xE7', '\xE8', '\a',
-        '\x11', '\x2', '\x2', '\xE8', '\xE9', '\a', '\v', '\x2', '\x2', '\xE9',
-        '\xEC', '\a', '\x11', '\x2', '\x2', '\xEA', '\xEC', '\a', '\x11', '\x2',
-        '\x2', '\xEB', '\xE7', '\x3', '\x2', '\x2', '\x2', '\xEB', '\xEA', '\x3',
-        '\x2', '\x2', '\x2', '\xEC', '\x35', '\x3', '\x2', '\x2', '\x2', '\xED',
-        '\xEE', '\t', '\x4', '\x2', '\x2', '\xEE', '\x37', '\x3', '\x2', '\x2',
-        '\x2', '\x1D', ';', '\x44', 'J', 'P', 'T', '\\', '\x65', 'u', 'z', '\x85',
-        '\x8A', '\x95', '\x9A', '\xA5', '\xAA', '\xAD', '\xB2', '\xB7', '\xBC',
-        '\xC1', '\xC6', '\xCB', '\xD0', '\xD8', '\xDE', '\xE5', '\xEB',
-    };
-
-        public static readonly ATN _ATN =
-            new ATNDeserializer().Deserialize(_serializedATN);
-
-
-    }
+namespace Kernel.Parser {
+using System;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Collections.Generic;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Atn;
+using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
+using DFA = Antlr4.Runtime.Dfa.DFA;
+
+[System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
+public partial class KernelParser : Antlr4.Runtime.Parser {
+	protected static DFA[] decisionToDFA;
+	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
+	public const int
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
+		T__9=10, T__10=11, KEYWORD=12, EscapeSequence=13, OctalEscape=14, UnicodeEscape=15, 
+		UintegerBin=16, UintegerOct=17, UintegerDec=18, UintegerHex=19, PrefixBin=20, 
+		PrefixOct=21, PrefixDec=22, PrefixHex=23, Decimal=24, Sign=25, Suffix=26, 
+		SYMBOL=27, WS=28;
+	public const int
+		RULE_file = 0, RULE_expressionLine = 1, RULE_expression = 2, RULE_atom = 3, 
+		RULE_pair = 4, RULE_string = 5, RULE_number = 6, RULE_numBin = 7, RULE_numOct = 8, 
+		RULE_numDec = 9, RULE_numHex = 10, RULE_complexBin = 11, RULE_complexOct = 12, 
+		RULE_complexDec = 13, RULE_complexHex = 14, RULE_realBin = 15, RULE_realOct = 16, 
+		RULE_realDec = 17, RULE_realHex = 18, RULE_imagBin = 19, RULE_imagOct = 20, 
+		RULE_imagDec = 21, RULE_imagHex = 22, RULE_urealBin = 23, RULE_urealOct = 24, 
+		RULE_urealDec = 25, RULE_urealHex = 26, RULE_symbol = 27;
+	public static readonly string[] ruleNames = {
+		"file", "expressionLine", "expression", "atom", "pair", "string", "number", 
+		"numBin", "numOct", "numDec", "numHex", "complexBin", "complexOct", "complexDec", 
+		"complexHex", "realBin", "realOct", "realDec", "realHex", "imagBin", "imagOct", 
+		"imagDec", "imagHex", "urealBin", "urealOct", "urealDec", "urealHex", 
+		"symbol"
+	};
+
+	private static readonly string[] _LiteralNames = {
+		null, "'('", "'.'", "')'", "'\"'", "'\\'", "'@'", "'+'", "'-'", "'i'", 
+		"'I'", "'/'"
+	};
+	private static readonly string[] _SymbolicNames = {
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		"KEYWORD", "EscapeSequence", "OctalEscape", "UnicodeEscape", "UintegerBin", 
+		"UintegerOct", "UintegerDec", "UintegerHex", "PrefixBin", "PrefixOct", 
+		"PrefixDec", "PrefixHex", "Decimal", "Sign", "Suffix", "SYMBOL", "WS"
+	};
+	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
+
+	[NotNull]
+	public override IVocabulary Vocabulary
+	{
+		get
+		{
+			return DefaultVocabulary;
+		}
+	}
+
+	public override string GrammarFileName { get { return "Kernel.g4"; } }
+
+	public override string[] RuleNames { get { return ruleNames; } }
+
+	public override string SerializedAtn { get { return new string(_serializedATN); } }
+
+	static KernelParser() {
+		decisionToDFA = new DFA[_ATN.NumberOfDecisions];
+		for (int i = 0; i < _ATN.NumberOfDecisions; i++) {
+			decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
+		}
+	}
+
+		public KernelParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
+
+		public KernelParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
+		: base(input, output, errorOutput)
+	{
+		Interpreter = new ParserATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
+	}
+
+	public partial class FileContext : ParserRuleContext {
+		public ITerminalNode Eof() { return GetToken(KernelParser.Eof, 0); }
+		public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		public FileContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_file; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterFile(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitFile(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitFile(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public FileContext file() {
+		FileContext _localctx = new FileContext(Context, State);
+		EnterRule(_localctx, 0, RULE_file);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 57;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			do {
+				{
+				{
+				State = 56; expression();
+				}
+				}
+				State = 59;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__6) | (1L << T__7) | (1L << T__10) | (1L << KEYWORD) | (1L << UintegerDec) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << SYMBOL))) != 0) );
+			State = 61; Match(Eof);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ExpressionLineContext : ParserRuleContext {
+		public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		public ITerminalNode Eof() { return GetToken(KernelParser.Eof, 0); }
+		public ExpressionLineContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_expressionLine; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterExpressionLine(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitExpressionLine(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitExpressionLine(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ExpressionLineContext expressionLine() {
+		ExpressionLineContext _localctx = new ExpressionLineContext(Context, State);
+		EnterRule(_localctx, 2, RULE_expressionLine);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 63; expression();
+			State = 64; Match(Eof);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ExpressionContext : ParserRuleContext {
+		public AtomContext atom() {
+			return GetRuleContext<AtomContext>(0);
+		}
+		public PairContext pair() {
+			return GetRuleContext<PairContext>(0);
+		}
+		public ExpressionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_expression; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ExpressionContext expression() {
+		ExpressionContext _localctx = new ExpressionContext(Context, State);
+		EnterRule(_localctx, 4, RULE_expression);
+		try {
+			State = 68;
+			ErrorHandler.Sync(this);
+			switch (TokenStream.LA(1)) {
+			case T__3:
+			case T__6:
+			case T__7:
+			case T__10:
+			case KEYWORD:
+			case UintegerDec:
+			case PrefixBin:
+			case PrefixOct:
+			case PrefixDec:
+			case PrefixHex:
+			case Decimal:
+			case Sign:
+			case SYMBOL:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 66; atom();
+				}
+				break;
+			case T__0:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 67; pair();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class AtomContext : ParserRuleContext {
+		public AtomContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_atom; } }
+	 
+		public AtomContext() { }
+		public virtual void CopyFrom(AtomContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class KeywordContext : AtomContext {
+		public ITerminalNode KEYWORD() { return GetToken(KernelParser.KEYWORD, 0); }
+		public KeywordContext(AtomContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterKeyword(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitKeyword(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitKeyword(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class StringLiteralContext : AtomContext {
+		public StringContext @string() {
+			return GetRuleContext<StringContext>(0);
+		}
+		public StringLiteralContext(AtomContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterStringLiteral(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitStringLiteral(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitStringLiteral(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class SymbolLiteralContext : AtomContext {
+		public SymbolContext symbol() {
+			return GetRuleContext<SymbolContext>(0);
+		}
+		public SymbolLiteralContext(AtomContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterSymbolLiteral(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitSymbolLiteral(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSymbolLiteral(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class NumberLiteralContext : AtomContext {
+		public NumberContext number() {
+			return GetRuleContext<NumberContext>(0);
+		}
+		public NumberLiteralContext(AtomContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterNumberLiteral(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitNumberLiteral(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumberLiteral(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public AtomContext atom() {
+		AtomContext _localctx = new AtomContext(Context, State);
+		EnterRule(_localctx, 6, RULE_atom);
+		try {
+			State = 74;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
+			case 1:
+				_localctx = new KeywordContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 70; Match(KEYWORD);
+				}
+				break;
+			case 2:
+				_localctx = new StringLiteralContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 71; @string();
+				}
+				break;
+			case 3:
+				_localctx = new SymbolLiteralContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 72; symbol();
+				}
+				break;
+			case 4:
+				_localctx = new NumberLiteralContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 73; number();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class PairContext : ParserRuleContext {
+		public IToken dot;
+		public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		public PairContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_pair; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterPair(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitPair(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitPair(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public PairContext pair() {
+		PairContext _localctx = new PairContext(Context, State);
+		EnterRule(_localctx, 8, RULE_pair);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 76; Match(T__0);
+			State = 78;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			do {
+				{
+				{
+				State = 77; expression();
+				}
+				}
+				State = 80;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__6) | (1L << T__7) | (1L << T__10) | (1L << KEYWORD) | (1L << UintegerDec) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << SYMBOL))) != 0) );
+			State = 84;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==T__1) {
+				{
+				State = 82; _localctx.dot = Match(T__1);
+				State = 83; expression();
+				}
+			}
+
+			State = 86; Match(T__2);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class StringContext : ParserRuleContext {
+		public ITerminalNode[] EscapeSequence() { return GetTokens(KernelParser.EscapeSequence); }
+		public ITerminalNode EscapeSequence(int i) {
+			return GetToken(KernelParser.EscapeSequence, i);
+		}
+		public StringContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_string; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterString(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitString(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitString(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public StringContext @string() {
+		StringContext _localctx = new StringContext(Context, State);
+		EnterRule(_localctx, 10, RULE_string);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 88; Match(T__3);
+			State = 93;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << KEYWORD) | (1L << EscapeSequence) | (1L << OctalEscape) | (1L << UnicodeEscape) | (1L << UintegerBin) | (1L << UintegerOct) | (1L << UintegerDec) | (1L << UintegerHex) | (1L << PrefixBin) | (1L << PrefixOct) | (1L << PrefixDec) | (1L << PrefixHex) | (1L << Decimal) | (1L << Sign) | (1L << Suffix) | (1L << SYMBOL) | (1L << WS))) != 0)) {
+				{
+				State = 91;
+				ErrorHandler.Sync(this);
+				switch ( Interpreter.AdaptivePredict(TokenStream,5,Context) ) {
+				case 1:
+					{
+					State = 89; Match(EscapeSequence);
+					}
+					break;
+				case 2:
+					{
+					State = 90;
+					_la = TokenStream.LA(1);
+					if ( _la <= 0 || (_la==T__3 || _la==T__4) ) {
+					ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+					break;
+				}
+				}
+				State = 95;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+			}
+			State = 96; Match(T__3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumberContext : ParserRuleContext {
+		public NumBinContext numBin() {
+			return GetRuleContext<NumBinContext>(0);
+		}
+		public NumOctContext numOct() {
+			return GetRuleContext<NumOctContext>(0);
+		}
+		public NumDecContext numDec() {
+			return GetRuleContext<NumDecContext>(0);
+		}
+		public NumHexContext numHex() {
+			return GetRuleContext<NumHexContext>(0);
+		}
+		public NumberContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_number; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterNumber(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitNumber(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumberContext number() {
+		NumberContext _localctx = new NumberContext(Context, State);
+		EnterRule(_localctx, 12, RULE_number);
+		try {
+			State = 102;
+			ErrorHandler.Sync(this);
+			switch (TokenStream.LA(1)) {
+			case PrefixBin:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 98; numBin();
+				}
+				break;
+			case PrefixOct:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 99; numOct();
+				}
+				break;
+			case T__6:
+			case T__7:
+			case UintegerDec:
+			case PrefixDec:
+			case Decimal:
+			case Sign:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 100; numDec();
+				}
+				break;
+			case PrefixHex:
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 101; numHex();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumBinContext : ParserRuleContext {
+		public ITerminalNode PrefixBin() { return GetToken(KernelParser.PrefixBin, 0); }
+		public ComplexBinContext complexBin() {
+			return GetRuleContext<ComplexBinContext>(0);
+		}
+		public NumBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numBin; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterNumBin(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitNumBin(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumBin(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumBinContext numBin() {
+		NumBinContext _localctx = new NumBinContext(Context, State);
+		EnterRule(_localctx, 14, RULE_numBin);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 104; Match(PrefixBin);
+			State = 105; complexBin();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumOctContext : ParserRuleContext {
+		public ITerminalNode PrefixOct() { return GetToken(KernelParser.PrefixOct, 0); }
+		public ComplexOctContext complexOct() {
+			return GetRuleContext<ComplexOctContext>(0);
+		}
+		public NumOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numOct; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterNumOct(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitNumOct(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumOct(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumOctContext numOct() {
+		NumOctContext _localctx = new NumOctContext(Context, State);
+		EnterRule(_localctx, 16, RULE_numOct);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 107; Match(PrefixOct);
+			State = 108; complexOct();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumDecContext : ParserRuleContext {
+		public ComplexDecContext complexDec() {
+			return GetRuleContext<ComplexDecContext>(0);
+		}
+		public ITerminalNode PrefixDec() { return GetToken(KernelParser.PrefixDec, 0); }
+		public NumDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numDec; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterNumDec(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitNumDec(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumDec(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumDecContext numDec() {
+		NumDecContext _localctx = new NumDecContext(Context, State);
+		EnterRule(_localctx, 18, RULE_numDec);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 111;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==PrefixDec) {
+				{
+				State = 110; Match(PrefixDec);
+				}
+			}
+
+			State = 113; complexDec();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumHexContext : ParserRuleContext {
+		public ITerminalNode PrefixHex() { return GetToken(KernelParser.PrefixHex, 0); }
+		public ComplexHexContext complexHex() {
+			return GetRuleContext<ComplexHexContext>(0);
+		}
+		public NumHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numHex; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterNumHex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitNumHex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumHex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumHexContext numHex() {
+		NumHexContext _localctx = new NumHexContext(Context, State);
+		EnterRule(_localctx, 20, RULE_numHex);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 115; Match(PrefixHex);
+			State = 116; complexHex();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexBinContext : ParserRuleContext {
+		public ComplexBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexBin; } }
+	 
+		public ComplexBinContext() { }
+		public virtual void CopyFrom(ComplexBinContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class BinaryPolarContext : ComplexBinContext {
+		public RealBinContext[] realBin() {
+			return GetRuleContexts<RealBinContext>();
+		}
+		public RealBinContext realBin(int i) {
+			return GetRuleContext<RealBinContext>(i);
+		}
+		public BinaryPolarContext(ComplexBinContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterBinaryPolar(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitBinaryPolar(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryNumberContext : ComplexBinContext {
+		public IToken sign;
+		public UrealBinContext urealBin() {
+			return GetRuleContext<UrealBinContext>(0);
+		}
+		public BinaryNumberContext(ComplexBinContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterBinaryNumber(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitBinaryNumber(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryComplexContext : ComplexBinContext {
+		public IToken sign;
+		public RealBinContext realBin() {
+			return GetRuleContext<RealBinContext>(0);
+		}
+		public ImagBinContext imagBin() {
+			return GetRuleContext<ImagBinContext>(0);
+		}
+		public BinaryComplexContext(ComplexBinContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterBinaryComplex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitBinaryComplex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexBinContext complexBin() {
+		ComplexBinContext _localctx = new ComplexBinContext(Context, State);
+		EnterRule(_localctx, 22, RULE_complexBin);
+		int _la;
+		try {
+			State = 132;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,10,Context) ) {
+			case 1:
+				_localctx = new BinaryPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 118; realBin();
+				State = 119; Match(T__5);
+				State = 120; realBin();
+				}
+				break;
+			case 2:
+				_localctx = new BinaryComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 122; realBin();
+				State = 123;
+				((BinaryComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((BinaryComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 124; imagBin();
+				}
+				break;
+			case 3:
+				_localctx = new BinaryNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 127;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__6 || _la==T__7) {
+					{
+					State = 126;
+					((BinaryNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__6 || _la==T__7) ) {
+						((BinaryNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 129; urealBin();
+				}
+				break;
+			case 4:
+				_localctx = new BinaryComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 130;
+				((BinaryComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((BinaryComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 131; imagBin();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexOctContext : ParserRuleContext {
+		public ComplexOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexOct; } }
+	 
+		public ComplexOctContext() { }
+		public virtual void CopyFrom(ComplexOctContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class OctalComplexContext : ComplexOctContext {
+		public IToken sign;
+		public RealOctContext realOct() {
+			return GetRuleContext<RealOctContext>(0);
+		}
+		public ImagOctContext imagOct() {
+			return GetRuleContext<ImagOctContext>(0);
+		}
+		public OctalComplexContext(ComplexOctContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterOctalComplex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitOctalComplex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class OctalNumberContext : ComplexOctContext {
+		public IToken sign;
+		public UrealOctContext urealOct() {
+			return GetRuleContext<UrealOctContext>(0);
+		}
+		public OctalNumberContext(ComplexOctContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterOctalNumber(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitOctalNumber(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class OctalPolarContext : ComplexOctContext {
+		public RealOctContext[] realOct() {
+			return GetRuleContexts<RealOctContext>();
+		}
+		public RealOctContext realOct(int i) {
+			return GetRuleContext<RealOctContext>(i);
+		}
+		public OctalPolarContext(ComplexOctContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterOctalPolar(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitOctalPolar(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexOctContext complexOct() {
+		ComplexOctContext _localctx = new ComplexOctContext(Context, State);
+		EnterRule(_localctx, 24, RULE_complexOct);
+		int _la;
+		try {
+			State = 148;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,12,Context) ) {
+			case 1:
+				_localctx = new OctalPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 134; realOct();
+				State = 135; Match(T__5);
+				State = 136; realOct();
+				}
+				break;
+			case 2:
+				_localctx = new OctalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 138; realOct();
+				State = 139;
+				((OctalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((OctalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 140; imagOct();
+				}
+				break;
+			case 3:
+				_localctx = new OctalNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 143;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__6 || _la==T__7) {
+					{
+					State = 142;
+					((OctalNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__6 || _la==T__7) ) {
+						((OctalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 145; urealOct();
+				}
+				break;
+			case 4:
+				_localctx = new OctalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 146;
+				((OctalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((OctalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 147; imagOct();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexDecContext : ParserRuleContext {
+		public ComplexDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexDec; } }
+	 
+		public ComplexDecContext() { }
+		public virtual void CopyFrom(ComplexDecContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class DecimalComplexContext : ComplexDecContext {
+		public IToken sign;
+		public RealDecContext realDec() {
+			return GetRuleContext<RealDecContext>(0);
+		}
+		public ImagDecContext imagDec() {
+			return GetRuleContext<ImagDecContext>(0);
+		}
+		public DecimalComplexContext(ComplexDecContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterDecimalComplex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitDecimalComplex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalNumberContext : ComplexDecContext {
+		public IToken sign;
+		public UrealDecContext urealDec() {
+			return GetRuleContext<UrealDecContext>(0);
+		}
+		public DecimalNumberContext(ComplexDecContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterDecimalNumber(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitDecimalNumber(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalPolarContext : ComplexDecContext {
+		public RealDecContext[] realDec() {
+			return GetRuleContexts<RealDecContext>();
+		}
+		public RealDecContext realDec(int i) {
+			return GetRuleContext<RealDecContext>(i);
+		}
+		public DecimalPolarContext(ComplexDecContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterDecimalPolar(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitDecimalPolar(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexDecContext complexDec() {
+		ComplexDecContext _localctx = new ComplexDecContext(Context, State);
+		EnterRule(_localctx, 26, RULE_complexDec);
+		int _la;
+		try {
+			State = 164;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,14,Context) ) {
+			case 1:
+				_localctx = new DecimalPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 150; realDec();
+				State = 151; Match(T__5);
+				State = 152; realDec();
+				}
+				break;
+			case 2:
+				_localctx = new DecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 154; realDec();
+				State = 155;
+				((DecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((DecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 156; imagDec();
+				}
+				break;
+			case 3:
+				_localctx = new DecimalNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 159;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__6 || _la==T__7) {
+					{
+					State = 158;
+					((DecimalNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__6 || _la==T__7) ) {
+						((DecimalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 161; urealDec();
+				}
+				break;
+			case 4:
+				_localctx = new DecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 162;
+				((DecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((DecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 163; imagDec();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ComplexHexContext : ParserRuleContext {
+		public ComplexHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_complexHex; } }
+	 
+		public ComplexHexContext() { }
+		public virtual void CopyFrom(ComplexHexContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class HexadecimalComplexContext : ComplexHexContext {
+		public IToken sign;
+		public RealHexContext realHex() {
+			return GetRuleContext<RealHexContext>(0);
+		}
+		public ImagHexContext imagHex() {
+			return GetRuleContext<ImagHexContext>(0);
+		}
+		public HexadecimalComplexContext(ComplexHexContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterHexadecimalComplex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitHexadecimalComplex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalComplex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class HexadecimalNumberContext : ComplexHexContext {
+		public IToken sign;
+		public UrealHexContext urealHex() {
+			return GetRuleContext<UrealHexContext>(0);
+		}
+		public HexadecimalNumberContext(ComplexHexContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterHexadecimalNumber(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitHexadecimalNumber(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class HexadecimalPolarContext : ComplexHexContext {
+		public RealHexContext[] realHex() {
+			return GetRuleContexts<RealHexContext>();
+		}
+		public RealHexContext realHex(int i) {
+			return GetRuleContext<RealHexContext>(i);
+		}
+		public HexadecimalPolarContext(ComplexHexContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterHexadecimalPolar(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitHexadecimalPolar(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalPolar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ComplexHexContext complexHex() {
+		ComplexHexContext _localctx = new ComplexHexContext(Context, State);
+		EnterRule(_localctx, 28, RULE_complexHex);
+		int _la;
+		try {
+			State = 180;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,16,Context) ) {
+			case 1:
+				_localctx = new HexadecimalPolarContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 166; realHex();
+				State = 167; Match(T__5);
+				State = 168; realHex();
+				}
+				break;
+			case 2:
+				_localctx = new HexadecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 170; realHex();
+				State = 171;
+				((HexadecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((HexadecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 172; imagHex();
+				}
+				break;
+			case 3:
+				_localctx = new HexadecimalNumberContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 175;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.LA(1);
+				if (_la==T__6 || _la==T__7) {
+					{
+					State = 174;
+					((HexadecimalNumberContext)_localctx).sign = TokenStream.LT(1);
+					_la = TokenStream.LA(1);
+					if ( !(_la==T__6 || _la==T__7) ) {
+						((HexadecimalNumberContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+					}
+					else {
+						ErrorHandler.ReportMatch(this);
+					    Consume();
+					}
+					}
+				}
+
+				State = 177; urealHex();
+				}
+				break;
+			case 4:
+				_localctx = new HexadecimalComplexContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 178;
+				((HexadecimalComplexContext)_localctx).sign = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==T__6 || _la==T__7) ) {
+					((HexadecimalComplexContext)_localctx).sign = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
+				State = 179; imagHex();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealBinContext : ParserRuleContext {
+		public UrealBinContext urealBin() {
+			return GetRuleContext<UrealBinContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realBin; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterRealBin(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitRealBin(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealBin(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealBinContext realBin() {
+		RealBinContext _localctx = new RealBinContext(Context, State);
+		EnterRule(_localctx, 30, RULE_realBin);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 183;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 182; Match(Sign);
+				}
+			}
+
+			State = 185; urealBin();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealOctContext : ParserRuleContext {
+		public UrealOctContext urealOct() {
+			return GetRuleContext<UrealOctContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realOct; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterRealOct(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitRealOct(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealOct(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealOctContext realOct() {
+		RealOctContext _localctx = new RealOctContext(Context, State);
+		EnterRule(_localctx, 32, RULE_realOct);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 188;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 187; Match(Sign);
+				}
+			}
+
+			State = 190; urealOct();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealDecContext : ParserRuleContext {
+		public UrealDecContext urealDec() {
+			return GetRuleContext<UrealDecContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realDec; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterRealDec(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitRealDec(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealDec(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealDecContext realDec() {
+		RealDecContext _localctx = new RealDecContext(Context, State);
+		EnterRule(_localctx, 34, RULE_realDec);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 193;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 192; Match(Sign);
+				}
+			}
+
+			State = 195; urealDec();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class RealHexContext : ParserRuleContext {
+		public UrealHexContext urealHex() {
+			return GetRuleContext<UrealHexContext>(0);
+		}
+		public ITerminalNode Sign() { return GetToken(KernelParser.Sign, 0); }
+		public RealHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_realHex; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterRealHex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitRealHex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitRealHex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public RealHexContext realHex() {
+		RealHexContext _localctx = new RealHexContext(Context, State);
+		EnterRule(_localctx, 36, RULE_realHex);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 198;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==Sign) {
+				{
+				State = 197; Match(Sign);
+				}
+			}
+
+			State = 200; urealHex();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ImagBinContext : ParserRuleContext {
+		public UrealBinContext urealBin() {
+			return GetRuleContext<UrealBinContext>(0);
+		}
+		public ImagBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_imagBin; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterImagBin(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitImagBin(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitImagBin(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ImagBinContext imagBin() {
+		ImagBinContext _localctx = new ImagBinContext(Context, State);
+		EnterRule(_localctx, 38, RULE_imagBin);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 203;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==UintegerBin) {
+				{
+				State = 202; urealBin();
+				}
+			}
+
+			State = 205;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__8 || _la==T__9) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ImagOctContext : ParserRuleContext {
+		public UrealOctContext urealOct() {
+			return GetRuleContext<UrealOctContext>(0);
+		}
+		public ImagOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_imagOct; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterImagOct(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitImagOct(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitImagOct(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ImagOctContext imagOct() {
+		ImagOctContext _localctx = new ImagOctContext(Context, State);
+		EnterRule(_localctx, 40, RULE_imagOct);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 208;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==UintegerOct) {
+				{
+				State = 207; urealOct();
+				}
+			}
+
+			State = 210;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__8 || _la==T__9) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ImagDecContext : ParserRuleContext {
+		public UrealDecContext urealDec() {
+			return GetRuleContext<UrealDecContext>(0);
+		}
+		public ImagDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_imagDec; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterImagDec(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitImagDec(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitImagDec(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ImagDecContext imagDec() {
+		ImagDecContext _localctx = new ImagDecContext(Context, State);
+		EnterRule(_localctx, 42, RULE_imagDec);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 213;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==UintegerDec || _la==Decimal) {
+				{
+				State = 212; urealDec();
+				}
+			}
+
+			State = 215;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__8 || _la==T__9) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ImagHexContext : ParserRuleContext {
+		public UrealHexContext urealHex() {
+			return GetRuleContext<UrealHexContext>(0);
+		}
+		public ImagHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_imagHex; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterImagHex(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitImagHex(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitImagHex(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ImagHexContext imagHex() {
+		ImagHexContext _localctx = new ImagHexContext(Context, State);
+		EnterRule(_localctx, 44, RULE_imagHex);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 218;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.LA(1);
+			if (_la==UintegerHex) {
+				{
+				State = 217; urealHex();
+				}
+			}
+
+			State = 220;
+			_la = TokenStream.LA(1);
+			if ( !(_la==T__8 || _la==T__9) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealBinContext : ParserRuleContext {
+		public UrealBinContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealBin; } }
+	 
+		public UrealBinContext() { }
+		public virtual void CopyFrom(UrealBinContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class BinaryRationalContext : UrealBinContext {
+		public ITerminalNode[] UintegerBin() { return GetTokens(KernelParser.UintegerBin); }
+		public ITerminalNode UintegerBin(int i) {
+			return GetToken(KernelParser.UintegerBin, i);
+		}
+		public BinaryRationalContext(UrealBinContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterBinaryRational(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitBinaryRational(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryIntegerContext : UrealBinContext {
+		public ITerminalNode UintegerBin() { return GetToken(KernelParser.UintegerBin, 0); }
+		public BinaryIntegerContext(UrealBinContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterBinaryInteger(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitBinaryInteger(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealBinContext urealBin() {
+		UrealBinContext _localctx = new UrealBinContext(Context, State);
+		EnterRule(_localctx, 46, RULE_urealBin);
+		try {
+			State = 226;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,25,Context) ) {
+			case 1:
+				_localctx = new BinaryRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 222; Match(UintegerBin);
+				State = 223; Match(T__10);
+				State = 224; Match(UintegerBin);
+				}
+				break;
+			case 2:
+				_localctx = new BinaryIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 225; Match(UintegerBin);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealOctContext : ParserRuleContext {
+		public UrealOctContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealOct; } }
+	 
+		public UrealOctContext() { }
+		public virtual void CopyFrom(UrealOctContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class OctalIntegerContext : UrealOctContext {
+		public ITerminalNode UintegerOct() { return GetToken(KernelParser.UintegerOct, 0); }
+		public OctalIntegerContext(UrealOctContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterOctalInteger(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitOctalInteger(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class OctalRationalContext : UrealOctContext {
+		public ITerminalNode[] UintegerOct() { return GetTokens(KernelParser.UintegerOct); }
+		public ITerminalNode UintegerOct(int i) {
+			return GetToken(KernelParser.UintegerOct, i);
+		}
+		public OctalRationalContext(UrealOctContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterOctalRational(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitOctalRational(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitOctalRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealOctContext urealOct() {
+		UrealOctContext _localctx = new UrealOctContext(Context, State);
+		EnterRule(_localctx, 48, RULE_urealOct);
+		try {
+			State = 232;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,26,Context) ) {
+			case 1:
+				_localctx = new OctalRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 228; Match(UintegerOct);
+				State = 229; Match(T__10);
+				State = 230; Match(UintegerOct);
+				}
+				break;
+			case 2:
+				_localctx = new OctalIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 231; Match(UintegerOct);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealDecContext : ParserRuleContext {
+		public UrealDecContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealDec; } }
+	 
+		public UrealDecContext() { }
+		public virtual void CopyFrom(UrealDecContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class DecimalRationalContext : UrealDecContext {
+		public ITerminalNode[] UintegerDec() { return GetTokens(KernelParser.UintegerDec); }
+		public ITerminalNode UintegerDec(int i) {
+			return GetToken(KernelParser.UintegerDec, i);
+		}
+		public DecimalRationalContext(UrealDecContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterDecimalRational(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitDecimalRational(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalIntegerContext : UrealDecContext {
+		public ITerminalNode UintegerDec() { return GetToken(KernelParser.UintegerDec, 0); }
+		public DecimalIntegerContext(UrealDecContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterDecimalInteger(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitDecimalInteger(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class DecimalRealContext : UrealDecContext {
+		public ITerminalNode Decimal() { return GetToken(KernelParser.Decimal, 0); }
+		public DecimalRealContext(UrealDecContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterDecimalReal(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitDecimalReal(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDecimalReal(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealDecContext urealDec() {
+		UrealDecContext _localctx = new UrealDecContext(Context, State);
+		EnterRule(_localctx, 50, RULE_urealDec);
+		try {
+			State = 239;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,27,Context) ) {
+			case 1:
+				_localctx = new DecimalRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 234; Match(UintegerDec);
+				State = 235; Match(T__10);
+				State = 236; Match(UintegerDec);
+				}
+				break;
+			case 2:
+				_localctx = new DecimalIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 237; Match(UintegerDec);
+				}
+				break;
+			case 3:
+				_localctx = new DecimalRealContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 238; Match(Decimal);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class UrealHexContext : ParserRuleContext {
+		public UrealHexContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_urealHex; } }
+	 
+		public UrealHexContext() { }
+		public virtual void CopyFrom(UrealHexContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class HexadecimalRationalContext : UrealHexContext {
+		public ITerminalNode[] UintegerHex() { return GetTokens(KernelParser.UintegerHex); }
+		public ITerminalNode UintegerHex(int i) {
+			return GetToken(KernelParser.UintegerHex, i);
+		}
+		public HexadecimalRationalContext(UrealHexContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterHexadecimalRational(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitHexadecimalRational(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalRational(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class HexadecimalIntegerContext : UrealHexContext {
+		public ITerminalNode UintegerHex() { return GetToken(KernelParser.UintegerHex, 0); }
+		public HexadecimalIntegerContext(UrealHexContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterHexadecimalInteger(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitHexadecimalInteger(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitHexadecimalInteger(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UrealHexContext urealHex() {
+		UrealHexContext _localctx = new UrealHexContext(Context, State);
+		EnterRule(_localctx, 52, RULE_urealHex);
+		try {
+			State = 245;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,28,Context) ) {
+			case 1:
+				_localctx = new HexadecimalRationalContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 241; Match(UintegerHex);
+				State = 242; Match(T__10);
+				State = 243; Match(UintegerHex);
+				}
+				break;
+			case 2:
+				_localctx = new HexadecimalIntegerContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 244; Match(UintegerHex);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class SymbolContext : ParserRuleContext {
+		public ITerminalNode SYMBOL() { return GetToken(KernelParser.SYMBOL, 0); }
+		public SymbolContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_symbol; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.EnterSymbol(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IKernelListener typedListener = listener as IKernelListener;
+			if (typedListener != null) typedListener.ExitSymbol(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IKernelVisitor<TResult> typedVisitor = visitor as IKernelVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSymbol(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public SymbolContext symbol() {
+		SymbolContext _localctx = new SymbolContext(Context, State);
+		EnterRule(_localctx, 54, RULE_symbol);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 247;
+			_la = TokenStream.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__7) | (1L << T__10) | (1L << SYMBOL))) != 0)) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	private static char[] _serializedATN = {
+		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
+		'\x5964', '\x3', '\x1E', '\xFC', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4', 
+		'\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x4', '\b', '\t', '\b', 
+		'\x4', '\t', '\t', '\t', '\x4', '\n', '\t', '\n', '\x4', '\v', '\t', '\v', 
+		'\x4', '\f', '\t', '\f', '\x4', '\r', '\t', '\r', '\x4', '\xE', '\t', 
+		'\xE', '\x4', '\xF', '\t', '\xF', '\x4', '\x10', '\t', '\x10', '\x4', 
+		'\x11', '\t', '\x11', '\x4', '\x12', '\t', '\x12', '\x4', '\x13', '\t', 
+		'\x13', '\x4', '\x14', '\t', '\x14', '\x4', '\x15', '\t', '\x15', '\x4', 
+		'\x16', '\t', '\x16', '\x4', '\x17', '\t', '\x17', '\x4', '\x18', '\t', 
+		'\x18', '\x4', '\x19', '\t', '\x19', '\x4', '\x1A', '\t', '\x1A', '\x4', 
+		'\x1B', '\t', '\x1B', '\x4', '\x1C', '\t', '\x1C', '\x4', '\x1D', '\t', 
+		'\x1D', '\x3', '\x2', '\x6', '\x2', '<', '\n', '\x2', '\r', '\x2', '\xE', 
+		'\x2', '=', '\x3', '\x2', '\x3', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', 
+		'\x3', '\x3', '\x4', '\x3', '\x4', '\x5', '\x4', 'G', '\n', '\x4', '\x3', 
+		'\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x5', '\x5', 'M', '\n', 
+		'\x5', '\x3', '\x6', '\x3', '\x6', '\x6', '\x6', 'Q', '\n', '\x6', '\r', 
+		'\x6', '\xE', '\x6', 'R', '\x3', '\x6', '\x3', '\x6', '\x5', '\x6', 'W', 
+		'\n', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\a', '\x3', '\a', '\x3', 
+		'\a', '\a', '\a', '^', '\n', '\a', '\f', '\a', '\xE', '\a', '\x61', '\v', 
+		'\a', '\x3', '\a', '\x3', '\a', '\x3', '\b', '\x3', '\b', '\x3', '\b', 
+		'\x3', '\b', '\x5', '\b', 'i', '\n', '\b', '\x3', '\t', '\x3', '\t', '\x3', 
+		'\t', '\x3', '\n', '\x3', '\n', '\x3', '\n', '\x3', '\v', '\x5', '\v', 
+		'r', '\n', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\f', '\x3', '\f', '\x3', 
+		'\f', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', 
+		'\x3', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x5', '\r', '\x82', 
+		'\n', '\r', '\x3', '\r', '\x3', '\r', '\x3', '\r', '\x5', '\r', '\x87', 
+		'\n', '\r', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', 
+		'\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x5', 
+		'\xE', '\x92', '\n', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', 
+		'\x5', '\xE', '\x97', '\n', '\xE', '\x3', '\xF', '\x3', '\xF', '\x3', 
+		'\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\xF', '\x3', 
+		'\xF', '\x3', '\xF', '\x5', '\xF', '\xA2', '\n', '\xF', '\x3', '\xF', 
+		'\x3', '\xF', '\x3', '\xF', '\x5', '\xF', '\xA7', '\n', '\xF', '\x3', 
+		'\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x10', '\x3', 
+		'\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x10', '\x5', '\x10', '\xB2', 
+		'\n', '\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x10', '\x5', '\x10', 
+		'\xB7', '\n', '\x10', '\x3', '\x11', '\x5', '\x11', '\xBA', '\n', '\x11', 
+		'\x3', '\x11', '\x3', '\x11', '\x3', '\x12', '\x5', '\x12', '\xBF', '\n', 
+		'\x12', '\x3', '\x12', '\x3', '\x12', '\x3', '\x13', '\x5', '\x13', '\xC4', 
+		'\n', '\x13', '\x3', '\x13', '\x3', '\x13', '\x3', '\x14', '\x5', '\x14', 
+		'\xC9', '\n', '\x14', '\x3', '\x14', '\x3', '\x14', '\x3', '\x15', '\x5', 
+		'\x15', '\xCE', '\n', '\x15', '\x3', '\x15', '\x3', '\x15', '\x3', '\x16', 
+		'\x5', '\x16', '\xD3', '\n', '\x16', '\x3', '\x16', '\x3', '\x16', '\x3', 
+		'\x17', '\x5', '\x17', '\xD8', '\n', '\x17', '\x3', '\x17', '\x3', '\x17', 
+		'\x3', '\x18', '\x5', '\x18', '\xDD', '\n', '\x18', '\x3', '\x18', '\x3', 
+		'\x18', '\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x5', 
+		'\x19', '\xE5', '\n', '\x19', '\x3', '\x1A', '\x3', '\x1A', '\x3', '\x1A', 
+		'\x3', '\x1A', '\x5', '\x1A', '\xEB', '\n', '\x1A', '\x3', '\x1B', '\x3', 
+		'\x1B', '\x3', '\x1B', '\x3', '\x1B', '\x3', '\x1B', '\x5', '\x1B', '\xF2', 
+		'\n', '\x1B', '\x3', '\x1C', '\x3', '\x1C', '\x3', '\x1C', '\x3', '\x1C', 
+		'\x5', '\x1C', '\xF8', '\n', '\x1C', '\x3', '\x1D', '\x3', '\x1D', '\x3', 
+		'\x1D', '\x2', '\x2', '\x1E', '\x2', '\x4', '\x6', '\b', '\n', '\f', '\xE', 
+		'\x10', '\x12', '\x14', '\x16', '\x18', '\x1A', '\x1C', '\x1E', ' ', '\"', 
+		'$', '&', '(', '*', ',', '.', '\x30', '\x32', '\x34', '\x36', '\x38', 
+		'\x2', '\x6', '\x3', '\x2', '\x6', '\a', '\x3', '\x2', '\t', '\n', '\x3', 
+		'\x2', '\v', '\f', '\x5', '\x2', '\t', '\n', '\r', '\r', '\x1D', '\x1D', 
+		'\x2', '\x109', '\x2', ';', '\x3', '\x2', '\x2', '\x2', '\x4', '\x41', 
+		'\x3', '\x2', '\x2', '\x2', '\x6', '\x46', '\x3', '\x2', '\x2', '\x2', 
+		'\b', 'L', '\x3', '\x2', '\x2', '\x2', '\n', 'N', '\x3', '\x2', '\x2', 
+		'\x2', '\f', 'Z', '\x3', '\x2', '\x2', '\x2', '\xE', 'h', '\x3', '\x2', 
+		'\x2', '\x2', '\x10', 'j', '\x3', '\x2', '\x2', '\x2', '\x12', 'm', '\x3', 
+		'\x2', '\x2', '\x2', '\x14', 'q', '\x3', '\x2', '\x2', '\x2', '\x16', 
+		'u', '\x3', '\x2', '\x2', '\x2', '\x18', '\x86', '\x3', '\x2', '\x2', 
+		'\x2', '\x1A', '\x96', '\x3', '\x2', '\x2', '\x2', '\x1C', '\xA6', '\x3', 
+		'\x2', '\x2', '\x2', '\x1E', '\xB6', '\x3', '\x2', '\x2', '\x2', ' ', 
+		'\xB9', '\x3', '\x2', '\x2', '\x2', '\"', '\xBE', '\x3', '\x2', '\x2', 
+		'\x2', '$', '\xC3', '\x3', '\x2', '\x2', '\x2', '&', '\xC8', '\x3', '\x2', 
+		'\x2', '\x2', '(', '\xCD', '\x3', '\x2', '\x2', '\x2', '*', '\xD2', '\x3', 
+		'\x2', '\x2', '\x2', ',', '\xD7', '\x3', '\x2', '\x2', '\x2', '.', '\xDC', 
+		'\x3', '\x2', '\x2', '\x2', '\x30', '\xE4', '\x3', '\x2', '\x2', '\x2', 
+		'\x32', '\xEA', '\x3', '\x2', '\x2', '\x2', '\x34', '\xF1', '\x3', '\x2', 
+		'\x2', '\x2', '\x36', '\xF7', '\x3', '\x2', '\x2', '\x2', '\x38', '\xF9', 
+		'\x3', '\x2', '\x2', '\x2', ':', '<', '\x5', '\x6', '\x4', '\x2', ';', 
+		':', '\x3', '\x2', '\x2', '\x2', '<', '=', '\x3', '\x2', '\x2', '\x2', 
+		'=', ';', '\x3', '\x2', '\x2', '\x2', '=', '>', '\x3', '\x2', '\x2', '\x2', 
+		'>', '?', '\x3', '\x2', '\x2', '\x2', '?', '@', '\a', '\x2', '\x2', '\x3', 
+		'@', '\x3', '\x3', '\x2', '\x2', '\x2', '\x41', '\x42', '\x5', '\x6', 
+		'\x4', '\x2', '\x42', '\x43', '\a', '\x2', '\x2', '\x3', '\x43', '\x5', 
+		'\x3', '\x2', '\x2', '\x2', '\x44', 'G', '\x5', '\b', '\x5', '\x2', '\x45', 
+		'G', '\x5', '\n', '\x6', '\x2', '\x46', '\x44', '\x3', '\x2', '\x2', '\x2', 
+		'\x46', '\x45', '\x3', '\x2', '\x2', '\x2', 'G', '\a', '\x3', '\x2', '\x2', 
+		'\x2', 'H', 'M', '\a', '\xE', '\x2', '\x2', 'I', 'M', '\x5', '\f', '\a', 
+		'\x2', 'J', 'M', '\x5', '\x38', '\x1D', '\x2', 'K', 'M', '\x5', '\xE', 
+		'\b', '\x2', 'L', 'H', '\x3', '\x2', '\x2', '\x2', 'L', 'I', '\x3', '\x2', 
+		'\x2', '\x2', 'L', 'J', '\x3', '\x2', '\x2', '\x2', 'L', 'K', '\x3', '\x2', 
+		'\x2', '\x2', 'M', '\t', '\x3', '\x2', '\x2', '\x2', 'N', 'P', '\a', '\x3', 
+		'\x2', '\x2', 'O', 'Q', '\x5', '\x6', '\x4', '\x2', 'P', 'O', '\x3', '\x2', 
+		'\x2', '\x2', 'Q', 'R', '\x3', '\x2', '\x2', '\x2', 'R', 'P', '\x3', '\x2', 
+		'\x2', '\x2', 'R', 'S', '\x3', '\x2', '\x2', '\x2', 'S', 'V', '\x3', '\x2', 
+		'\x2', '\x2', 'T', 'U', '\a', '\x4', '\x2', '\x2', 'U', 'W', '\x5', '\x6', 
+		'\x4', '\x2', 'V', 'T', '\x3', '\x2', '\x2', '\x2', 'V', 'W', '\x3', '\x2', 
+		'\x2', '\x2', 'W', 'X', '\x3', '\x2', '\x2', '\x2', 'X', 'Y', '\a', '\x5', 
+		'\x2', '\x2', 'Y', '\v', '\x3', '\x2', '\x2', '\x2', 'Z', '_', '\a', '\x6', 
+		'\x2', '\x2', '[', '^', '\a', '\xF', '\x2', '\x2', '\\', '^', '\n', '\x2', 
+		'\x2', '\x2', ']', '[', '\x3', '\x2', '\x2', '\x2', ']', '\\', '\x3', 
+		'\x2', '\x2', '\x2', '^', '\x61', '\x3', '\x2', '\x2', '\x2', '_', ']', 
+		'\x3', '\x2', '\x2', '\x2', '_', '`', '\x3', '\x2', '\x2', '\x2', '`', 
+		'\x62', '\x3', '\x2', '\x2', '\x2', '\x61', '_', '\x3', '\x2', '\x2', 
+		'\x2', '\x62', '\x63', '\a', '\x6', '\x2', '\x2', '\x63', '\r', '\x3', 
+		'\x2', '\x2', '\x2', '\x64', 'i', '\x5', '\x10', '\t', '\x2', '\x65', 
+		'i', '\x5', '\x12', '\n', '\x2', '\x66', 'i', '\x5', '\x14', '\v', '\x2', 
+		'g', 'i', '\x5', '\x16', '\f', '\x2', 'h', '\x64', '\x3', '\x2', '\x2', 
+		'\x2', 'h', '\x65', '\x3', '\x2', '\x2', '\x2', 'h', '\x66', '\x3', '\x2', 
+		'\x2', '\x2', 'h', 'g', '\x3', '\x2', '\x2', '\x2', 'i', '\xF', '\x3', 
+		'\x2', '\x2', '\x2', 'j', 'k', '\a', '\x16', '\x2', '\x2', 'k', 'l', '\x5', 
+		'\x18', '\r', '\x2', 'l', '\x11', '\x3', '\x2', '\x2', '\x2', 'm', 'n', 
+		'\a', '\x17', '\x2', '\x2', 'n', 'o', '\x5', '\x1A', '\xE', '\x2', 'o', 
+		'\x13', '\x3', '\x2', '\x2', '\x2', 'p', 'r', '\a', '\x18', '\x2', '\x2', 
+		'q', 'p', '\x3', '\x2', '\x2', '\x2', 'q', 'r', '\x3', '\x2', '\x2', '\x2', 
+		'r', 's', '\x3', '\x2', '\x2', '\x2', 's', 't', '\x5', '\x1C', '\xF', 
+		'\x2', 't', '\x15', '\x3', '\x2', '\x2', '\x2', 'u', 'v', '\a', '\x19', 
+		'\x2', '\x2', 'v', 'w', '\x5', '\x1E', '\x10', '\x2', 'w', '\x17', '\x3', 
+		'\x2', '\x2', '\x2', 'x', 'y', '\x5', ' ', '\x11', '\x2', 'y', 'z', '\a', 
+		'\b', '\x2', '\x2', 'z', '{', '\x5', ' ', '\x11', '\x2', '{', '\x87', 
+		'\x3', '\x2', '\x2', '\x2', '|', '}', '\x5', ' ', '\x11', '\x2', '}', 
+		'~', '\t', '\x3', '\x2', '\x2', '~', '\x7F', '\x5', '(', '\x15', '\x2', 
+		'\x7F', '\x87', '\x3', '\x2', '\x2', '\x2', '\x80', '\x82', '\t', '\x3', 
+		'\x2', '\x2', '\x81', '\x80', '\x3', '\x2', '\x2', '\x2', '\x81', '\x82', 
+		'\x3', '\x2', '\x2', '\x2', '\x82', '\x83', '\x3', '\x2', '\x2', '\x2', 
+		'\x83', '\x87', '\x5', '\x30', '\x19', '\x2', '\x84', '\x85', '\t', '\x3', 
+		'\x2', '\x2', '\x85', '\x87', '\x5', '(', '\x15', '\x2', '\x86', 'x', 
+		'\x3', '\x2', '\x2', '\x2', '\x86', '|', '\x3', '\x2', '\x2', '\x2', '\x86', 
+		'\x81', '\x3', '\x2', '\x2', '\x2', '\x86', '\x84', '\x3', '\x2', '\x2', 
+		'\x2', '\x87', '\x19', '\x3', '\x2', '\x2', '\x2', '\x88', '\x89', '\x5', 
+		'\"', '\x12', '\x2', '\x89', '\x8A', '\a', '\b', '\x2', '\x2', '\x8A', 
+		'\x8B', '\x5', '\"', '\x12', '\x2', '\x8B', '\x97', '\x3', '\x2', '\x2', 
+		'\x2', '\x8C', '\x8D', '\x5', '\"', '\x12', '\x2', '\x8D', '\x8E', '\t', 
+		'\x3', '\x2', '\x2', '\x8E', '\x8F', '\x5', '*', '\x16', '\x2', '\x8F', 
+		'\x97', '\x3', '\x2', '\x2', '\x2', '\x90', '\x92', '\t', '\x3', '\x2', 
+		'\x2', '\x91', '\x90', '\x3', '\x2', '\x2', '\x2', '\x91', '\x92', '\x3', 
+		'\x2', '\x2', '\x2', '\x92', '\x93', '\x3', '\x2', '\x2', '\x2', '\x93', 
+		'\x97', '\x5', '\x32', '\x1A', '\x2', '\x94', '\x95', '\t', '\x3', '\x2', 
+		'\x2', '\x95', '\x97', '\x5', '*', '\x16', '\x2', '\x96', '\x88', '\x3', 
+		'\x2', '\x2', '\x2', '\x96', '\x8C', '\x3', '\x2', '\x2', '\x2', '\x96', 
+		'\x91', '\x3', '\x2', '\x2', '\x2', '\x96', '\x94', '\x3', '\x2', '\x2', 
+		'\x2', '\x97', '\x1B', '\x3', '\x2', '\x2', '\x2', '\x98', '\x99', '\x5', 
+		'$', '\x13', '\x2', '\x99', '\x9A', '\a', '\b', '\x2', '\x2', '\x9A', 
+		'\x9B', '\x5', '$', '\x13', '\x2', '\x9B', '\xA7', '\x3', '\x2', '\x2', 
+		'\x2', '\x9C', '\x9D', '\x5', '$', '\x13', '\x2', '\x9D', '\x9E', '\t', 
+		'\x3', '\x2', '\x2', '\x9E', '\x9F', '\x5', ',', '\x17', '\x2', '\x9F', 
+		'\xA7', '\x3', '\x2', '\x2', '\x2', '\xA0', '\xA2', '\t', '\x3', '\x2', 
+		'\x2', '\xA1', '\xA0', '\x3', '\x2', '\x2', '\x2', '\xA1', '\xA2', '\x3', 
+		'\x2', '\x2', '\x2', '\xA2', '\xA3', '\x3', '\x2', '\x2', '\x2', '\xA3', 
+		'\xA7', '\x5', '\x34', '\x1B', '\x2', '\xA4', '\xA5', '\t', '\x3', '\x2', 
+		'\x2', '\xA5', '\xA7', '\x5', ',', '\x17', '\x2', '\xA6', '\x98', '\x3', 
+		'\x2', '\x2', '\x2', '\xA6', '\x9C', '\x3', '\x2', '\x2', '\x2', '\xA6', 
+		'\xA1', '\x3', '\x2', '\x2', '\x2', '\xA6', '\xA4', '\x3', '\x2', '\x2', 
+		'\x2', '\xA7', '\x1D', '\x3', '\x2', '\x2', '\x2', '\xA8', '\xA9', '\x5', 
+		'&', '\x14', '\x2', '\xA9', '\xAA', '\a', '\b', '\x2', '\x2', '\xAA', 
+		'\xAB', '\x5', '&', '\x14', '\x2', '\xAB', '\xB7', '\x3', '\x2', '\x2', 
+		'\x2', '\xAC', '\xAD', '\x5', '&', '\x14', '\x2', '\xAD', '\xAE', '\t', 
+		'\x3', '\x2', '\x2', '\xAE', '\xAF', '\x5', '.', '\x18', '\x2', '\xAF', 
+		'\xB7', '\x3', '\x2', '\x2', '\x2', '\xB0', '\xB2', '\t', '\x3', '\x2', 
+		'\x2', '\xB1', '\xB0', '\x3', '\x2', '\x2', '\x2', '\xB1', '\xB2', '\x3', 
+		'\x2', '\x2', '\x2', '\xB2', '\xB3', '\x3', '\x2', '\x2', '\x2', '\xB3', 
+		'\xB7', '\x5', '\x36', '\x1C', '\x2', '\xB4', '\xB5', '\t', '\x3', '\x2', 
+		'\x2', '\xB5', '\xB7', '\x5', '.', '\x18', '\x2', '\xB6', '\xA8', '\x3', 
+		'\x2', '\x2', '\x2', '\xB6', '\xAC', '\x3', '\x2', '\x2', '\x2', '\xB6', 
+		'\xB1', '\x3', '\x2', '\x2', '\x2', '\xB6', '\xB4', '\x3', '\x2', '\x2', 
+		'\x2', '\xB7', '\x1F', '\x3', '\x2', '\x2', '\x2', '\xB8', '\xBA', '\a', 
+		'\x1B', '\x2', '\x2', '\xB9', '\xB8', '\x3', '\x2', '\x2', '\x2', '\xB9', 
+		'\xBA', '\x3', '\x2', '\x2', '\x2', '\xBA', '\xBB', '\x3', '\x2', '\x2', 
+		'\x2', '\xBB', '\xBC', '\x5', '\x30', '\x19', '\x2', '\xBC', '!', '\x3', 
+		'\x2', '\x2', '\x2', '\xBD', '\xBF', '\a', '\x1B', '\x2', '\x2', '\xBE', 
+		'\xBD', '\x3', '\x2', '\x2', '\x2', '\xBE', '\xBF', '\x3', '\x2', '\x2', 
+		'\x2', '\xBF', '\xC0', '\x3', '\x2', '\x2', '\x2', '\xC0', '\xC1', '\x5', 
+		'\x32', '\x1A', '\x2', '\xC1', '#', '\x3', '\x2', '\x2', '\x2', '\xC2', 
+		'\xC4', '\a', '\x1B', '\x2', '\x2', '\xC3', '\xC2', '\x3', '\x2', '\x2', 
+		'\x2', '\xC3', '\xC4', '\x3', '\x2', '\x2', '\x2', '\xC4', '\xC5', '\x3', 
+		'\x2', '\x2', '\x2', '\xC5', '\xC6', '\x5', '\x34', '\x1B', '\x2', '\xC6', 
+		'%', '\x3', '\x2', '\x2', '\x2', '\xC7', '\xC9', '\a', '\x1B', '\x2', 
+		'\x2', '\xC8', '\xC7', '\x3', '\x2', '\x2', '\x2', '\xC8', '\xC9', '\x3', 
+		'\x2', '\x2', '\x2', '\xC9', '\xCA', '\x3', '\x2', '\x2', '\x2', '\xCA', 
+		'\xCB', '\x5', '\x36', '\x1C', '\x2', '\xCB', '\'', '\x3', '\x2', '\x2', 
+		'\x2', '\xCC', '\xCE', '\x5', '\x30', '\x19', '\x2', '\xCD', '\xCC', '\x3', 
+		'\x2', '\x2', '\x2', '\xCD', '\xCE', '\x3', '\x2', '\x2', '\x2', '\xCE', 
+		'\xCF', '\x3', '\x2', '\x2', '\x2', '\xCF', '\xD0', '\t', '\x4', '\x2', 
+		'\x2', '\xD0', ')', '\x3', '\x2', '\x2', '\x2', '\xD1', '\xD3', '\x5', 
+		'\x32', '\x1A', '\x2', '\xD2', '\xD1', '\x3', '\x2', '\x2', '\x2', '\xD2', 
+		'\xD3', '\x3', '\x2', '\x2', '\x2', '\xD3', '\xD4', '\x3', '\x2', '\x2', 
+		'\x2', '\xD4', '\xD5', '\t', '\x4', '\x2', '\x2', '\xD5', '+', '\x3', 
+		'\x2', '\x2', '\x2', '\xD6', '\xD8', '\x5', '\x34', '\x1B', '\x2', '\xD7', 
+		'\xD6', '\x3', '\x2', '\x2', '\x2', '\xD7', '\xD8', '\x3', '\x2', '\x2', 
+		'\x2', '\xD8', '\xD9', '\x3', '\x2', '\x2', '\x2', '\xD9', '\xDA', '\t', 
+		'\x4', '\x2', '\x2', '\xDA', '-', '\x3', '\x2', '\x2', '\x2', '\xDB', 
+		'\xDD', '\x5', '\x36', '\x1C', '\x2', '\xDC', '\xDB', '\x3', '\x2', '\x2', 
+		'\x2', '\xDC', '\xDD', '\x3', '\x2', '\x2', '\x2', '\xDD', '\xDE', '\x3', 
+		'\x2', '\x2', '\x2', '\xDE', '\xDF', '\t', '\x4', '\x2', '\x2', '\xDF', 
+		'/', '\x3', '\x2', '\x2', '\x2', '\xE0', '\xE1', '\a', '\x12', '\x2', 
+		'\x2', '\xE1', '\xE2', '\a', '\r', '\x2', '\x2', '\xE2', '\xE5', '\a', 
+		'\x12', '\x2', '\x2', '\xE3', '\xE5', '\a', '\x12', '\x2', '\x2', '\xE4', 
+		'\xE0', '\x3', '\x2', '\x2', '\x2', '\xE4', '\xE3', '\x3', '\x2', '\x2', 
+		'\x2', '\xE5', '\x31', '\x3', '\x2', '\x2', '\x2', '\xE6', '\xE7', '\a', 
+		'\x13', '\x2', '\x2', '\xE7', '\xE8', '\a', '\r', '\x2', '\x2', '\xE8', 
+		'\xEB', '\a', '\x13', '\x2', '\x2', '\xE9', '\xEB', '\a', '\x13', '\x2', 
+		'\x2', '\xEA', '\xE6', '\x3', '\x2', '\x2', '\x2', '\xEA', '\xE9', '\x3', 
+		'\x2', '\x2', '\x2', '\xEB', '\x33', '\x3', '\x2', '\x2', '\x2', '\xEC', 
+		'\xED', '\a', '\x14', '\x2', '\x2', '\xED', '\xEE', '\a', '\r', '\x2', 
+		'\x2', '\xEE', '\xF2', '\a', '\x14', '\x2', '\x2', '\xEF', '\xF2', '\a', 
+		'\x14', '\x2', '\x2', '\xF0', '\xF2', '\a', '\x1A', '\x2', '\x2', '\xF1', 
+		'\xEC', '\x3', '\x2', '\x2', '\x2', '\xF1', '\xEF', '\x3', '\x2', '\x2', 
+		'\x2', '\xF1', '\xF0', '\x3', '\x2', '\x2', '\x2', '\xF2', '\x35', '\x3', 
+		'\x2', '\x2', '\x2', '\xF3', '\xF4', '\a', '\x15', '\x2', '\x2', '\xF4', 
+		'\xF5', '\a', '\r', '\x2', '\x2', '\xF5', '\xF8', '\a', '\x15', '\x2', 
+		'\x2', '\xF6', '\xF8', '\a', '\x15', '\x2', '\x2', '\xF7', '\xF3', '\x3', 
+		'\x2', '\x2', '\x2', '\xF7', '\xF6', '\x3', '\x2', '\x2', '\x2', '\xF8', 
+		'\x37', '\x3', '\x2', '\x2', '\x2', '\xF9', '\xFA', '\t', '\x5', '\x2', 
+		'\x2', '\xFA', '\x39', '\x3', '\x2', '\x2', '\x2', '\x1F', '=', '\x46', 
+		'L', 'R', 'V', ']', '_', 'h', 'q', '\x81', '\x86', '\x91', '\x96', '\xA1', 
+		'\xA6', '\xB1', '\xB6', '\xB9', '\xBE', '\xC3', '\xC8', '\xCD', '\xD2', 
+		'\xD7', '\xDC', '\xE4', '\xEA', '\xF1', '\xF7',
+	};
+
+	public static readonly ATN _ATN =
+		new ATNDeserializer().Deserialize(_serializedATN);
+
+
+}
 } // namespace Kernel.Parser

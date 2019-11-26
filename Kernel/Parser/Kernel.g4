@@ -8,7 +8,7 @@ expression: atom | pair;
 
 atom:
     KEYWORD     # Keyword
-    | STRING    # String
+    | string    # StringLiteral
     | symbol    # SymbolLiteral
     | number    # NumberLiteral;
 pair: '(' expression+ (dot = '.' expression)? ')';
@@ -21,19 +21,19 @@ KEYWORD:
 	| ('+' | '-') [Ii][Nn][Ff] '.0'
     | '(' ')';
 
-STRING: '"' (EscapeSequence | ~('\\' | '"'))* '"';
+string: '"' (EscapeSequence | ~('\\' | '"'))* '"';
 
-fragment EscapeSequence:
+EscapeSequence:
     '\\' [btnfrBTNFR"\\]
     | UnicodeEscape
     | OctalEscape;
 
-fragment OctalEscape:
+OctalEscape:
     '\\' [0-3] [0-7] [0-7]
     | '\\' [0-7] [0-7]
     | '\\' [0-7];
 
-fragment UnicodeEscape:
+UnicodeEscape:
     '\\' 'u' DigitHex DigitHex DigitHex DigitHex;
 
 number: numBin | numOct | numDec | numHex;
@@ -120,5 +120,5 @@ fragment RadixDec: '#' [dD];
 fragment RadixHex: '#' [xX];
 
 symbol: '+' | '-' | '/' | SYMBOL;
-SYMBOL: [a-zA-Z!$%&*.:<=>?^_~] [a-zA-Z!$#%&+*\-./:<=>?@^_~0-9]*;
+SYMBOL: [a-zA-Z!$%&*.:<=>?^_~] [a-zA-Z!\\$#%&+*\-./:<=>?@^_~0-9]*;
 WS: [ \t\r\n]+ -> skip;

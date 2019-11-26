@@ -8,7 +8,6 @@ using static System.Linq.Expressions.Expression;
 using Kernel.Utilities;
 using System.Linq;
 using System.Reflection;
-using Kernel.Primitives;
 namespace Kernel.Combiners
 {
     [DebuggerDisplay("{Name}")]

@@ -22,6 +22,7 @@ namespace Kernel.Parser
             return walker.Visit(tree);
         }
 
+
         class KernelVisitor : KernelBaseVisitor<Object>
         {
             static readonly IDictionary<string, Object> keywords = new Dictionary<string, Object>
@@ -192,11 +193,47 @@ namespace Kernel.Parser
                 return new Pair(context.expression().Select(VisitExpression));
             }
 
+            public override Object VisitStringLiteral([NotNull] KernelParser.StringLiteralContext context)
+            {
+                return VisitString(context.@string());
+            }
             public override Object VisitString([NotNull] KernelParser.StringContext context)
             {
-                string text = context.GetText();
-                return String.Get(text.Substring(1, text.Length - 2));
+                string text = context.GetText().Substring(1, context.GetText().Length - 2);
+                return String.Get(HexTransform(OctalTransform(EscapeTransform(text))));
             }
+
+            private static readonly Dictionary<string, string> EscapeLookupTable = new Dictionary<string, string>
+                    {
+                        {"\\b","\b" },
+                        {"\\t","\t" },
+                        {"\\n","\n" },
+                        {"\\r","\r" },
+                        {"\\f","\f" },
+                        {"\\\"", "\"" },
+                        {"\\\\", "\\" },
+                    };
+            private static string EscapeTransform(string input)
+            {
+                var res = Regex.Replace(input, "\\\\[btnfr\"\\\\]", (e) => EscapeLookupTable[e.Value], RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant); ;
+                return res;
+            }
+
+            private static string OctalTransform(string input)
+            {
+                var res = Regex.Replace(input, "\\\\[0-7]{1,3}", (e) =>
+                {
+                    var resultingChar = (char)e.Value.Skip(1).Aggregate((1 << 6, 0), (currT, next) =>
+                    {
+                        return (currT.Item1 >> 3, currT.Item1 * (next - '0') + currT.Item2);
+                    }).Item2;
+                    return new string(resultingChar, 1);
+                }, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                return res;
+            }
+            private static readonly System.Func<string, string> HexTransform =
+                (input) => Regex.Replace(input, "\\\\u[0-9a-f]{4}", (e) => new string((char)e.Value.Skip(1).Aggregate((1 << 12, 1), (currT, next) => (currT.Item1 >> 4, currT.Item1 * (next - '0') + currT.Item2)).Item2, 1), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
 
             public override Object VisitSymbolLiteral([NotNull] KernelParser.SymbolLiteralContext context)
             => Symbol.Get(context.GetText());

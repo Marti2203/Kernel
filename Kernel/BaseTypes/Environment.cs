@@ -38,6 +38,7 @@ namespace Kernel.BaseTypes
 
         public Environment(IEnumerable<Environment> parents)
         {
+            ID = Guid.NewGuid();
             ProperParents = parents;
         }
 
@@ -139,6 +140,6 @@ namespace Kernel.BaseTypes
 
         public override bool Equals(Object other) => ReferenceEquals(this, other);
 
-        public override string ToString() => "Environment";
+        public override string ToString() => $"Environment #{ID}";
     }
 }

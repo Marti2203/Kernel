@@ -83,7 +83,7 @@ namespace Kernel.BaseTypes
 
         string ToStringList(Pair[] visitedCars, int depth = 0)
         {
-            StringBuilder result = new StringBuilder(200);
+            StringBuilder result = new StringBuilder(10);
 
             result.Append('(');
             HashSet<Pair> visitedPairs = new HashSet<Pair>();
@@ -161,7 +161,7 @@ namespace Kernel.BaseTypes
             {
                 Pair current = pairs.Pop();
                 if (current.Car == o || current.Cdr == o) return true;
-                if (visitedPairs.Add(current))
+                if (!IsCyclic || visitedPairs.Add(current))
                 {
                     if (current.Car is Pair pCar)
                     {
@@ -204,6 +204,29 @@ namespace Kernel.BaseTypes
             if (Car != otherPair.Car) return false; // quick escape hatch
             if (IsCyclic != otherPair.IsCyclic) return false;
             Pair current = this;
+            
+            return IsCyclic ? CyclicalEquality(ref otherPair, ref current) : ACyclicalEquality(ref otherPair, ref current);
+        }
+        private static bool ACyclicalEquality(ref Pair otherPair, ref Pair current)
+        {
+            while (current != null && otherPair != null)
+            {
+                if (!current.Car.Equals(otherPair.Car))
+                    return false;
+                if (current.Cdr is Pair next && otherPair.Cdr is Pair otherNext)
+                {
+                    current = next;
+                    otherPair = otherNext;
+                }
+                else
+                {
+                    return !(current.Cdr is Pair || otherPair.Cdr is Pair) && current.Cdr.Equals(otherPair.Cdr);
+                }
+            }
+            return true;
+        }
+        private static bool CyclicalEquality(ref Pair otherPair, ref Pair current)
+        {
             HashSet<Pair> visitedPairsThis = new HashSet<Pair>();
             HashSet<Pair> visitedPairsOther = new HashSet<Pair>();
             while (current != null && otherPair != null && (visitedPairsThis.Add(current) || visitedPairsOther.Add(otherPair)))
@@ -222,7 +245,6 @@ namespace Kernel.BaseTypes
             }
             return true;
         }
-
 
         public override Object this[int index]
         {

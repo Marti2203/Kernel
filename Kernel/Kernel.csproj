@@ -103,6 +103,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="EvalutedPrimitives\Streams.k.module" />
     <None Include="packages.config" />
     <None Include="EvalutedPrimitives\SequenceCore.k" />
     <None Include="EvalutedPrimitives\CopyEsImmutableCore.k" />
